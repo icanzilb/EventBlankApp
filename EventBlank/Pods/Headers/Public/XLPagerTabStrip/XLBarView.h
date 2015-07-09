@@ -1,0 +1,1 @@
+../../../XLPagerTabStrip/XLPagerTabStrip/XL/Views/XLBarView.h

@@ -1,0 +1,6 @@
+framework module VTAcknowledgementsViewController {
+  umbrella header "Pods-VTAcknowledgementsViewController-umbrella.h"
+
+  export *
+  module * { export * }
+}

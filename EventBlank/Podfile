@@ -1,0 +1,34 @@
+use_frameworks!
+
+#database
+pod 'SQLite.swift', git: 'https://github.com/stephencelis/SQLite.swift.git'
+
+#tab strips
+pod 'XLPagerTabStrip', '~> 1.0'
+
+#async tasks
+pod 'TaskQueue'
+
+#animation lib
+pod 'EasyAnimation'
+
+#image cache
+pod 'HanekeSwift'
+
+#ui themes
+pod 'MAThemeKit'
+
+#colors
+pod 'DynamicColor'
+
+#pod credits
+pod 'VTAcknowledgementsViewController'
+
+#pod modal alert
+pod 'SwiftSpinner'
+
+#copy the acknowledgements file when installing news pods
+post_install do | installer |
+  require 'fileutils'
+  FileUtils.cp_r('Pods/Target Support Files/Pods/Pods-acknowledgements.plist', 'Pods-acknowledgements.plist', :remove_destination => true)
+end

@@ -1,0 +1,47 @@
+PODS:
+  - DynamicColor (1.2.1)
+  - EasyAnimation (0.7.0)
+  - HanekeSwift (0.9.1)
+  - MAThemeKit (1.0)
+  - SQLite.swift (0.1.0.pre):
+    - SQLite.swift/Library (= 0.1.0.pre)
+  - SQLite.swift/Core (0.1.0.pre)
+  - SQLite.swift/Library (0.1.0.pre):
+    - SQLite.swift/Core
+  - SwiftSpinner (0.7.0)
+  - TaskQueue (0.9.6)
+  - VTAcknowledgementsViewController (0.14)
+  - XLPagerTabStrip (1.1.1)
+
+DEPENDENCIES:
+  - DynamicColor
+  - EasyAnimation
+  - HanekeSwift
+  - MAThemeKit
+  - SQLite.swift (from `https://github.com/stephencelis/SQLite.swift.git`)
+  - SwiftSpinner
+  - TaskQueue
+  - VTAcknowledgementsViewController
+  - XLPagerTabStrip (~> 1.0)
+
+EXTERNAL SOURCES:
+  SQLite.swift:
+    :git: https://github.com/stephencelis/SQLite.swift.git
+
+CHECKOUT OPTIONS:
+  SQLite.swift:
+    :commit: fde8c3391b265eb34b6407e3665160fb981b6857
+    :git: https://github.com/stephencelis/SQLite.swift.git
+
+SPEC CHECKSUMS:
+  DynamicColor: 300cc0c33d2e388f7c1ca8c3dc265231dcc60eac
+  EasyAnimation: ddc49f0eaf034f6d47a95bf805d9e95e84908053
+  HanekeSwift: 50d37bfbc4432edc649167e538c259feccb4a2bb
+  MAThemeKit: 559acc98ceadc051cccb1b6bb0c4ca28475eb021
+  SQLite.swift: 6e05cc2b8efb0e91911e9cfb93551dd682b25843
+  SwiftSpinner: 034bb8b00675b3e4f4c97531fa9af3f550462192
+  TaskQueue: 86cea1f6cb37b77a85bd826b564e9b387faadce4
+  VTAcknowledgementsViewController: 11a869dd69598a852f12699aeaf36e2589d3fc1b
+  XLPagerTabStrip: 222995115ef0d3a7134073b02d38023592835c17
+
+COCOAPODS: 0.37.2

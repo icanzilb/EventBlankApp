@@ -1,0 +1,53 @@
+{
+  "name": "SQLite.swift",
+  "module_name": "SQLite",
+  "version": "0.1.0.pre",
+  "summary": "A type-safe, Swift-language layer over SQLite3.",
+  "description": "    SQLite.swift provides compile-time confidence in SQL statement syntax and\n    intent.\n",
+  "homepage": "https://github.com/stephencelis/SQLite.swift",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE.txt"
+  },
+  "authors": {
+    "Stephen Celis": "stephen@stephencelis.com"
+  },
+  "social_media_url": "https://twitter.com/stephencelis",
+  "source": {
+    "git": "https://github.com/stephencelis/SQLite.swift.git",
+    "tag": "0.1.0.pre"
+  },
+  "module_map": "SQLite/module.modulemap",
+  "default_subspecs": "Library",
+  "subspecs": [
+    {
+      "name": "Core",
+      "source_files": "SQLite/**/*.{swift,c,h,m}",
+      "private_header_files": "SQLite/fts3_tokenizer.h"
+    },
+    {
+      "name": "Library",
+      "dependencies": {
+        "SQLite.swift/Core": [
+
+        ]
+      },
+      "libraries": "sqlite3"
+    },
+    {
+      "name": "Cipher",
+      "dependencies": {
+        "SQLCipher": [
+
+        ],
+        "SQLite.swift/Core": [
+
+        ]
+      },
+      "source_files": "SQLiteCipher/**/*.{swift,c,h,m}",
+      "xcconfig": {
+        "GCC_PREPROCESSOR_DEFINITIONS": "$(inherited) SQLITE_HAS_CODEC=1"
+      }
+    }
+  ]
+}
