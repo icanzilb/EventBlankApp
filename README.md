@@ -14,7 +14,7 @@ from GitHub and built immediately.
 
 This project is currently in **alpha** stage.
 
- 
+Video demo of the alpha build so far: https://vimeo.com/132935515
 
 Project Timeline
 ================
