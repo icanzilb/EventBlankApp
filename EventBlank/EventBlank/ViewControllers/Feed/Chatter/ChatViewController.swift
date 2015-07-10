@@ -11,58 +11,13 @@ import SQLite
 import XLPagerTabStrip
 import Haneke
 
-let kRefreshViewHeight: CGFloat = 60.0
+class ChatViewController: TweetListViewController {
 
-class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, RefreshViewDelegate {
-
-    @IBOutlet weak var tableView: UITableView!
-    
     let chatCtr = ChatController()
     let userCtr = UserController()
-    let twitter = TwitterController()
-    var tweets = [Row]()
 
-    var refreshView: RefreshView!
-    
-    let database: Database = {
-        DatabaseProvider.databases[appDataFileName]!
-        }()
-    
-    //MARK: - view controller methods
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        loadSavedTweets()
-        fetchTweets()
-        
-        setupUI()
-    }
-    
-    func setupUI() {
-        //setup table
-        view.backgroundColor = UIColor.whiteColor()
-        self.tableView.estimatedRowHeight = 100.0
-        self.tableView.rowHeight = UITableViewAutomaticDimension
-        
-        //setup refresh view
-        let refreshRect = CGRect(x: 0.0, y: -kRefreshViewHeight, width: view.frame.size.width, height: kRefreshViewHeight)
-        refreshView = RefreshView(frame: refreshRect, scrollView: self.tableView)
-        refreshView.delegate = self
-        view.insertSubview(refreshView, aboveSubview: tableView)
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-    }
-    
     //MARK: - table view methods
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tweets.count
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = self.tableView.dequeueReusableCellWithIdentifier("TweetCell") as! TweetCell
         let row = indexPath.row
@@ -96,20 +51,9 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return cell
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let tweet = tweets[indexPath.row]
-        if let urlString = tweet[News.url], let url = NSURL(string: urlString) {
-            let webVC = storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
-            webVC.initialURL = url
-            navigationController!.pushViewController(webVC, animated: true)
-        }
-        
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-    }
-
     //MARK: - fetching data
     
-    func loadSavedTweets() {
+    override func loadTweets() {
         tweets = self.chatCtr.allMessages()
         
         dispatch_async(dispatch_get_main_queue(), {
@@ -123,13 +67,17 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
         })
     }
     
-    func fetchTweets() {
+    override func fetchTweets() {
         twitter.authorize({success in
             MessageView.removeViewFrom(self.tableView)
             
-            if success, let hashTag = Event.event[Event.twitterTag] {
+            if success, var hashTag = Event.event[Event.twitterTag] {
                 
-                self.twitter.getSearchForTerm(Event.event[Event.twitterTag]!, completion: {tweetList, userList in
+                if !hashTag.hasPrefix("#") {
+                    hashTag = "#\(hashTag)"
+                }
+                
+                self.twitter.getSearchForTerm(hashTag, completion: {tweetList, userList in
 
                     self.userCtr.persistUsers(userList)
                     self.chatCtr.persistMessages(tweetList)
@@ -138,7 +86,7 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     let lastFetchedId = tweetList.first?.id
                     
                     if lastSavedId != lastFetchedId {
-                        self.loadSavedTweets()
+                        self.loadTweets()
                     }
                 })
             } else {
@@ -154,40 +102,4 @@ class ChatViewController: UIViewController, UITableViewDataSource, UITableViewDe
         })
     }
     
-    func refreshViewDidRefresh(refreshView: RefreshView) {
-        fetchTweets()
-    }
-
-    func fetchUserImageForCell(cell: TweetCell, withUser user: Row, tweet: Row) {
-        
-        if user[User.photo]?.imageValue == nil,
-            let imageUrlString = user[User.photoUrl],
-            let imageUrl = NSURL(string: imageUrlString) {
-                
-                self.twitter.getImageWithUrl(imageUrl, completion: {image in
-                    //add a guard image in Swift 2.0
-
-                    if let image = image {
-                        //save image
-                        //self.chatCtr.persistImage(image, forTweetId: tweet[Chat.idColumn])
-                        self.userCtr.persistUserImage(image, userId: user[User.idColumn])
-                        
-                        //update table cell
-                        dispatch_async(dispatch_get_main_queue(), {
-                            cell.userImage.image = image
-                        })
-                    }
-                })
-        }
-    }
-        
-    // MARK: Scroll view methods
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        refreshView.scrollViewDidScroll(scrollView)
-    }
-    
-    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        refreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
-    }
-
 }
