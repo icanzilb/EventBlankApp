@@ -35,7 +35,7 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     deinit {
-        
+
     }
     
     //MARK: - table view methods

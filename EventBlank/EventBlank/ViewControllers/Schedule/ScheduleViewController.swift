@@ -33,8 +33,14 @@ class ScheduleViewController: XLButtonBarPagerTabStripViewController, XLPagerTab
         self.buttonBarView.selectedBar.backgroundColor = UIColor(hexString: event[Event.mainColor]).lighterColor()
         
         self.buttonBarView.registerNib(UINib(nibName: "NavTabButtonCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
+        
+        //notifications
+        observeNotification(kDidReplaceEventFileNotification, selector: "didChangeEventFile")
     }
     
+    deinit {
+        observeNotification(kDidReplaceEventFileNotification, selector: nil)
+    }
     
     func setupUI() {
         //set up the fav button
@@ -109,4 +115,9 @@ class ScheduleViewController: XLButtonBarPagerTabStripViewController, XLPagerTab
         return btnFavorites.selected
     }
  
+    //notifications
+    func didChangeEventFile() {
+        reloadPagerTabStripView()
+        navigationController?.popToRootViewControllerAnimated(true)
+    }
 }
