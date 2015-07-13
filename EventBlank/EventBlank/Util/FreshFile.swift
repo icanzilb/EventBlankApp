@@ -265,7 +265,7 @@ class FreshFile: Printable {
         isDownloading = false
         
         let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setValue("ETAG-\(self.remoteURL)", forKey: info.etag!)
+        defaults.setValue(info.etag!, forKey: "ETAG-\(self.remoteURL.absoluteString)")
         defaults.synchronize()
         currentEtag = info.etag!
         
