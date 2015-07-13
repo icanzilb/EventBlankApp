@@ -12,7 +12,7 @@ import SQLite
 class UserController: UIViewController {
 
     var database: Database {
-        return DatabaseProvider.databases[eventDataFileName]!
+        return DatabaseProvider.databases[appDataFileName]!
     }
 
     func persistUsers(users: [UserModel]) -> [Row] {

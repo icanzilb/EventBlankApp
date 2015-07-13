@@ -21,7 +21,7 @@ class TweetListViewController: UIViewController, UITableViewDelegate, UITableVie
     var refreshView: RefreshView!
     
     var database: Database {
-        return DatabaseProvider.databases[eventDataFileName]!
+        return DatabaseProvider.databases[appDataFileName]!
     }
     
     //MARK: - view controller

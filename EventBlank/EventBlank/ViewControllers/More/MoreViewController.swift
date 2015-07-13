@@ -27,8 +27,16 @@ class MoreViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
 
         items = database[TextConfig.tableName].filter({Text.content != nil && Text.content != ""}()).order(Text.title.asc).map({$0})
+        
+        //notifications
+        observeNotification(kDidReplaceEventFileNotification, selector: "didChangeEventFile")
     }
 
+    deinit {
+        //notifications
+        observeNotification(kDidReplaceEventFileNotification, selector: nil)
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let mdvc = segue.destinationViewController as? MDViewController, let item = lastSelectedItem {
             mdvc.textRow = item
@@ -82,4 +90,9 @@ class MoreViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    //notifications
+    func didChangeEventFile() {
+        tableView.reloadData()
+        navigationController?.popToRootViewControllerAnimated(true)
+    }
 }

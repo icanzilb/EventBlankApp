@@ -12,7 +12,7 @@ import SQLite
 class NewsController {
 
     var database: Database {
-        return DatabaseProvider.databases[eventDataFileName]!
+        return DatabaseProvider.databases[appDataFileName]!
     }
     
     func persistNews(tweets: [TweetModel]) -> [Row] {

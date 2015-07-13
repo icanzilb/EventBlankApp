@@ -12,7 +12,7 @@ import SQLite
 class ChatController {
     
     var database: Database {
-        return DatabaseProvider.databases[eventDataFileName]!
+        return DatabaseProvider.databases[appDataFileName]!
     }
 
     func persistMessages(tweets: [TweetModel]) -> [Row] {
