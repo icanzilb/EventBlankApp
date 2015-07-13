@@ -10,26 +10,32 @@ import Foundation
 import SQLite
 
 class DatabaseProvider {
-  
-  var filePath: String!
-  var _database: Database
-  
-  var database: Database {
-    return _database
-  }
-  
-    static var databases = [String: Database]()
     
-  init?(filePath: String, defaultPath: String? = nil) {
-
-    if let defaultPath = defaultPath {
-        defaultPath.moveOnceTo(filePath)
+    var path: FilePath
+    var _database: Database
+    
+    var database: Database {
+        return _database
     }
     
-    self.filePath = filePath
-    _database = Database(self.filePath)
+    static var databases = [String: Database]()
     
-    DatabaseProvider.databases[filePath.lastPathComponent] = _database
-  }
-  
+    init?(path targetPath: FilePath, defaultPath: FilePath? = nil, preferNewerSourceFile: Bool = false) {
+        
+        if let defaultPath = defaultPath {
+
+            //copy if does not exist in target location
+            defaultPath.copyOnceTo(targetPath)
+            
+            //copy if the bundle contains a newer version
+            if preferNewerSourceFile {
+                defaultPath.copyIfNewer(targetPath)
+            }
+        }
+        
+        path = targetPath
+        _database = Database(path.filePath)
+        
+        DatabaseProvider.databases[path.filePath.lastPathComponent] = _database
+    }
 }
