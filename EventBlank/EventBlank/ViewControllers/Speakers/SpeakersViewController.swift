@@ -20,9 +20,9 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         DatabaseProvider.databases[appDataFileName]!
         }()
 
-    let database: Database = {
-        DatabaseProvider.databases[eventDataFileName]!
-        }()
+    var database: Database {
+        return DatabaseProvider.databases[eventDataFileName]!
+    }
     
     typealias SpeakerSection = [String: [Row]]
     

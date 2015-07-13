@@ -46,6 +46,8 @@
 		9C330CB81B34B1FC002A0D1E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C330CB71B34B1FC002A0D1E /* Config.swift */; };
 		9C624FE71B53A4E600C84168 /* FreshFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C624FE61B53A4E600C84168 /* FreshFile.swift */; };
 		9C624FE91B53AE6200C84168 /* FilePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C624FE81B53AE6200C84168 /* FilePath.swift */; };
+		9C624FED1B53BA9B00C84168 /* UpdateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C624FEC1B53BA9B00C84168 /* UpdateManager.swift */; };
+		9C624FEF1B53CDE300C84168 /* OrderedMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C624FEE1B53CDE300C84168 /* OrderedMap.swift */; };
 		9C6EFA361B3AFBFC00FE7A72 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EFA351B3AFBFC00FE7A72 /* MoreViewController.swift */; };
 		9C6EFA381B3AFF4E00FE7A72 /* MDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EFA371B3AFF4E00FE7A72 /* MDViewController.swift */; };
 		9C8FCA9A1B40881300EFE8B8 /* Pods-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C8FCA991B40881300EFE8B8 /* Pods-acknowledgements.plist */; };
@@ -180,6 +182,8 @@
 		9C330CB71B34B1FC002A0D1E /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		9C624FE61B53A4E600C84168 /* FreshFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FreshFile.swift; path = Util/FreshFile.swift; sourceTree = "<group>"; };
 		9C624FE81B53AE6200C84168 /* FilePath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilePath.swift; path = Util/FilePath.swift; sourceTree = "<group>"; };
+		9C624FEC1B53BA9B00C84168 /* UpdateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpdateManager.swift; path = Util/UpdateManager.swift; sourceTree = "<group>"; };
+		9C624FEE1B53CDE300C84168 /* OrderedMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrderedMap.swift; path = Util/OrderedMap.swift; sourceTree = "<group>"; };
 		9C6EFA351B3AFBFC00FE7A72 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		9C6EFA371B3AFF4E00FE7A72 /* MDViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MDViewController.swift; sourceTree = "<group>"; };
 		9C8FCA991B40881300EFE8B8 /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Pods-acknowledgements.plist"; path = "Pods/Target Support Files/Pods/Pods-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -487,8 +491,10 @@
 		9C624FDD1B53A49200C84168 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				9C624FEC1B53BA9B00C84168 /* UpdateManager.swift */,
 				9C624FE61B53A4E600C84168 /* FreshFile.swift */,
 				9C624FE81B53AE6200C84168 /* FilePath.swift */,
+				9C624FEE1B53CDE300C84168 /* OrderedMap.swift */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -835,6 +841,7 @@
 				9C10A1081AB188C80052C730 /* Ext.swift in Sources */,
 				9CF717EE1B3844EA0093C636 /* SpeakerDetailsCell.swift in Sources */,
 				9CA0F7261B374C8F0054197F /* WebViewController.swift in Sources */,
+				9C624FEF1B53CDE300C84168 /* OrderedMap.swift in Sources */,
 				9C330CA01B34B14B002A0D1E /* ChatController.swift in Sources */,
 				9C10A0CF1AB186490052C730 /* AppDelegate.swift in Sources */,
 				9C330CA51B34B164002A0D1E /* UserConfig.swift in Sources */,
@@ -845,6 +852,7 @@
 				9C32BF641B4FE99A00196B19 /* TweetListViewController.swift in Sources */,
 				9C330CA91B34B173002A0D1E /* NewsConfig.swift in Sources */,
 				9C06CAE61B34D4160056CC5F /* SessionCell.swift in Sources */,
+				9C624FED1B53BA9B00C84168 /* UpdateManager.swift in Sources */,
 				9C6EFA361B3AFBFC00FE7A72 /* MoreViewController.swift in Sources */,
 				9C1C821A1B3C03AA0002A4D1 /* SessionDetailsCell.swift in Sources */,
 				9C330CB41B34B1BF002A0D1E /* TwitterController.swift in Sources */,

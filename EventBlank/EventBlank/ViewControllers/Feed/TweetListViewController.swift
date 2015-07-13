@@ -20,9 +20,9 @@ class TweetListViewController: UIViewController, UITableViewDelegate, UITableVie
 
     var refreshView: RefreshView!
     
-    let database: Database = {
-        DatabaseProvider.databases[appDataFileName]!
-        }()
+    var database: Database {
+        return DatabaseProvider.databases[eventDataFileName]!
+    }
     
     //MARK: - view controller
     override func viewDidLoad() {

@@ -14,9 +14,9 @@ class CreditViewController: UIViewController, UIWebViewDelegate {
 
     var webView: UIWebView = UIWebView()
     
-    let database: Database = {
-        DatabaseProvider.databases[eventDataFileName]!
-        }()
+    var database: Database {
+        return DatabaseProvider.databases[eventDataFileName]!
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

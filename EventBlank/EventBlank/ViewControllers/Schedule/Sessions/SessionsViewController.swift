@@ -21,9 +21,9 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
     
     var delegate: SessionViewControllerDelegate! //set from previous VC
     
-    let database: Database = {
-        DatabaseProvider.databases[eventDataFileName]!
-        }()
+    var database: Database {
+        return DatabaseProvider.databases[eventDataFileName]!
+        }
     
     let event: Row = {
         return (UIApplication.sharedApplication().delegate as! AppDelegate).event
@@ -46,11 +46,15 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         
         observeNotification(kFavoritesToggledNotification, selector: "didToggleFavorites")
         observeNotification(kFavoritesChangedNotification, selector: "didToggleFavorites")
+        
+        observeNotification(kDidReplaceEventFileNotification, selector: "didChangeEventFile")
     }
     
     deinit {
         observeNotification(kFavoritesToggledNotification, selector: nil)
         observeNotification(kFavoritesChangedNotification, selector: nil)
+        
+        observeNotification(kDidReplaceEventFileNotification, selector: nil)
     }
     
     func loadItems() {
@@ -160,6 +164,15 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
     
     // MARK: - notifications
     func didToggleFavorites() {
+        loadItems()
+        UIView.transitionWithView(tableView, duration: 0.35, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
+            self.tableView.reloadData()
+            }, completion: nil)
+    }
+    
+    func didChangeEventFile() {
+        println("reload sessions list")
+        
         loadItems()
         UIView.transitionWithView(tableView, duration: 0.35, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
             self.tableView.reloadData()

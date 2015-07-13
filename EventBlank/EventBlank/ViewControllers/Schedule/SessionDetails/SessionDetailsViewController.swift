@@ -14,9 +14,9 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
     var session: Row! //set from previous view controller
     var favorites = [Int]()
     
-    let database: Database = {
-        DatabaseProvider.databases[eventDataFileName]!
-        }()
+    var database: Database {
+        return DatabaseProvider.databases[eventDataFileName]!
+    }
     
     @IBOutlet weak var tableView: UITableView!
     
