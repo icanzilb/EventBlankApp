@@ -47,4 +47,4 @@ Contributing
 ============
 
 At this stage please contact me before contributing code. All my contacts are
-here: [http://www.underplot.com](<http://www.underplot.com >)
+here: [http://www.underplot.com](<http://www.underplot.com>)
