@@ -75,7 +75,8 @@ class TweetListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     // MARK: - fetching data
     func refreshViewDidRefresh(refreshView: RefreshView) {
-        fatalError("Must override with a concrete implementation")
+        //fetch new tweets
+        fetchTweets()
     }
     
     func loadTweets() {
