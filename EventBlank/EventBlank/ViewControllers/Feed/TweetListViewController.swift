@@ -20,9 +20,9 @@ class TweetListViewController: UIViewController, UITableViewDelegate, UITableVie
 
     var refreshView: RefreshView!
     
-    let database: Database = {
-        DatabaseProvider.databases[appDataFileName]!
-        }()
+    var database: Database {
+        return DatabaseProvider.databases[appDataFileName]!
+    }
     
     //MARK: - view controller
     override func viewDidLoad() {
@@ -75,7 +75,8 @@ class TweetListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     // MARK: - fetching data
     func refreshViewDidRefresh(refreshView: RefreshView) {
-        fatalError("Must override with a concrete implementation")
+        //fetch new tweets
+        fetchTweets()
     }
     
     func loadTweets() {

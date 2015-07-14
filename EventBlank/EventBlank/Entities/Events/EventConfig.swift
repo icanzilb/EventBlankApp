@@ -44,6 +44,8 @@ struct Event {
     static let secondaryColor = Expression<String>("secondary_color")
     static let ternaryColor = Expression<String>("ternary_color")
     
+    static let updateFileUrl = Expression<String?>("update_file_url")
+    
     //
     // shared event
     //

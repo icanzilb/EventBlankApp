@@ -14,21 +14,30 @@ class MoreViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     @IBOutlet weak var tableView: UITableView!
     
-    let database: Database = {
-        DatabaseProvider.databases[eventDataFileName]!
-        }()
+    var database: Database {
+        return DatabaseProvider.databases[eventDataFileName]!
+    }
     
     var items: [Row] = []
     var lastSelectedItem: Row?
     
-    let extraItems = ["Credits", "Acknowledgements"]
+    let extraItems = ["Credits", "Acknowledgements", "Pending Event Update"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         items = database[TextConfig.tableName].filter({Text.content != nil && Text.content != ""}()).order(Text.title.asc).map({$0})
+        
+        //notifications
+        observeNotification(kDidReplaceEventFileNotification, selector: "didChangeEventFile")
+        observeNotification(kPendingUpdateChangedNotification, selector: "didChangePendingUpdate")
     }
 
+    deinit {
+        //notifications
+        observeNotification(kDidReplaceEventFileNotification, selector: nil)
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let mdvc = segue.destinationViewController as? MDViewController, let item = lastSelectedItem {
             mdvc.textRow = item
@@ -44,18 +53,32 @@ class MoreViewController: UIViewController, UITableViewDelegate, UITableViewData
         if section == 0 {
             return items.count
         } else {
-            return 2
+            return extraItems.count
         }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(indexPath.section == 0 ? "MenuCell" : "ExtraMenuCell") as! UITableViewCell
         
+        cell.imageView?.image = nil
+        cell.textLabel?.enabled = true
+        cell.accessoryType = .DisclosureIndicator
+        
         if indexPath.section == 0 {
             let menuItem = items[indexPath.row]
             cell.textLabel?.text = menuItem[Text.title]
         } else {
             cell.textLabel?.text = extraItems[indexPath.row]
+
+            let defaults = NSUserDefaults.standardUserDefaults()
+            if indexPath.row == 2 {
+                cell.textLabel?.enabled = defaults.boolForKey("isTherePendingUpdate")
+                if defaults.boolForKey("isTherePendingUpdate") {
+                    cell.imageView?.image = UIImage(named: "badge-1")
+                } else {
+                    cell.accessoryType = .None
+                }
+            }
         }
         return cell
     }
@@ -71,15 +94,36 @@ class MoreViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         if indexPath.section == 1 {
-            if indexPath.row == 0 {
+            switch indexPath.row {
+            case 0:
                 navigationController?.pushViewController(CreditViewController(), animated: true)
-            } else {
+                
+            case 1:
                 let avc = VTAcknowledgementsViewController(acknowledgementsPlistPath:
                     NSBundle.mainBundle().pathForResource("Pods-acknowledgements", ofType: "plist")!
                 )
                 navigationController?.pushViewController(avc, animated: true)
+                
+            case 2:
+                let defaults = NSUserDefaults.standardUserDefaults()
+                if defaults.boolForKey("isTherePendingUpdate") {
+                    (UIApplication.sharedApplication().delegate as! AppDelegate).updateManager!.triggerRefresh()
+                }
+            default: break
             }
         }
+    }
+    
+    //notifications
+    func didChangeEventFile() {
+        tableView.reloadData()
+        navigationController?.popToRootViewControllerAnimated(true)
+    }
+    
+    func didChangePendingUpdate() {
+        dispatch_async(dispatch_get_main_queue(), {
+            self.tableView.reloadData()
+        })
     }
     
 }

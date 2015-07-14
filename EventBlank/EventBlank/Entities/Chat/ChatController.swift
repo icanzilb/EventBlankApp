@@ -11,9 +11,9 @@ import SQLite
 
 class ChatController {
     
-    let database: Database = {
+    var database: Database {
         return DatabaseProvider.databases[appDataFileName]!
-        }()
+    }
 
     func persistMessages(tweets: [TweetModel]) -> [Row] {
         let chatTable = database[ChatConfig.tableName]

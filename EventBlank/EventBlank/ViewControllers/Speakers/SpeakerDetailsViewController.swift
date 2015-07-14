@@ -22,9 +22,9 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
     
     @IBOutlet weak var tableView: UITableView!
     
-    let database: Database = {
-        DatabaseProvider.databases[appDataFileName]!
-        }()
+    var database: Database {
+        return DatabaseProvider.databases[appDataFileName]!
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -11,9 +11,9 @@ import SQLite
 
 class NewsController {
 
-    let database: Database = {
+    var database: Database {
         return DatabaseProvider.databases[appDataFileName]!
-        }()
+    }
     
     func persistNews(tweets: [TweetModel]) -> [Row] {
         let newsTable = database[NewsConfig.tableName]

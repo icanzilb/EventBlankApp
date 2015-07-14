@@ -21,9 +21,9 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
     
     var delegate: SessionViewControllerDelegate! //set from previous VC
     
-    let database: Database = {
-        DatabaseProvider.databases[eventDataFileName]!
-        }()
+    var database: Database {
+        return DatabaseProvider.databases[eventDataFileName]!
+        }
     
     let event: Row = {
         return (UIApplication.sharedApplication().delegate as! AppDelegate).event

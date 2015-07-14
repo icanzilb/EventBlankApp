@@ -22,8 +22,16 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
         super.viewDidLoad()
         
         setupUI()
+        
+        //notifications
+        observeNotification(kDidReplaceEventFileNotification, selector: "didChangeEventFile")
     }
 
+    deinit {
+        //notifications
+        observeNotification(kDidReplaceEventFileNotification, selector: nil)
+    }
+    
     func setupUI() {
         
     }
@@ -53,5 +61,11 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
     override func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         let currentPage = lround(Double(scrollView.contentOffset.x / scrollView.frame.size.width))
         tabControl.selectedSegmentIndex = currentPage        
+    }
+    
+    //notifications
+    func didChangeEventFile() {
+        reloadPagerTabStripView()
+        navigationController?.popToRootViewControllerAnimated(true)
     }
 }

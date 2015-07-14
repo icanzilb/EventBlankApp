@@ -20,9 +20,9 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         DatabaseProvider.databases[appDataFileName]!
         }()
 
-    let database: Database = {
-        DatabaseProvider.databases[eventDataFileName]!
-        }()
+    var database: Database {
+        return DatabaseProvider.databases[eventDataFileName]!
+    }
     
     typealias SpeakerSection = [String: [Row]]
     
@@ -36,15 +36,23 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadSpeakers()
+        
+        //notifications
+        observeNotification(kFavoritesChangedNotification, selector: "didFavoritesChange")
+        observeNotification(kDidReplaceEventFileNotification, selector: "didChangeEventFile")
+    }
+    
+    func loadSpeakers() {
         items = []
-
+        
         //load speakers
         let rows = database[SpeakerConfig.tableName].order(Speaker.name).map {$0}
         
         //order and group speakers
         var sectionUsers = [Row]()
         var lastUsedLetter = ""
-
+        
         for speaker in rows {
             let firstNameCharacter = speaker[Speaker.name][0...0].uppercaseString
             
@@ -64,8 +72,6 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
             let newSection: ScheduleDaySection = [newSectionTitle: sectionUsers]
             items.append(newSection)
         }
-        
-        observeNotification(kFavoritesChangedNotification, selector: "didFavoritesChange")
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -77,6 +83,7 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     
     deinit {
         observeNotification(kFavoritesChangedNotification, selector: nil)
+        observeNotification(kDidReplaceEventFileNotification, selector: nil)
     }
     
     //MARK: - table view methods
@@ -151,5 +158,11 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     func didFavoritesChange() {
         favorites = Favorite.allSpeakerFavoriteIDs()
         tableView.reloadData()
+    }
+    
+    //notifications
+    func didChangeEventFile() {
+        loadSpeakers()
+        navigationController?.popToRootViewControllerAnimated(true)
     }
 }

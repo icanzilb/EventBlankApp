@@ -11,6 +11,8 @@ import SQLite
 import MAThemeKit
 import DynamicColor
 
+let kDidReplaceEventFileNotification = "kDidReplaceEventFileNotification"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -26,10 +28,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         defaultPath: FilePath(inBundle: appDataFileName))
     
     var event: Row!
+    var updateManager: UpdateManager?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
+        //load event data
         event = databaseProvider!.database[EventConfig.tableName].first!
+
+        //start the update manager if there's a remote file
+        if let updateUrlString = event[Event.updateFileUrl], let updateUrl = NSURL(string: updateUrlString) {
+            updateManager = UpdateManager(
+                filePath: FilePath(inLibrary: eventDataFileName),
+                remoteURL: updateUrl, autostart: true)
+            
+            updateManager!.fileBinder.addAction(didReplaceFile: databaseProvider!.didChangeSourceFile, withKey: nil)
+            updateManager!.fileBinder.addAction(didReplaceFile: {_ in
+                //let observes know data file changed
+                self.notification(kDidReplaceEventFileNotification, object: nil)
+                }, withKey: nil)
+        }
+        
+        //set the UI colors
         setupUI()
         
         return true

@@ -12,7 +12,7 @@ import SQLite
 class DatabaseProvider {
     
     var path: FilePath
-    var _database: Database
+    var _database: Database!
     
     var database: Database {
         return _database
@@ -34,8 +34,17 @@ class DatabaseProvider {
         }
         
         path = targetPath
-        _database = Database(path.filePath)
         
+        loadDatabaseFile()
+    }
+    
+    private func loadDatabaseFile() {
+        _database = Database(path.filePath)
         DatabaseProvider.databases[path.filePath.lastPathComponent] = _database
+    }
+    
+    func didChangeSourceFile(success: Bool) {
+        println("reload database: \(path.filePath)")
+        loadDatabaseFile()
     }
 }
