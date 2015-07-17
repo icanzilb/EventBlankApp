@@ -40,10 +40,6 @@ class MDViewController: UIViewController, UIWebViewDelegate {
         //load event data
         let event = database[EventConfig.tableName].first!
         
-//        println("main: \(event[Event.mainColor])")
-//        println("sec: \(event[Event.secondaryColor])")
-//        println("bg: \(event[Event.ternaryColor])")
-        
         //build template
         let template = NSString(
             contentsOfFile: NSBundle.mainBundle().pathForResource("markdown", ofType: "html")!,
