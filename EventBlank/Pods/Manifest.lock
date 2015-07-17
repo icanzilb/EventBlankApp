@@ -1,4 +1,5 @@
 PODS:
+  - CWStatusBarNotification (2.3.1)
   - DynamicColor (1.2.1)
   - EasyAnimation (0.7.0)
   - HanekeSwift (0.9.1)
@@ -14,6 +15,7 @@ PODS:
   - XLPagerTabStrip (1.1.1)
 
 DEPENDENCIES:
+  - CWStatusBarNotification
   - DynamicColor
   - EasyAnimation
   - HanekeSwift
@@ -34,6 +36,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/stephencelis/SQLite.swift.git
 
 SPEC CHECKSUMS:
+  CWStatusBarNotification: 73d86949d11a2246f1a50532b157c1d313000ccd
   DynamicColor: 300cc0c33d2e388f7c1ca8c3dc265231dcc60eac
   EasyAnimation: ddc49f0eaf034f6d47a95bf805d9e95e84908053
   HanekeSwift: 50d37bfbc4432edc649167e538c259feccb4a2bb

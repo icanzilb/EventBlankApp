@@ -17,29 +17,25 @@ struct FreshInfo {
     var tempPath: String?
 }
 
-class FreshFile: Printable {
+class FreshFile: NSObject, Printable, NSURLSessionDownloadDelegate {
 
     //MARK: - FreshFile properties
     var remoteURL: NSURL!
     var localURL: NSURL!
     
-    var refreshRate: Double = 5 * 20.0
-    var networkRetryInterval = 0.1 * 60.0
-    
-    var currentModifyDate = NSDate(timeIntervalSince1970: 0.0)
+    var refreshRate: Double = 60.0
+    var networkRetryInterval = 20.0
     
     let manager = NSFileManager.defaultManager()
     
-    private var currentEtag: String = ""
+    private var currentEtag: String?
     
     init(localURL: NSURL, remoteURL: NSURL) {
         self.localURL = localURL
         self.remoteURL = remoteURL
         
         let defaults = NSUserDefaults.standardUserDefaults()
-        if let lastEtag = defaults.valueForKey("ETAG-\(self.remoteURL.absoluteString)") as? String {
-            currentEtag = lastEtag
-        }
+        currentEtag = defaults.valueForKey("ETAG-\(self.remoteURL.absoluteString)") as? String
     }
     
     //MARK: - actions
@@ -49,7 +45,7 @@ class FreshFile: Printable {
     var willReplaceFileMap = OrderedMap<String, (FreshInfo)->Bool>()
     var didReplaceFileMap = OrderedMap<String, BoolClosure>()
     
-    static var actionCounter = 0
+    static private var actionCounter = 0
     
     func addAction(#willDownloadFile: (FreshInfo, BoolClosure)->Void, withKey: String?) {
         willDownloadFileMap[withKey ?? "default-\(++self.dynamicType.actionCounter)"] = willDownloadFile
@@ -70,7 +66,8 @@ class FreshFile: Printable {
     
     private var isRunning = false
     private var isDownloading = false
-    
+    private var refreshUUID: String?
+
     func bind() {
         isRunning = true
         refresh()
@@ -81,8 +78,6 @@ class FreshFile: Printable {
         refreshUUID = nil
     }
     
-    private var refreshUUID: String?
-    
     func refresh() {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             self.refreshBackground()
@@ -92,34 +87,23 @@ class FreshFile: Printable {
     func refreshBackground() {
         let localRefreshUUID = NSUUID().UUIDString
         refreshUUID = localRefreshUUID
-        
-        //get current modify date
-        if let attributes = manager.attributesOfItemAtPath(localURL.path!, error: nil),
-            let modDate = attributes[NSFileModificationDate] as? NSDate {
-                
-                currentModifyDate = modDate
-                println("current date \(modDate)")
 
-                var fileInfo = FreshInfo()
-                
-                if isRemoteURLFresh(&fileInfo) {
-                    println("newer version: \(fileInfo)")
-                    isDownloading = true
-                    downloadFile(info: fileInfo)
-                }
-                
-                delay(seconds: refreshRate, completion: {
-                    if self.isRunning && !self.isDownloading && self.refreshUUID == localRefreshUUID {
-                        self.refresh()
-                    }
-                })
-        } else {
-            fatalError("Couldn't find bind file at: \(localURL.path!)")
+        if let fileInfo = remoteFileUpdateInfo() {
+            println("newer version: \(fileInfo)")
+            isDownloading = true
+            downloadFile(info: fileInfo)
         }
+        
+        delay(seconds: refreshRate, completion: {
+            if self.isRunning && !self.isDownloading && self.refreshUUID == localRefreshUUID {
+                self.refresh()
+            }
+        })
     }
     
-    func isRemoteURLFresh(inout fileInfo: FreshInfo) -> Bool {
-        var result = false
+    func remoteFileUpdateInfo() -> FreshInfo? {
+
+        var fileInfo: FreshInfo? = nil
         
         var request = NSMutableURLRequest(URL: remoteURL, cachePolicy: NSURLRequestCachePolicy.ReloadRevalidatingCacheData, timeoutInterval: 60.0)
         request.HTTPMethod = "HEAD"
@@ -136,46 +120,35 @@ class FreshFile: Printable {
                 println("could not HEAD file: \(request.URL). Error: \(error.localizedDescription)")
                 
                 //retry
-                self.scheduleRefresh(after: self.networkRetryInterval)
+                self.delay(seconds: self.networkRetryInterval, completion: {
+                    println("retry network call")
+                    self.refresh()
+                })
                 
-                dispatch_semaphore_signal(semaphore)
-                return
-            }
-            
-            if let response = response as? NSHTTPURLResponse {
-
-                if let newEtag = response.allHeaderFields["Etag"] as? String {
+            } else if let response = response as? NSHTTPURLResponse,
+                let newEtag = response.allHeaderFields["Etag"] as? String {
                     
-                    println("compare local \(self.currentEtag) to \(newEtag)")
+                println("compare local \(self.currentEtag) to \(newEtag)")
+                
+                if true || newEtag  != self.currentEtag {
+                    //there is a newer file!
+                    println("remote file is newer")
                     
-                    if newEtag  != self.currentEtag {
-                        //there is a newer file!
-                        println("remote file is newer")
-                        
-                        //TODO: CHECK IF it's initial fetching of etag
-                        
-                        fileInfo.etag = newEtag
-                        
-                        if let contentLength = response.allHeaderFields["Content-Length"] as? String {
-                            fileInfo.contentLength = (contentLength as NSString).doubleValue
-                            println("about to download \(fileInfo.contentLength) bytes")
-                        }
-                        
-                        result = true
-                    } else {
-                        println("event file is up to date")
+                    //TODO: CHECK IF it's initial fetching of etag
+                    fileInfo = FreshInfo()
+                    fileInfo!.etag = newEtag
+                    
+                    if let contentLength = response.allHeaderFields["Content-Length"] as? String {
+                        fileInfo!.contentLength = (contentLength as NSString).doubleValue
+                        println("about to download \(fileInfo!.contentLength) bytes")
                     }
                     
                 } else {
-                    println("Could not fetch last modified date")
+                    println("event file is up to date")
                 }
-                
-                dispatch_semaphore_signal(semaphore)
-                return
             }
             
-            println("error: Not an HTTP response")
-            
+            dispatch_semaphore_signal(semaphore)
         })
         
         dataTask.resume()
@@ -184,14 +157,22 @@ class FreshFile: Printable {
             NSRunLoop.currentRunLoop().runMode(NSDefaultRunLoopMode, beforeDate: NSDate(timeIntervalSinceNow: 0))
         }
         
-        return result
+        return fileInfo
     }
     
     //MARK: - download/replace
+    private var downloadSession: NSURLSession?
+    private var downloadInfo: FreshInfo?
     
-    func downloadFile(var #info: FreshInfo) {
+    var downloadHandlerWithProgress: ((Double) -> Void)?
+    
+    func downloadFile(#info: FreshInfo) {
         
         println("will download file")
+        
+        if downloadSession != nil {
+            return
+        }
         
         var semaphore = dispatch_semaphore_create(0)
         var shouldContinueWithDownload = true
@@ -215,32 +196,15 @@ class FreshFile: Printable {
             }
         }
         
-        let downloadTask = NSURLSession.sharedSession().downloadTaskWithURL(remoteURL, completionHandler: {tempUrl, response, error in
-            
-            //println(tempUrl)
-            //println(response)
-            //println(error)
-            
-            //copy the downloaded file to a temp location
-            var tempCopyError: NSError?
-            var tempCopyPath = self.localURL.path!.stringByAppendingString(".pending")
-            
-            if FilePath(tempUrl.path!).copyAndReplaceItemToPath(FilePath(tempCopyPath), error: &tempCopyError) == false {
-                //failed to create a temp copy
-                self.isDownloading = false
-                println("failed to copy temp file: \(tempCopyError?.localizedDescription)")
-                return
-            }
+        downloadSession = NSURLSession(
+            configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+            delegate: self,
+            delegateQueue: nil)
+        downloadInfo = info
+        
+        downloadHandlerWithProgress?(0.0)
+        downloadSession!.downloadTaskWithURL(remoteURL).resume()
 
-            info.tempPath = tempCopyPath
-            
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                self.replaceFile(info: info)
-            })
-        })
-        
-        downloadTask.resume()
-        
         println("started update file download")
     }
     
@@ -250,21 +214,6 @@ class FreshFile: Printable {
         dispatch_after(popTime, dispatch_get_main_queue()) {
             completion()
         }
-    }
-    
-    var nextRefreshToken = arc4random() % 100_000_000
-    
-    func scheduleRefresh(#after: Double) {
-        
-        let myToken = arc4random() % 100_000_000
-        nextRefreshToken = myToken
-        
-        self.delay(seconds: after, completion: {
-            if self.nextRefreshToken == myToken {
-                self.refresh()
-            }
-        })
-        
     }
     
     func replaceFile(#info: FreshInfo) {
@@ -301,7 +250,36 @@ class FreshFile: Printable {
         })
     }
     
-    var description: String {
+    override var description: String {
         return "FreshFile: \(localURL.absoluteString!)\n  willReplaceFileMap: \(willReplaceFileMap)\n\n  didReplaceFile: \(didReplaceFileMap)\n\n"
     }
+    
+    //MARK: - download session methods
+    func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
+        
+        //copy the downloaded file to a temp location
+        var tempCopyError: NSError?
+        downloadInfo!.tempPath = self.localURL.path!.stringByAppendingString(".pending")
+        
+        if FilePath(location.path!).copyAndReplaceItemToPath(FilePath(downloadInfo!.tempPath!), error: &tempCopyError) == false {
+            //failed to create a temp copy
+            self.isDownloading = false
+            println("failed to copy temp file: \(tempCopyError?.localizedDescription)")
+        }
+        
+        self.downloadSession?.invalidateAndCancel()
+        self.downloadSession = nil
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            if self.isDownloading {
+                self.replaceFile(info: self.downloadInfo!)
+                self.downloadInfo = nil
+            }
+        })
+    }
+    
+    func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+        downloadHandlerWithProgress?(Double(totalBytesWritten) / Double(totalBytesExpectedToWrite))
+    }
+    
 }

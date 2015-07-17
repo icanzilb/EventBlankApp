@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CWStatusBarNotification
 
 let kPendingUpdateChangedNotification = "kPendingUpdateChangedNotification"
 
@@ -16,6 +17,8 @@ class UpdateManager: NSObject {
     var updateCheckInterval = 1.0 * 60.0
     
     var fileBinder: FreshFile
+    
+    var statusBarNotification = CWStatusBarNotification()
     
     init(filePath path: FilePath, remoteURL: NSURL, autostart: Bool = true) {
         
@@ -31,6 +34,33 @@ class UpdateManager: NSObject {
             })
         }, withKey: nil)
 
+        //create the update view
+        statusBarNotification.notificationAnimationInStyle = .Top
+        statusBarNotification.notificationAnimationOutStyle = .Top
+        
+        let barView = StatusBarDownloadProgressView()
+        let primaryColor = UIColor(hexString: (UIApplication.sharedApplication().delegate as! AppDelegate).event[Event.mainColor])
+        barView.backgroundColor = primaryColor
+
+        fileBinder.downloadHandlerWithProgress = {progress in
+            dispatch_async(dispatch_get_main_queue(), {
+                switch progress {
+                case 0.0:
+                    self.statusBarNotification.displayNotificationWithView(barView, completion: nil)
+                    barView.setProgress(0.0, text: "Starting update download...")
+                case 1.0:
+                    //download ended hide in 1 second
+                    barView.setProgress(1.0, text: "Update downloaded successfully!")
+                    delay(seconds: 1.0, {
+                        self.statusBarNotification.dismissNotification()
+                    })
+                default:
+                    //show the current progress
+                    barView.setProgress(progress, text: String(format: "%.0f%% of the update downloaded", progress * 100.0))
+                }
+            })
+        }
+        
         if autostart {
             delay(seconds: 1.0, {
                 self.start()

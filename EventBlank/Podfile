@@ -27,6 +27,9 @@ pod 'VTAcknowledgementsViewController'
 #pod modal alert
 pod 'SwiftSpinner'
 
+#pod status bar message
+pod 'CWStatusBarNotification'
+
 #copy the acknowledgements file when installing news pods
 post_install do | installer |
   require 'fileutils'

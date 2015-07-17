@@ -48,6 +48,7 @@
 		9C624FE91B53AE6200C84168 /* FilePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C624FE81B53AE6200C84168 /* FilePath.swift */; };
 		9C624FED1B53BA9B00C84168 /* UpdateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C624FEC1B53BA9B00C84168 /* UpdateManager.swift */; };
 		9C624FEF1B53CDE300C84168 /* OrderedMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C624FEE1B53CDE300C84168 /* OrderedMap.swift */; };
+		9C6CD5111B58F99F00B62C36 /* StatusBarDownloadProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6CD5101B58F99F00B62C36 /* StatusBarDownloadProgressView.swift */; };
 		9C6EFA361B3AFBFC00FE7A72 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EFA351B3AFBFC00FE7A72 /* MoreViewController.swift */; };
 		9C6EFA381B3AFF4E00FE7A72 /* MDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EFA371B3AFF4E00FE7A72 /* MDViewController.swift */; };
 		9C8FCA9A1B40881300EFE8B8 /* Pods-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C8FCA991B40881300EFE8B8 /* Pods-acknowledgements.plist */; };
@@ -184,6 +185,7 @@
 		9C624FE81B53AE6200C84168 /* FilePath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilePath.swift; path = Util/FilePath.swift; sourceTree = "<group>"; };
 		9C624FEC1B53BA9B00C84168 /* UpdateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpdateManager.swift; path = Util/UpdateManager.swift; sourceTree = "<group>"; };
 		9C624FEE1B53CDE300C84168 /* OrderedMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrderedMap.swift; path = Util/OrderedMap.swift; sourceTree = "<group>"; };
+		9C6CD5101B58F99F00B62C36 /* StatusBarDownloadProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatusBarDownloadProgressView.swift; path = Util/StatusBarDownloadProgressView.swift; sourceTree = "<group>"; };
 		9C6EFA351B3AFBFC00FE7A72 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		9C6EFA371B3AFF4E00FE7A72 /* MDViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MDViewController.swift; sourceTree = "<group>"; };
 		9C8FCA991B40881300EFE8B8 /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Pods-acknowledgements.plist"; path = "Pods/Target Support Files/Pods/Pods-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -495,6 +497,7 @@
 				9C624FE61B53A4E600C84168 /* FreshFile.swift */,
 				9C624FE81B53AE6200C84168 /* FilePath.swift */,
 				9C624FEE1B53CDE300C84168 /* OrderedMap.swift */,
+				9C6CD5101B58F99F00B62C36 /* StatusBarDownloadProgressView.swift */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -859,6 +862,7 @@
 				9CF717EA1B383C5A0093C636 /* String.swift in Sources */,
 				9CF717E81B3836180093C636 /* SpeakerCell.swift in Sources */,
 				9CC44CE31B36CF260026564D /* FeedViewController.swift in Sources */,
+				9C6CD5111B58F99F00B62C36 /* StatusBarDownloadProgressView.swift in Sources */,
 				9C624FE71B53A4E600C84168 /* FreshFile.swift in Sources */,
 				9C330CB81B34B1FC002A0D1E /* Config.swift in Sources */,
 				9CF717EC1B3842BB0093C636 /* SpeakerDetailsViewController.swift in Sources */,
