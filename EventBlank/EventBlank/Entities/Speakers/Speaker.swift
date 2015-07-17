@@ -29,6 +29,4 @@ struct Speaker {
     static let twitter = Expression<String?>("speaker_twitter")
     static let photo = Expression<Blob?>("photo")
     
-    //
-    
 }
