@@ -9,6 +9,8 @@
 import UIKit
 import WebKit
 
+//TODO: check the safari vc in iOS9 if iOS9 adoption rate is real high
+
 class WebViewController: UIViewController, WKNavigationDelegate {
 
     var initialURL: NSURL! //set from previous controller
