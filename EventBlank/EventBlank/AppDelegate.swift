@@ -32,35 +32,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
-        //load event data
-        event = databaseProvider!.database[EventConfig.tableName].first!
-
+        loadEventData()
+        
         //start the update manager if there's a remote file
         if let updateUrlString = event[Event.updateFileUrl], let updateUrl = NSURL(string: updateUrlString) {
             updateManager = UpdateManager(
                 filePath: FilePath(inLibrary: eventDataFileName),
                 remoteURL: updateUrl, autostart: true)
             
-            updateManager!.fileBinder.addAction(didReplaceFile: databaseProvider!.didChangeSourceFile, withKey: nil)
+            updateManager!.fileBinder.addAction(didReplaceFile: {success in
+                self.databaseProvider!.didChangeSourceFile(success)
+                self.loadEventData()
+                }, withKey: nil)
             updateManager!.fileBinder.addAction(didReplaceFile: {_ in
                 //let observes know data file changed
                 self.notification(kDidReplaceEventFileNotification, object: nil)
                 }, withKey: nil)
         }
         
-        //set the UI colors
-        setupUI()
-        
         return true
+    }
+    
+    func loadEventData() {
+        //load event data
+        event = databaseProvider!.database[EventConfig.tableName].first!
+        setupUI()
     }
     
     func setupUI() {
         let primaryColor = UIColor(hexString: event[Event.mainColor])
         let secondaryColor = UIColor(hexString: event[Event.secondaryColor])
-        //let ternaryColor = UIColor(hexString: event[Event.ternaryColor])
-        
-        //println("colors: \([primaryColor, secondaryColor, ternaryColor])")
-        
+
         MAThemeKit.customizeNavigationBarColor(primaryColor, textColor: UIColor.whiteColor(), buttonColor: UIColor.whiteColor())
         MAThemeKit.customizeButtonColor(primaryColor)
         MAThemeKit.customizeSwitchOnColor(primaryColor)
@@ -69,8 +71,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         MAThemeKit.customizeSegmentedControlWithMainColor(UIColor.whiteColor(), secondaryColor: primaryColor)
         MAThemeKit.customizeSliderColor(primaryColor)
         MAThemeKit.customizePageControlCurrentPageColor(primaryColor)
-        
-        //MAThemeKit.setupThemeWithPrimaryColor(primaryColor, secondaryColor: secondaryColor, fontName: "HelveticaNeue", lightStatusBar: true)
     }
     
     func applicationWillResignActive(application: UIApplication) {

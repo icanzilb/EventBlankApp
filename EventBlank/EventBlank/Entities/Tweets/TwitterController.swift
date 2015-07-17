@@ -53,7 +53,6 @@ class TwitterController: NSObject {
             }
             
             if let results = NSJSONSerialization.JSONObjectWithData(responseData, options: nil, error: nil) as? [NSDictionary] {
-                //println(results)
                 var tweets = results.map {TweetModel.createFromTweetObject($0)}
                 var user = results.map { UserModel.createFromUserObject( $0["user"] as! NSDictionary) }.first
                 

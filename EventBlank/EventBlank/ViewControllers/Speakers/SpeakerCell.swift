@@ -24,11 +24,6 @@ class SpeakerCell: UITableViewCell {
         btnToggleIsFavorite.setImage(UIImage(named: "like-full")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Selected)
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-    }
-
     @IBAction func actionToggleIsFavorite(sender: AnyObject) {
         btnToggleIsFavorite.selected = !btnToggleIsFavorite.selected
         didSetIsFavoriteTo!(btnToggleIsFavorite.selected, indexPath!)

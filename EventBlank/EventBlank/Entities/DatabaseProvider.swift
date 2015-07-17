@@ -44,7 +44,7 @@ class DatabaseProvider {
     }
     
     func didChangeSourceFile(success: Bool) {
-        println("reload database: \(path.filePath)")
+        println("Database Provider: reload database: \(path.filePath)")
         loadDatabaseFile()
     }
 }

@@ -20,9 +20,9 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
     
     @IBOutlet weak var tableView: UITableView!
     
-    lazy var event: Row = {
+    var event: Row {
         return (UIApplication.sharedApplication().delegate as! AppDelegate).event
-        }()
+        }
     
     override func viewDidLoad() {
         //load favorites
@@ -35,7 +35,7 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     deinit {
-
+        
     }
     
     //MARK: - table view methods

@@ -18,21 +18,16 @@ protocol SessionViewControllerDelegate {
 class ScheduleViewController: XLButtonBarPagerTabStripViewController, XLPagerTabStripViewControllerDataSource, SessionViewControllerDelegate {
 
     var isReloading = false
-    let btnFavorites = UIButton()
+    var btnFavorites = UIButton()
     
-    lazy var event: Row = {
+    var event: Row {
         return (UIApplication.sharedApplication().delegate as! AppDelegate).event
-        }()
+        }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //set up the tab strip
-        self.isProgressiveIndicator = true
-        self.buttonBarView.backgroundColor = UIColor.clearColor()
-        self.buttonBarView.selectedBar.backgroundColor = UIColor(hexString: event[Event.mainColor]).lighterColor()
-        
-        self.buttonBarView.registerNib(UINib(nibName: "NavTabButtonCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
+        buttonBarView.registerNib(UINib(nibName: "NavTabButtonCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
         
         //notifications
         observeNotification(kDidReplaceEventFileNotification, selector: "didChangeEventFile")
@@ -43,6 +38,16 @@ class ScheduleViewController: XLButtonBarPagerTabStripViewController, XLPagerTab
     }
     
     func setupUI() {
+        //set up the tab strip
+        self.isProgressiveIndicator = true
+        self.buttonBarView.backgroundColor = UIColor.clearColor()
+        self.buttonBarView.selectedBar.backgroundColor = UIColor(hexString: event[Event.mainColor]).lighterColor()
+
+        if let _ = btnFavorites.superview {
+            btnFavorites.layer.removeFromSuperlayer()
+            btnFavorites = UIButton()
+        }
+        
         //set up the fav button
         btnFavorites.frame = CGRect(x: navigationController!.navigationBar.bounds.size.width - 40, y: 0, width: 40, height: 40)
         
@@ -51,7 +56,7 @@ class ScheduleViewController: XLButtonBarPagerTabStripViewController, XLPagerTab
         btnFavorites.addTarget(self, action: Selector("actionToggleFavorites:"), forControlEvents: .TouchUpInside)
         btnFavorites.tintColor = UIColor.whiteColor()
         
-        self.buttonBarView.addSubview(btnFavorites)
+        buttonBarView.addSubview(btnFavorites)
         
         //add button background
         let gradient = CAGradientLayer()
@@ -117,6 +122,7 @@ class ScheduleViewController: XLButtonBarPagerTabStripViewController, XLPagerTab
  
     //notifications
     func didChangeEventFile() {
+        setupUI()
         reloadPagerTabStripView()
         navigationController?.popToRootViewControllerAnimated(true)
     }

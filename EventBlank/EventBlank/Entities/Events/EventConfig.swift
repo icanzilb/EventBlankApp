@@ -17,8 +17,6 @@ var EventConfig = EntityConfig(
     listImageName: "EventBlankProducer.EventDataSplitViewController"
 )
 
-private var sharedEvent: Row! = nil
-
 struct Event {
     
     //
@@ -50,12 +48,6 @@ struct Event {
     // shared event
     //
     static var event: Row {
-        if sharedEvent != nil {
-            return sharedEvent!
-        }
-        
-        let eventsTable = DatabaseProvider.databases[eventDataFileName]![EventConfig.tableName]
-        sharedEvent = eventsTable.first!
-        return sharedEvent
+        return DatabaseProvider.databases[eventDataFileName]![EventConfig.tableName].first!
     }
 }

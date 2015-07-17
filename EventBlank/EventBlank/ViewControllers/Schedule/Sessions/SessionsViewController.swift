@@ -25,9 +25,9 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         return DatabaseProvider.databases[eventDataFileName]!
         }
     
-    let event: Row = {
+    var event: Row {
         return (UIApplication.sharedApplication().delegate as! AppDelegate).event
-    }()
+    }
     
     let dateFormatter: NSDateFormatter = {
         let formatter = NSDateFormatter()
