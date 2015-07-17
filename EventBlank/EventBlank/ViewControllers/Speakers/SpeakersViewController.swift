@@ -16,9 +16,9 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     let twitter = TwitterController()
     let userCtr = UserController()
     
-    let appData: Database = {
-        DatabaseProvider.databases[appDataFileName]!
-        }()
+    var appData: Database {
+        return DatabaseProvider.databases[appDataFileName]!
+        }
 
     var database: Database {
         return DatabaseProvider.databases[eventDataFileName]!
@@ -151,8 +151,6 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     func sectionIndexTitlesForTableView(tableView: UITableView) -> [AnyObject]! {
         return items.map {$0.keys.first!}
     }
-    
-    //MARK: - fetching data
     
     //MARK: - favorites
     func didFavoritesChange() {
