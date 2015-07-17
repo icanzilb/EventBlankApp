@@ -17,7 +17,7 @@ struct FreshInfo {
     var tempPath: String?
 }
 
-class FreshFile: Printable {
+class FreshFile: NSObject, Printable, NSURLSessionDownloadDelegate {
 
     //MARK: - FreshFile properties
     var remoteURL: NSURL!
@@ -130,7 +130,7 @@ class FreshFile: Printable {
                     
                 println("compare local \(self.currentEtag) to \(newEtag)")
                 
-                if newEtag  != self.currentEtag {
+                if true || newEtag  != self.currentEtag {
                     //there is a newer file!
                     println("remote file is newer")
                     
@@ -161,10 +161,18 @@ class FreshFile: Printable {
     }
     
     //MARK: - download/replace
+    private var downloadSession: NSURLSession?
+    private var downloadInfo: FreshInfo?
     
-    func downloadFile(var #info: FreshInfo) {
+    var downloadHandlerWithProgress: ((Double) -> Void)?
+    
+    func downloadFile(#info: FreshInfo) {
         
         println("will download file")
+        
+        if downloadSession != nil {
+            return
+        }
         
         var semaphore = dispatch_semaphore_create(0)
         var shouldContinueWithDownload = true
@@ -188,32 +196,15 @@ class FreshFile: Printable {
             }
         }
         
-        let downloadTask = NSURLSession.sharedSession().downloadTaskWithURL(remoteURL, completionHandler: {tempUrl, response, error in
-            
-            //println(tempUrl)
-            //println(response)
-            //println(error)
-            
-            //copy the downloaded file to a temp location
-            var tempCopyError: NSError?
-            var tempCopyPath = self.localURL.path!.stringByAppendingString(".pending")
-            
-            if FilePath(tempUrl.path!).copyAndReplaceItemToPath(FilePath(tempCopyPath), error: &tempCopyError) == false {
-                //failed to create a temp copy
-                self.isDownloading = false
-                println("failed to copy temp file: \(tempCopyError?.localizedDescription)")
-                return
-            }
+        downloadSession = NSURLSession(
+            configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+            delegate: self,
+            delegateQueue: nil)
+        downloadInfo = info
+        
+        downloadHandlerWithProgress?(0.0)
+        downloadSession!.downloadTaskWithURL(remoteURL).resume()
 
-            info.tempPath = tempCopyPath
-            
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                self.replaceFile(info: info)
-            })
-        })
-        
-        downloadTask.resume()
-        
         println("started update file download")
     }
     
@@ -259,7 +250,36 @@ class FreshFile: Printable {
         })
     }
     
-    var description: String {
+    override var description: String {
         return "FreshFile: \(localURL.absoluteString!)\n  willReplaceFileMap: \(willReplaceFileMap)\n\n  didReplaceFile: \(didReplaceFileMap)\n\n"
     }
+    
+    //MARK: - download session methods
+    func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
+        
+        //copy the downloaded file to a temp location
+        var tempCopyError: NSError?
+        downloadInfo!.tempPath = self.localURL.path!.stringByAppendingString(".pending")
+        
+        if FilePath(location.path!).copyAndReplaceItemToPath(FilePath(downloadInfo!.tempPath!), error: &tempCopyError) == false {
+            //failed to create a temp copy
+            self.isDownloading = false
+            println("failed to copy temp file: \(tempCopyError?.localizedDescription)")
+        }
+        
+        self.downloadSession?.invalidateAndCancel()
+        self.downloadSession = nil
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            if self.isDownloading {
+                self.replaceFile(info: self.downloadInfo!)
+                self.downloadInfo = nil
+            }
+        })
+    }
+    
+    func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+        downloadHandlerWithProgress?(Double(totalBytesWritten) / Double(totalBytesExpectedToWrite))
+    }
+    
 }
