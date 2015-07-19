@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let updateUrlString = event[Event.updateFileUrl], let updateUrl = NSURL(string: updateUrlString) {
             updateManager = UpdateManager(
                 filePath: FilePath(inLibrary: eventDataFileName),
-                remoteURL: updateUrl, autostart: true)
+                remoteURL: updateUrl, autostart: false)
             
             updateManager!.fileBinder.addAction(didReplaceFile: {success in
                 self.databaseProvider!.didChangeSourceFile(success)
