@@ -50,7 +50,6 @@ code_sign() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'CWStatusBarNotification.framework'
   install_framework 'DynamicColor.framework'
-  install_framework 'EasyAnimation.framework'
   install_framework 'Haneke.framework'
   install_framework 'MAThemeKit.framework'
   install_framework 'SQLite.framework'
@@ -62,7 +61,6 @@ fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'CWStatusBarNotification.framework'
   install_framework 'DynamicColor.framework'
-  install_framework 'EasyAnimation.framework'
   install_framework 'Haneke.framework'
   install_framework 'MAThemeKit.framework'
   install_framework 'SQLite.framework'

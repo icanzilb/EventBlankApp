@@ -9,8 +9,8 @@ pod 'XLPagerTabStrip', '~> 1.0'
 #async tasks
 pod 'TaskQueue'
 
-#animation lib
-pod 'EasyAnimation'
+#animation lib - re-include with version 0.7.1
+#pod 'EasyAnimation'
 
 #image cache
 pod 'HanekeSwift'

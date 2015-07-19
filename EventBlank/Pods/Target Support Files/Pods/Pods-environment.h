@@ -18,12 +18,6 @@
 #define COCOAPODS_VERSION_MINOR_DynamicColor 2
 #define COCOAPODS_VERSION_PATCH_DynamicColor 1
 
-// EasyAnimation
-#define COCOAPODS_POD_AVAILABLE_EasyAnimation
-#define COCOAPODS_VERSION_MAJOR_EasyAnimation 0
-#define COCOAPODS_VERSION_MINOR_EasyAnimation 7
-#define COCOAPODS_VERSION_PATCH_EasyAnimation 0
-
 // HanekeSwift
 #define COCOAPODS_POD_AVAILABLE_HanekeSwift
 #define COCOAPODS_VERSION_MAJOR_HanekeSwift 0
