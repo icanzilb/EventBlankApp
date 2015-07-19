@@ -42,6 +42,8 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         loadItems()
         
         observeNotification(kFavoritesToggledNotification, selector: "didToggleFavorites")

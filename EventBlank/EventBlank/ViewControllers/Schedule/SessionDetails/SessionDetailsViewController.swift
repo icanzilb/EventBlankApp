@@ -25,6 +25,8 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
         }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         //load favorites
         favorites = Favorite.allSessionFavoritesIDs()
         
