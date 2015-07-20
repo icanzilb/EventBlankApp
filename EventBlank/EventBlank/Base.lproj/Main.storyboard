@@ -301,9 +301,15 @@
                                 <action selector="actionChangeSelectedSegment:" destination="crl-hi-75M" eventType="valueChanged" id="0ma-ig-f9B"/>
                             </connections>
                         </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" style="done" systemItem="compose" id="wA1-ry-1EO">
+                            <connections>
+                                <action selector="actionNew:" destination="crl-hi-75M" id="jvU-ra-jeb"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="btnCompose" destination="wA1-ry-1EO" id="D2w-SN-lDD"/>
                         <outlet property="tabControl" destination="DtP-Q9-giy" id="38I-dg-Bju"/>
                         <segue destination="g9m-UN-DQn" kind="show" identifier="ContainNews" id="jSh-ut-XW7"/>
                         <segue destination="hxD-66-BoV" kind="show" identifier="ContainChat" id="ERP-Nx-Yjc"/>
@@ -312,6 +318,73 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kuT-oy-RBE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="849.5" y="1288.5"/>
+        </scene>
+        <!--Tweet Compose View Controller-->
+        <scene sceneID="JTY-z6-cfH">
+            <objects>
+                <viewController storyboardIdentifier="TweetComposeViewController" modalPresentationStyle="currentContext" id="ibE-OZ-ztN" customClass="TweetComposeViewController" customModule="EventBlank" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eOO-zl-3Yn"/>
+                        <viewControllerLayoutGuide type="bottom" id="019-Rw-m2v"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aGP-O0-YZB">
+                        <rect key="frame" x="0.0" y="0.0" width="230" height="80"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IA7-aN-7Ls">
+                                <rect key="frame" x="23" y="8" width="64" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="64" id="Fg2-tW-5cX"/>
+                                    <constraint firstAttribute="height" constant="64" id="Rbv-B1-ckr"/>
+                                    <constraint firstAttribute="height" constant="40" id="hpP-ZP-txj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                <state key="normal" title="C">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="hpP-ZP-txj"/>
+                                    </mask>
+                                </variation>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Emg-D7-glb">
+                                <rect key="frame" x="140" y="8" width="64" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="6Hi-2r-I9I"/>
+                                    <constraint firstAttribute="width" constant="64" id="OVI-lz-vib"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                <state key="normal" title="A">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="Emg-D7-glb" secondAttribute="trailing" constant="10" id="WWL-BP-QR9"/>
+                            <constraint firstItem="IA7-aN-7Ls" firstAttribute="leading" secondItem="aGP-O0-YZB" secondAttribute="leadingMargin" constant="7" id="fsu-AA-nDe"/>
+                            <constraint firstItem="019-Rw-m2v" firstAttribute="top" secondItem="IA7-aN-7Ls" secondAttribute="bottom" constant="20" id="hG2-xd-FsT"/>
+                            <constraint firstItem="IA7-aN-7Ls" firstAttribute="top" secondItem="eOO-zl-3Yn" secondAttribute="bottom" id="pq7-2b-7cS"/>
+                            <constraint firstItem="019-Rw-m2v" firstAttribute="top" secondItem="Emg-D7-glb" secondAttribute="bottom" constant="8" id="wCX-0j-OYU"/>
+                            <constraint firstItem="019-Rw-m2v" firstAttribute="top" secondItem="IA7-aN-7Ls" secondAttribute="bottom" constant="8" id="wox-zf-GDw"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="pq7-2b-7cS"/>
+                                <exclude reference="hG2-xd-FsT"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="230" height="80"/>
+                    <connections>
+                        <outlet property="btnImage" destination="IA7-aN-7Ls" id="60v-O1-gJ0"/>
+                        <outlet property="btnText" destination="Emg-D7-glb" id="De9-Ha-sVI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7RG-ew-ClW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1284" y="1005"/>
         </scene>
         <!--Schedule-->
         <scene sceneID="De9-LP-5Vu">

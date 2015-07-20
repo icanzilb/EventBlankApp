@@ -30,6 +30,9 @@ pod 'SwiftSpinner'
 #pod status bar message
 pod 'CWStatusBarNotification'
 
+#github repo JSImagePickerController
+pod 'JSImagePickerController', git: 'https://github.com/icanzilb/JSImagePickerController.git', :tag => '0.6.1'
+
 #copy the acknowledgements file when installing news pods
 post_install do | installer |
   require 'fileutils'

@@ -16,6 +16,16 @@ class ChatViewController: TweetListViewController {
     let chatCtr = ChatController()
     let userCtr = UserController()
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        observeNotification(kDidPostTweetNotification, selector: "fetchTweets")
+    }
+
+    deinit {
+        observeNotification(kDidPostTweetNotification, selector: nil)
+    }
+    
     //MARK: - table view methods
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
