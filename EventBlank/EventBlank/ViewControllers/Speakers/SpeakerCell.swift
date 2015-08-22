@@ -22,6 +22,7 @@ class SpeakerCell: UITableViewCell {
         super.awakeFromNib()
 
         btnToggleIsFavorite.setImage(UIImage(named: "like-full")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Selected)
+        btnToggleIsFavorite.setImage(nil, forState: .Normal)
     }
 
     @IBAction func actionToggleIsFavorite(sender: AnyObject) {

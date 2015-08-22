@@ -33,7 +33,9 @@ class SpeakerDetailsCell: UITableViewCell, UITextViewDelegate {
     
     @IBAction func actionToggleIsFavorite(sender: AnyObject) {
         btnToggleIsFavorite.selected = !btnToggleIsFavorite.selected
-        didSetIsFavoriteTo!(btnToggleIsFavorite.selected, indexPath!)
+        btnToggleIsFavorite.animateSelect(scale: 0.8, completion: {
+            self.didSetIsFavoriteTo!(self.btnToggleIsFavorite.selected, self.indexPath!)
+        })
         return
     }
     
