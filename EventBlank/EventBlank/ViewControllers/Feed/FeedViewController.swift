@@ -31,6 +31,8 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
         super.viewDidLoad()
         println("loaded feed vc view")
         
+        title = "News"
+        
         setupUI()
         
         //notifications
@@ -54,7 +56,11 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
         //TODO: why? and what to do if there aren't two days in the conference?
         moveToViewControllerAtIndex(1)
         moveToViewControllerAtIndex(0)
-        
+
+        //check if needs to show audience chatter
+        if Event.event[Event.twitterChatter] < 1 {
+            tabControl.removeFromSuperview()
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -65,6 +71,9 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
     override func childViewControllersForPagerTabStripViewController(pagerTabStripViewController: XLPagerTabStripViewController!) -> [AnyObject]! {
         let newsVC = self.storyboard!.instantiateViewControllerWithIdentifier("NewsNavigationController")! as! TabStripNavigationController
         let chatterVC = self.storyboard!.instantiateViewControllerWithIdentifier("ChatNavigationController")! as! TabStripNavigationController
+        if Event.event[Event.twitterChatter] < 1 {
+            return [newsVC]
+        }
         return [newsVC, chatterVC]
     }
 
@@ -77,8 +86,10 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
     
     //MARK: - scroll view methods
     override func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        super.scrollViewDidEndDecelerating(scrollView)
-        
+        //super.scrollViewDidEndDecelerating(scrollView)
+        if Event.event[Event.twitterChatter] < 1 {
+            return
+        }
         let currentPage = lround(Double(scrollView.contentOffset.x / scrollView.frame.size.width))
         tabControl.selectedSegmentIndex = currentPage
         btnCompose.enabled = twitterAuthorized && (tabControl.selectedSegmentIndex == 1)

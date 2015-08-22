@@ -17,6 +17,14 @@ class NewsViewController: TweetListViewController {
     let newsCtr = NewsController()
     let userCtr = UserController()
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if Event.event[Event.twitterChatter] < 1 {
+            navigationItem.rightBarButtonItem = nil
+        }
+    }
+    
     // MARK: table view methods
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
