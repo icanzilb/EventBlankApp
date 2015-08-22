@@ -19,6 +19,8 @@ class SessionTableViewCell: UITableViewCell {
     
     @IBOutlet weak var btnToggleIsFavorite: UIButton!
     
+    @IBOutlet weak var btnFavoriteBottom: NSLayoutConstraint!
+    
     var indexPath: NSIndexPath?
     var didSetIsFavoriteTo: ((Bool, NSIndexPath)->Void)?
     
@@ -30,7 +32,11 @@ class SessionTableViewCell: UITableViewCell {
 
     @IBAction func actionToggleIsFavorite(sender: AnyObject) {
         btnToggleIsFavorite.selected = !btnToggleIsFavorite.selected
-        didSetIsFavoriteTo!(btnToggleIsFavorite.selected, indexPath!)
+        
+        btnToggleIsFavorite.animateSelect(scale: 0.8, completion: {
+            self.didSetIsFavoriteTo!(self.btnToggleIsFavorite.selected, self.indexPath!)
+        })
+        
         return
     }
     

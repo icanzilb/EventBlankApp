@@ -12,6 +12,7 @@ import Social
 import JSImagePickerController
 
 let kDidPostTweetNotification = "kDidPostTweetNotification"
+let kTwitterAuthorizationChangedNotification = "kTwitterAuthorizationChangedNotification"
 
 class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStripViewControllerDataSource, UIScrollViewDelegate, UIPopoverPresentationControllerDelegate, JSImagePickerViewControllerDelegate {
 
@@ -19,6 +20,7 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
     @IBOutlet weak var btnCompose: UIBarButtonItem!
     
     var popoverController: UIPopoverController?
+    var twitterAuthorized = true
     
     required convenience init(coder aDecoder: NSCoder) {
         self.init()
@@ -33,11 +35,13 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
         
         //notifications
         observeNotification(kDidReplaceEventFileNotification, selector: "didChangeEventFile")
+        observeNotification(kTwitterAuthorizationChangedNotification, selector: "didChangeTwitterAuthorization:")
     }
 
     deinit {
         //notifications
         observeNotification(kDidReplaceEventFileNotification, selector: nil)
+        observeNotification(kTwitterAuthorizationChangedNotification, selector: nil)
     }
     
     func setupUI() {
@@ -77,7 +81,7 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
         
         let currentPage = lround(Double(scrollView.contentOffset.x / scrollView.frame.size.width))
         tabControl.selectedSegmentIndex = currentPage
-        btnCompose.enabled = (tabControl.selectedSegmentIndex == 1)
+        btnCompose.enabled = twitterAuthorized && (tabControl.selectedSegmentIndex == 1)
     }
     
     //notifications
@@ -87,6 +91,10 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
     }
     
     @IBAction func actionNew(sender: AnyObject) {
+        
+        if !twitterAuthorized {
+            return
+        }
         
         let storyboard = view.window!.rootViewController!.storyboard!
         let contentViewController = storyboard.instantiateViewControllerWithIdentifier("TweetComposeViewController") as! TweetComposeViewController
@@ -133,4 +141,12 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
         return .None
     }
 
+    func didChangeTwitterAuthorization(notification: NSNotification) {
+        if let authorized = notification.userInfo?["object"] as? Bool {
+            twitterAuthorized = authorized
+        }
+        btnCompose.enabled = twitterAuthorized && (tabControl.selectedSegmentIndex == 1)
+        btnCompose.tintColor = btnCompose.enabled ? nil : UIColor.darkGrayColor()
+    }
+    
 }

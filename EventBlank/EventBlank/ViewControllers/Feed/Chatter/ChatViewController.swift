@@ -82,6 +82,8 @@ class ChatViewController: TweetListViewController {
             MessageView.removeViewFrom(self.tableView)
             
             if success, var hashTag = Event.event[Event.twitterTag] {
+
+                self.notification(kTwitterAuthorizationChangedNotification, object: true)
                 
                 if !hashTag.hasPrefix("#") {
                     hashTag = "#\(hashTag)"
@@ -100,6 +102,9 @@ class ChatViewController: TweetListViewController {
                     }
                 })
             } else {
+                
+                self.notification(kTwitterAuthorizationChangedNotification, object: false)
+                
                 delay(seconds: 0.5, {
                     self.tableView.addSubview(MessageView(text: "You don't have Twitter accounts set up. Open Preferences app, select Twitter and connect an account. \n\nThen pull this view down to refresh the feed."))
                 })

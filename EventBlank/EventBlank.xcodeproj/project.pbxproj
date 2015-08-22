@@ -46,6 +46,7 @@
 		9C330CB41B34B1BF002A0D1E /* TwitterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C330CB21B34B1BF002A0D1E /* TwitterController.swift */; };
 		9C330CB51B34B1BF002A0D1E /* TweetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C330CB31B34B1BF002A0D1E /* TweetModel.swift */; };
 		9C330CB81B34B1FC002A0D1E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C330CB71B34B1FC002A0D1E /* Config.swift */; };
+		9C3487CC1B88C48300FB0973 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3487CB1B88C48300FB0973 /* UIView+Extensions.swift */; };
 		9C34BB7A1B5D83FF00C888A6 /* TweetComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C34BB791B5D83FF00C888A6 /* TweetComposeViewController.swift */; };
 		9C34BB8B1B5D85FA00C888A6 /* FontAwesome+UIBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C34BB841B5D85FA00C888A6 /* FontAwesome+UIBarButtonItem.swift */; };
 		9C34BB8C1B5D85FA00C888A6 /* FontAwesome+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C34BB851B5D85FA00C888A6 /* FontAwesome+UIButton.swift */; };
@@ -201,6 +202,7 @@
 		9C330CB21B34B1BF002A0D1E /* TwitterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterController.swift; sourceTree = "<group>"; };
 		9C330CB31B34B1BF002A0D1E /* TweetModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetModel.swift; sourceTree = "<group>"; };
 		9C330CB71B34B1FC002A0D1E /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		9C3487CB1B88C48300FB0973 /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		9C34BB791B5D83FF00C888A6 /* TweetComposeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetComposeViewController.swift; sourceTree = "<group>"; };
 		9C34BB841B5D85FA00C888A6 /* FontAwesome+UIBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FontAwesome+UIBarButtonItem.swift"; sourceTree = "<group>"; };
 		9C34BB851B5D85FA00C888A6 /* FontAwesome+UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FontAwesome+UIButton.swift"; sourceTree = "<group>"; };
@@ -407,6 +409,7 @@
 				9CF717E91B383C5A0093C636 /* String.swift */,
 				9CF717EF1B384A750093C636 /* Notification.swift */,
 				9C5057371B5AE42000D71885 /* ViewController+Extensions.swift */,
+				9C3487CB1B88C48300FB0973 /* UIView+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -910,6 +913,7 @@
 				9C10A0CF1AB186490052C730 /* AppDelegate.swift in Sources */,
 				9C34BB7A1B5D83FF00C888A6 /* TweetComposeViewController.swift in Sources */,
 				9C330CA51B34B164002A0D1E /* UserConfig.swift in Sources */,
+				9C3487CC1B88C48300FB0973 /* UIView+Extensions.swift in Sources */,
 				9C34BB8F1B5D85FA00C888A6 /* FontAwesome+UILabel.swift in Sources */,
 				9CC051951B34BE710024033A /* ScheduleViewController.swift in Sources */,
 				9C624FE91B53AE6200C84168 /* FilePath.swift in Sources */,
