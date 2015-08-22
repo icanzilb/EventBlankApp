@@ -24,6 +24,14 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
         return (UIApplication.sharedApplication().delegate as! AppDelegate).event
         }
     
+    let dateFormatter: NSDateFormatter = {
+        let formatter = NSDateFormatter()
+        formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        formatter.timeStyle = .ShortStyle
+        formatter.dateFormat = .None
+        return formatter
+        }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,7 +60,13 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
             let cell = tableView.dequeueReusableCellWithIdentifier("SessionDetailsCell") as! SessionDetailsCell
             
             cell.nameLabel.text = session[Speaker.name]
-            cell.sessionTitleLabel.text = session[Session.title]
+            let time = dateFormatter.stringFromDate(
+                NSDate(timeIntervalSince1970: Double(session[Session.beginTime]))
+            )
+            cell.sessionTitleLabel.attributedText = NSAttributedString(
+                string: "\(time) \(session[Session.title])",
+                attributes: NSDictionary(object: UIFont.systemFontOfSize(22), forKey: NSFontAttributeName) as [NSObject : AnyObject])
+            
             cell.trackTitleLabel.text = session[Track.track]
             
             if let twitter = session[Speaker.twitter] {

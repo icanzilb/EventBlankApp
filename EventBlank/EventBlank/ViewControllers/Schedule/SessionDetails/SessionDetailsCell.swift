@@ -16,7 +16,7 @@ class SessionDetailsCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var websiteLabel: UILabel!
     @IBOutlet weak var btnToggleIsFavorite: UIButton!
     @IBOutlet weak var descriptionTextView: UITextView!
-    @IBOutlet weak var sessionTitleLabel: UILabel!
+    @IBOutlet weak var sessionTitleLabel: UITextView!
     @IBOutlet weak var trackTitleLabel: UILabel!
     
     var indexPath: NSIndexPath?
@@ -35,7 +35,10 @@ class SessionDetailsCell: UITableViewCell, UITextViewDelegate {
 
     @IBAction func actionToggleIsFavorite(sender: AnyObject) {
         btnToggleIsFavorite.selected = !btnToggleIsFavorite.selected
-        didSetIsFavoriteTo!(btnToggleIsFavorite.selected, indexPath!)
+        btnToggleIsFavorite.animateSelect(scale: 0.8, completion: {
+            self.didSetIsFavoriteTo!(self.btnToggleIsFavorite.selected, self.indexPath!)
+        })
+        
         return
     }
     
