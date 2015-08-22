@@ -12,6 +12,6 @@ import Foundation
 // database file names
 //
 
-let eventDataFileName = "event-data.eventblank"
+let eventDataFileName = "NSSpain15.eventblank"
 let appDataFileName = "appdata.db"
 
