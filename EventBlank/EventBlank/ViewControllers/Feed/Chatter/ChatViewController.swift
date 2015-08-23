@@ -44,9 +44,7 @@ class ChatViewController: TweetListViewController {
         if let attachmentUrlString = tweet[Chat.imageUrl], let attachmentUrl = NSURL(string: attachmentUrlString) {
             cell.attachmentImage.hnk_setImageFromURL(attachmentUrl)
             cell.didTapAttachment = {
-                let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
-                webVC.initialURL = attachmentUrl
-                self.navigationController!.pushViewController(webVC, animated: true)
+                PhotoPopupView.showImageWithUrl(attachmentUrl, inView: self.view)
             }
             cell.attachmentHeight.constant = 148.0
         }

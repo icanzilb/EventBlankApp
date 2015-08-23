@@ -64,6 +64,7 @@
 		9C6EFA361B3AFBFC00FE7A72 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EFA351B3AFBFC00FE7A72 /* MoreViewController.swift */; };
 		9C6EFA381B3AFF4E00FE7A72 /* MDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EFA371B3AFF4E00FE7A72 /* MDViewController.swift */; };
 		9C8E49511B8A03C900A5FA8D /* eventBlankLogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C8E49501B8A03C900A5FA8D /* eventBlankLogo@2x.png */; };
+		9C8E49581B8A139000A5FA8D /* PhotoPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8E49571B8A139000A5FA8D /* PhotoPopupView.swift */; };
 		9C8FCA9A1B40881300EFE8B8 /* Pods-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C8FCA991B40881300EFE8B8 /* Pods-acknowledgements.plist */; };
 		9C8FCAA21B4089FC00EFE8B8 /* CreditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8FCAA11B4089FC00EFE8B8 /* CreditViewController.swift */; };
 		9C8FCAA51B408BE100EFE8B8 /* credits.markdown in Sources */ = {isa = PBXBuildFile; fileRef = 9C8FCAA31B408A0F00EFE8B8 /* credits.markdown */; };
@@ -221,6 +222,7 @@
 		9C6EFA351B3AFBFC00FE7A72 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		9C6EFA371B3AFF4E00FE7A72 /* MDViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MDViewController.swift; sourceTree = "<group>"; };
 		9C8E49501B8A03C900A5FA8D /* eventBlankLogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "eventBlankLogo@2x.png"; sourceTree = "<group>"; };
+		9C8E49571B8A139000A5FA8D /* PhotoPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPopupView.swift; sourceTree = "<group>"; };
 		9C8FCA991B40881300EFE8B8 /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Pods-acknowledgements.plist"; path = "Pods/Target Support Files/Pods/Pods-acknowledgements.plist"; sourceTree = "<group>"; };
 		9C8FCAA11B4089FC00EFE8B8 /* CreditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditViewController.swift; sourceTree = "<group>"; };
 		9C8FCAA31B408A0F00EFE8B8 /* credits.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = credits.markdown; sourceTree = "<group>"; };
@@ -651,6 +653,7 @@
 				9CC44CE11B36CE770026564D /* News */,
 				9CA0F7231B37490E0054197F /* Chatter */,
 				9C34BB791B5D83FF00C888A6 /* TweetComposeViewController.swift */,
+				9C8E49571B8A139000A5FA8D /* PhotoPopupView.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -939,6 +942,7 @@
 				9CC44CE31B36CF260026564D /* FeedViewController.swift in Sources */,
 				9C5057381B5AE42000D71885 /* ViewController+Extensions.swift in Sources */,
 				9C6CD5111B58F99F00B62C36 /* StatusBarDownloadProgressView.swift in Sources */,
+				9C8E49581B8A139000A5FA8D /* PhotoPopupView.swift in Sources */,
 				9C624FE71B53A4E600C84168 /* FreshFile.swift in Sources */,
 				9C330CB81B34B1FC002A0D1E /* Config.swift in Sources */,
 				9CF717EC1B3842BB0093C636 /* SpeakerDetailsViewController.swift in Sources */,
