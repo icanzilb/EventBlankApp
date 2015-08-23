@@ -145,9 +145,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
             if let attachmentUrl = tweet.imageUrl {
                 cell.attachmentImage.hnk_setImageFromURL(attachmentUrl)
                 cell.didTapAttachment = {
-                    let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
-                    webVC.initialURL = attachmentUrl
-                    self.navigationController!.pushViewController(webVC, animated: true)
+                    PhotoPopupView.showImageWithUrl(attachmentUrl, inView: self.view)
                 }
                 cell.attachmentHeight.constant = 148.0
             }
@@ -157,6 +155,12 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 fetchUserImageForCell(cell, withUser: user)
             }
             
+            cell.didTapURL = {tappedUrl in
+                let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
+                webVC.initialURL = tappedUrl
+                self.navigationController!.pushViewController(webVC, animated: true)
+            }
+
             return cell
         }
         
