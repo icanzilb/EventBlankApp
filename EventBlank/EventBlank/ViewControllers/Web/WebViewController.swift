@@ -52,6 +52,8 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         //remove observer
         webView.stopLoading()
         webView.removeObserver(self, forKeyPath: "estimatedProgress")
+        
+        loadingIndicator.removeFromSuperview()
     }
     
     func setLoadingIndicatorAnimating(animating: Bool) {
