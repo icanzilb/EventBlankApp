@@ -19,6 +19,8 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
     var items = [ScheduleDaySection]()
     var favorites = [Int]()
     
+    var speakerFavorites = Favorite.allSpeakerFavoriteIDs()
+    
     var delegate: SessionViewControllerDelegate! //set from previous VC
     
     var database: Database {
@@ -72,7 +74,8 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         //filter sessions
         if delegate.isFavoritesFilterOn() {
             sessions = sessions.filter({ session in
-                return find(self.favorites, session[Session.idColumn]) != nil
+                return find(self.favorites, session[Session.idColumn]) != nil ||
+                    (find(self.speakerFavorites, session[Speaker.idColumn]) != nil)
             })
         }
         
@@ -125,6 +128,7 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         cell.locationLabel.text = session[Location.name]
         
         cell.btnToggleIsFavorite.selected = (find(favorites, session[Session.idColumn]) != nil)
+        cell.btnSpeakerIsFavorite.selected = (find(speakerFavorites, session[Speaker.idColumn]) != nil)
         
         cell.indexPath = indexPath
         cell.didSetIsFavoriteTo = {setIsFavorite, indexPath in

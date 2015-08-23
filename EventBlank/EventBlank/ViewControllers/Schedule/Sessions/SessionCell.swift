@@ -18,8 +18,7 @@ class SessionTableViewCell: UITableViewCell {
     @IBOutlet weak var locationLabel: UILabel!
     
     @IBOutlet weak var btnToggleIsFavorite: UIButton!
-    
-    @IBOutlet weak var btnFavoriteBottom: NSLayoutConstraint!
+    @IBOutlet weak var btnSpeakerIsFavorite: UIButton!
     
     var indexPath: NSIndexPath?
     var didSetIsFavoriteTo: ((Bool, NSIndexPath)->Void)?
@@ -28,6 +27,9 @@ class SessionTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         btnToggleIsFavorite.setImage(UIImage(named: "like-full")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Selected)
+        
+        btnSpeakerIsFavorite.setImage(UIImage(named: "like-full")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Selected)
+        btnSpeakerIsFavorite.setImage(nil, forState: .Normal)
     }
 
     @IBAction func actionToggleIsFavorite(sender: AnyObject) {

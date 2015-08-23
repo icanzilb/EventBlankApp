@@ -557,10 +557,23 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MdB-VM-LCg">
+                                                    <rect key="frame" x="18" y="97" width="20" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="36Y-cc-vEp"/>
+                                                        <constraint firstAttribute="width" constant="20" id="DId-Ik-K2E"/>
+                                                    </constraints>
+                                                    <color key="tintColor" red="0.8979548812" green="0.32347661960000001" blue="0.042565007270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <state key="normal" image="like-empty">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <state key="selected" image="like-full"/>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailingMargin" secondItem="jLX-87-OHI" secondAttribute="trailing" constant="8" id="3e5-AM-iDI"/>
                                                 <constraint firstItem="cNf-kI-4qk" firstAttribute="top" secondItem="jLX-87-OHI" secondAttribute="bottom" constant="5.5" id="GQu-uk-Z9g"/>
+                                                <constraint firstItem="MdB-VM-LCg" firstAttribute="leading" secondItem="Mfv-aQ-qHm" secondAttribute="leadingMargin" constant="10" id="JmZ-8H-6Ol"/>
                                                 <constraint firstItem="jLX-87-OHI" firstAttribute="top" secondItem="WNn-o1-hfC" secondAttribute="bottom" constant="4" id="KFX-dI-mYA"/>
                                                 <constraint firstItem="2Nf-cd-CtU" firstAttribute="top" secondItem="Mfv-aQ-qHm" secondAttribute="topMargin" constant="-8" id="PiY-bO-XF8"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="ONJ-JS-pAY" secondAttribute="bottom" constant="4" id="QS2-pc-Kak"/>
@@ -569,6 +582,7 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="ONJ-JS-pAY" secondAttribute="trailing" constant="-14" id="ahj-c8-Wgh"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="IMn-tD-kRC" secondAttribute="bottom" constant="9.5" id="bin-59-PWf"/>
                                                 <constraint firstItem="jLX-87-OHI" firstAttribute="leading" secondItem="cNf-kI-4qk" secondAttribute="leading" id="fOK-qn-jmc"/>
+                                                <constraint firstItem="MdB-VM-LCg" firstAttribute="top" secondItem="2Nf-cd-CtU" secondAttribute="bottom" constant="57" id="gpL-yq-jvq"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="WNn-o1-hfC" secondAttribute="trailing" constant="46" id="iuI-7u-hQB"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="cNf-kI-4qk" secondAttribute="bottom" constant="14" id="jG1-Q6-f0x"/>
                                                 <constraint firstItem="jLX-87-OHI" firstAttribute="leading" secondItem="WNn-o1-hfC" secondAttribute="leading" id="kag-rI-Mzh"/>
@@ -585,7 +599,7 @@
                                             </variation>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="btnFavoriteBottom" destination="QS2-pc-Kak" id="87H-md-iWv"/>
+                                            <outlet property="btnSpeakerIsFavorite" destination="MdB-VM-LCg" id="C0r-bf-Kss"/>
                                             <outlet property="btnToggleIsFavorite" destination="ONJ-JS-pAY" id="FTg-gV-bX6"/>
                                             <outlet property="locationLabel" destination="cNf-kI-4qk" id="m7q-FD-UDz"/>
                                             <outlet property="speakerImageView" destination="IMn-tD-kRC" id="mfK-fX-HHB"/>
