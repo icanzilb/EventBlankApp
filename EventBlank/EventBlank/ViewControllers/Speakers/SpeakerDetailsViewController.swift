@@ -70,7 +70,11 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
             if let twitter = speaker[Speaker.twitter] {
                 cell.twitterLabel.text = twitter.hasPrefix("@") ? twitter : "@"+twitter
                 cell.didTapTwitter = {
-                    UIApplication.sharedApplication().openURL(NSURL(string: "https://twitter.com/" + twitter)!)
+                    let twitterUrl = NSURL(string: "https://twitter.com/" + twitter)!
+                    
+                    let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
+                    webVC.initialURL = twitterUrl
+                    self.navigationController!.pushViewController(webVC, animated: true)
                 }
             } else {
                 cell.twitterLabel.text = nil
@@ -108,14 +112,19 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 self.notification(kFavoritesChangedNotification, object: nil)
             }
             
+            
             if let urlString = speaker[Speaker.url], let url = NSURL(string: urlString) {
-                cell.didTapURL = {
-                    UIApplication.sharedApplication().openURL(url)
-                }
+                cell.speakerUrl = url
             } else {
-                cell.didTapURL = nil
+                cell.speakerUrl = nil
             }
             
+            cell.didTapURL = {tappedUrl in
+                let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
+                webVC.initialURL = tappedUrl
+                self.navigationController!.pushViewController(webVC, animated: true)
+            }
+
             return cell
         }
         

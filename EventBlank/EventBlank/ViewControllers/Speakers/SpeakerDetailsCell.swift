@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SpeakerDetailsCell: UITableViewCell, UITextViewDelegate {
+class SpeakerDetailsCell: UITableViewCell {
     
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -19,6 +19,8 @@ class SpeakerDetailsCell: UITableViewCell, UITextViewDelegate {
     
     var indexPath: NSIndexPath?
     var didSetIsFavoriteTo: ((Bool, NSIndexPath)->Void)?
+    
+    var speakerUrl: NSURL?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -40,13 +42,23 @@ class SpeakerDetailsCell: UITableViewCell, UITextViewDelegate {
     }
     
     var didTapTwitter: (()->Void)?
-    var didTapURL: (()->Void)?
+    var didTapURL: ((NSURL)->Void)?
     
     func actionTapTwitter() {
         didTapTwitter?()
     }
     
     func actionTapURL() {
-        didTapURL?()
+        if let speakerUrl = speakerUrl {
+            didTapURL?(speakerUrl)
+        }
+    }
+}
+
+extension SpeakerDetailsCell: UITextViewDelegate {
+    
+    func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
+        didTapURL?(URL)
+        return false
     }
 }

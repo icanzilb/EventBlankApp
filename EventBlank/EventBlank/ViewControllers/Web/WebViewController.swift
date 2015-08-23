@@ -24,6 +24,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         self.title = initialURL.absoluteString
         
         webView.frame = view.bounds
+        webView.frame.size.height -= tabBarController!.tabBar.frame.size.height
         webView.navigationDelegate = self
         view.insertSubview(webView, belowSubview: loadingIndicator)
         
