@@ -11,6 +11,13 @@ import Haneke
 
 class PhotoPopupView: UIView {
 
+    static func showImage(image: UIImage, inView: UIView) {
+        let popup = PhotoPopupView()
+        inView.addSubview(popup)
+        
+        popup.photo = image
+    }
+
     static func showImageWithUrl(url: NSURL, inView: UIView) {
         let popup = PhotoPopupView()
         inView.addSubview(popup)
@@ -21,6 +28,12 @@ class PhotoPopupView: UIView {
     var photoUrl: NSURL! {
         didSet {
             imgView.hnk_setImageFromURL(photoUrl)
+        }
+    }
+    
+    var photo: UIImage! {
+        didSet {
+            imgView.image = photo
         }
     }
     

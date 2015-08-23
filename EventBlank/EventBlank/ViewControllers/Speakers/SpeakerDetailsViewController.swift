@@ -119,8 +119,19 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 userCtr.lookupUserImage(speaker, completion: {image in
                     dispatch_async(dispatch_get_main_queue(), {
                         cell.userImage.image = image
+                        if let image = image {
+                            cell.didTapPhoto = {
+                                PhotoPopupView.showImage(image, inView: self.view)
+                            }
+                        }
                     })
                 })
+                
+                
+            } else {
+                cell.didTapPhoto = {
+                    PhotoPopupView.showImage(cell.userImage.image!, inView: self.view)
+                }
             }
             
             cell.indexPath = indexPath

@@ -35,6 +35,9 @@ class SpeakerDetailsCell: UITableViewCell {
         bioTextView.delegate = self
         
         btnIsFollowing.addTarget(self, action: "actionFollowSpeaker:", forControlEvents: .TouchUpInside)
+        
+        userImage.userInteractionEnabled = true
+        userImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "didTapPhotoWithRecognizer:"))
     }
     
     @IBAction func actionToggleIsFavorite(sender: AnyObject) {
@@ -64,6 +67,12 @@ class SpeakerDetailsCell: UITableViewCell {
         if btnIsFollowing.followState == .Follow {
             didTapFollow?()
         }
+    }
+    
+    var didTapPhoto: (()->Void)?
+    
+    func didTapPhotoWithRecognizer(tap: UITapGestureRecognizer) {
+        didTapPhoto?()
     }
 }
 
