@@ -26,6 +26,8 @@ class TweetCell: UITableViewCell, UITextViewDelegate {
         }
     }
     
+    var didTapURL: ((NSURL)->Void)?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -87,5 +89,12 @@ extension UITableViewCell {
             
             return table as? UITableView
         }
+    }
+}
+
+extension TweetCell: UITextViewDelegate {    
+    func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
+        didTapURL?(URL)
+        return false
     }
 }

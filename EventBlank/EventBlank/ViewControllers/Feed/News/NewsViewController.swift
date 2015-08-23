@@ -57,6 +57,16 @@ class NewsViewController: TweetListViewController {
             }
         }
 
+        cell.didTapURL = {tappedUrl in
+            if tappedUrl.absoluteString!.hasPrefix("http") {
+                let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
+                webVC.initialURL = tappedUrl
+                self.navigationController!.pushViewController(webVC, animated: true)
+            } else {
+                UIApplication.sharedApplication().openURL(tappedUrl)
+            }
+        }
+        
         return cell
     }
     
