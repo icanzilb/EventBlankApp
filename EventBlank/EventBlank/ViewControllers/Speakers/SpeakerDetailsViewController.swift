@@ -188,6 +188,21 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
         }
     }
     
+    //add some space at the end of the tweet list
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        switch section {
+        case 1: return 50
+        default: return 0
+        }
+    }
+    
+    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        switch section {
+        case 1: return UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+        default: return nil
+        }
+    }
+    
     //MARK: - fetching data
     
     func fetchTweets() {
