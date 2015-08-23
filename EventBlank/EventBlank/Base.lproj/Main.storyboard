@@ -1152,7 +1152,7 @@
                                             <outlet property="userImage" destination="kYK-Bn-L28" id="gaL-ue-3zL"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SpeakerDetailsCell" rowHeight="200" id="r0l-Bt-ljS" customClass="SpeakerDetailsCell" customModule="EventBlank" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SpeakerDetailsCell" rowHeight="220" id="r0l-Bt-ljS" customClass="SpeakerDetailsCell" customModule="EventBlank" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="r0l-Bt-ljS" id="aO8-7g-KwI">
@@ -1213,7 +1213,7 @@
                                                     </connections>
                                                 </button>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yie-x1-NMQ">
-                                                    <rect key="frame" x="9" y="120" width="352" height="61"/>
+                                                    <rect key="frame" x="9" y="120" width="352" height="51"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <attributedString key="attributedText">
                                                         <fragment>
@@ -1227,6 +1227,17 @@
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                     <dataDetectorType key="dataDetectorTypes" link="YES"/>
                                                 </textView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zHS-Z0-Mbw" customClass="FollowTwitterButton" customModule="EventBlank" customModuleProvider="target">
+                                                    <rect key="frame" x="12" y="175" width="144" height="24"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="24" id="LRp-fO-pod"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="144" id="SMF-qC-SAd"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <state key="normal" title="Follow on twitter">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="WR0-rh-t33" firstAttribute="leading" secondItem="9VN-If-P81" secondAttribute="trailing" constant="8" id="5Oj-bG-DQP"/>
@@ -1242,11 +1253,13 @@
                                                 <constraint firstItem="WR0-rh-t33" firstAttribute="top" secondItem="aO8-7g-KwI" secondAttribute="topMargin" constant="3" id="Snu-bg-UR2"/>
                                                 <constraint firstItem="coF-r2-nbD" firstAttribute="leading" secondItem="aO8-7g-KwI" secondAttribute="leadingMargin" constant="1" id="ZYy-dL-UYA"/>
                                                 <constraint firstItem="Yie-x1-NMQ" firstAttribute="leading" secondItem="coF-r2-nbD" secondAttribute="leading" id="aqy-5b-Vsv"/>
+                                                <constraint firstItem="zHS-Z0-Mbw" firstAttribute="top" secondItem="Yie-x1-NMQ" secondAttribute="bottom" constant="4" id="cok-QT-BdJ"/>
                                                 <constraint firstItem="rG2-Wb-dvH" firstAttribute="leading" secondItem="coF-r2-nbD" secondAttribute="trailing" constant="21" id="eCM-N8-xO9"/>
                                                 <constraint firstItem="Tmk-lI-XDY" firstAttribute="top" secondItem="rG2-Wb-dvH" secondAttribute="bottom" constant="9" id="grX-SF-Wh0"/>
                                                 <constraint firstItem="9VN-If-P81" firstAttribute="leading" secondItem="coF-r2-nbD" secondAttribute="trailing" constant="21" id="iGR-Qo-OmF"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="Yie-x1-NMQ" secondAttribute="bottom" constant="10.5" id="l5f-Bl-Nc8"/>
+                                                <constraint firstItem="zHS-Z0-Mbw" firstAttribute="leading" secondItem="Yie-x1-NMQ" secondAttribute="leading" constant="3" id="kBp-OF-n3a"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="Tmk-lI-XDY" secondAttribute="trailing" constant="6" id="qm8-WH-0b9"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="zHS-Z0-Mbw" secondAttribute="bottom" constant="12.5" id="r0K-AW-trk"/>
                                                 <constraint firstItem="9VN-If-P81" firstAttribute="top" secondItem="aO8-7g-KwI" secondAttribute="topMargin" constant="7" id="rcH-83-zLY"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="rG2-Wb-dvH" secondAttribute="trailing" constant="6" id="uJe-D8-tmJ"/>
                                                 <constraint firstItem="Yie-x1-NMQ" firstAttribute="top" secondItem="Tmk-lI-XDY" secondAttribute="bottom" constant="26" id="ul4-9s-sLW"/>
@@ -1260,6 +1273,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="bioTextView" destination="Yie-x1-NMQ" id="8iI-lj-n7r"/>
+                                            <outlet property="btnIsFollowing" destination="zHS-Z0-Mbw" id="BTV-YE-QhO"/>
                                             <outlet property="btnToggleIsFavorite" destination="WR0-rh-t33" id="Tvg-de-hPS"/>
                                             <outlet property="nameLabel" destination="9VN-If-P81" id="3q6-lG-9Ag"/>
                                             <outlet property="twitterLabel" destination="rG2-Wb-dvH" id="l7T-3q-9G4"/>

@@ -67,16 +67,44 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
             
             cell.nameLabel.text = speaker[Speaker.name]
             
-            if let twitter = speaker[Speaker.twitter] {
-                cell.twitterLabel.text = twitter.hasPrefix("@") ? twitter : "@"+twitter
+            if let twitterHandle = speaker[Speaker.twitter] {
+                cell.twitterLabel.text = twitterHandle.hasPrefix("@") ? twitterHandle : "@"+twitterHandle
                 cell.didTapTwitter = {
-                    let twitterUrl = NSURL(string: "https://twitter.com/" + twitter)!
+                    let twitterUrl = NSURL(string: "https://twitter.com/" + twitterHandle)!
                     
                     let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
                     webVC.initialURL = twitterUrl
                     self.navigationController!.pushViewController(webVC, animated: true)
                 }
+                
+                cell.btnIsFollowing.hidden = false
+                cell.btnIsFollowing.username = cell.twitterLabel.text
+                
+                cell.didTapFollow = {
+                    self.twitter.authorize({success in
+                        if success {
+                            self.twitter.followUser(twitterHandle, completion: {following in
+                                cell.btnIsFollowing.followState = following ? .Following : .Follow
+                                cell.btnIsFollowing.animateSelect(scale: 0.8, completion: nil)
+                            })
+                        } else {
+                            cell.btnIsFollowing.hidden = true
+                        }
+                    })
+                }
+                
+                twitter.authorize({success in
+                    if success {
+                        self.twitter.isFollowingUser(twitterHandle, completion: {following in
+                            cell.btnIsFollowing.followState = following ? .Following : .Follow
+                        })
+                    } else {
+                        cell.btnIsFollowing.hidden = true
+                    }
+                })
+                
             } else {
+                cell.btnIsFollowing.hidden = true
                 cell.twitterLabel.text = nil
                 cell.didTapTwitter = nil
             }
@@ -124,7 +152,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 webVC.initialURL = tappedUrl
                 self.navigationController!.pushViewController(webVC, animated: true)
             }
-
+            
             return cell
         }
         

@@ -65,6 +65,7 @@
 		9C6EFA381B3AFF4E00FE7A72 /* MDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EFA371B3AFF4E00FE7A72 /* MDViewController.swift */; };
 		9C8E49511B8A03C900A5FA8D /* eventBlankLogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C8E49501B8A03C900A5FA8D /* eventBlankLogo@2x.png */; };
 		9C8E49581B8A139000A5FA8D /* PhotoPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8E49571B8A139000A5FA8D /* PhotoPopupView.swift */; };
+		9C8E495A1B8A788A00A5FA8D /* FollowTwitterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8E49591B8A788A00A5FA8D /* FollowTwitterButton.swift */; };
 		9C8FCA9A1B40881300EFE8B8 /* Pods-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C8FCA991B40881300EFE8B8 /* Pods-acknowledgements.plist */; };
 		9C8FCAA21B4089FC00EFE8B8 /* CreditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8FCAA11B4089FC00EFE8B8 /* CreditViewController.swift */; };
 		9C8FCAA51B408BE100EFE8B8 /* credits.markdown in Sources */ = {isa = PBXBuildFile; fileRef = 9C8FCAA31B408A0F00EFE8B8 /* credits.markdown */; };
@@ -223,6 +224,7 @@
 		9C6EFA371B3AFF4E00FE7A72 /* MDViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MDViewController.swift; sourceTree = "<group>"; };
 		9C8E49501B8A03C900A5FA8D /* eventBlankLogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "eventBlankLogo@2x.png"; sourceTree = "<group>"; };
 		9C8E49571B8A139000A5FA8D /* PhotoPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPopupView.swift; sourceTree = "<group>"; };
+		9C8E49591B8A788A00A5FA8D /* FollowTwitterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowTwitterButton.swift; sourceTree = "<group>"; };
 		9C8FCA991B40881300EFE8B8 /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Pods-acknowledgements.plist"; path = "Pods/Target Support Files/Pods/Pods-acknowledgements.plist"; sourceTree = "<group>"; };
 		9C8FCAA11B4089FC00EFE8B8 /* CreditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditViewController.swift; sourceTree = "<group>"; };
 		9C8FCAA31B408A0F00EFE8B8 /* credits.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = credits.markdown; sourceTree = "<group>"; };
@@ -673,6 +675,7 @@
 				9CF717EB1B3842BB0093C636 /* SpeakerDetailsViewController.swift */,
 				9C330CAD1B34B18F002A0D1E /* SpeakersViewController.swift */,
 				9CF717E71B3836180093C636 /* SpeakerCell.swift */,
+				9C8E49591B8A788A00A5FA8D /* FollowTwitterButton.swift */,
 			);
 			path = Speakers;
 			sourceTree = "<group>";
@@ -914,6 +917,7 @@
 				9C8FCAA51B408BE100EFE8B8 /* credits.markdown in Sources */,
 				9C10A1081AB188C80052C730 /* Ext.swift in Sources */,
 				9CF717EE1B3844EA0093C636 /* SpeakerDetailsCell.swift in Sources */,
+				9C8E495A1B8A788A00A5FA8D /* FollowTwitterButton.swift in Sources */,
 				9CA0F7261B374C8F0054197F /* WebViewController.swift in Sources */,
 				9C624FEF1B53CDE300C84168 /* OrderedMap.swift in Sources */,
 				9C330CA01B34B14B002A0D1E /* ChatController.swift in Sources */,

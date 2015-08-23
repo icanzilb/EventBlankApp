@@ -17,6 +17,8 @@ class SpeakerDetailsCell: UITableViewCell {
     @IBOutlet weak var btnToggleIsFavorite: UIButton!
     @IBOutlet weak var bioTextView: UITextView!
     
+    @IBOutlet weak var btnIsFollowing: FollowTwitterButton!
+    
     var indexPath: NSIndexPath?
     var didSetIsFavoriteTo: ((Bool, NSIndexPath)->Void)?
     
@@ -31,6 +33,8 @@ class SpeakerDetailsCell: UITableViewCell {
         websiteLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("actionTapURL")))
         
         bioTextView.delegate = self
+        
+        btnIsFollowing.addTarget(self, action: "actionFollowSpeaker:", forControlEvents: .TouchUpInside)
     }
     
     @IBAction func actionToggleIsFavorite(sender: AnyObject) {
@@ -51,6 +55,14 @@ class SpeakerDetailsCell: UITableViewCell {
     func actionTapURL() {
         if let speakerUrl = speakerUrl {
             didTapURL?(speakerUrl)
+        }
+    }
+    
+    var didTapFollow: (()->Void)?
+    
+    @IBAction func actionFollowSpeaker(sender: AnyObject) {
+        if btnIsFollowing.followState == .Follow {
+            didTapFollow?()
         }
     }
 }
