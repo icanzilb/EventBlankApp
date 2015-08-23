@@ -119,6 +119,14 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
             let newSection: ScheduleDaySection = [newSectionTitle: sectionUsers]
             items.append(newSection)
         }
+        
+        if items.count == 0 {
+            tableView.hidden = true
+            view.addSubview(MessageView(text: "You currently have no favorited speakers"))
+        } else {
+            tableView.hidden = false
+            MessageView.removeViewFrom(view)
+        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

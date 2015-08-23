@@ -79,6 +79,7 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         //build schedule sections
         items = Schedule().groupSessionsByStartTime(sessions)
         
+        //show no sessions message
         if items.count == 0 {
             tableView.addSubview(MessageView(text: "No sessions match your current filter"))
         } else {
