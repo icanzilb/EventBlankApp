@@ -31,8 +31,6 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
         super.viewDidLoad()
         println("loaded feed vc view")
         
-        title = "News"
-        
         setupUI()
         
         //notifications
@@ -59,7 +57,7 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
 
         //check if needs to show audience chatter
         if Event.event[Event.twitterChatter] < 1 {
-            tabControl.removeFromSuperview()
+            tabControl.removeSegmentAtIndex(1, animated: false)
         }
     }
     
