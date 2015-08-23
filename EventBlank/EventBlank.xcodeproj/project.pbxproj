@@ -63,6 +63,7 @@
 		9C6CD5111B58F99F00B62C36 /* StatusBarDownloadProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6CD5101B58F99F00B62C36 /* StatusBarDownloadProgressView.swift */; };
 		9C6EFA361B3AFBFC00FE7A72 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EFA351B3AFBFC00FE7A72 /* MoreViewController.swift */; };
 		9C6EFA381B3AFF4E00FE7A72 /* MDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EFA371B3AFF4E00FE7A72 /* MDViewController.swift */; };
+		9C8E49511B8A03C900A5FA8D /* eventBlankLogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C8E49501B8A03C900A5FA8D /* eventBlankLogo@2x.png */; };
 		9C8FCA9A1B40881300EFE8B8 /* Pods-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C8FCA991B40881300EFE8B8 /* Pods-acknowledgements.plist */; };
 		9C8FCAA21B4089FC00EFE8B8 /* CreditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8FCAA11B4089FC00EFE8B8 /* CreditViewController.swift */; };
 		9C8FCAA51B408BE100EFE8B8 /* credits.markdown in Sources */ = {isa = PBXBuildFile; fileRef = 9C8FCAA31B408A0F00EFE8B8 /* credits.markdown */; };
@@ -219,6 +220,7 @@
 		9C6CD5101B58F99F00B62C36 /* StatusBarDownloadProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarDownloadProgressView.swift; sourceTree = "<group>"; };
 		9C6EFA351B3AFBFC00FE7A72 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		9C6EFA371B3AFF4E00FE7A72 /* MDViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MDViewController.swift; sourceTree = "<group>"; };
+		9C8E49501B8A03C900A5FA8D /* eventBlankLogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "eventBlankLogo@2x.png"; sourceTree = "<group>"; };
 		9C8FCA991B40881300EFE8B8 /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Pods-acknowledgements.plist"; path = "Pods/Target Support Files/Pods/Pods-acknowledgements.plist"; sourceTree = "<group>"; };
 		9C8FCAA11B4089FC00EFE8B8 /* CreditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditViewController.swift; sourceTree = "<group>"; };
 		9C8FCAA31B408A0F00EFE8B8 /* credits.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = credits.markdown; sourceTree = "<group>"; };
@@ -385,6 +387,7 @@
 		9C330C731B34AF2C002A0D1E /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				9C8E49501B8A03C900A5FA8D /* eventBlankLogo@2x.png */,
 				9CC44CDE1B36C47D0026564D /* appdata.db */,
 			);
 			path = Assets;
@@ -817,6 +820,7 @@
 				9CAECFCF1B4ED651009F3D2F /* event-data.eventblank in Resources */,
 				9C8FCA9A1B40881300EFE8B8 /* Pods-acknowledgements.plist in Resources */,
 				9C34BB911B5D85FA00C888A6 /* fontawesome.ttf in Resources */,
+				9C8E49511B8A03C900A5FA8D /* eventBlankLogo@2x.png in Resources */,
 				9C06CADE1B34C75C0056CC5F /* NavTabButtonCell.xib in Resources */,
 				9C10A0D81AB186490052C730 /* Images.xcassets in Resources */,
 				9CC44CDF1B36C47D0026564D /* appdata.db in Resources */,
