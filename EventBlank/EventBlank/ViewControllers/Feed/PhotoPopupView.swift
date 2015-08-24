@@ -77,7 +77,6 @@ class PhotoPopupView: UIView {
 
         UIView.animateWithDuration(0.67, delay: 0.0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
             self.imgView.alpha = 1.0
-            spinner.alpha = 0.0
         }, completion: nil)
 
         UIView.animateWithDuration(0.67, delay: 0.0, usingSpringWithDamping: 0.33, initialSpringVelocity: 0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {

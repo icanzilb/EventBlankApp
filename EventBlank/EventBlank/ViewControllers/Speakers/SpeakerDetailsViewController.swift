@@ -98,7 +98,11 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 twitter.authorize({success in
                     if success {
                         self.twitter.isFollowingUser(twitterHandle, completion: {following in
-                            cell.btnIsFollowing.followState = following ? .Following : .Follow
+                            if let following = following {
+                                cell.btnIsFollowing.followState = following ? .Following : .Follow
+                            } else {
+                                cell.btnIsFollowing.hidden = true
+                            }
                         })
                     } else {
                         cell.btnIsFollowing.hidden = true
@@ -216,7 +220,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0: return "Speaker Details"
-        case 1: return "Latest tweets"
+        case 1: return (tweets?.count < 1) ? "No tweets available" : "Latest tweets"
         default: return nil
         }
     }
@@ -260,14 +264,11 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                                 withRowAnimation: .Automatic)
                         })
                     }
-                    
-                    dispatch_async(dispatch_get_main_queue(), {
-                        //self.refreshView.endRefreshing()
-                    })
                 })
             } else {
                 //TODO: no auth - show message?
-                println("auth error")
+                self.tweets = []
+                self.tableView.reloadData()
             }
         })
     }

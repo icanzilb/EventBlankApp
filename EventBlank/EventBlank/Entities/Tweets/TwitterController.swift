@@ -49,6 +49,7 @@ class TwitterController: NSObject {
         request.performRequestWithHandler({responseData, urlResponse, error in
             if let error = error {
                 println("error making request: \(error)")
+                completion([], nil)
                 return
             }
             
@@ -145,7 +146,7 @@ class TwitterController: NSObject {
 
     }
 
-    func isFollowingUser(username: String, completion: (Bool)->Void) {
+    func isFollowingUser(username: String, completion: (Bool?)->Void) {
         let parameters: [String: String] = [
             "target_screen_name": username,
             "source_screen_name": account!.username
@@ -164,6 +165,7 @@ class TwitterController: NSObject {
         request.performRequestWithHandler({responseData, urlResponse, error in
             if let error = error {
                 println("error making request: \(error)")
+                completion(nil)
                 return
             }
             
