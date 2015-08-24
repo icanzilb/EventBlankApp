@@ -74,10 +74,16 @@ class PhotoPopupView: UIView {
         
         imgView.userInteractionEnabled = true
         imgView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "didTapPhoto:"))
-        
-        UIView.animateWithDuration(0.67, delay: 0.0, usingSpringWithDamping: 0.33, initialSpringVelocity: 0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
-            self.imgView.center.y -= ((UIApplication.sharedApplication().windows.first! as! UIWindow).rootViewController as! UITabBarController).tabBar.frame.size.height/2
+
+        UIView.animateWithDuration(0.67, delay: 0.0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
             self.imgView.alpha = 1.0
+            spinner.alpha = 0.0
+        }, completion: nil)
+
+        UIView.animateWithDuration(0.67, delay: 0.0, usingSpringWithDamping: 0.33, initialSpringVelocity: 0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
+            let yDelta = ((UIApplication.sharedApplication().windows.first! as! UIWindow).rootViewController as! UITabBarController).tabBar.frame.size.height/2
+            self.imgView.center.y -= yDelta
+            spinner.center.y -= yDelta
         }, completion: nil)
     }
     
