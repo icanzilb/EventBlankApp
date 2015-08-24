@@ -55,8 +55,12 @@ class PhotoPopupView: UIView {
         
         //spinner
         let spinner = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.WhiteLarge
         spinner.center = center
         spinner.startAnimating()
+        spinner.backgroundColor = UIColor.whiteColor()
+        spinner.layer.masksToBounds = true
+        spinner.layer.cornerRadius = 5
         backdrop.addSubview(spinner)
         
         //add image view
