@@ -153,7 +153,7 @@ class TwitterController: NSObject {
         
         let request = SLRequest(
             forServiceType: SLServiceTypeTwitter,
-            requestMethod: SLRequestMethod.POST,
+            requestMethod: SLRequestMethod.GET,
             URL: NSURL(string: "https://api.twitter.com/1.1/friendships/show.json")!,
             parameters: parameters
         )
@@ -167,9 +167,12 @@ class TwitterController: NSObject {
                 return
             }
             
+            let r = NSJSONSerialization.JSONObjectWithData(responseData, options: nil, error: nil) as? NSDictionary
+            println(r)
+            
             if let result = NSJSONSerialization.JSONObjectWithData(responseData, options: nil, error: nil) as? NSDictionary,
                 let relationship = result["relationship"] as? NSDictionary,
-                let target = relationship["target"] as? NSDictionary,
+                let target = relationship["source"] as? NSDictionary,
                 let following = target["following"] as? Bool where following == true {
 
                 completion(true)

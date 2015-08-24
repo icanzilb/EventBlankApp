@@ -9,7 +9,7 @@
 import UIKit
 
 enum FollowTwitterButtonState {
-    case Checking, Follow, Following
+    case Checking, Follow, SendingRequest, Following
 }
 
 class FollowTwitterButton: UIButton {
@@ -47,6 +47,7 @@ class FollowTwitterButton: UIButton {
         switch state {
             case .Checking: return UIColor.orangeColor()
             case .Follow: return UIColor(red: 0.0, green: 0.75, blue: 0.0, alpha: 1.0)
+            case .SendingRequest: return UIColor.darkGrayColor()
             case .Following: return UIColor.blueColor()
         }
     }
@@ -55,6 +56,7 @@ class FollowTwitterButton: UIButton {
         switch state {
         case .Checking: return "Checking if following..."
         case .Follow: return "  Follow \(username) on twitter "
+        case .SendingRequest: return "Sending request..."
         case .Following: return "  Following \(username)  "
         }
     }

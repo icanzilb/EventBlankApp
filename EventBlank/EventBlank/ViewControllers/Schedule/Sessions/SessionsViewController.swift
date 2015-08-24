@@ -17,9 +17,9 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
 
     var day: ScheduleDay! //set from container VC
     var items = [ScheduleDaySection]()
+
     var favorites = [Int]()
-    
-    var speakerFavorites = Favorite.allSpeakerFavoriteIDs()
+    var speakerFavorites = [Int]()
     
     var delegate: SessionViewControllerDelegate! //set from previous VC
     
@@ -49,7 +49,7 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         loadItems()
         
         observeNotification(kFavoritesToggledNotification, selector: "didToggleFavorites")
-        observeNotification(kFavoritesChangedNotification, selector: "didToggleFavorites")
+        observeNotification(kFavoritesChangedNotification, selector: "didChangeFavorites")
     }
     
     deinit {
@@ -61,6 +61,7 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         
         //load favorites
         favorites = Favorite.allSessionFavoritesIDs()
+        speakerFavorites = Favorite.allSpeakerFavoriteIDs()
         
         //load sessions
         var sessions = database[SessionConfig.tableName]
@@ -172,4 +173,12 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
             self.tableView.reloadData()
             }, completion: nil)
     }
+
+    func didChangeFavorites() {
+        loadItems()
+        UIView.transitionWithView(tableView, duration: 0.35, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
+            self.tableView.reloadData()
+            }, completion: nil)
+    }
+
 }

@@ -83,6 +83,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 cell.didTapFollow = {
                     self.twitter.authorize({success in
                         if success {
+                            cell.btnIsFollowing.followState = .SendingRequest
                             self.twitter.followUser(twitterHandle, completion: {following in
                                 cell.btnIsFollowing.followState = following ? .Following : .Follow
                                 cell.btnIsFollowing.animateSelect(scale: 0.8, completion: nil)
@@ -93,6 +94,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                     })
                 }
                 
+                //check if already following speaker
                 twitter.authorize({success in
                     if success {
                         self.twitter.isFollowingUser(twitterHandle, completion: {following in
