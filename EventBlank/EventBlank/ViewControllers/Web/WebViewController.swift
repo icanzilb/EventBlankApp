@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+import Reachability
 
 //TODO: check the safari vc in iOS9 if iOS9 adoption rate is real high
 
@@ -38,12 +39,10 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        let request = NSURLRequest(URL: initialURL!)
-        webView.loadRequest(request)
-        setLoadingIndicatorAnimating(true)
-        
         //observe the progress
         webView.addObserver(self, forKeyPath: "estimatedProgress", options: .New, context: nil)
+
+        loadInitialURL()
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -54,6 +53,28 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         webView.removeObserver(self, forKeyPath: "estimatedProgress")
         
         loadingIndicator.removeFromSuperview()
+    }
+    
+    func loadInitialURL() {
+        //not connected message
+        let reach = Reachability(hostName: initialURL!.host)
+        if !reach.isReachable() {
+            //show the message
+            view.addSubview(MessageView(text: "It certainly looks like you are not connected to the Internet right now..."))
+            
+            //show a reload button
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "loadInitialURL")
+            
+            return
+        }
+
+        MessageView.removeViewFrom(view)
+        navigationItem.rightBarButtonItem = nil
+        
+        //load the target url
+        let request = NSURLRequest(URL: initialURL!)
+        webView.loadRequest(request)
+        setLoadingIndicatorAnimating(true)
     }
     
     func setLoadingIndicatorAnimating(animating: Bool) {

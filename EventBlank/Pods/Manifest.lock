@@ -4,6 +4,7 @@ PODS:
   - HanekeSwift (0.9.1)
   - JSImagePickerController (0.6.1)
   - MAThemeKit (1.0)
+  - Reachability (3.2)
   - SQLite.swift (0.1.0.pre):
     - SQLite.swift/Library (= 0.1.0.pre)
   - SQLite.swift/Core (0.1.0.pre)
@@ -21,6 +22,7 @@ DEPENDENCIES:
   - JSImagePickerController (from `https://github.com/icanzilb/JSImagePickerController.git`,
     tag `0.6.1`)
   - MAThemeKit
+  - Reachability
   - SQLite.swift (from `https://github.com/stephencelis/SQLite.swift.git`)
   - SwiftSpinner
   - TaskQueue
@@ -48,6 +50,7 @@ SPEC CHECKSUMS:
   HanekeSwift: 50d37bfbc4432edc649167e538c259feccb4a2bb
   JSImagePickerController: 7a00f1ba272e7ea58e3cf1495b275f40885d000a
   MAThemeKit: 559acc98ceadc051cccb1b6bb0c4ca28475eb021
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SQLite.swift: 6e05cc2b8efb0e91911e9cfb93551dd682b25843
   SwiftSpinner: 034bb8b00675b3e4f4c97531fa9af3f550462192
   TaskQueue: 86cea1f6cb37b77a85bd826b564e9b387faadce4

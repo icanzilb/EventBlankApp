@@ -37,7 +37,7 @@ class MessageView: UIView {
             }
         }
         
-        frame = newSuperview!.bounds
+        frame = CGRectInset(newSuperview!.bounds, 16, 0)
         label.frame = bounds
     }
     
