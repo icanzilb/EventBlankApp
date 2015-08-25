@@ -53,6 +53,9 @@ class CreditViewController: UIViewController, UIWebViewDelegate {
         //resources links
         fullPage = fullPage.stringByReplacingOccurrencesOfString("resources://", withString: NSBundle.mainBundle().resourceURL!.absoluteString!)
 
+        //footer
+        fullPage += "<div style='height: 45px;'>&nbsp;</div>"
+        
         //load html in webview
         let resourcesURL = NSBundle.mainBundle().resourceURL!
         webView.loadHTMLString(fullPage, baseURL: resourcesURL)

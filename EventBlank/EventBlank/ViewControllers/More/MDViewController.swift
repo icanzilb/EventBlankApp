@@ -49,11 +49,13 @@ class MDViewController: UIViewController, UIWebViewDelegate {
         fullPage = fullPage.stringByReplacingOccurrencesOfString("%headingColor%", withString: event[Event.mainColor])
         let linkColor = UIColor(hexString: event[Event.mainColor])
         fullPage = fullPage.stringByReplacingOccurrencesOfString("%linkColor%", withString: linkColor.toHexString())
-                
+        
+        fullPage += "<div style='height: 45px;'>&nbsp;</div>" //who came up with this stupidity to extend content under bars???
+        
         //load html in webview
         let resourcesURL = NSBundle.mainBundle().resourceURL!
         webView.loadHTMLString(fullPage, baseURL: resourcesURL)
-        println(fullPage)
+//        println(fullPage)
     }
     
     //MARK: - web view methods
