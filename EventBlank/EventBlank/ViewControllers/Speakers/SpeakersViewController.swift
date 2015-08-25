@@ -164,9 +164,7 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         if row[Speaker.photo]?.imageValue == nil {
             
             userCtr.lookupUserImage(row, completion: {image in
-                dispatch_async(dispatch_get_main_queue(), {
-                    cell.imageView?.image = image
-                })
+                mainQueue { cell.imageView?.image = image }
             })
             
         }

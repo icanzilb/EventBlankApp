@@ -29,9 +29,7 @@ class UpdateManager: NSObject {
         fileBinder.refreshRate = updateCheckInterval
 
         fileBinder.addAction(willDownloadFile: {info, result in
-            dispatch_async(dispatch_get_main_queue(), {
-                self.askUserAboutDownloadingUpdate(info, result: result)
-            })
+            mainQueue { self.askUserAboutDownloadingUpdate(info, result: result) }
         }, withKey: nil)
 
         //create the update view
@@ -43,7 +41,7 @@ class UpdateManager: NSObject {
         barView.backgroundColor = primaryColor
 
         fileBinder.downloadHandlerWithProgress = {progress in
-            dispatch_async(dispatch_get_main_queue(), {
+            mainQueue {
                 switch progress {
                 case 0.0:
                     self.statusBarNotification.displayNotificationWithView(barView, completion: nil)
@@ -58,7 +56,7 @@ class UpdateManager: NSObject {
                     //show the current progress
                     barView.setProgress(progress, text: String(format: "%.0f%% of the update downloaded", progress * 100.0))
                 }
-            })
+            }
         }
         
         if autostart {

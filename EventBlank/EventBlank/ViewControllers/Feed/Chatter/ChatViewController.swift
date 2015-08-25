@@ -74,7 +74,7 @@ class ChatViewController: TweetListViewController {
     override func loadTweets() {
         tweets = self.chatCtr.allMessages()
         
-        dispatch_async(dispatch_get_main_queue(), {
+        mainQueue {
             self.tableView.reloadData()
             
             if self.tweets.count == 0 {
@@ -82,7 +82,7 @@ class ChatViewController: TweetListViewController {
             } else {
                 MessageView.removeViewFrom(self.tableView)
             }
-        })
+        }
     }
     
     override func fetchTweets() {
@@ -119,9 +119,7 @@ class ChatViewController: TweetListViewController {
             }
             
             //hide the spinner
-            dispatch_async(dispatch_get_main_queue(), {
-                self.refreshView.endRefreshing()
-            })
+            mainQueue { self.refreshView.endRefreshing() }
         })
     }
     

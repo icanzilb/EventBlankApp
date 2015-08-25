@@ -16,9 +16,7 @@ class FollowTwitterButton: UIButton {
 
     var followState: FollowTwitterButtonState = .Checking {
         didSet {
-            dispatch_async(dispatch_get_main_queue(), {
-                self.refreshUI()
-            })
+            mainQueue { self.refreshUI() }
         }
     }
     var username: String!

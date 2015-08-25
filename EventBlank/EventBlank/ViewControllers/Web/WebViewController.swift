@@ -80,7 +80,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
 
                 }, completion: {_ in
                     if self.webView.estimatedProgress > 0.95 {
-                        dispatch_async(dispatch_get_main_queue(), {
+                        mainQueue {
                             //hide the loading indicator
                             UIView.animateWithDuration(0.2, animations: {
                                 self.loadingIndicator.backgroundColor = UIColor(red: 0.0, green: 1.0, blue: 1.0, alpha: 0.15)
@@ -89,7 +89,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
                                 self.loadingIndicator.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 0.15)
                             })
                             
-                        })
+                        }
                     }
             })
             

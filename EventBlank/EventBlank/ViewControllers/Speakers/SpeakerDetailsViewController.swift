@@ -101,18 +101,19 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                             if let following = following {
                                 cell.btnIsFollowing.followState = following ? .Following : .Follow
                             } else {
-                                cell.btnIsFollowing.hidden = true
+                                mainQueue { cell.btnIsFollowing.hidden = true }
                             }
                         })
                     } else {
-                        cell.btnIsFollowing.hidden = true
+                        mainQueue { cell.btnIsFollowing.hidden = true }
                     }
                 })
-                
             } else {
-                cell.btnIsFollowing.hidden = true
-                cell.twitterLabel.text = nil
-                cell.didTapTwitter = nil
+                mainQueue {
+                    cell.btnIsFollowing.hidden = true
+                    cell.twitterLabel.text = nil
+                    cell.didTapTwitter = nil
+                }
             }
 
             cell.websiteLabel.text = speaker[Speaker.url]
@@ -123,14 +124,14 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
             if speaker[Speaker.photo]?.imageValue == nil {
                 
                 userCtr.lookupUserImage(speaker, completion: {image in
-                    dispatch_async(dispatch_get_main_queue(), {
+                    mainQueue {
                         cell.userImage.image = image
                         if let image = image {
                             cell.didTapPhoto = {
                                 PhotoPopupView.showImage(image, inView: self.view)
                             }
                         }
-                    })
+                    }
                 })
                 
                 
@@ -259,10 +260,10 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                         self.didFetchTweets(tweetList)
                     } else {
                         self.tweets = []
-                        dispatch_async(dispatch_get_main_queue(), {
+                        mainQueue {
                             self.tableView.reloadSections(NSIndexSet(index: 1),
                                 withRowAnimation: .Automatic)
-                        })
+                        }
                     }
                 })
             } else {
@@ -292,9 +293,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 
                 self.twitter.getImageWithUrl(imageUrl, completion: {image in
                     //update table cell
-                    dispatch_async(dispatch_get_main_queue(), {
-                        cell.userImage.image = image
-                    })
+                    mainQueue { cell.userImage.image = image }
                 })
         }
     }

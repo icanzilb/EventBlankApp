@@ -75,7 +75,7 @@ class NewsViewController: TweetListViewController {
         tweets = self.newsCtr.allNews()
         
         //reload table
-        dispatch_async(dispatch_get_main_queue(), {
+        mainQueue {
             self.tableView.reloadData()
             
             if self.tweets.count == 0 {
@@ -83,7 +83,7 @@ class NewsViewController: TweetListViewController {
             } else {
                 MessageView.removeViewFrom(self.tableView)
             }
-        })
+        }
     }
 
     override func fetchTweets() {
@@ -104,10 +104,7 @@ class NewsViewController: TweetListViewController {
                 })
             }
             
-            dispatch_async(dispatch_get_main_queue(), {
-                //hide the spinner
-                self.refreshView.endRefreshing()
-            })
+            mainQueue { self.refreshView.endRefreshing() }
         })
     }
 }
