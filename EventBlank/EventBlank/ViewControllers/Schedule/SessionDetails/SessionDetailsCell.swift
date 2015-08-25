@@ -33,6 +33,9 @@ class SessionDetailsCell: UITableViewCell, UITextViewDelegate {
         websiteLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("actionTapURL")))
         
         descriptionTextView.delegate = self
+        
+        userImage.userInteractionEnabled = true
+        userImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "didTapPhotoWithRecognizer:"))
     }
 
     @IBAction func actionToggleIsFavorite(sender: AnyObject) {
@@ -55,6 +58,12 @@ class SessionDetailsCell: UITableViewCell, UITextViewDelegate {
         if let speakerUrl = speakerUrl {
             didTapURL?(speakerUrl)
         }
+    }
+    
+    var didTapPhoto: (()->Void)?
+    
+    func didTapPhotoWithRecognizer(tap: UITapGestureRecognizer) {
+        didTapPhoto?()
     }
 }
 

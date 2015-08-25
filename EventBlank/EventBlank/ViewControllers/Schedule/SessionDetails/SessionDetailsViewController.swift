@@ -85,7 +85,13 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
             cell.websiteLabel.text = session[Speaker.url]
             cell.btnToggleIsFavorite.selected = find(favorites, session[Session.idColumn]) != nil
             cell.descriptionTextView.text = session[Session.description]
+            
             cell.userImage.image = session[Speaker.photo]?.imageValue ?? UIImage(named: "empty")
+            if session[Speaker.photo]?.imageValue != nil {
+                cell.didTapPhoto = {
+                    PhotoPopupView.showImage(cell.userImage.image!, inView: self.view)
+                }
+            }
             
             cell.indexPath = indexPath
             cell.didSetIsFavoriteTo = {setIsFavorite, indexPath in
