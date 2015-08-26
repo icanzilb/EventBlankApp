@@ -112,7 +112,9 @@ class ScheduleViewController: XLButtonBarPagerTabStripViewController, XLPagerTab
 
     func actionToggleFavorites(sender: AnyObject) {
         btnFavorites.selected = !btnFavorites.selected
-        notification(kFavoritesToggledNotification, object: nil)
+        btnFavorites.animateSelect(scale: 0.8, completion: {
+            self.notification(kFavoritesToggledNotification, object: nil)
+        })
     }
     
     //MARK: - session view controller methods

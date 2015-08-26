@@ -1,0 +1,1 @@
+DYNAMICCOLOR_OTHER_LDFLAGS = -framework "UIKit"

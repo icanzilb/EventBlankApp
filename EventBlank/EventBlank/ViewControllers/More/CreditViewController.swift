@@ -50,6 +50,12 @@ class CreditViewController: UIViewController, UIWebViewDelegate {
         let linkColor = UIColor(hexString: event[Event.mainColor])
         fullPage = fullPage.stringByReplacingOccurrencesOfString("%linkColor%", withString: linkColor.toHexString())
         
+        //resources links
+        fullPage = fullPage.stringByReplacingOccurrencesOfString("resources://", withString: NSBundle.mainBundle().resourceURL!.absoluteString!)
+
+        //footer
+        fullPage += "<div style='height: 45px;'>&nbsp;</div>"
+        
         //load html in webview
         let resourcesURL = NSBundle.mainBundle().resourceURL!
         webView.loadHTMLString(fullPage, baseURL: resourcesURL)
@@ -57,9 +63,8 @@ class CreditViewController: UIViewController, UIWebViewDelegate {
     
     //MARK: - web view methods
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        
-        if navigationType == UIWebViewNavigationType.LinkClicked {
-            let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
+        if navigationType == UIWebViewNavigationType.LinkClicked && request.URL!.absoluteString!.hasPrefix("http") {
+            let webVC = self.navigationController!.storyboard!.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
             webVC.initialURL = request.URL
             self.navigationController!.pushViewController(webVC, animated: true)
             return false

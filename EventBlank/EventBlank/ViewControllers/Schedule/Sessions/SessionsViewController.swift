@@ -17,7 +17,9 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
 
     var day: ScheduleDay! //set from container VC
     var items = [ScheduleDaySection]()
+
     var favorites = [Int]()
+    var speakerFavorites = [Int]()
     
     var delegate: SessionViewControllerDelegate! //set from previous VC
     
@@ -42,10 +44,12 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         loadItems()
         
         observeNotification(kFavoritesToggledNotification, selector: "didToggleFavorites")
-        observeNotification(kFavoritesChangedNotification, selector: "didToggleFavorites")
+        observeNotification(kFavoritesChangedNotification, selector: "didChangeFavorites")
     }
     
     deinit {
@@ -57,6 +61,7 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         
         //load favorites
         favorites = Favorite.allSessionFavoritesIDs()
+        speakerFavorites = Favorite.allSpeakerFavoriteIDs()
         
         //load sessions
         var sessions = database[SessionConfig.tableName]
@@ -70,13 +75,15 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         //filter sessions
         if delegate.isFavoritesFilterOn() {
             sessions = sessions.filter({ session in
-                return find(self.favorites, session[Session.idColumn]) != nil
+                return find(self.favorites, session[Session.idColumn]) != nil ||
+                    (find(self.speakerFavorites, session[Speaker.idColumn]) != nil)
             })
         }
         
         //build schedule sections
         items = Schedule().groupSessionsByStartTime(sessions)
         
+        //show no sessions message
         if items.count == 0 {
             tableView.addSubview(MessageView(text: "No sessions match your current filter"))
         } else {
@@ -115,13 +122,15 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         cell.titleLabel.text = session[Session.title]        
         cell.speakerLabel.text = session[Speaker.name]
         cell.trackLabel.text = session[Track.track]
-        cell.timeLabel.text = dateFormatter.stringFromDate(
-            NSDate(timeIntervalSince1970: Double(session[Session.beginTime]))
-        )
+
+        let sessionDate = NSDate(timeIntervalSince1970: Double(session[Session.beginTime]))
+        cell.timeLabel.text = dateFormatter.stringFromDate(sessionDate)
+        
         cell.speakerImageView.image = session[Speaker.photo]?.imageValue
         cell.locationLabel.text = session[Location.name]
         
         cell.btnToggleIsFavorite.selected = (find(favorites, session[Session.idColumn]) != nil)
+        cell.btnSpeakerIsFavorite.selected = (find(speakerFavorites, session[Speaker.idColumn]) != nil)
         
         cell.indexPath = indexPath
         cell.didSetIsFavoriteTo = {setIsFavorite, indexPath in
@@ -138,7 +147,18 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         //theme
         cell.titleLabel.textColor = UIColor(hexString: event[Event.mainColor])
         cell.trackLabel.textColor = UIColor(hexString: event[Event.mainColor]).lightenColor(0.1).desaturatedColor()
+        cell.speakerLabel.textColor = UIColor.blackColor()
+        cell.locationLabel.textColor = UIColor.blackColor()
         
+        //check if in the past
+        if NSDate().isLaterThanDate(sessionDate) {
+            println("\(sessionDate) is in the past")
+            cell.titleLabel.textColor = cell.titleLabel.textColor.desaturateColor(0.5).lighterColor()
+            cell.trackLabel.textColor = cell.titleLabel.textColor
+            cell.speakerLabel.textColor = UIColor.grayColor()
+            cell.locationLabel.textColor = UIColor.grayColor()
+        }
+
         return cell
     }
 
@@ -153,9 +173,40 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         lastSelectedSession = nil
     }
     
+    var currentSectionIndex: Int? = nil
+    
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let section = items[section]
-        return section.keys.first!
+        //this section
+        let nowSection = items[section]
+        var nowSectionTitle = nowSection.keys.first!
+        let nowSession = nowSection.values.first!.first!
+        let nowSessionStartTime = nowSession[Session.beginTime]
+        
+        if currentSectionIndex == section - 1 {
+            //next upcoming session
+            return nowSectionTitle + " (coming up next)"
+        }
+        
+        //next section
+        if items.count > section+1 {
+            
+            let nextSection = items[section+1]
+            let nextSession = nextSection.values.first!.first!
+            let nextSessionStartTime = nextSession[Session.beginTime]
+            
+            let rightNow = NSDate().timeIntervalSince1970
+            
+            if Double(nowSessionStartTime) < rightNow && rightNow < Double(nextSessionStartTime) {
+                //current session
+                currentSectionIndex = section
+                return nowSectionTitle + " (LIVE now)"
+            }
+        } else {
+            //reset the current section index
+            currentSectionIndex = nil
+        }
+        
+        return nowSectionTitle
     }
     
     // MARK: - notifications
@@ -165,4 +216,12 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
             self.tableView.reloadData()
             }, completion: nil)
     }
+
+    func didChangeFavorites() {
+        loadItems()
+        UIView.transitionWithView(tableView, duration: 0.35, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
+            self.tableView.reloadData()
+            }, completion: nil)
+    }
+
 }

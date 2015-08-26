@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SpeakerDetailsCell: UITableViewCell, UITextViewDelegate {
+class SpeakerDetailsCell: UITableViewCell {
     
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -17,8 +17,12 @@ class SpeakerDetailsCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var btnToggleIsFavorite: UIButton!
     @IBOutlet weak var bioTextView: UITextView!
     
+    @IBOutlet weak var btnIsFollowing: FollowTwitterButton!
+    
     var indexPath: NSIndexPath?
     var didSetIsFavoriteTo: ((Bool, NSIndexPath)->Void)?
+    
+    var speakerUrl: NSURL?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,22 +33,53 @@ class SpeakerDetailsCell: UITableViewCell, UITextViewDelegate {
         websiteLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("actionTapURL")))
         
         bioTextView.delegate = self
+        
+        btnIsFollowing.addTarget(self, action: "actionFollowSpeaker:", forControlEvents: .TouchUpInside)
+        
+        userImage.userInteractionEnabled = true
+        userImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "didTapPhotoWithRecognizer:"))
     }
     
     @IBAction func actionToggleIsFavorite(sender: AnyObject) {
         btnToggleIsFavorite.selected = !btnToggleIsFavorite.selected
-        didSetIsFavoriteTo!(btnToggleIsFavorite.selected, indexPath!)
+        btnToggleIsFavorite.animateSelect(scale: 0.8, completion: {
+            self.didSetIsFavoriteTo!(self.btnToggleIsFavorite.selected, self.indexPath!)
+        })
         return
     }
     
     var didTapTwitter: (()->Void)?
-    var didTapURL: (()->Void)?
+    var didTapURL: ((NSURL)->Void)?
     
     func actionTapTwitter() {
         didTapTwitter?()
     }
     
     func actionTapURL() {
-        didTapURL?()
+        if let speakerUrl = speakerUrl {
+            didTapURL?(speakerUrl)
+        }
+    }
+    
+    var didTapFollow: (()->Void)?
+    
+    @IBAction func actionFollowSpeaker(sender: AnyObject) {
+        if btnIsFollowing.followState == .Follow {
+            didTapFollow?()
+        }
+    }
+    
+    var didTapPhoto: (()->Void)?
+    
+    func didTapPhotoWithRecognizer(tap: UITapGestureRecognizer) {
+        didTapPhoto?()
+    }
+}
+
+extension SpeakerDetailsCell: UITextViewDelegate {
+    
+    func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
+        didTapURL?(URL)
+        return false
     }
 }

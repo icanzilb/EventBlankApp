@@ -35,6 +35,7 @@ struct TweetModel {
         }
         
         var imageUrl: NSURL? = nil
+
         if let media = entities["media"] as? NSArray,
             let photoDict = media.filteredArrayUsingPredicate(NSPredicate(format: "type == 'photo'", argumentArray: [])).first as? NSDictionary,
             let urlValue = photoDict["media_url"] as? String {

@@ -17,6 +17,14 @@ class NewsViewController: TweetListViewController {
     let newsCtr = NewsController()
     let userCtr = UserController()
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if Event.event[Event.twitterChatter] < 1 {
+            navigationItem.rightBarButtonItem = nil
+        }
+    }
+    
     // MARK: table view methods
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
@@ -35,9 +43,7 @@ class NewsViewController: TweetListViewController {
         if let attachmentUrlString = tweet[News.imageUrl], let attachmentUrl = NSURL(string: attachmentUrlString) {
             cell.attachmentImage.hnk_setImageFromURL(attachmentUrl)
             cell.didTapAttachment = {
-                let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
-                webVC.initialURL = attachmentUrl
-                self.navigationController!.pushViewController(webVC, animated: true)
+                PhotoPopupView.showImageWithUrl(attachmentUrl, inView: self.view)
             }
             cell.attachmentHeight.constant = 148.0
         }
@@ -49,6 +55,16 @@ class NewsViewController: TweetListViewController {
             }
         }
 
+        cell.didTapURL = {tappedUrl in
+            if tappedUrl.absoluteString!.hasPrefix("http") {
+                let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
+                webVC.initialURL = tappedUrl
+                self.navigationController!.pushViewController(webVC, animated: true)
+            } else {
+                UIApplication.sharedApplication().openURL(tappedUrl)
+            }
+        }
+        
         return cell
     }
     
@@ -59,7 +75,7 @@ class NewsViewController: TweetListViewController {
         tweets = self.newsCtr.allNews()
         
         //reload table
-        dispatch_async(dispatch_get_main_queue(), {
+        mainQueue {
             self.tableView.reloadData()
             
             if self.tweets.count == 0 {
@@ -67,7 +83,7 @@ class NewsViewController: TweetListViewController {
             } else {
                 MessageView.removeViewFrom(self.tableView)
             }
-        })
+        }
     }
 
     override func fetchTweets() {
@@ -88,10 +104,7 @@ class NewsViewController: TweetListViewController {
                 })
             }
             
-            dispatch_async(dispatch_get_main_queue(), {
-                //hide the spinner
-                self.refreshView.endRefreshing()
-            })
+            mainQueue { self.refreshView.endRefreshing() }
         })
     }
 }

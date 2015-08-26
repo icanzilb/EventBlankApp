@@ -22,7 +22,6 @@
 
 import UIKit
 import QuartzCore
-import EasyAnimation
 
 // MARK: Refresh View Delegate Protocol
 protocol RefreshViewDelegate {

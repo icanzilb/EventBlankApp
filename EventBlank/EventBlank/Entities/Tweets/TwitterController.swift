@@ -49,6 +49,7 @@ class TwitterController: NSObject {
         request.performRequestWithHandler({responseData, urlResponse, error in
             if let error = error {
                 println("error making request: \(error)")
+                completion([], nil)
                 return
             }
             
@@ -145,4 +146,76 @@ class TwitterController: NSObject {
 
     }
 
+    func isFollowingUser(username: String, completion: (Bool?)->Void) {
+        let parameters: [String: String] = [
+            "target_screen_name": username,
+            "source_screen_name": account!.username
+        ]
+        
+        let request = SLRequest(
+            forServiceType: SLServiceTypeTwitter,
+            requestMethod: SLRequestMethod.GET,
+            URL: NSURL(string: "https://api.twitter.com/1.1/friendships/show.json")!,
+            parameters: parameters
+        )
+        
+        println(request.URL.absoluteString)
+        
+        request.account = account
+        request.performRequestWithHandler({responseData, urlResponse, error in
+            if let error = error {
+                println("error making request: \(error)")
+                completion(nil)
+                return
+            }
+            
+            let r = NSJSONSerialization.JSONObjectWithData(responseData, options: nil, error: nil) as? NSDictionary
+            println(r)
+            
+            if let result = NSJSONSerialization.JSONObjectWithData(responseData, options: nil, error: nil) as? NSDictionary,
+                let relationship = result["relationship"] as? NSDictionary,
+                let target = relationship["source"] as? NSDictionary,
+                let following = target["following"] as? Bool where following == true {
+
+                completion(true)
+            } else {
+                //add throw for Swift 2.0
+                completion(false)
+            }
+        })
+
+    }
+    
+    func followUser(username: String, completion: (Bool)->Void) {
+        let parameters: [String: String] = [
+            "screen_name": username,
+            "follow": "1"
+        ]
+        
+        let request = SLRequest(
+            forServiceType: SLServiceTypeTwitter,
+            requestMethod: SLRequestMethod.POST,
+            URL: NSURL(string: "https://api.twitter.com/1.1/friendships/create.json")!,
+            parameters: parameters
+        )
+        
+        println(request.URL.absoluteString)
+        
+        request.account = account
+        request.performRequestWithHandler({responseData, urlResponse, error in
+            if let error = error {
+                println("error making request: \(error)")
+                return
+            }
+            
+            if let result = NSJSONSerialization.JSONObjectWithData(responseData, options: nil, error: nil) as? NSDictionary {
+                println(result)
+                completion(true)
+            } else {
+                //add throw for Swift 2.0
+                completion(false)
+            }
+        })
+    }
+    
 }

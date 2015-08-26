@@ -121,9 +121,7 @@ class MoreViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func didChangePendingUpdate() {
-        dispatch_async(dispatch_get_main_queue(), {
-            self.tableView.reloadData()
-        })
+        mainQueue { self.tableView.reloadData() }
     }
     
 }

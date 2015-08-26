@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+import Reachability
 
 //TODO: check the safari vc in iOS9 if iOS9 adoption rate is real high
 
@@ -24,6 +25,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         self.title = initialURL.absoluteString
         
         webView.frame = view.bounds
+        webView.frame.size.height -= ((UIApplication.sharedApplication().windows.first! as! UIWindow).rootViewController! as! UITabBarController).tabBar.frame.size.height
         webView.navigationDelegate = self
         view.insertSubview(webView, belowSubview: loadingIndicator)
         
@@ -37,12 +39,10 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        let request = NSURLRequest(URL: initialURL!)
-        webView.loadRequest(request)
-        setLoadingIndicatorAnimating(true)
-        
         //observe the progress
         webView.addObserver(self, forKeyPath: "estimatedProgress", options: .New, context: nil)
+
+        loadInitialURL()
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -51,6 +51,30 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         //remove observer
         webView.stopLoading()
         webView.removeObserver(self, forKeyPath: "estimatedProgress")
+        
+        loadingIndicator.removeFromSuperview()
+    }
+    
+    func loadInitialURL() {
+        //not connected message
+        let reach = Reachability(hostName: initialURL!.host)
+        if !reach.isReachable() {
+            //show the message
+            view.addSubview(MessageView(text: "It certainly looks like you are not connected to the Internet right now..."))
+            
+            //show a reload button
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "loadInitialURL")
+            
+            return
+        }
+
+        MessageView.removeViewFrom(view)
+        navigationItem.rightBarButtonItem = nil
+        
+        //load the target url
+        let request = NSURLRequest(URL: initialURL!)
+        webView.loadRequest(request)
+        setLoadingIndicatorAnimating(true)
     }
     
     func setLoadingIndicatorAnimating(animating: Bool) {
@@ -77,7 +101,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
 
                 }, completion: {_ in
                     if self.webView.estimatedProgress > 0.95 {
-                        dispatch_async(dispatch_get_main_queue(), {
+                        mainQueue {
                             //hide the loading indicator
                             UIView.animateWithDuration(0.2, animations: {
                                 self.loadingIndicator.backgroundColor = UIColor(red: 0.0, green: 1.0, blue: 1.0, alpha: 0.15)
@@ -86,7 +110,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
                                 self.loadingIndicator.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 0.15)
                             })
                             
-                        })
+                        }
                     }
             })
             

@@ -9,10 +9,14 @@
 import Foundation
 import UIKit
 
-func delay(#seconds: Double, completion:()->()) {
+func delay(#seconds: Double, completion:()->Void) {
     let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC) * seconds ))
     
     dispatch_after(popTime, dispatch_get_main_queue()) {
         completion()
     }
+}
+
+func mainQueue(block: ()->Void) {
+    dispatch_async(dispatch_get_main_queue(), block)
 }

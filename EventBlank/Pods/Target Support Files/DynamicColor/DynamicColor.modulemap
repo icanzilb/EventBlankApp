@@ -1,0 +1,6 @@
+framework module DynamicColor {
+  umbrella header "DynamicColor-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -21,8 +21,11 @@ struct UserModel {
         let idUser = Int64((obj["id"] as! NSNumber).integerValue)
         let username = obj["screen_name"] as! String
         let name = obj["name"] as! String
-        let imageUrl = NSURL(string: obj["profile_image_url"] as! String)!
         
+        let photoUrlString = (obj["profile_image_url"] as! String).stringByReplacingOccurrencesOfString("_normal.",
+            withString: "_bigger.", options: nil, range: nil)
+        let imageUrl = NSURL(string: photoUrlString)!
+
         return UserModel(idUser: idUser, name: name, username: username, imageUrl: imageUrl)
     }
 }

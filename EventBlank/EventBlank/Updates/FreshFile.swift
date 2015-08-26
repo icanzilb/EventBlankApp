@@ -130,7 +130,7 @@ class FreshFile: NSObject, Printable, NSURLSessionDownloadDelegate {
                     
                 println("compare local \(self.currentEtag) to \(newEtag)")
                 
-                if newEtag  != self.currentEtag {
+                if false && newEtag  != self.currentEtag {
                     //there is a newer file!
                     println("remote file is newer")
                     

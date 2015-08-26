@@ -67,14 +67,53 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
             
             cell.nameLabel.text = speaker[Speaker.name]
             
-            if let twitter = speaker[Speaker.twitter] {
-                cell.twitterLabel.text = twitter.hasPrefix("@") ? twitter : "@"+twitter
+            if let twitterHandle = speaker[Speaker.twitter] {
+                cell.twitterLabel.text = twitterHandle.hasPrefix("@") ? twitterHandle : "@"+twitterHandle
                 cell.didTapTwitter = {
-                    UIApplication.sharedApplication().openURL(NSURL(string: "https://twitter.com/" + twitter)!)
+                    let twitterUrl = NSURL(string: "https://twitter.com/" + twitterHandle)!
+                    
+                    let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
+                    webVC.initialURL = twitterUrl
+                    self.navigationController!.pushViewController(webVC, animated: true)
                 }
+                
+                cell.btnIsFollowing.hidden = false
+                cell.btnIsFollowing.username = cell.twitterLabel.text
+                
+                cell.didTapFollow = {
+                    self.twitter.authorize({success in
+                        if success {
+                            cell.btnIsFollowing.followState = .SendingRequest
+                            self.twitter.followUser(twitterHandle, completion: {following in
+                                cell.btnIsFollowing.followState = following ? .Following : .Follow
+                                cell.btnIsFollowing.animateSelect(scale: 0.8, completion: nil)
+                            })
+                        } else {
+                            cell.btnIsFollowing.hidden = true
+                        }
+                    })
+                }
+                
+                //check if already following speaker
+                twitter.authorize({success in
+                    if success {
+                        self.twitter.isFollowingUser(twitterHandle, completion: {following in
+                            if let following = following {
+                                cell.btnIsFollowing.followState = following ? .Following : .Follow
+                            } else {
+                                mainQueue { cell.btnIsFollowing.hidden = true }
+                            }
+                        })
+                    } else {
+                        mainQueue { cell.btnIsFollowing.hidden = true }
+                    }
+                })
             } else {
-                cell.twitterLabel.text = nil
-                cell.didTapTwitter = nil
+                mainQueue {
+                    cell.btnIsFollowing.hidden = true
+                    cell.twitterLabel.text = nil
+                    cell.didTapTwitter = nil
+                }
             }
 
             cell.websiteLabel.text = speaker[Speaker.url]
@@ -85,10 +124,21 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
             if speaker[Speaker.photo]?.imageValue == nil {
                 
                 userCtr.lookupUserImage(speaker, completion: {image in
-                    dispatch_async(dispatch_get_main_queue(), {
+                    mainQueue {
                         cell.userImage.image = image
-                    })
+                        if let image = image {
+                            cell.didTapPhoto = {
+                                PhotoPopupView.showImage(image, inView: self.view)
+                            }
+                        }
+                    }
                 })
+                
+                
+            } else {
+                cell.didTapPhoto = {
+                    PhotoPopupView.showImage(cell.userImage.image!, inView: self.view)
+                }
             }
             
             cell.indexPath = indexPath
@@ -108,12 +158,17 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 self.notification(kFavoritesChangedNotification, object: nil)
             }
             
+            
             if let urlString = speaker[Speaker.url], let url = NSURL(string: urlString) {
-                cell.didTapURL = {
-                    UIApplication.sharedApplication().openURL(url)
-                }
+                cell.speakerUrl = url
             } else {
-                cell.didTapURL = nil
+                cell.speakerUrl = nil
+            }
+            
+            cell.didTapURL = {tappedUrl in
+                let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
+                webVC.initialURL = tappedUrl
+                self.navigationController!.pushViewController(webVC, animated: true)
             }
             
             return cell
@@ -136,9 +191,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
             if let attachmentUrl = tweet.imageUrl {
                 cell.attachmentImage.hnk_setImageFromURL(attachmentUrl)
                 cell.didTapAttachment = {
-                    let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
-                    webVC.initialURL = attachmentUrl
-                    self.navigationController!.pushViewController(webVC, animated: true)
+                    PhotoPopupView.showImageWithUrl(attachmentUrl, inView: self.view)
                 }
                 cell.attachmentHeight.constant = 148.0
             }
@@ -148,6 +201,12 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 fetchUserImageForCell(cell, withUser: user)
             }
             
+            cell.didTapURL = {tappedUrl in
+                let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
+                webVC.initialURL = tappedUrl
+                self.navigationController!.pushViewController(webVC, animated: true)
+            }
+
             return cell
         }
         
@@ -162,7 +221,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0: return "Speaker Details"
-        case 1: return "Latest tweets"
+        case 1: return (tweets?.count < 1) ? "No tweets available" : "Latest tweets"
         default: return nil
         }
     }
@@ -172,6 +231,21 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
             return "We couldn't load any tweets"
         } else {
             return nil
+        }
+    }
+    
+    //add some space at the end of the tweet list
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        switch section {
+        case 1: return 50
+        default: return 0
+        }
+    }
+    
+    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        switch section {
+        case 1: return UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+        default: return nil
         }
     }
     
@@ -186,19 +260,16 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                         self.didFetchTweets(tweetList)
                     } else {
                         self.tweets = []
-                        dispatch_async(dispatch_get_main_queue(), {
+                        mainQueue {
                             self.tableView.reloadSections(NSIndexSet(index: 1),
                                 withRowAnimation: .Automatic)
-                        })
+                        }
                     }
-                    
-                    dispatch_async(dispatch_get_main_queue(), {
-                        //self.refreshView.endRefreshing()
-                    })
                 })
             } else {
                 //TODO: no auth - show message?
-                println("auth error")
+                self.tweets = []
+                self.tableView.reloadData()
             }
         })
     }
@@ -222,9 +293,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 
                 self.twitter.getImageWithUrl(imageUrl, completion: {image in
                     //update table cell
-                    dispatch_async(dispatch_get_main_queue(), {
-                        cell.userImage.image = image
-                    })
+                    mainQueue { cell.userImage.image = image }
                 })
         }
     }

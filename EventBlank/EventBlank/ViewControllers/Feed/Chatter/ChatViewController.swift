@@ -16,6 +16,16 @@ class ChatViewController: TweetListViewController {
     let chatCtr = ChatController()
     let userCtr = UserController()
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        observeNotification(kDidPostTweetNotification, selector: "fetchTweets")
+    }
+
+    deinit {
+        observeNotification(kDidPostTweetNotification, selector: nil)
+    }
+    
     //MARK: - table view methods
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
@@ -34,9 +44,7 @@ class ChatViewController: TweetListViewController {
         if let attachmentUrlString = tweet[Chat.imageUrl], let attachmentUrl = NSURL(string: attachmentUrlString) {
             cell.attachmentImage.hnk_setImageFromURL(attachmentUrl)
             cell.didTapAttachment = {
-                let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
-                webVC.initialURL = attachmentUrl
-                self.navigationController!.pushViewController(webVC, animated: true)
+                PhotoPopupView.showImageWithUrl(attachmentUrl, inView: self.view)
             }
             cell.attachmentHeight.constant = 148.0
         }
@@ -48,6 +56,16 @@ class ChatViewController: TweetListViewController {
             }
         }
         
+        cell.didTapURL = {tappedUrl in
+            if tappedUrl.absoluteString!.hasPrefix("http") {
+                let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
+                webVC.initialURL = tappedUrl
+                self.navigationController!.pushViewController(webVC, animated: true)
+            } else {
+                UIApplication.sharedApplication().openURL(tappedUrl)
+            }
+        }
+
         return cell
     }
 
@@ -56,7 +74,7 @@ class ChatViewController: TweetListViewController {
     override func loadTweets() {
         tweets = self.chatCtr.allMessages()
         
-        dispatch_async(dispatch_get_main_queue(), {
+        mainQueue {
             self.tableView.reloadData()
             
             if self.tweets.count == 0 {
@@ -64,7 +82,7 @@ class ChatViewController: TweetListViewController {
             } else {
                 MessageView.removeViewFrom(self.tableView)
             }
-        })
+        }
     }
     
     override func fetchTweets() {
@@ -72,6 +90,8 @@ class ChatViewController: TweetListViewController {
             MessageView.removeViewFrom(self.tableView)
             
             if success, var hashTag = Event.event[Event.twitterTag] {
+
+                self.notification(kTwitterAuthorizationChangedNotification, object: true)
                 
                 if !hashTag.hasPrefix("#") {
                     hashTag = "#\(hashTag)"
@@ -90,15 +110,16 @@ class ChatViewController: TweetListViewController {
                     }
                 })
             } else {
+                
+                self.notification(kTwitterAuthorizationChangedNotification, object: false)
+                
                 delay(seconds: 0.5, {
                     self.tableView.addSubview(MessageView(text: "You don't have Twitter accounts set up. Open Preferences app, select Twitter and connect an account. \n\nThen pull this view down to refresh the feed."))
                 })
             }
             
             //hide the spinner
-            dispatch_async(dispatch_get_main_queue(), {
-                self.refreshView.endRefreshing()
-            })
+            mainQueue { self.refreshView.endRefreshing() }
         })
     }
     

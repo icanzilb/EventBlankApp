@@ -16,11 +16,13 @@ class SessionDetailsCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var websiteLabel: UILabel!
     @IBOutlet weak var btnToggleIsFavorite: UIButton!
     @IBOutlet weak var descriptionTextView: UITextView!
-    @IBOutlet weak var sessionTitleLabel: UILabel!
+    @IBOutlet weak var sessionTitleLabel: UITextView!
     @IBOutlet weak var trackTitleLabel: UILabel!
     
     var indexPath: NSIndexPath?
     var didSetIsFavoriteTo: ((Bool, NSIndexPath)->Void)?
+    
+    var speakerUrl: NSURL?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,22 +33,44 @@ class SessionDetailsCell: UITableViewCell, UITextViewDelegate {
         websiteLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("actionTapURL")))
         
         descriptionTextView.delegate = self
+        
+        userImage.userInteractionEnabled = true
+        userImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "didTapPhotoWithRecognizer:"))
     }
 
     @IBAction func actionToggleIsFavorite(sender: AnyObject) {
         btnToggleIsFavorite.selected = !btnToggleIsFavorite.selected
-        didSetIsFavoriteTo!(btnToggleIsFavorite.selected, indexPath!)
+        btnToggleIsFavorite.animateSelect(scale: 0.8, completion: {
+            self.didSetIsFavoriteTo!(self.btnToggleIsFavorite.selected, self.indexPath!)
+        })
+        
         return
     }
     
     var didTapTwitter: (()->Void)?
-    var didTapURL: (()->Void)?
+    var didTapURL: ((NSURL)->Void)?
     
     func actionTapTwitter() {
         didTapTwitter?()
     }
     
     func actionTapURL() {
-        didTapURL?()
+        if let speakerUrl = speakerUrl {
+            didTapURL?(speakerUrl)
+        }
+    }
+    
+    var didTapPhoto: (()->Void)?
+    
+    func didTapPhotoWithRecognizer(tap: UITapGestureRecognizer) {
+        didTapPhoto?()
+    }
+}
+
+extension SessionDetailsCell: UITextViewDelegate {
+    
+    func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
+        didTapURL?(URL)
+        return false
     }
 }
