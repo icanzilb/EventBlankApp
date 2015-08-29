@@ -100,7 +100,14 @@ class NewsViewController: TweetListViewController {
                 })
             } else {
                 delay(seconds: 0.5, {
-                    self.tableView.addSubview(MessageView(text: "You don't have Twitter accounts set up. Open Preferences app, select Twitter and connect an account. \n\nThen pull this view down to refresh the feed."))
+                    self.tableView.addSubview(
+                        //show a message + button to settings
+                        MessageView(text: "You don't have Twitter accounts set up. Open Settings app, select Twitter and connect an account. \n\nThen pull this view down to refresh the feed."
+//                            ,buttonTitle: "Open Settings App",
+//                            buttonTap: {
+//                                UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+//                            }
+                        ))
                 })
             }
             
