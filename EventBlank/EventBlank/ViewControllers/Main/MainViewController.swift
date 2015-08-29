@@ -23,9 +23,13 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupUI()
+    }
+
+    func setupUI() {
         let event = (UIApplication.sharedApplication().delegate as! AppDelegate).event
         let primaryColor = UIColor(hexString: event[Event.mainColor])
-
+        
         //logo
         imgConfLogo.image = event[Event.logo]?.imageValue ?? nil
         
@@ -43,7 +47,36 @@ class MainViewController: UIViewController {
         
         //right now
         lblRightNow.textColor = primaryColor
-        lblRightNow.text = "Event happening in two days"
+        lblRightNow.text = rightNowText(event)
     }
-
+    
+    func rightNowText(event: Row) -> String {
+        
+        let now = Int(NSDate().timeIntervalSince1970)
+        
+        if now < event[Event.start] {
+            //before the event
+            
+            let remaining = event[Event.start] - now
+            let days = Int(ceil(Double(remaining) / Double(24 * 60 * 60)))
+            
+            if days > 1 {
+                return "The event starts in \(days) days!"
+            } else {
+                return "Starting within hours, get ready!"
+            }
+            
+        } else if now > event[Event.start] && now < event[Event.end] {
+            //during the event
+            
+            return "The even is ongoing"
+            
+        } else {
+            //after the event
+            return "The event has already finished. You can still browse the speaker and sessions data in the app."
+        }
+    }
+    
+    
 }
+
