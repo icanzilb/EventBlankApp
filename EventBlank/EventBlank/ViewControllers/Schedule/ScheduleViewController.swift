@@ -11,6 +11,8 @@ import SQLite
 
 import XLPagerTabStrip
 
+let kScrollToCurrentSessionNotification = "kScrollToCurrentSessionNotification"
+
 protocol SessionViewControllerDelegate {
     func isFavoritesFilterOn() -> Bool
 }
@@ -31,10 +33,12 @@ class ScheduleViewController: XLButtonBarPagerTabStripViewController, XLPagerTab
         
         //notifications
         observeNotification(kDidReplaceEventFileNotification, selector: "didChangeEventFile")
+        observeNotification(kShowCurrentSessionNotification, selector: "showCurrentSession")
     }
     
     deinit {
         observeNotification(kDidReplaceEventFileNotification, selector: nil)
+        observeNotification(kShowCurrentSessionNotification, selector: nil)
     }
     
     func setupUI() {
@@ -127,5 +131,23 @@ class ScheduleViewController: XLButtonBarPagerTabStripViewController, XLPagerTab
         setupUI()
         reloadPagerTabStripView()
         navigationController?.popToRootViewControllerAnimated(true)
+    }
+    
+    func showCurrentSession() {
+        let days = Schedule().dayRanges()
+        let now = NSDate().timeIntervalSince1970
+        
+        for index in 0 ..< days.count {
+            let day = days[index]
+            
+            if now > day.startTimeStamp && now < day.endTimeStamp {
+                mainQueue({
+                    self.moveToViewControllerAtIndex(UInt(index))
+                    self.notification(kScrollToCurrentSessionNotification, object: day.text)
+                })
+                
+                return
+            }
+        }
     }
 }

@@ -71,6 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         MAThemeKit.customizeSegmentedControlWithMainColor(UIColor.whiteColor(), secondaryColor: primaryColor)
         MAThemeKit.customizeSliderColor(primaryColor)
         MAThemeKit.customizePageControlCurrentPageColor(primaryColor)
+        MAThemeKit.customizeTabBarColor(UIColor.whiteColor().mixWithColor(primaryColor, weight: 0.025), textColor: primaryColor)
     }
     
     func applicationWillResignActive(application: UIApplication) {

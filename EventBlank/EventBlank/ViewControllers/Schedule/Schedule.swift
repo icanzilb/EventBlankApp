@@ -19,6 +19,11 @@ struct ScheduleDay {
 
 typealias ScheduleDaySection = [String: [Row]]
 
+struct RightNowItems {
+    let currentSessions: [Row]?
+    let nextSessions: [Row]?
+}
+
 class Schedule {
     
     func dayRanges() -> [ScheduleDay] {
@@ -78,4 +83,67 @@ class Schedule {
         
         return result
     }
+    
+    func rightNowItems() -> RightNowItems? {
+        let database = DatabaseProvider.databases[eventDataFileName]!
+        
+        let todayMorning = NSDate().dateAtStartOfDay().timeIntervalSince1970
+        let todayEvening = NSDate().dateAtEndOfDay().timeIntervalSince1970
+        
+        //load sessions
+        var sessions = database[SessionConfig.tableName]
+            .join(database[SpeakerConfig.tableName], on: {Session.fk_speaker == Speaker.idColumn}())
+            .join(database[TrackConfig.tableName], on: {Session.fk_track == Track.idColumn}())
+            .join(database[LocationConfig.tableName], on: {Session.fk_location == Location.idColumn}())
+            .filter(Session.beginTime > Int(todayMorning) && Session.beginTime < Int(todayEvening))
+            .order(Session.beginTime.asc)
+            .map {$0}
+        
+        //build schedule sections
+        let items = Schedule().groupSessionsByStartTime(sessions)
+        let now = NSDate().timeIntervalSince1970
+        
+        var currentSectionIndex: Int? = nil
+        
+        for section in 0 ..< items.count {
+            //this section
+            let nowSection = items[section]
+            var nowSectionTitle = nowSection.keys.first!
+            let nowSession = nowSection.values.first!.first!
+            let nowSessionStartTime = nowSession[Session.beginTime]
+            
+            if currentSectionIndex == section - 1 {
+                //next upcoming session
+                return RightNowItems(
+                    currentSessions: items[currentSectionIndex!].values.first!,
+                    nextSessions: items[section].values.first!)
+            }
+            
+            //next section
+            if items.count > section+1 {
+                
+                let nextSection = items[section+1]
+                let nextSession = nextSection.values.first!.first!
+                let nextSessionStartTime = nextSession[Session.beginTime]
+                
+                let rightNow = NSDate().timeIntervalSince1970
+                
+                if Double(nowSessionStartTime) < rightNow && rightNow < Double(nextSessionStartTime) {
+                    //current session
+                    currentSectionIndex = section
+                }
+            } else {
+                //reset the current section index
+                currentSectionIndex = nil
+            }
+
+        }
+        
+        if let currentSectionIndex = currentSectionIndex {
+            return RightNowItems(currentSessions: items[currentSectionIndex].values.first!, nextSessions: nil)
+        } else {
+            return nil
+        }
+    }
+
 }
