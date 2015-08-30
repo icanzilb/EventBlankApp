@@ -26,6 +26,8 @@ class ScheduleViewController: XLButtonBarPagerTabStripViewController, XLPagerTab
         return (UIApplication.sharedApplication().delegate as! AppDelegate).event
         }
 
+    var initialized = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -75,12 +77,17 @@ class ScheduleViewController: XLButtonBarPagerTabStripViewController, XLPagerTab
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        setupUI()
-        
-        //TODO: why?
-        moveToViewControllerAtIndex(1)
-        moveToViewControllerAtIndex(0)
-        
+        if !initialized {
+            initialized = true
+            
+            setupUI()
+            
+            //TODO: why?
+            moveToViewControllerAtIndex(1)
+            moveToViewControllerAtIndex(0)
+            
+        }
+
         //add tab strip
         navigationController?.navigationBar.addSubview(btnFavorites)
         navigationController?.navigationBar.insertSubview(buttonBarView, belowSubview: btnFavorites)

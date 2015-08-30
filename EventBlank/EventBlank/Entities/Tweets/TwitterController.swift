@@ -22,10 +22,10 @@ class TwitterController: NSObject {
         accountStore.requestAccessToAccountsWithType(accountType, options: nil, completion: {success, error in
             if let twitterAccount = accountStore.accountsWithAccountType(accountType).first as? ACAccount {
                 self.account = twitterAccount
-                completion(true)
+                mainQueue({ completion(true) })
             } else {
                 //add throws in Swift 2.0
-                completion(false)
+                mainQueue({ completion(false) })
             }
         })
     }
@@ -126,8 +126,6 @@ class TwitterController: NSObject {
             parameters: parameters
         )
         
-        println(request.URL.absoluteString)
-        
         request.account = account
         request.performRequestWithHandler({responseData, urlResponse, error in
             if let error = error {
@@ -136,7 +134,6 @@ class TwitterController: NSObject {
             }
             
             if let result = NSJSONSerialization.JSONObjectWithData(responseData, options: nil, error: nil) as? NSDictionary {
-                println(result)
                 completion( UserModel.createFromUserObject(result) )
             } else {
                 //add throw for Swift 2.0
@@ -159,8 +156,6 @@ class TwitterController: NSObject {
             parameters: parameters
         )
         
-        println(request.URL.absoluteString)
-        
         request.account = account
         request.performRequestWithHandler({responseData, urlResponse, error in
             if let error = error {
@@ -170,7 +165,6 @@ class TwitterController: NSObject {
             }
             
             let r = NSJSONSerialization.JSONObjectWithData(responseData, options: nil, error: nil) as? NSDictionary
-            println(r)
             
             if let result = NSJSONSerialization.JSONObjectWithData(responseData, options: nil, error: nil) as? NSDictionary,
                 let relationship = result["relationship"] as? NSDictionary,
@@ -188,8 +182,7 @@ class TwitterController: NSObject {
     
     func followUser(username: String, completion: (Bool)->Void) {
         let parameters: [String: String] = [
-            "screen_name": username,
-            "follow": "1"
+            "screen_name": username
         ]
         
         let request = SLRequest(
@@ -199,8 +192,6 @@ class TwitterController: NSObject {
             parameters: parameters
         )
         
-        println(request.URL.absoluteString)
-        
         request.account = account
         request.performRequestWithHandler({responseData, urlResponse, error in
             if let error = error {
@@ -209,7 +200,6 @@ class TwitterController: NSObject {
             }
             
             if let result = NSJSONSerialization.JSONObjectWithData(responseData, options: nil, error: nil) as? NSDictionary {
-                println(result)
                 completion(true)
             } else {
                 //add throw for Swift 2.0

@@ -23,10 +23,16 @@ class MoreViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     let extraItems = ["Credits", "Acknowledgements", "Pending Event Update"]
     
+    func loadItems() {
+        items = database[TextConfig.tableName].filter({Text.content != nil && Text.content != ""}()).order(Text.title.asc).map({$0})
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        items = database[TextConfig.tableName].filter({Text.content != nil && Text.content != ""}()).order(Text.title.asc).map({$0})
+        backgroundQueue(loadItems, completion: {
+            self.tableView.reloadData()
+        })
         
         //notifications
         observeNotification(kDidReplaceEventFileNotification, selector: "didChangeEventFile")
@@ -116,8 +122,10 @@ class MoreViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //notifications
     func didChangeEventFile() {
-        tableView.reloadData()
-        navigationController?.popToRootViewControllerAnimated(true)
+        mainQueue({
+            self.tableView.reloadData()
+            self.navigationController?.popToRootViewControllerAnimated(true)
+        })
     }
     
     func didChangePendingUpdate() {

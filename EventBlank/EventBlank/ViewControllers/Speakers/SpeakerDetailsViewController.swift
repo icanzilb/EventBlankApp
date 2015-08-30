@@ -33,7 +33,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
         tableView.rowHeight = UITableViewAutomaticDimension
         
         //fetch new tweets
-        fetchTweets()
+        backgroundQueue(fetchTweets)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -101,17 +101,17 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                             if let following = following {
                                 cell.btnIsFollowing.followState = following ? .Following : .Follow
                             } else {
-                                mainQueue { cell.btnIsFollowing.hidden = true }
+                                cell.btnIsFollowing.hidden = true
                             }
                         })
                     } else {
-                        mainQueue { cell.btnIsFollowing.hidden = true }
+                        cell.btnIsFollowing.hidden = true
                     }
                 })
             } else {
                 mainQueue {
                     cell.btnIsFollowing.hidden = true
-                    cell.twitterLabel.text = nil
+                    cell.twitterLabel.text = ""
                     cell.didTapTwitter = nil
                 }
             }
@@ -269,7 +269,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
             } else {
                 //TODO: no auth - show message?
                 self.tweets = []
-                self.tableView.reloadData()
+                mainQueue({ self.tableView.reloadData() })
             }
         })
     }

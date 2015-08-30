@@ -46,8 +46,10 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadItems()
-        
+        backgroundQueue(loadItems, completion: {
+            self.tableView.reloadData()
+        })
+
         observeNotification(kFavoritesToggledNotification, selector: "didToggleFavorites")
         observeNotification(kFavoritesChangedNotification, selector: "didChangeFavorites")
         observeNotification(kScrollToCurrentSessionNotification, selector: "scrollToCurrentSession:")
@@ -85,12 +87,14 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         //build schedule sections
         items = Schedule().groupSessionsByStartTime(sessions)
         
-        //show no sessions message
-        if items.count == 0 {
-            tableView.addSubview(MessageView(text: "No sessions match your current filter"))
-        } else {
-            MessageView.removeViewFrom(tableView)
-        }
+        mainQueue({
+            //show no sessions message
+            if self.items.count == 0 {
+                self.tableView.addSubview(MessageView(text: "No sessions match your current filter"))
+            } else {
+                MessageView.removeViewFrom(self.tableView)
+            }
+        })
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -213,17 +217,19 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
     
     // MARK: - notifications
     func didToggleFavorites() {
-        loadItems()
-        UIView.transitionWithView(tableView, duration: 0.35, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
-            self.tableView.reloadData()
-            }, completion: nil)
+        backgroundQueue(loadItems, completion: {
+            UIView.transitionWithView(self.tableView, duration: 0.35, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
+                self.tableView.reloadData()
+                }, completion: nil)
+        })
     }
 
     func didChangeFavorites() {
-        loadItems()
-        UIView.transitionWithView(tableView, duration: 0.35, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
-            self.tableView.reloadData()
-            }, completion: nil)
+        backgroundQueue(loadItems, completion: {
+            UIView.transitionWithView(self.tableView, duration: 0.35, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
+                self.tableView.reloadData()
+                }, completion: nil)
+        })
     }
 
     func scrollToCurrentSession(n: NSNotification) {
@@ -233,10 +239,12 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
             
             for index in 0 ..< items.count {
                 if now < items[index].values.first!.first![Session.beginTime] {
-                    tableView.scrollToRowAtIndexPath(
-                        NSIndexPath(forRow: 0, inSection: index),
-                        atScrollPosition: UITableViewScrollPosition.Top,
-                        animated: true)
+                    mainQueue({
+                        self.tableView.scrollToRowAtIndexPath(
+                            NSIndexPath(forRow: 0, inSection: index),
+                            atScrollPosition: UITableViewScrollPosition.Top,
+                            animated: true)
+                    })
                     return
                 }
             }

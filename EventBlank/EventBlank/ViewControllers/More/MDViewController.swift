@@ -20,11 +20,6 @@ class MDViewController: UIViewController, UIWebViewDelegate {
         return DatabaseProvider.databases[eventDataFileName]!
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -55,7 +50,6 @@ class MDViewController: UIViewController, UIWebViewDelegate {
         //load html in webview
         let resourcesURL = NSBundle.mainBundle().resourceURL!
         webView.loadHTMLString(fullPage, baseURL: resourcesURL)
-//        println(fullPage)
     }
     
     //MARK: - web view methods

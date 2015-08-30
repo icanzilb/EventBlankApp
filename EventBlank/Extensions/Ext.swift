@@ -17,6 +17,15 @@ func delay(#seconds: Double, completion:()->Void) {
     }
 }
 
+func backgroundQueue(block: ()->Void, completion:(()->Void)? = nil) {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+        block()
+        if let completion = completion {
+            mainQueue(completion)
+        }
+    })
+}
+
 func mainQueue(block: ()->Void) {
     dispatch_async(dispatch_get_main_queue(), block)
 }
