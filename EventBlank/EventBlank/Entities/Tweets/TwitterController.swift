@@ -22,10 +22,10 @@ class TwitterController: NSObject {
         accountStore.requestAccessToAccountsWithType(accountType, options: nil, completion: {success, error in
             if let twitterAccount = accountStore.accountsWithAccountType(accountType).first as? ACAccount {
                 self.account = twitterAccount
-                completion(true)
+                mainQueue({ completion(true) })
             } else {
                 //add throws in Swift 2.0
-                completion(false)
+                mainQueue({ completion(false) })
             }
         })
     }

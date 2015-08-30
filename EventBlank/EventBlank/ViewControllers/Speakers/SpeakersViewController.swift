@@ -122,13 +122,15 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
             items.append(newSection)
         }
         
-        if items.count == 0 {
-            tableView.hidden = true
-            view.addSubview(MessageView(text: "You currently have no favorited speakers"))
-        } else {
-            tableView.hidden = false
-            MessageView.removeViewFrom(view)
-        }
+        mainQueue({
+            if self.items.count == 0 {
+                self.tableView.hidden = true
+                self.view.addSubview(MessageView(text: "You currently have no favorited speakers"))
+            } else {
+                self.tableView.hidden = false
+                MessageView.removeViewFrom(self.view)
+            }
+        })
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -210,13 +212,15 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     func didFavoritesChange() {
         favorites = Favorite.allSpeakerFavoriteIDs()
         loadSpeakers()
-        tableView.reloadData()
+        mainQueue({ self.tableView.reloadData() })
+        
     }
     
     //notifications
     func didChangeEventFile() {
-        loadSpeakers()
-        navigationController?.popToRootViewControllerAnimated(true)
+        backgroundQueue(loadSpeakers, completion: {
+            self.navigationController?.popToRootViewControllerAnimated(true)
+        })
     }
     
     func actionToggleFavorites(sender: AnyObject) {
@@ -224,10 +228,11 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         btnFavorites.animateSelect(scale: 0.8, completion: {
             self.notification(kFavoritesToggledNotification, object: nil)
 
-            self.loadSpeakers()
-            UIView.transitionWithView(self.tableView, duration: 0.35, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
-                self.tableView.reloadData()
-                }, completion: nil)
+            backgroundQueue(self.loadSpeakers, completion: {
+                UIView.transitionWithView(self.tableView, duration: 0.35, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
+                    self.tableView.reloadData()
+                    }, completion: nil)
+            })
         })
     }
 

@@ -61,11 +61,6 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         observeNotification(kScrollToCurrentSessionNotification, selector: nil)
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        println((delegate as! ScheduleViewController).currentIndex)
-    }
-    
     func loadItems() {
         
         //load favorites

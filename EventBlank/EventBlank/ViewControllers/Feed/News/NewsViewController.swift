@@ -103,6 +103,7 @@ class NewsViewController: TweetListViewController {
                     self.tableView.addSubview(
                         //show a message + button to settings
                         MessageView(text: "You don't have Twitter accounts set up. Open Settings app, select Twitter and connect an account. \n\nThen pull this view down to refresh the feed."
+//TODO: add the special iOS9 settings links later
 //                            ,buttonTitle: "Open Settings App",
 //                            buttonTap: {
 //                                UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)

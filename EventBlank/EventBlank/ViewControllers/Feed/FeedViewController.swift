@@ -22,6 +22,8 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
     var popoverController: UIPopoverController?
     var twitterAuthorized = true
     
+    var initialized = false
+    
     required convenience init(coder aDecoder: NSCoder) {
         self.init()
         self.skipIntermediateViewControllers = true
@@ -30,8 +32,6 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
     override func viewDidLoad() {
         super.viewDidLoad()
         println("loaded feed vc view")
-        
-        setupUI()
         
         //notifications
         observeNotification(kDidReplaceEventFileNotification, selector: "didChangeEventFile")
@@ -44,28 +44,23 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
         observeNotification(kTwitterAuthorizationChangedNotification, selector: nil)
     }
     
-    func setupUI() {
-        
-    }
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        //TODO: why? and what to do if there aren't two days in the conference?
-        moveToViewControllerAtIndex(1)
-        moveToViewControllerAtIndex(0)
-
-        //check if needs to show audience chatter
-        if Event.event[Event.twitterChatter] < 1 {
-            tabControl.removeSegmentAtIndex(1, animated: false)
+        if !initialized {
+            initialized = true
+            
+            //TODO: why? and what to do if there aren't two days in the conference?
+            moveToViewControllerAtIndex(1)
+            moveToViewControllerAtIndex(0)
+            
+            //check if needs to show audience chatter
+            if Event.event[Event.twitterChatter] < 1 {
+                tabControl.removeSegmentAtIndex(1, animated: false)
+            }
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
-
     override func childViewControllersForPagerTabStripViewController(pagerTabStripViewController: XLPagerTabStripViewController!) -> [AnyObject]! {
         let newsVC = self.storyboard!.instantiateViewControllerWithIdentifier("NewsNavigationController")! as! TabStripNavigationController
         let chatterVC = self.storyboard!.instantiateViewControllerWithIdentifier("ChatNavigationController")! as! TabStripNavigationController
