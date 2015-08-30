@@ -126,8 +126,6 @@ class TwitterController: NSObject {
             parameters: parameters
         )
         
-        println(request.URL.absoluteString)
-        
         request.account = account
         request.performRequestWithHandler({responseData, urlResponse, error in
             if let error = error {
@@ -136,7 +134,6 @@ class TwitterController: NSObject {
             }
             
             if let result = NSJSONSerialization.JSONObjectWithData(responseData, options: nil, error: nil) as? NSDictionary {
-                println(result)
                 completion( UserModel.createFromUserObject(result) )
             } else {
                 //add throw for Swift 2.0
@@ -159,8 +156,6 @@ class TwitterController: NSObject {
             parameters: parameters
         )
         
-        println(request.URL.absoluteString)
-        
         request.account = account
         request.performRequestWithHandler({responseData, urlResponse, error in
             if let error = error {
@@ -170,7 +165,6 @@ class TwitterController: NSObject {
             }
             
             let r = NSJSONSerialization.JSONObjectWithData(responseData, options: nil, error: nil) as? NSDictionary
-            println(r)
             
             if let result = NSJSONSerialization.JSONObjectWithData(responseData, options: nil, error: nil) as? NSDictionary,
                 let relationship = result["relationship"] as? NSDictionary,
@@ -198,8 +192,6 @@ class TwitterController: NSObject {
             parameters: parameters
         )
         
-        println(request.URL.absoluteString)
-        
         request.account = account
         request.performRequestWithHandler({responseData, urlResponse, error in
             if let error = error {
@@ -208,7 +200,6 @@ class TwitterController: NSObject {
             }
             
             if let result = NSJSONSerialization.JSONObjectWithData(responseData, options: nil, error: nil) as? NSDictionary {
-                println(result)
                 completion(true)
             } else {
                 //add throw for Swift 2.0
