@@ -42,8 +42,13 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadSpeakers()
-        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            self.loadSpeakers()
+            mainQueue({
+                self.tableView.reloadData()
+            })
+        }
+
         //notifications
         observeNotification(kFavoritesChangedNotification, selector: "didFavoritesChange")
         observeNotification(kDidReplaceEventFileNotification, selector: "didChangeEventFile")

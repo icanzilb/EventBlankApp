@@ -2,8 +2,6 @@
 
 ### by Marin Todorov, [@icanzilb](http://www.twitter.com/@icanzilb)
 
-![](resources://EventBlankLogo@2x.png)
-
 ---
 
 **EventBlank** is a project aiming to help all kinds of events 
