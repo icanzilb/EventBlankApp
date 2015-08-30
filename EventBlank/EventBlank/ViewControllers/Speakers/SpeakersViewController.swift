@@ -89,6 +89,10 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewWillDisappear(animated)
         
         btnFavorites.hidden = true
+        
+        if let searchController = searchController {
+            searchController.searchBar.resignFirstResponder()
+        }
     }
     
     func loadSpeakers() {
