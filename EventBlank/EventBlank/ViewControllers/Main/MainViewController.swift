@@ -40,11 +40,15 @@ class MainViewController: UIViewController {
 
         setupUI()
 
+        //attach tap to right now info
+        lblRightNow.userInteractionEnabled = true
+
         nowTap = UITapGestureRecognizer(target: self, action: "didTapRightNow:")
         lblRightNow.addGestureRecognizer(nowTap)
-        
     }
 
+    var linkToSchedule = false
+    
     func setupUI() {
         let event = (UIApplication.sharedApplication().delegate as! AppDelegate).event
         let primaryColor = UIColor(hexString: event[Event.mainColor])
@@ -68,9 +72,7 @@ class MainViewController: UIViewController {
         lblRightNow.textColor = primaryColor
         let (nowText, shouldLinkToSchedule) = rightNow(event)
         lblRightNow.text = nowText
-        
-        //attach tap to right now info
-        lblRightNow.userInteractionEnabled = shouldLinkToSchedule
+        linkToSchedule = shouldLinkToSchedule
         
         delay(seconds: 1 * 60, {
             //refresh the right now info
@@ -79,6 +81,15 @@ class MainViewController: UIViewController {
     }
     
     func didTapRightNow(tap: UITapGestureRecognizer) {
+        
+        if !linkToSchedule {
+            lblRightNow.transform = CGAffineTransformMakeScale(0.33, 0.33)
+            UIView.animateWithDuration(1.5, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 0, options: nil, animations: {
+                self.lblRightNow.transform = CGAffineTransformIdentity
+            }, completion: nil)
+            return
+        }
+        
         //switch to schedule
         let tabController = view.window!.rootViewController as! UITabBarController
         tabController.selectedIndex = EventBlankTabIndex.Schedule.rawValue
