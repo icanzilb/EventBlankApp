@@ -43,7 +43,7 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            loadSpeakers()
+            self.loadSpeakers()
             mainQueue({
                 self.tableView.reloadData()
             })
