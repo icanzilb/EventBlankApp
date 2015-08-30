@@ -37,6 +37,8 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         return (UIApplication.sharedApplication().delegate as! AppDelegate).event
     }
 
+    var searchController : UISearchController?
+    
     //MARK: - view controller
     
     override func viewDidLoad() {
@@ -50,7 +52,7 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         observeNotification(kFavoritesChangedNotification, selector: "didFavoritesChange")
         observeNotification(kDidReplaceEventFileNotification, selector: "didChangeEventFile")
     }
-    
+
     deinit {
         observeNotification(kFavoritesChangedNotification, selector: nil)
         observeNotification(kDidReplaceEventFileNotification, selector: nil)
@@ -64,7 +66,7 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         //set up the fav button
-        btnFavorites.frame = CGRect(x: navigationController!.navigationBar.bounds.size.width - 40, y: 0, width: 40, height: 40)
+        btnFavorites.frame = CGRect(x: navigationController!.navigationBar.bounds.size.width - 40, y: 0, width: 40, height: 38)
         
         btnFavorites.setImage(UIImage(named: "like-empty")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), forState: .Normal)
         btnFavorites.setImage(UIImage(named: "like-full")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), forState: UIControlState.Selected)
@@ -90,12 +92,20 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func loadSpeakers() {
+        loadSpeakers(nil)
+    }
+    
+    func loadSpeakers(searchTerm: String?) {
         items = []
         
         //load speakers
         var rows = database[SpeakerConfig.tableName].order(Speaker.name).map {$0}
         if btnFavorites.selected {
             rows = rows.filter({ (find(self.favorites, $0[Speaker.idColumn]) != nil) })
+        }
+        
+        if let searchTerm = searchTerm {
+            rows = rows.filter({ ($0[Speaker.name]).contains(searchTerm, ignoreCase: true) })
         }
         
         //order and group speakers
@@ -220,6 +230,7 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     func didChangeEventFile() {
         backgroundQueue(loadSpeakers, completion: {
             self.navigationController?.popToRootViewControllerAnimated(true)
+            self.tableView.reloadData()
         })
     }
     
@@ -237,3 +248,53 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
 }
+
+extension SpeakersViewController: UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
+
+    @IBAction func actionSearch(sender: AnyObject) {
+        //search
+        searchController = UISearchController(searchResultsController:  nil)
+        
+        if let searchController = searchController {
+            searchController.searchResultsUpdater = self
+            searchController.delegate = self
+            searchController.searchBar.delegate = self
+            
+            searchController.hidesNavigationBarDuringPresentation = false
+            searchController.dimsBackgroundDuringPresentation = false
+            
+            navigationItem.titleView = searchController.searchBar
+            definesPresentationContext = true
+            
+            btnFavorites.hidden = true
+            navigationItem.leftBarButtonItem = nil
+            
+            searchController.searchBar.becomeFirstResponder()
+        }
+    }
+    
+    func didDismissSearchController(searchController: UISearchController) {
+        navigationItem.titleView = nil
+        definesPresentationContext = false
+        
+        searchController.searchBar.resignFirstResponder()
+        searchController.searchResultsUpdater = nil
+        searchController.searchBar.delegate = nil
+        searchController.delegate = nil
+        self.searchController = nil
+        
+        btnFavorites.hidden = false
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Search, target: self, action: "actionSearch:")
+    }
+    
+    //search controller
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        backgroundQueue({ self.loadSpeakers(searchController.searchBar.text) },
+            completion: { self.tableView.reloadData() })
+        
+        println("search for '\(searchController.searchBar.text)'")
+    }
+    
+}
+
+

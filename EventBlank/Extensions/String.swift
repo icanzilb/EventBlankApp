@@ -22,3 +22,18 @@ extension String {
         return substringWithRange(Range(start: advance(startIndex, r.startIndex), end: advance(startIndex, r.endIndex)))
     }
 }
+
+extension String {
+    public func contains(substring: String,
+        ignoreCase: Bool = false,
+        ignoreDiacritic: Bool = false) -> Bool {
+            
+            if substring == "" { return true }
+            var options = NSStringCompareOptions.allZeros
+            
+            if ignoreCase { options |= NSStringCompareOptions.CaseInsensitiveSearch }
+            if ignoreDiacritic { options |= NSStringCompareOptions.DiacriticInsensitiveSearch }
+            
+            return rangeOfString(substring, options: options) != nil
+    }
+}
