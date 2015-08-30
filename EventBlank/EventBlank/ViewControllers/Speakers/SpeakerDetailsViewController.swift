@@ -33,7 +33,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
         tableView.rowHeight = UITableViewAutomaticDimension
         
         //fetch new tweets
-        fetchTweets()
+        backgroundQueue(fetchTweets)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -77,7 +77,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                     self.navigationController!.pushViewController(webVC, animated: true)
                 }
                 
-                cell.btnIsFollowing.hidden = false
+//                cell.btnIsFollowing.hidden = false
                 cell.btnIsFollowing.username = cell.twitterLabel.text
                 
                 cell.didTapFollow = {
@@ -89,7 +89,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                                 cell.btnIsFollowing.animateSelect(scale: 0.8, completion: nil)
                             })
                         } else {
-                            cell.btnIsFollowing.hidden = true
+//                            cell.btnIsFollowing.hidden = true
                         }
                     })
                 }
@@ -101,18 +101,18 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                             if let following = following {
                                 cell.btnIsFollowing.followState = following ? .Following : .Follow
                             } else {
-                                mainQueue { cell.btnIsFollowing.hidden = true }
+//                                mainQueue { cell.btnIsFollowing.hidden = true }
                             }
                         })
                     } else {
-                        mainQueue { cell.btnIsFollowing.hidden = true }
+//                        mainQueue { cell.btnIsFollowing.hidden = true }
                     }
                 })
             } else {
                 mainQueue {
-                    cell.btnIsFollowing.hidden = true
-                    cell.twitterLabel.text = nil
-                    cell.didTapTwitter = nil
+//                    cell.btnIsFollowing.hidden = true
+//                    cell.twitterLabel.text = nil
+//                    cell.didTapTwitter = nil
                 }
             }
 
@@ -269,7 +269,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
             } else {
                 //TODO: no auth - show message?
                 self.tweets = []
-                self.tableView.reloadData()
+                mainQueue({  self.tableView.reloadData()  })
             }
         })
     }

@@ -46,8 +46,10 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadItems()
-        
+        backgroundQueue(loadItems, completion: {
+            self.tableView.reloadData()
+        })
+
         observeNotification(kFavoritesToggledNotification, selector: "didToggleFavorites")
         observeNotification(kFavoritesChangedNotification, selector: "didChangeFavorites")
         observeNotification(kScrollToCurrentSessionNotification, selector: "scrollToCurrentSession:")
