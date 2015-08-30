@@ -188,8 +188,7 @@ class TwitterController: NSObject {
     
     func followUser(username: String, completion: (Bool)->Void) {
         let parameters: [String: String] = [
-            "screen_name": username,
-            "follow": "1"
+            "screen_name": username
         ]
         
         let request = SLRequest(
