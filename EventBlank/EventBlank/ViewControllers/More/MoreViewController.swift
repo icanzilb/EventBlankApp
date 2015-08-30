@@ -123,8 +123,8 @@ class MoreViewController: UIViewController, UITableViewDelegate, UITableViewData
     //notifications
     func didChangeEventFile() {
         mainQueue({
-            self.tableView.reloadData()
             self.navigationController?.popToRootViewControllerAnimated(true)
+            self.tableView.reloadData()
         })
     }
     

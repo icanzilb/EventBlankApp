@@ -117,11 +117,11 @@ class FreshFile: NSObject, Printable, NSURLSessionDownloadDelegate {
             
             if error != nil {
                 
-                println("could not HEAD file: \(request.URL). Error: \(error.localizedDescription)")
+                //println("could not HEAD file: \(request.URL). Error: \(error.localizedDescription)")
                 
                 //retry
                 self.delay(seconds: self.networkRetryInterval, completion: {
-                    println("retry network call")
+                    //println("retry network call")
                     self.refresh()
                 })
                 
@@ -129,8 +129,9 @@ class FreshFile: NSObject, Printable, NSURLSessionDownloadDelegate {
                 let newEtag = response.allHeaderFields["Etag"] as? String {
                     
                 println("compare local \(self.currentEtag) to \(newEtag)")
+                println("compare initial \(initialEtag) to \(newEtag)")
                 
-                if false && newEtag  != self.currentEtag {
+                if newEtag  != self.currentEtag && newEtag != initialEtag {
                     //there is a newer file!
                     println("remote file is newer")
                     
@@ -140,11 +141,11 @@ class FreshFile: NSObject, Printable, NSURLSessionDownloadDelegate {
                     
                     if let contentLength = response.allHeaderFields["Content-Length"] as? String {
                         fileInfo!.contentLength = (contentLength as NSString).doubleValue
-                        println("about to download \(fileInfo!.contentLength) bytes")
+                        //println("about to download \(fileInfo!.contentLength) bytes")
                     }
                     
                 } else {
-                    println("event file is up to date")
+                    //println("event file is up to date")
                 }
             }
             
