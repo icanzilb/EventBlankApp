@@ -18,13 +18,15 @@ You can find all info and code here: [www.eventblankapp.com](http://www.eventbla
 
 ---
 
-Project author: *Marin Todorov* [marin@underplot.com](mailto://marin@underplot.com)
+Project author: **Marin Todorov** [marin@underplot.com](mailto://marin@underplot.com)
 
 More info, contacts, and speaking schedule at: [www.underplot.com](http://www.underplot.com)
 
+Icons by: [Virgil Pana](https://dribbble.com/shots/1791904-54-Free-e-commerce-icons)
+
 ---
 
-MIT License
+### MIT License
 
 The MIT License (MIT)
 
