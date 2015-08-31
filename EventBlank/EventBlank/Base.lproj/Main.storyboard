@@ -34,7 +34,7 @@
         <scene sceneID="zUJ-UM-X7c">
             <objects>
                 <navigationController id="elk-FC-sOG" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Feed" image="feed" id="dlv-e0-axj"/>
+                    <tabBarItem key="tabBarItem" title="Feed" image="feed-empty" id="dlv-e0-axj"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="nhF-EP-Mfx">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -54,7 +54,7 @@
         <scene sceneID="CQK-IG-Hnj">
             <objects>
                 <navigationController id="oDP-tN-Y0W" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Speakers" image="speakers" id="nDg-7K-tDv"/>
+                    <tabBarItem key="tabBarItem" title="Speakers" image="speakers-empty" id="nDg-7K-tDv"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="wMt-DI-11X">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -300,7 +300,13 @@
                             <constraint firstItem="9g4-vm-81A" firstAttribute="top" secondItem="ZEB-Yw-9Xm" secondAttribute="bottom" id="zrn-V4-l7d"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Speakers" id="WmS-i6-pCM"/>
+                    <navigationItem key="navigationItem" title="Speakers" id="WmS-i6-pCM">
+                        <barButtonItem key="leftBarButtonItem" systemItem="search" id="xZw-Ua-ePX">
+                            <connections>
+                                <action selector="actionSearch:" destination="nme-kT-c8J" id="lbB-1J-DJH"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="tableView" destination="9g4-vm-81A" id="B0v-ER-nPd"/>
@@ -499,7 +505,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Main" image="star" id="whs-AZ-90M"/>
+                    <tabBarItem key="tabBarItem" title="Main" image="star-empty" id="whs-AZ-90M"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="imgConfLogo" destination="Gg6-zC-0PN" id="gpD-0O-uS7"/>
@@ -516,8 +522,8 @@
         <!--Schedule-->
         <scene sceneID="De9-LP-5Vu">
             <objects>
-                <navigationController title="Schedule" id="Ubv-Ac-08b" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Schedule" image="schedule" id="2MY-II-lyY"/>
+                <navigationController storyboardIdentifier="ScheduleViewController" title="Schedule" id="Ubv-Ac-08b" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Schedule" image="calendar-empty" id="2MY-II-lyY"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="4Dc-uk-pxw">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1088,7 +1094,7 @@
                         <viewControllerLayoutGuide type="bottom" id="bLx-EV-Eyn"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Htd-FI-epy">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -1145,7 +1151,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wdd-JO-gwB"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Y8d-Qc-vsF">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="94" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="200" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="gJ6-eK-Mtw">
@@ -1561,14 +1567,14 @@
         </scene>
     </scenes>
     <resources>
-        <image name="feed" width="25" height="25"/>
+        <image name="calendar-empty" width="25" height="25"/>
+        <image name="feed-empty" width="25" height="25"/>
         <image name="like-empty" width="25" height="25"/>
         <image name="like-full" width="25" height="25"/>
-        <image name="schedule" width="25" height="25"/>
-        <image name="speakers" width="25" height="25"/>
-        <image name="star" width="25" height="25"/>
+        <image name="speakers-empty" width="25" height="25"/>
+        <image name="star-empty" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="4fY-S0-dL8"/>
+        <segue reference="8vY-CE-T4n"/>
     </inferredMetricsTieBreakers>
 </document>
