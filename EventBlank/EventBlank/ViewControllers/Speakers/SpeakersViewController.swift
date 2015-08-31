@@ -91,7 +91,7 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         btnFavorites.hidden = true
         
         if let searchController = searchController {
-            searchController.searchBar.resignFirstResponder()
+            didDismissSearchController(searchController)
         }
     }
     
@@ -204,6 +204,7 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+        
         let section = items[indexPath.section]
         lastSelectedSpeaker = section[section.keys.first!]![indexPath.row]
         return indexPath
@@ -255,6 +256,8 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
 
 extension SpeakersViewController: UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
 
+    //how can a single class be so broken @UISearchController?
+    
     @IBAction func actionSearch(sender: AnyObject) {
         //search
         searchController = UISearchController(searchResultsController:  nil)
@@ -267,10 +270,18 @@ extension SpeakersViewController: UISearchControllerDelegate, UISearchResultsUpd
             searchController.hidesNavigationBarDuringPresentation = false
             searchController.dimsBackgroundDuringPresentation = false
             
-            navigationItem.titleView = searchController.searchBar
             definesPresentationContext = true
             
+            searchController.searchBar.center = CGPoint(
+                x: CGRectGetMinX(navigationController!.navigationBar.frame) + 4,
+                y: CGRectGetMaxY(navigationController!.navigationBar.frame))
+            
+            navigationController!.navigationBar.addSubview(
+                searchController.searchBar
+            )
+            
             btnFavorites.hidden = true
+            navigationItem.prompt = "Speakers"
             navigationItem.leftBarButtonItem = nil
             
             searchController.searchBar.becomeFirstResponder()
@@ -278,16 +289,16 @@ extension SpeakersViewController: UISearchControllerDelegate, UISearchResultsUpd
     }
     
     func didDismissSearchController(searchController: UISearchController) {
-        navigationItem.titleView = nil
-        definesPresentationContext = false
         
         searchController.searchBar.resignFirstResponder()
         searchController.searchResultsUpdater = nil
         searchController.searchBar.delegate = nil
         searchController.delegate = nil
+        self.searchController!.searchBar.removeFromSuperview()
         self.searchController = nil
         
         btnFavorites.hidden = false
+        navigationItem.prompt = nil
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Search, target: self, action: "actionSearch:")
     }
     
@@ -295,8 +306,6 @@ extension SpeakersViewController: UISearchControllerDelegate, UISearchResultsUpd
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         backgroundQueue({ self.loadSpeakers(searchController.searchBar.text) },
             completion: { self.tableView.reloadData() })
-        
-        println("search for '\(searchController.searchBar.text)'")
     }
     
 }
