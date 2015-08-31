@@ -80,7 +80,7 @@ class MoreViewController: UIViewController, UITableViewDelegate, UITableViewData
             if indexPath.row == 2 {
                 cell.textLabel?.enabled = defaults.boolForKey("isTherePendingUpdate")
                 if defaults.boolForKey("isTherePendingUpdate") {
-                    cell.imageView?.image = UIImage(named: "badge-1")
+                    cell.imageView?.image = UIImage(named: "info-red-empty")
                 } else {
                     cell.accessoryType = .None
                 }
@@ -113,7 +113,12 @@ class MoreViewController: UIViewController, UITableViewDelegate, UITableViewData
             case 2:
                 let defaults = NSUserDefaults.standardUserDefaults()
                 if defaults.boolForKey("isTherePendingUpdate") {
-                    (UIApplication.sharedApplication().delegate as! AppDelegate).updateManager!.triggerRefresh()
+                    let message = alert("Sending update request - it might take a moment to complete...", buttons: [], completion: nil)
+                    delay(seconds: 1.5, {
+                        message.dismissViewControllerAnimated(true, completion: {
+                            (UIApplication.sharedApplication().delegate as! AppDelegate).updateManager!.triggerRefresh()
+                        })
+                    })
                 }
             default: break
             }
