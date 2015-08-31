@@ -73,6 +73,7 @@ class NewsViewController: TweetListViewController {
     override func loadTweets() {
         //fetch latest tweets from db
         tweets = self.newsCtr.allNews()
+        lastRefresh = NSDate().timeIntervalSince1970
         
         //reload table
         mainQueue {
