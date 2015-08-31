@@ -55,6 +55,7 @@
 		9C34BB8F1B5D85FA00C888A6 /* FontAwesome+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C34BB881B5D85FA00C888A6 /* FontAwesome+UILabel.swift */; };
 		9C34BB901B5D85FA00C888A6 /* FontAwesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C34BB891B5D85FA00C888A6 /* FontAwesome.swift */; };
 		9C34BB911B5D85FA00C888A6 /* fontawesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C34BB8A1B5D85FA00C888A6 /* fontawesome.ttf */; };
+		9C4653D01B9380A900E7F744 /* NSSpain15.eventblank in Resources */ = {isa = PBXBuildFile; fileRef = 9C4653CF1B9380A900E7F744 /* NSSpain15.eventblank */; };
 		9C5057381B5AE42000D71885 /* ViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5057371B5AE42000D71885 /* ViewController+Extensions.swift */; };
 		9C624FE71B53A4E600C84168 /* FreshFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C624FE61B53A4E600C84168 /* FreshFile.swift */; };
 		9C624FE91B53AE6200C84168 /* FilePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C624FE81B53AE6200C84168 /* FilePath.swift */; };
@@ -83,7 +84,6 @@
 		9CD078001B3BF7FF008DB96C /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD077FF1B3BF7FF008DB96C /* MessageView.swift */; };
 		9CD4317F1B3BDE0D00B2E7E1 /* markdown.html in Resources */ = {isa = PBXBuildFile; fileRef = 9CD4317E1B3BDE0D00B2E7E1 /* markdown.html */; };
 		9CDF8C6E1B37FDD800CDD2B8 /* TweetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDF8C6D1B37FDD800CDD2B8 /* TweetCell.swift */; };
-		9CEB7A0E1B800B5E00FABF1A /* NSSpain15.eventblank in Resources */ = {isa = PBXBuildFile; fileRef = 9CEB7A0D1B800B5E00FABF1A /* NSSpain15.eventblank */; };
 		9CF717E81B3836180093C636 /* SpeakerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF717E71B3836180093C636 /* SpeakerCell.swift */; };
 		9CF717EA1B383C5A0093C636 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF717E91B383C5A0093C636 /* String.swift */; };
 		9CF717EC1B3842BB0093C636 /* SpeakerDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF717EB1B3842BB0093C636 /* SpeakerDetailsViewController.swift */; };
@@ -214,6 +214,7 @@
 		9C34BB881B5D85FA00C888A6 /* FontAwesome+UILabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FontAwesome+UILabel.swift"; sourceTree = "<group>"; };
 		9C34BB891B5D85FA00C888A6 /* FontAwesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesome.swift; sourceTree = "<group>"; };
 		9C34BB8A1B5D85FA00C888A6 /* fontawesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = fontawesome.ttf; sourceTree = "<group>"; };
+		9C4653CF1B9380A900E7F744 /* NSSpain15.eventblank */ = {isa = PBXFileReference; lastKnownFileType = file; path = NSSpain15.eventblank; sourceTree = "<group>"; };
 		9C5057371B5AE42000D71885 /* ViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ViewController+Extensions.swift"; sourceTree = "<group>"; };
 		9C624FE61B53A4E600C84168 /* FreshFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreshFile.swift; sourceTree = "<group>"; };
 		9C624FE81B53AE6200C84168 /* FilePath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilePath.swift; sourceTree = "<group>"; };
@@ -241,7 +242,6 @@
 		9CD077FF1B3BF7FF008DB96C /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		9CD4317E1B3BDE0D00B2E7E1 /* markdown.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = markdown.html; sourceTree = "<group>"; };
 		9CDF8C6D1B37FDD800CDD2B8 /* TweetCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetCell.swift; sourceTree = "<group>"; };
-		9CEB7A0D1B800B5E00FABF1A /* NSSpain15.eventblank */ = {isa = PBXFileReference; lastKnownFileType = file; name = NSSpain15.eventblank; path = ../../../../EventBlank/NSSpain/NSSpain15.eventblank; sourceTree = "<group>"; };
 		9CF717E71B3836180093C636 /* SpeakerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeakerCell.swift; sourceTree = "<group>"; };
 		9CF717E91B383C5A0093C636 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		9CF717EB1B3842BB0093C636 /* SpeakerDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeakerDetailsViewController.swift; sourceTree = "<group>"; };
@@ -627,7 +627,7 @@
 		9CAECFCD1B4ED633009F3D2F /* __EventFile */ = {
 			isa = PBXGroup;
 			children = (
-				9CEB7A0D1B800B5E00FABF1A /* NSSpain15.eventblank */,
+				9C4653CF1B9380A900E7F744 /* NSSpain15.eventblank */,
 				9CAECFCE1B4ED651009F3D2F /* event-data.eventblank */,
 			);
 			path = __EventFile;
@@ -827,7 +827,7 @@
 			files = (
 				9C8FCAA71B408C0D00EFE8B8 /* credits.markdown in Resources */,
 				9C0EA66A1B34AD3B0099337C /* Podfile in Resources */,
-				9CEB7A0E1B800B5E00FABF1A /* NSSpain15.eventblank in Resources */,
+				9C4653D01B9380A900E7F744 /* NSSpain15.eventblank in Resources */,
 				9CD4317F1B3BDE0D00B2E7E1 /* markdown.html in Resources */,
 				9C10A0D61AB186490052C730 /* Main.storyboard in Resources */,
 				9C10A0DB1AB186490052C730 /* LaunchScreen.xib in Resources */,

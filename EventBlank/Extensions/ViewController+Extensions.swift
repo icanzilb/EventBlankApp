@@ -11,9 +11,9 @@ import Social
 
 extension UIViewController {
 
-    func alert(message: String, buttons: [String] = ["OK"], completion: ((Int)->Void)?) {
+    func alert(message: String, buttons: [String] = ["OK"], completion: ((Int)->Void)?) -> UIAlertController {
         
-        let alertVC = UIAlertController(title: "Message",
+        let alertVC = UIAlertController(title: "",
             message: message,
             preferredStyle: UIAlertControllerStyle.Alert)
         
@@ -25,6 +25,8 @@ extension UIViewController {
         }
         
         presentViewController(alertVC, animated: true, completion: nil)
+        
+        return alertVC
     }
 
     func tweet(message: String, image: UIImage? = nil, urlString: String? = nil, completion: ((Bool)->Void)?) {

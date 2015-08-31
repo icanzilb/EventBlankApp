@@ -40,12 +40,26 @@ class MainViewController: UIViewController {
 
         setupUI()
 
+        //attach tap to right now info
+        lblRightNow.userInteractionEnabled = true
+
         nowTap = UITapGestureRecognizer(target: self, action: "didTapRightNow:")
         lblRightNow.addGestureRecognizer(nowTap)
         
+        observeNotification(kDidReplaceEventFileNotification, selector: "didChangeFile")
     }
 
-    func setupUI() {
+    deinit {
+        observeNotification(kDidReplaceEventFileNotification, selector: nil)
+    }
+    
+    var linkToSchedule = false
+    
+    func didChangeFile() {
+        setupUI(scheduleAnotherReload: false)
+    }
+    
+    func setupUI(scheduleAnotherReload: Bool = true) {
         let event = (UIApplication.sharedApplication().delegate as! AppDelegate).event
         let primaryColor = UIColor(hexString: event[Event.mainColor])
         
@@ -68,17 +82,26 @@ class MainViewController: UIViewController {
         lblRightNow.textColor = primaryColor
         let (nowText, shouldLinkToSchedule) = rightNow(event)
         lblRightNow.text = nowText
+        linkToSchedule = shouldLinkToSchedule
         
-        //attach tap to right now info
-        lblRightNow.userInteractionEnabled = shouldLinkToSchedule
-        
-        delay(seconds: 1 * 60, {
-            //refresh the right now info
-            self.setupUI()
-        })
+        if scheduleAnotherReload {
+            delay(seconds: 1 * 60, {
+                //refresh the right now info
+                self.setupUI()
+            })
+        }
     }
     
     func didTapRightNow(tap: UITapGestureRecognizer) {
+        
+        if !linkToSchedule {
+            lblRightNow.transform = CGAffineTransformMakeScale(0.33, 0.33)
+            UIView.animateWithDuration(1.5, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 0, options: nil, animations: {
+                self.lblRightNow.transform = CGAffineTransformIdentity
+            }, completion: nil)
+            return
+        }
+        
         //switch to schedule
         let tabController = view.window!.rootViewController as! UITabBarController
         tabController.selectedIndex = EventBlankTabIndex.Schedule.rawValue

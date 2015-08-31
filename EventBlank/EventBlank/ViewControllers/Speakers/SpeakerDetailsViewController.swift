@@ -22,6 +22,8 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
     
     @IBOutlet weak var tableView: UITableView!
     
+    var user: Row?
+    
     var database: Database {
         return DatabaseProvider.databases[appDataFileName]!
     }
@@ -41,7 +43,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
         
         title = speaker[Speaker.name]
     }
-    
+        
     //MARK: - table view methods
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
@@ -121,25 +123,28 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
             cell.bioTextView.text = speaker[Speaker.bio]
             cell.userImage.image = speaker[Speaker.photo]?.imageValue ?? UIImage(named: "empty")
             
-            if speaker[Speaker.photo]?.imageValue == nil {
+            backgroundQueue({
                 
-                userCtr.lookupUserImage(speaker, completion: {image in
-                    mainQueue {
-                        cell.userImage.image = image
+                if self.speaker[Speaker.photo]?.imageValue == nil {
+                    
+                    self.userCtr.lookupUserImage(self.speaker, completion: {image in
+                        mainQueue {
+                            //update the image
+                            cell.userImage.image = image
+                        }
                         if let image = image {
                             cell.didTapPhoto = {
                                 PhotoPopupView.showImage(image, inView: self.view)
                             }
                         }
+                    })
+                } else {
+                    cell.didTapPhoto = {
+                        PhotoPopupView.showImage(cell.userImage.image!, inView: self.view)
                     }
-                })
-                
-                
-            } else {
-                cell.didTapPhoto = {
-                    PhotoPopupView.showImage(cell.userImage.image!, inView: self.view)
                 }
-            }
+            })
+            
             
             cell.indexPath = indexPath
             cell.didSetIsFavoriteTo = {setIsFavorite, indexPath in
@@ -181,9 +186,6 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
             
             let tweet = tweets[indexPath.row]
             
-            let usersTable = database[UserConfig.tableName]
-            let user = usersTable.filter(User.idColumn == tweet.userId).first
-
             cell.message.text = tweet.text
             cell.timeLabel.text = tweet.created.relativeTimeToString()
             cell.message.selectedRange = NSRange(location: 0, length: 0)
@@ -196,9 +198,20 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 cell.attachmentHeight.constant = 148.0
             }
             
-            if let user = user {
-                cell.nameLabel.text = user[User.name]
-                fetchUserImageForCell(cell, withUser: user)
+            cell.nameLabel.text = speaker[Speaker.name]
+            
+            if user == nil {
+                let usersTable = database[UserConfig.tableName]
+                user = usersTable.filter(User.idColumn == tweet.userId).first
+            }
+            
+            if let userImage = user?[User.photo]?.imageValue {
+                cell.userImage.image = userImage
+            } else {
+                if !fetchingUserImage {
+                    fetchUserImage()
+                }
+                cell.userImage.image = UIImage(named: "empty")
             }
             
             cell.didTapURL = {tappedUrl in
@@ -285,15 +298,25 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
         })
     }
     
-    func fetchUserImageForCell(cell: TweetCell, withUser user: Row) {
+    var fetchingUserImage = false
+    
+    func fetchUserImage() {
         
-        if user[User.photo]?.imageValue == nil,
-            let imageUrlString = user[User.photoUrl],
+        fetchingUserImage = true
+        
+        if let imageUrlString = self.user![User.photoUrl],
             let imageUrl = NSURL(string: imageUrlString) {
-                
                 self.twitter.getImageWithUrl(imageUrl, completion: {image in
-                    //update table cell
-                    mainQueue { cell.userImage.image = image }
+
+                    if let image = image, let user = self.user {
+                        //update table cell
+                        mainQueue({
+                            self.userCtr.persistUserImage(image, userId: user[User.idColumn])
+                            self.user = nil
+                            self.fetchingUserImage = false
+                            self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Automatic)
+                        })
+                    }
                 })
         }
     }

@@ -73,6 +73,7 @@ class ChatViewController: TweetListViewController {
     
     override func loadTweets() {
         tweets = self.chatCtr.allMessages()
+        lastRefresh = NSDate().timeIntervalSince1970
         
         mainQueue {
             self.tableView.reloadData()

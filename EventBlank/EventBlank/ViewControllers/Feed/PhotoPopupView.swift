@@ -74,7 +74,14 @@ class PhotoPopupView: UIView {
         
         imgView.userInteractionEnabled = true
         imgView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "didTapPhoto:"))
-
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: "didSwipePhoto:")
+        swipeDown.direction = .Down
+        imgView.addGestureRecognizer(swipeDown)
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: "didSwipePhoto:")
+        swipeUp.direction = .Up
+        imgView.addGestureRecognizer(swipeUp)
+        
         UIView.animateWithDuration(0.67, delay: 0.0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
             self.imgView.alpha = 1.0
         }, completion: nil)
@@ -86,12 +93,26 @@ class PhotoPopupView: UIView {
         }, completion: nil)
     }
     
-    func didTapPhoto(tap: UITapGestureRecognizer) {
+    func didTapPhoto(tap: UIGestureRecognizer) {
+        
+        imgView.userInteractionEnabled = false
+        
         UIView.animateWithDuration(0.4, delay: 0.0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
-            self.imgView.center.y += ((UIApplication.sharedApplication().windows.first! as! UIWindow).rootViewController as! UITabBarController).tabBar.frame.size.height/2
             self.alpha = 0
         }, completion: {_ in
             self.removeFromSuperview()
+        })
+    }
+    
+    func didSwipePhoto(swipe: UISwipeGestureRecognizer) {
+        
+        imgView.userInteractionEnabled = false
+        
+        UIView.animateWithDuration(0.4, delay: 0.0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
+            self.imgView.center.y += (swipe.direction == .Down ? 1 : -1) * ((UIApplication.sharedApplication().windows.first! as! UIWindow).rootViewController as! UITabBarController).tabBar.frame.size.height/2
+            self.alpha = 0
+            }, completion: {_ in
+                self.removeFromSuperview()
         })
     }
 }

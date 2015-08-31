@@ -41,15 +41,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 remoteURL: updateUrl, autostart: false)
             
             updateManager!.fileBinder.addAction(didReplaceFile: {success in
-                self.databaseProvider!.didChangeSourceFile(success)
-                self.loadEventData()
+                mainQueue({
+                    self.databaseProvider!.didChangeSourceFile(success)
+                    self.loadEventData()
+                })
                 }, withKey: nil)
             updateManager!.fileBinder.addAction(didReplaceFile: {_ in
-                //let observes know data file changed
-                self.notification(kDidReplaceEventFileNotification, object: nil)
+                //reload event data
+                delay(seconds: 2.0, {
+                    println("event name: " + self.event[Event.name])
+                    self.notification(kDidReplaceEventFileNotification, object: nil)
+                    
+                    //replace the schedule controller, test again if that's the only way
+                    let tabBarController = self.window!.rootViewController as! UITabBarController
+                    let scheduleVC: AnyObject = tabBarController.storyboard!.instantiateViewControllerWithIdentifier("ScheduleViewController") as AnyObject
+                    
+                    var tabVCs = tabBarController.viewControllers!
+                    tabVCs[EventBlankTabIndex.Schedule.rawValue] = scheduleVC
+                    
+                    tabBarController.setViewControllers(tabVCs, animated: false)
+                })
                 }, withKey: nil)
         }
-        
+
         return true
     }
     

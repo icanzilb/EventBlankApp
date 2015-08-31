@@ -31,15 +31,11 @@ class ScheduleViewController: XLButtonBarPagerTabStripViewController, XLPagerTab
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        buttonBarView.registerNib(UINib(nibName: "NavTabButtonCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
-        
         //notifications
-        observeNotification(kDidReplaceEventFileNotification, selector: "didChangeEventFile")
         observeNotification(kShowCurrentSessionNotification, selector: "showCurrentSession")
     }
     
     deinit {
-        observeNotification(kDidReplaceEventFileNotification, selector: nil)
         observeNotification(kShowCurrentSessionNotification, selector: nil)
     }
     
@@ -50,7 +46,7 @@ class ScheduleViewController: XLButtonBarPagerTabStripViewController, XLPagerTab
         self.buttonBarView.selectedBar.backgroundColor = UIColor(hexString: event[Event.mainColor]).lighterColor()
 
         if let _ = btnFavorites.superview {
-            btnFavorites.layer.removeFromSuperlayer()
+            btnFavorites.removeFromSuperview()
             btnFavorites = UIButton()
         }
         
@@ -72,29 +68,31 @@ class ScheduleViewController: XLButtonBarPagerTabStripViewController, XLPagerTab
         gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
         gradient.endPoint = CGPoint(x: 1.0, y: 0.5)
         btnFavorites.layer.insertSublayer(gradient, below: btnFavorites.imageView!.layer)
+        
+        //add tab strip
+        navigationController!.navigationBar.addSubview(btnFavorites)
+        navigationController!.navigationBar.insertSubview(buttonBarView, belowSubview: btnFavorites)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        setupUI()
+        
+        buttonBarView.registerNib(UINib(nibName: "NavTabButtonCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
+
         if !initialized {
             initialized = true
-            
-            setupUI()
-            
+
             //TODO: why?
             moveToViewControllerAtIndex(1)
             moveToViewControllerAtIndex(0)
-            
         }
-
-        //add tab strip
-        navigationController?.navigationBar.addSubview(btnFavorites)
-        navigationController?.navigationBar.insertSubview(buttonBarView, belowSubview: btnFavorites)
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        
         UIView.animateWithDuration(0.33, delay: 0.0, options: .CurveEaseIn, animations: {
             self.btnFavorites.alpha = 0.0
             self.btnFavorites.transform = CGAffineTransformMakeTranslation(-50.0, 0.0)
@@ -123,8 +121,12 @@ class ScheduleViewController: XLButtonBarPagerTabStripViewController, XLPagerTab
 
     func actionToggleFavorites(sender: AnyObject) {
         btnFavorites.selected = !btnFavorites.selected
-        btnFavorites.animateSelect(scale: 0.8, completion: {
-            self.notification(kFavoritesToggledNotification, object: nil)
+        btnFavorites.animateSelect(scale: 0.8, completion: nil)
+        self.notification(kFavoritesToggledNotification, object: nil)
+        
+        let message = alert(btnFavorites.selected ? "Showing favorite sessions and speakers only" : "Showing all sessions", buttons: [], completion: nil)
+        delay(seconds: 1.5, {
+            message.dismissViewControllerAnimated(true, completion: nil)
         })
     }
     
@@ -134,12 +136,6 @@ class ScheduleViewController: XLButtonBarPagerTabStripViewController, XLPagerTab
     }
  
     //notifications
-    func didChangeEventFile() {
-        setupUI()
-        reloadPagerTabStripView()
-        navigationController?.popToRootViewControllerAnimated(true)
-    }
-    
     func showCurrentSession() {
         let days = Schedule().dayRanges()
         let now = NSDate().timeIntervalSince1970

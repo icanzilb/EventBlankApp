@@ -15,3 +15,4 @@ import Foundation
 let eventDataFileName = "NSSpain15.eventblank"
 let appDataFileName = "appdata.db"
 
+let initialEtag = "44420d"

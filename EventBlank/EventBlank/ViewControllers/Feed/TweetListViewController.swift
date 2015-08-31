@@ -10,6 +10,7 @@ import UIKit
 import SQLite
 
 let kRefreshViewHeight: CGFloat = 60.0
+let kRefreshTimeout: Double = 5 * 60.0
 
 class TweetListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RefreshViewDelegate {
 
@@ -24,6 +25,8 @@ class TweetListViewController: UIViewController, UITableViewDelegate, UITableVie
         return DatabaseProvider.databases[appDataFileName]!
     }
     
+    var lastRefresh: NSTimeInterval = 0
+    
     //MARK: - view controller
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +39,14 @@ class TweetListViewController: UIViewController, UITableViewDelegate, UITableVie
         
         //fetch new tweets
         fetchTweets()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if NSDate().timeIntervalSince1970 - lastRefresh > kRefreshTimeout {
+            fetchTweets()
+        }
     }
     
     func setupUI() {
