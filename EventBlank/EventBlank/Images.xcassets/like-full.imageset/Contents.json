@@ -7,12 +7,11 @@
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "like_filled-50.png"
+      "filename" : "like-full.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x",
-      "filename" : "like_filled-75.png"
+      "scale" : "3x"
     }
   ],
   "info" : {
