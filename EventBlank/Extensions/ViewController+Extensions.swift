@@ -13,7 +13,7 @@ extension UIViewController {
 
     func alert(message: String, buttons: [String] = ["OK"], completion: ((Int)->Void)?) -> UIAlertController {
         
-        let alertVC = UIAlertController(title: "Message",
+        let alertVC = UIAlertController(title: "",
             message: message,
             preferredStyle: UIAlertControllerStyle.Alert)
         
