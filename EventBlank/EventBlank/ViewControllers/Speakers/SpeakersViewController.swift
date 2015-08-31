@@ -113,10 +113,10 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        btnFavorites.hidden = true
-        
         //search bar
         didDismissSearchController(searchController)
+        
+        btnFavorites.hidden = true
     }
     
     override func willMoveToParentViewController(parent: UIViewController?) {
@@ -298,12 +298,10 @@ extension SpeakersViewController: UISearchControllerDelegate, UISearchResultsUpd
     }
     
     func didDismissSearchController(searchController: UISearchController) {
-        mainQueue({
-            searchController.searchBar.hidden = true
-            
-            self.btnFavorites.hidden = false
-            self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Search, target: self, action: "actionSearch:")
-        })
+        searchController.searchBar.hidden = true
+        
+        self.btnFavorites.hidden = false
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Search, target: self, action: "actionSearch:")
     }
     
     func showSearchBar() {
