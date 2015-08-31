@@ -217,6 +217,16 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         return nowSectionTitle
     }
     
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return (section == items.count - 1) ?
+            /* leave enough space to expand under the tab bar */ ((UIApplication.sharedApplication().windows.first! as! UIWindow).rootViewController as! UITabBarController).tabBar.frame.size.height :
+            /* no space between sections */ 0
+    }
+    
+    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return (section == items.count - 1) ? UIView() : nil
+    }
+    
     // MARK: - notifications
     func didToggleFavorites() {
         backgroundQueue(loadItems, completion: {
