@@ -37,7 +37,8 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         return (UIApplication.sharedApplication().delegate as! AppDelegate).event
     }
 
-    var searchController : UISearchController?
+    let searchController = UISearchController(searchResultsController:  nil)
+    var initialized = false
     
     //MARK: - view controller
     
@@ -65,24 +66,48 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
             btnFavorites.hidden = false
         }
         
-        //set up the fav button
-        btnFavorites.frame = CGRect(x: navigationController!.navigationBar.bounds.size.width - 40, y: 0, width: 40, height: 38)
-        
-        btnFavorites.setImage(UIImage(named: "like-empty")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), forState: .Normal)
-        btnFavorites.setImage(UIImage(named: "like-full")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), forState: UIControlState.Selected)
-        btnFavorites.addTarget(self, action: Selector("actionToggleFavorites:"), forControlEvents: .TouchUpInside)
-        btnFavorites.tintColor = UIColor.whiteColor()
+        if !initialized {
+            initialized = true
+            
+            //set up the fav button
+            btnFavorites.frame = CGRect(x: navigationController!.navigationBar.bounds.size.width - 40, y: 0, width: 40, height: 38)
+            
+            btnFavorites.setImage(UIImage(named: "like-empty")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), forState: .Normal)
+            btnFavorites.setImage(UIImage(named: "like-full")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), forState: UIControlState.Selected)
+            btnFavorites.addTarget(self, action: Selector("actionToggleFavorites:"), forControlEvents: .TouchUpInside)
+            btnFavorites.tintColor = UIColor.whiteColor()
+            
+            navigationController!.navigationBar.addSubview(btnFavorites)
+            
+            //add button background
+            let gradient = CAGradientLayer()
+            gradient.frame = btnFavorites.bounds
+            gradient.colors = [UIColor(hexString: event[Event.mainColor]).colorWithAlphaComponent(0.1).CGColor, UIColor(hexString: event[Event.mainColor]).CGColor]
+            gradient.locations = [0, 0.25]
+            gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
+            gradient.endPoint = CGPoint(x: 1.0, y: 0.5)
+            btnFavorites.layer.insertSublayer(gradient, below: btnFavorites.imageView!.layer)
+            
+            //search bar
+            searchController.searchResultsUpdater = self
+            searchController.delegate = self
+            searchController.searchBar.delegate = self
+            
+            searchController.hidesNavigationBarDuringPresentation = false
+            searchController.dimsBackgroundDuringPresentation = false
+            
+            searchController.searchBar.center = CGPoint(
+                x: CGRectGetMinX(navigationController!.navigationBar.frame) + 4,
+                y: CGRectGetMinY(navigationController!.navigationBar.frame))
 
-        navigationController!.navigationBar.addSubview(btnFavorites)
+            navigationController!.navigationBar.addSubview(
+                searchController.searchBar
+            )
+        }
         
-        //add button background
-        let gradient = CAGradientLayer()
-        gradient.frame = btnFavorites.bounds
-        gradient.colors = [UIColor(hexString: event[Event.mainColor]).colorWithAlphaComponent(0.1).CGColor, UIColor(hexString: event[Event.mainColor]).CGColor]
-        gradient.locations = [0, 0.25]
-        gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradient.endPoint = CGPoint(x: 1.0, y: 0.5)
-        btnFavorites.layer.insertSublayer(gradient, below: btnFavorites.imageView!.layer)
+        if count(searchController.searchBar.text) > 0 {
+            actionSearch(self)
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -90,8 +115,16 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         
         btnFavorites.hidden = true
         
-        if let searchController = searchController {
-            didDismissSearchController(searchController)
+        //search bar
+        didDismissSearchController(searchController)
+    }
+    
+    override func willMoveToParentViewController(parent: UIViewController?) {
+        super.willMoveToParentViewController(parent)
+        
+        //search bar
+        if parent == nil {
+            searchController.searchBar.removeFromSuperview()
         }
     }
     
@@ -180,11 +213,9 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         cell.btnToggleIsFavorite.selected = (find(favorites, row[Speaker.idColumn]) != nil)
         
         if row[Speaker.photo]?.imageValue == nil {
-            
             userCtr.lookupUserImage(row, completion: {image in
                 mainQueue { cell.imageView?.image = image }
             })
-            
         }
         
         cell.indexPath = indexPath
@@ -204,7 +235,6 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
-        
         let section = items[indexPath.section]
         lastSelectedSpeaker = section[section.keys.first!]![indexPath.row]
         return indexPath
@@ -259,47 +289,33 @@ extension SpeakersViewController: UISearchControllerDelegate, UISearchResultsUpd
     //how can a single class be so broken @UISearchController?
     
     @IBAction func actionSearch(sender: AnyObject) {
-        //search
-        searchController = UISearchController(searchResultsController:  nil)
+        searchController.searchBar.hidden = false
         
-        if let searchController = searchController {
-            searchController.searchResultsUpdater = self
-            searchController.delegate = self
-            searchController.searchBar.delegate = self
-            
-            searchController.hidesNavigationBarDuringPresentation = false
-            searchController.dimsBackgroundDuringPresentation = false
-            
-            definesPresentationContext = true
-            
-            searchController.searchBar.center = CGPoint(
-                x: CGRectGetMinX(navigationController!.navigationBar.frame) + 4,
-                y: CGRectGetMaxY(navigationController!.navigationBar.frame))
-            
-            navigationController!.navigationBar.addSubview(
-                searchController.searchBar
-            )
-            
-            btnFavorites.hidden = true
-            navigationItem.prompt = "Speakers"
-            navigationItem.leftBarButtonItem = nil
-            
-            searchController.searchBar.becomeFirstResponder()
-        }
+        btnFavorites.hidden = true
+        navigationItem.leftBarButtonItem = nil
+        
+        searchController.searchBar.becomeFirstResponder()
     }
     
     func didDismissSearchController(searchController: UISearchController) {
-        
-        searchController.searchBar.resignFirstResponder()
-        searchController.searchResultsUpdater = nil
-        searchController.searchBar.delegate = nil
-        searchController.delegate = nil
-        self.searchController!.searchBar.removeFromSuperview()
-        self.searchController = nil
-        
-        btnFavorites.hidden = false
-        navigationItem.prompt = nil
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Search, target: self, action: "actionSearch:")
+        mainQueue({
+            searchController.searchBar.hidden = true
+            
+            self.btnFavorites.hidden = false
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Search, target: self, action: "actionSearch:")
+        })
+    }
+    
+    func showSearchBar() {
+        UIView.animateWithDuration(0.33, delay: 0, options: nil, animations: {
+            self.searchController.searchBar.alpha = 1
+            }, completion: nil)
+    }
+    
+    func hideSearchBar(completion: (()->Void)? = nil) {
+        UIView.animateWithDuration(0.33, delay: 0, options: nil, animations: {
+            self.searchController.searchBar.alpha = 0
+            }, completion: nil)
     }
     
     //search controller
