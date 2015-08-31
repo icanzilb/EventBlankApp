@@ -45,11 +45,21 @@ class MainViewController: UIViewController {
 
         nowTap = UITapGestureRecognizer(target: self, action: "didTapRightNow:")
         lblRightNow.addGestureRecognizer(nowTap)
+        
+        observeNotification(kDidReplaceEventFileNotification, selector: "didChangeFile")
     }
 
+    deinit {
+        observeNotification(kDidReplaceEventFileNotification, selector: nil)
+    }
+    
     var linkToSchedule = false
     
-    func setupUI() {
+    func didChangeFile() {
+        setupUI(scheduleAnotherReload: false)
+    }
+    
+    func setupUI(scheduleAnotherReload: Bool = true) {
         let event = (UIApplication.sharedApplication().delegate as! AppDelegate).event
         let primaryColor = UIColor(hexString: event[Event.mainColor])
         
@@ -74,10 +84,12 @@ class MainViewController: UIViewController {
         lblRightNow.text = nowText
         linkToSchedule = shouldLinkToSchedule
         
-        delay(seconds: 1 * 60, {
-            //refresh the right now info
-            self.setupUI()
-        })
+        if scheduleAnotherReload {
+            delay(seconds: 1 * 60, {
+                //refresh the right now info
+                self.setupUI()
+            })
+        }
     }
     
     func didTapRightNow(tap: UITapGestureRecognizer) {

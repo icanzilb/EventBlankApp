@@ -202,6 +202,11 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         
         let cell = self.tableView.dequeueReusableCellWithIdentifier("SpeakerCell") as! SpeakerCell
         
+        //eg guard
+        if indexPath.section >= items.count {
+            return cell
+        }
+        
         let section = items[indexPath.section]
         let row = section[section.keys.first!]![indexPath.row]
         

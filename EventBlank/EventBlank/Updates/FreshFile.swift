@@ -28,14 +28,9 @@ class FreshFile: NSObject, Printable, NSURLSessionDownloadDelegate {
     
     let manager = NSFileManager.defaultManager()
     
-    private var currentEtag: String?
-    
     init(localURL: NSURL, remoteURL: NSURL) {
         self.localURL = localURL
         self.remoteURL = remoteURL
-        
-        let defaults = NSUserDefaults.standardUserDefaults()
-        currentEtag = defaults.valueForKey("ETAG-\(self.remoteURL.absoluteString)") as? String
     }
     
     //MARK: - actions
@@ -127,11 +122,14 @@ class FreshFile: NSObject, Printable, NSURLSessionDownloadDelegate {
                 
             } else if let response = response as? NSHTTPURLResponse,
                 let newEtag = response.allHeaderFields["Etag"] as? String {
+                
+                let defaults = NSUserDefaults.standardUserDefaults()
+                let currentEtag = defaults.valueForKey("ETAG-\(self.remoteURL.absoluteString!)") as? String
                     
-                println("compare local \(self.currentEtag) to \(newEtag)")
+                println("compare local \(currentEtag) to \(newEtag)")
                 println("compare initial \(initialEtag) to \(newEtag)")
                 
-                if newEtag  != self.currentEtag && newEtag != initialEtag {
+                if newEtag  != currentEtag && newEtag != initialEtag {
                     //there is a newer file!
                     println("remote file is newer")
                     
@@ -141,7 +139,7 @@ class FreshFile: NSObject, Printable, NSURLSessionDownloadDelegate {
                     
                     if let contentLength = response.allHeaderFields["Content-Length"] as? String {
                         fileInfo!.contentLength = (contentLength as NSString).doubleValue
-                        //println("about to download \(fileInfo!.contentLength) bytes")
+                        println("about to download \(fileInfo!.contentLength) bytes")
                     }
                     
                 } else {
@@ -204,9 +202,12 @@ class FreshFile: NSObject, Printable, NSURLSessionDownloadDelegate {
         downloadInfo = info
         
         downloadHandlerWithProgress?(0.0)
-        downloadSession!.downloadTaskWithURL(remoteURL).resume()
+        let uniqueURLString = remoteURL.absoluteString! + ((remoteURL.query != nil) ? "" : "?") + "&rand=\(arc4random_uniform(arc4random()))"
+        let uniqueURL = NSURL(string: uniqueURLString)!
+        
+        downloadSession!.downloadTaskWithURL(uniqueURL).resume()
 
-        println("started update file download")
+        println("started update file download: \(uniqueURL.absoluteString)")
     }
     
     func delay(#seconds: Double, completion:()->()) {
@@ -223,12 +224,14 @@ class FreshFile: NSObject, Printable, NSURLSessionDownloadDelegate {
         
         //check if temp file is still there
         if let tempPath = info.tempPath where manager.fileExistsAtPath(tempPath) == false {
+            println("temp file already exists, exiting?")
             return //all done
         }
         
         //check if allowed to replace file
         for (key, handler) in self.willReplaceFileMap {
             if handler(info) == false {
+                println("not allowed to replace file right now")
                 return //retry on next ping to remote file
             }
         }
@@ -236,15 +239,21 @@ class FreshFile: NSObject, Printable, NSURLSessionDownloadDelegate {
         var replaceError: NSError?
         let replaceSuccess = FilePath(info.tempPath!).copyAndReplaceItemToPath(FilePath(localURL.path!), error: &replaceError)
         
-        println("did replace file")
+        if replaceSuccess {
+            println("did replace file")
+            NSFileManager().removeItemAtPath(info.tempPath!, error: nil)
+        } else {
+            println("could not replace file")
+        }
         isDownloading = false
         
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setValue(info.etag!, forKey: "ETAG-\(self.remoteURL.absoluteString)")
-        defaults.synchronize()
-        currentEtag = info.etag!
-        
         self.delay(seconds: 0.1, completion: {
+            
+            let defaults = NSUserDefaults.standardUserDefaults()
+            println("store etag \(info.etag!) in ETAG-\(self.remoteURL.absoluteString!)")
+            defaults.setValue(info.etag!, forKey: "ETAG-\(self.remoteURL.absoluteString!)")
+            defaults.synchronize()
+
             for (key, handler) in self.didReplaceFileMap {
                 handler(replaceSuccess)
             }
@@ -271,7 +280,7 @@ class FreshFile: NSObject, Printable, NSURLSessionDownloadDelegate {
         self.downloadSession?.invalidateAndCancel()
         self.downloadSession = nil
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+        mainQueue({
             if self.isDownloading {
                 self.replaceFile(info: self.downloadInfo!)
                 self.downloadInfo = nil

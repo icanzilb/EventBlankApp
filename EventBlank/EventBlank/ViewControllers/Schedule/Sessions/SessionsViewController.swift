@@ -53,14 +53,14 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         observeNotification(kFavoritesToggledNotification, selector: "didToggleFavorites")
         observeNotification(kFavoritesChangedNotification, selector: "didChangeFavorites")
         observeNotification(kScrollToCurrentSessionNotification, selector: "scrollToCurrentSession:")
-        observeNotification(kDidReplaceEventFileNotification, selector: "didChangeEventFile")
+        //observeNotification(kDidReplaceEventFileNotification, selector: "didChangeEventFile")
     }
     
     deinit {
         observeNotification(kFavoritesToggledNotification, selector: nil)
         observeNotification(kFavoritesChangedNotification, selector: nil)
         observeNotification(kScrollToCurrentSessionNotification, selector: nil)
-        observeNotification(kDidReplaceEventFileNotification, selector: nil)
+        //observeNotification(kDidReplaceEventFileNotification, selector: nil)
     }
     
     func loadItems() {
@@ -229,27 +229,15 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
     
     // MARK: - notifications
     func didToggleFavorites() {
-        backgroundQueue(loadItems, completion: {
-            UIView.transitionWithView(self.tableView, duration: 0.35, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
-                self.tableView.reloadData()
-                }, completion: nil)
-        })
+        backgroundQueue(loadItems, completion: self.tableView.reloadData)
     }
 
     func didChangeFavorites() {
-        backgroundQueue(loadItems, completion: {
-            UIView.transitionWithView(self.tableView, duration: 0.35, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
-                self.tableView.reloadData()
-                }, completion: nil)
-        })
+        backgroundQueue(loadItems, completion: self.tableView.reloadData)
     }
 
     func didChangeEventFile() {
-        backgroundQueue(loadItems, completion: {
-            UIView.transitionWithView(self.tableView, duration: 0.35, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
-                self.tableView.reloadData()
-                }, completion: nil)
-        })
+        backgroundQueue(loadItems, completion: self.tableView.reloadData)
     }
     
     func scrollToCurrentSession(n: NSNotification) {
