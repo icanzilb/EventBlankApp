@@ -185,6 +185,8 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
             speakerDetails.speaker = lastSelectedSpeaker
             speakerDetails.favorites = favorites
         }
+        
+        searchController.searchBar.endEditing(true)
     }
     
     //MARK: - table view methods
@@ -276,14 +278,20 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     
     func actionToggleFavorites(sender: AnyObject) {
         btnFavorites.selected = !btnFavorites.selected
-        btnFavorites.animateSelect(scale: 0.8, completion: {
-            self.notification(kFavoritesToggledNotification, object: nil)
+      
+        self.notification(kFavoritesToggledNotification, object: nil)
 
-            backgroundQueue(self.loadSpeakers, completion: {
-                UIView.transitionWithView(self.tableView, duration: 0.35, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
-                    self.tableView.reloadData()
-                    }, completion: nil)
-            })
+        let message = alert(btnFavorites.selected ? "Showing favorite speakers only" : "Showing all speakers", buttons: [], completion: nil)
+        delay(seconds: 1.0, {
+            message.dismissViewControllerAnimated(true, completion: nil)
+        })
+        
+        btnFavorites.animateSelect(scale: 0.8, completion: nil)
+        
+        backgroundQueue(self.loadSpeakers, completion: {
+            UIView.transitionWithView(self.tableView, duration: 0.15, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
+                self.tableView.reloadData()
+                }, completion: nil)
         })
     }
 
