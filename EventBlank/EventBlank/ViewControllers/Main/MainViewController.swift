@@ -158,5 +158,10 @@ class MainViewController: UIViewController {
         }
     }
     
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        print("prefferd status bar")
+        return .Default
+    }
 }
 

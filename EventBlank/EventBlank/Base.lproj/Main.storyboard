@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="LeO-UH-eFc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="LeO-UH-eFc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -33,7 +33,7 @@
         <!--Feed-->
         <scene sceneID="zUJ-UM-X7c">
             <objects>
-                <navigationController id="elk-FC-sOG" sceneMemberID="viewController">
+                <navigationController id="elk-FC-sOG" customClass="EANavigationController" customModule="EventBlank" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Feed" image="feed-empty" id="dlv-e0-axj"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="nhF-EP-Mfx">
@@ -53,7 +53,7 @@
         <!--Speakers-->
         <scene sceneID="CQK-IG-Hnj">
             <objects>
-                <navigationController id="oDP-tN-Y0W" sceneMemberID="viewController">
+                <navigationController id="oDP-tN-Y0W" customClass="EANavigationController" customModule="EventBlank" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Speakers" image="speakers-empty" id="nDg-7K-tDv"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="wMt-DI-11X">
@@ -75,7 +75,7 @@
         <!--Navigation Controller-->
         <scene sceneID="6zt-v8-R7q">
             <objects>
-                <navigationController id="Yuf-cJ-VJ2" sceneMemberID="viewController">
+                <navigationController id="Yuf-cJ-VJ2" customClass="EANavigationController" customModule="EventBlank" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="more" id="eRa-Qb-7t8"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="PPm-Lb-KcQ">
@@ -522,7 +522,7 @@
         <!--Schedule-->
         <scene sceneID="De9-LP-5Vu">
             <objects>
-                <navigationController storyboardIdentifier="ScheduleViewController" title="Schedule" id="Ubv-Ac-08b" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ScheduleViewController" title="Schedule" id="Ubv-Ac-08b" customClass="EANavigationController" customModule="EventBlank" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Schedule" image="calendar-empty" id="2MY-II-lyY"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="4Dc-uk-pxw">
