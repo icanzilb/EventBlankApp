@@ -3,7 +3,7 @@
   "module_name": "SQLite",
   "version": "0.1.0.pre",
   "summary": "A type-safe, Swift-language layer over SQLite3.",
-  "description": "    SQLite.swift provides compile-time confidence in SQL statement syntax and\n    intent.\n",
+  "description": "SQLite.swift provides compile-time confidence in SQL statement syntax and\nintent.",
   "homepage": "https://github.com/stephencelis/SQLite.swift",
   "license": {
     "type": "MIT",

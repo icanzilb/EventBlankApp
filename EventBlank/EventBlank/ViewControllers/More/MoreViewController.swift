@@ -108,7 +108,7 @@ class MoreViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let avc = VTAcknowledgementsViewController(acknowledgementsPlistPath:
                     NSBundle.mainBundle().pathForResource("Pods-acknowledgements", ofType: "plist")!
                 )
-                navigationController?.pushViewController(avc, animated: true)
+                navigationController?.pushViewController(avc!, animated: true)
                 
             case 2:
                 let defaults = NSUserDefaults.standardUserDefaults()

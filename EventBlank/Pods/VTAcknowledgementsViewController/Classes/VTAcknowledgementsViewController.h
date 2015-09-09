@@ -36,34 +36,29 @@
 @interface VTAcknowledgementsViewController : UITableViewController
 
 /**
- Custom font for the license main text view. If `nil` (default), the system font (size 17) is used.
- */
-@property (nonatomic, strong) UIFont *licenseTextViewFont;
-
-/**
  Array of `VTAcknowledgement`.
  */
-@property (nonatomic, strong) NSArray *acknowledgements;
+@property (nonatomic, strong, nullable) NSArray *acknowledgements;
 
 /**
  Header text to be displayed above the list of the acknowledgements. 
  It needs to get set before `viewDidLoad` gets called.
  Its value can be defined in the header of the plist file.
  */
-@property (nonatomic, copy) IBInspectable NSString *headerText;
+@property (nonatomic, copy, nullable) IBInspectable NSString *headerText;
 
 /**
  Footer text to be displayed below the list of the acknowledgements.
  It needs to get set before `viewDidLoad` gets called.
  Its value can be defined in the header of the plist file.
  */
-@property (nonatomic, copy) IBInspectable NSString *footerText;
+@property (nonatomic, copy, nullable) IBInspectable NSString *footerText;
 
 /**
  Acknowledgements plist file name whose contents to be loaded.
  It expects to get set by "User Defined Runtime Attributes" in Interface Builder.
  */
-@property (nonatomic, copy) IBInspectable NSString *acknowledgementsPlistName;
+@property (nonatomic, copy, nullable) IBInspectable NSString *acknowledgementsPlistName;
 
 
 /**
@@ -71,7 +66,7 @@
 
  @return A newly created `VTAcknowledgementsViewController` instance.
  */
-+ (instancetype)acknowledgementsViewController;
++ (nullable instancetype)acknowledgementsViewController;
 
 /**
  The localized version of “Acknowledgements”.
@@ -79,7 +74,7 @@
 
  @return The localized title.
  */
-+ (NSString *)localizedTitle;
++ (nonnull NSString *)localizedTitle;
 
 /**
  Initializes an acknowledgements view controller with the content of the `Pods-acknowledgements.plist`.
@@ -88,6 +83,6 @@
 
  @return A newly created `VTAcknowledgementsViewController` instance.
  */
-- (instancetype)initWithAcknowledgementsPlistPath:(NSString *)acknowledgementsPlistPath;
+- (nullable instancetype)initWithAcknowledgementsPlistPath:(nullable NSString *)acknowledgementsPlistPath;
 
 @end
