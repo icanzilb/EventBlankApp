@@ -284,10 +284,11 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     
     //MARK: - favorites
     func didFavoritesChange() {
-        favorites = Favorite.allSpeakerFavoriteIDs()
-        loadSpeakers()
-        mainQueue({ self.tableView.reloadData() })
-        
+        backgroundQueue({
+            self.favorites = Favorite.allSpeakerFavoriteIDs()
+            self.filterItemsWithTerm(nil, favorites: self.btnFavorites.selected)
+        },
+        completion: { self.tableView.reloadData() })
     }
     
     //notifications
@@ -382,7 +383,6 @@ extension SpeakersViewController: UISearchControllerDelegate, UISearchResultsUpd
         backgroundQueue({ self.filterItemsWithTerm(searchController.searchBar.text, favorites: self.btnFavorites.selected) },
             completion: { self.tableView.reloadData() })
     }
-    
 }
 
 

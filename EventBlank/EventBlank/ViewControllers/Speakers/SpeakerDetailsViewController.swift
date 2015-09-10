@@ -231,7 +231,6 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
         }
         
         if indexPath.section == 1 && tweets == nil {
-            println("show loader")
             return tableView.dequeueReusableCellWithIdentifier("LoadingCell") as! UITableViewCell
         }
         
