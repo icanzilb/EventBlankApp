@@ -111,6 +111,12 @@ class FeedViewController: KHTabPagerViewController, KHTabPagerDataSource, UIScro
         tweet("\(tag) ", image: image, urlString: nil, completion: {success in
             if success {
                 self.notification(kDidPostTweetNotification, object: nil)
+                mainQueue({
+                    let message = self.alert("Tweet posted successfully. It could take up to a minute to see it in the stream.", buttons: ["Close"], completion: nil)
+                    delay(seconds: 2.0, {
+                        message.dismissViewControllerAnimated(true, completion: nil)
+                    })
+                })
             }
         })
     }
@@ -122,7 +128,7 @@ class FeedViewController: KHTabPagerViewController, KHTabPagerDataSource, UIScro
     }
 
     func imagePickerDidSelectImage(image: UIImage!) {
-        delay(seconds: 0.1, {
+        delay(seconds: 0.5, {
             self.composeTweet(image: image)
         })
     }
