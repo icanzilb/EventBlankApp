@@ -117,6 +117,8 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         if count(searchController.searchBar.text) > 0 {
             actionSearch(self)
         }
+        
+        observeNotification(kTabItemSelectedNotification, selector: "didTapTabItem:")
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -126,8 +128,18 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         didDismissSearchController(searchController)
         
         btnFavorites.hidden = true
+        
+        observeNotification(kTabItemSelectedNotification, selector: nil)
     }
     
+    func didTapTabItem(notification: NSNotification) {
+        if let index = notification.userInfo?["object"] as? Int where index == EventBlankTabIndex.Speakers.rawValue {
+            mainQueue({
+                self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+            })
+        }
+    }
+
     override func willMoveToParentViewController(parent: UIViewController?) {
         super.willMoveToParentViewController(parent)
         
@@ -230,8 +242,10 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         })
         
         cell.nameLabel.text = row[Speaker.name]
-        if let twitter = row[Speaker.twitter] {
+        if let twitter = row[Speaker.twitter] where count(twitter) > 0 {
             cell.twitterLabel.text = twitter.hasPrefix("@") ? twitter : "@"+twitter
+        } else {
+            cell.twitterLabel.text = ""
         }
         cell.btnToggleIsFavorite.selected = (find(favorites, row[Speaker.idColumn]) != nil)
         

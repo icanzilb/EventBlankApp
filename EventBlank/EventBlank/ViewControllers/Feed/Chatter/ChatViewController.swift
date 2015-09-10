@@ -26,6 +26,24 @@ class ChatViewController: TweetListViewController {
         observeNotification(kDidPostTweetNotification, selector: nil)
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        observeNotification(kTabItemSelectedNotification, selector: "didTapTabItem:")
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        observeNotification(kTabItemSelectedNotification, selector: nil)
+    }
+    
+    func didTapTabItem(notification: NSNotification) {
+        if let index = notification.userInfo?["object"] as? Int where index == EventBlankTabIndex.Feed.rawValue {
+            mainQueue({
+                self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+            })
+        }
+    }
+
     //MARK: - table view methods
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         

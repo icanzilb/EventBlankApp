@@ -68,6 +68,7 @@
 		9C7F1C441B91FDD4008CE136 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F1C431B91FDD4008CE136 /* MainViewController.swift */; };
 		9C8AC0101BA1688F006B980F /* FeedViewController+Pager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AC00F1BA1688F006B980F /* FeedViewController+Pager.swift */; };
 		9C8AC0171BA16F8E006B980F /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AC0161BA16F8E006B980F /* UIImage+Extension.swift */; };
+		9C8AC0191BA1E900006B980F /* EATabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AC0181BA1E900006B980F /* EATabbarController.swift */; };
 		9C8E49581B8A139000A5FA8D /* PhotoPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8E49571B8A139000A5FA8D /* PhotoPopupView.swift */; };
 		9C8E495A1B8A788A00A5FA8D /* FollowTwitterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8E49591B8A788A00A5FA8D /* FollowTwitterButton.swift */; };
 		9C8FCA9A1B40881300EFE8B8 /* Pods-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C8FCA991B40881300EFE8B8 /* Pods-acknowledgements.plist */; };
@@ -230,6 +231,7 @@
 		9C7F1C431B91FDD4008CE136 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainViewController.swift; path = Main/MainViewController.swift; sourceTree = "<group>"; };
 		9C8AC00F1BA1688F006B980F /* FeedViewController+Pager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FeedViewController+Pager.swift"; sourceTree = "<group>"; };
 		9C8AC0161BA16F8E006B980F /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		9C8AC0181BA1E900006B980F /* EATabbarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EATabbarController.swift; sourceTree = "<group>"; };
 		9C8E49571B8A139000A5FA8D /* PhotoPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPopupView.swift; sourceTree = "<group>"; };
 		9C8E49591B8A788A00A5FA8D /* FollowTwitterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowTwitterButton.swift; sourceTree = "<group>"; };
 		9C8FCA991B40881300EFE8B8 /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Pods-acknowledgements.plist"; path = "Pods/Target Support Files/Pods/Pods-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -458,6 +460,7 @@
 				9CC44CE01B36CE720026564D /* Feed */,
 				9CC051931B34BE5E0024033A /* Schedule */,
 				9CCE95381B9F817F00F9D126 /* EANavigationController.swift */,
+				9C8AC0181BA1E900006B980F /* EATabbarController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -934,6 +937,7 @@
 				9CA0F7281B37504F0054197F /* TabStripNavigationController.swift in Sources */,
 				9CA0F72A1B375E960054197F /* RefreshView.swift in Sources */,
 				9C330CAA1B34B173002A0D1E /* NewsController.swift in Sources */,
+				9C8AC0191BA1E900006B980F /* EATabbarController.swift in Sources */,
 				9C8FCAA51B408BE100EFE8B8 /* credits.markdown in Sources */,
 				9C10A1081AB188C80052C730 /* Ext.swift in Sources */,
 				9CF717EE1B3844EA0093C636 /* SpeakerDetailsCell.swift in Sources */,

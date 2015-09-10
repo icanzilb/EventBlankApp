@@ -20,8 +20,19 @@ class NewsViewController: TweetListViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if Event.event[Event.twitterChatter] < 1 {
-            navigationItem.rightBarButtonItem = nil
+        observeNotification(kTabItemSelectedNotification, selector: "didTapTabItem:")
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        observeNotification(kTabItemSelectedNotification, selector: nil)
+    }
+    
+    func didTapTabItem(notification: NSNotification) {
+        if let index = notification.userInfo?["object"] as? Int where index == EventBlankTabIndex.Feed.rawValue {
+            mainQueue({
+                self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+            })
         }
     }
     

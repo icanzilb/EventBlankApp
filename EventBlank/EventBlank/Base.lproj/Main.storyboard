@@ -6,10 +6,10 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--Tab Bar Controller-->
+        <!--Tabbar Controller-->
         <scene sceneID="YUA-nF-o8c">
             <objects>
-                <tabBarController id="LeO-UH-eFc" sceneMemberID="viewController">
+                <tabBarController id="LeO-UH-eFc" customClass="EATabbarController" customModule="EventBlank" customModuleProvider="target" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" itemPositioning="centered" id="DSF-zG-WKc">

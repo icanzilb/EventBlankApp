@@ -35,7 +35,9 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
         tableView.rowHeight = UITableViewAutomaticDimension
         
         //fetch new tweets
-        backgroundQueue(fetchTweets)
+        if let twitterHandle = speaker[Speaker.twitter] where count(twitterHandle) > 0 {
+            backgroundQueue(fetchTweets)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -46,7 +48,10 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
         
     //MARK: - table view methods
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        if let twitterHandle = speaker[Speaker.twitter] where count(twitterHandle) > 0 {
+            return 2
+        }
+        return 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,7 +74,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
             
             cell.nameLabel.text = speaker[Speaker.name]
             
-            if let twitterHandle = speaker[Speaker.twitter] {
+            if let twitterHandle = speaker[Speaker.twitter] where count(twitterHandle) > 0 {
                 cell.twitterLabel.text = twitterHandle.hasPrefix("@") ? twitterHandle : "@"+twitterHandle
                 cell.didTapTwitter = {
                     let twitterUrl = NSURL(string: "https://twitter.com/" + twitterHandle)!

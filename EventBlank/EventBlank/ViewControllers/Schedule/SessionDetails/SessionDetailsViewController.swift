@@ -66,7 +66,7 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
             
             cell.trackTitleLabel.text = session[Track.track]
             
-            if let twitter = session[Speaker.twitter] {
+            if let twitter = session[Speaker.twitter] where count(twitter) > 0 {
                 cell.twitterLabel.text = twitter.hasPrefix("@") ? twitter : "@"+twitter
                 cell.didTapTwitter = {
                     let twitterUrl = NSURL(string: "https://twitter.com/" + twitter)!

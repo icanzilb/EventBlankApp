@@ -13,6 +13,8 @@ let kShowCurrentSessionNotification = "kShowCurrentSessionNotification"
 
 enum EventBlankTabIndex: Int {
     case Schedule = 1
+    case Feed = 2
+    case Speakers = 3
 }
 
 class MainViewController: UIViewController {
