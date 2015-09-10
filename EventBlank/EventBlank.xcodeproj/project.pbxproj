@@ -66,6 +66,8 @@
 		9C6EFA361B3AFBFC00FE7A72 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EFA351B3AFBFC00FE7A72 /* MoreViewController.swift */; };
 		9C6EFA381B3AFF4E00FE7A72 /* MDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EFA371B3AFF4E00FE7A72 /* MDViewController.swift */; };
 		9C7F1C441B91FDD4008CE136 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F1C431B91FDD4008CE136 /* MainViewController.swift */; };
+		9C8AC0101BA1688F006B980F /* FeedViewController+Pager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AC00F1BA1688F006B980F /* FeedViewController+Pager.swift */; };
+		9C8AC0171BA16F8E006B980F /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AC0161BA16F8E006B980F /* UIImage+Extension.swift */; };
 		9C8E49581B8A139000A5FA8D /* PhotoPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8E49571B8A139000A5FA8D /* PhotoPopupView.swift */; };
 		9C8E495A1B8A788A00A5FA8D /* FollowTwitterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8E49591B8A788A00A5FA8D /* FollowTwitterButton.swift */; };
 		9C8FCA9A1B40881300EFE8B8 /* Pods-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C8FCA991B40881300EFE8B8 /* Pods-acknowledgements.plist */; };
@@ -76,7 +78,6 @@
 		9CA0F7261B374C8F0054197F /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA0F7251B374C8F0054197F /* WebViewController.swift */; };
 		9CA0F7281B37504F0054197F /* TabStripNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA0F7271B37504F0054197F /* TabStripNavigationController.swift */; };
 		9CA0F72A1B375E960054197F /* RefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA0F7291B375E960054197F /* RefreshView.swift */; };
-		9CAECFCC1B4ED5AC009F3D2F /* CocoaMarkdown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CAECFBE1B4ED511009F3D2F /* CocoaMarkdown.framework */; };
 		9CAECFCF1B4ED651009F3D2F /* event-data.eventblank in Resources */ = {isa = PBXBuildFile; fileRef = 9CAECFCE1B4ED651009F3D2F /* event-data.eventblank */; };
 		9CC051951B34BE710024033A /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC051941B34BE710024033A /* ScheduleViewController.swift */; };
 		9CC44CDD1B36C1D60026564D /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC44CDC1B36C1D60026564D /* Favorite.swift */; };
@@ -227,6 +228,8 @@
 		9C6EFA351B3AFBFC00FE7A72 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		9C6EFA371B3AFF4E00FE7A72 /* MDViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MDViewController.swift; sourceTree = "<group>"; };
 		9C7F1C431B91FDD4008CE136 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainViewController.swift; path = Main/MainViewController.swift; sourceTree = "<group>"; };
+		9C8AC00F1BA1688F006B980F /* FeedViewController+Pager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FeedViewController+Pager.swift"; sourceTree = "<group>"; };
+		9C8AC0161BA16F8E006B980F /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		9C8E49571B8A139000A5FA8D /* PhotoPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPopupView.swift; sourceTree = "<group>"; };
 		9C8E49591B8A788A00A5FA8D /* FollowTwitterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowTwitterButton.swift; sourceTree = "<group>"; };
 		9C8FCA991B40881300EFE8B8 /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Pods-acknowledgements.plist"; path = "Pods/Target Support Files/Pods/Pods-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -261,7 +264,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C2D60B51B5AFA0600CD38BB /* CocoaMarkdown.framework in Frameworks */,
-				9CAECFCC1B4ED5AC009F3D2F /* CocoaMarkdown.framework in Frameworks */,
 				175F180D912D8562B199622C /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -421,6 +423,7 @@
 				9CF717EF1B384A750093C636 /* Notification.swift */,
 				9C5057371B5AE42000D71885 /* ViewController+Extensions.swift */,
 				9C3487CB1B88C48300FB0973 /* UIView+Extensions.swift */,
+				9C8AC0161BA16F8E006B980F /* UIImage+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -663,6 +666,7 @@
 			isa = PBXGroup;
 			children = (
 				9CC44CE21B36CF260026564D /* FeedViewController.swift */,
+				9C8AC00F1BA1688F006B980F /* FeedViewController+Pager.swift */,
 				9CA0F7271B37504F0054197F /* TabStripNavigationController.swift */,
 				9C32BF631B4FE99A00196B19 /* TweetListViewController.swift */,
 				9CDF8C6D1B37FDD800CDD2B8 /* TweetCell.swift */,
@@ -744,7 +748,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = "Underplot ltd.";
 				TargetAttributes = {
 					9C10A0C81AB186490052C730 = {
@@ -959,6 +963,7 @@
 				9C34BB8B1B5D85FA00C888A6 /* FontAwesome+UIBarButtonItem.swift in Sources */,
 				9C34BB8E1B5D85FA00C888A6 /* FontAwesome+UIImage.swift in Sources */,
 				9C34BB901B5D85FA00C888A6 /* FontAwesome.swift in Sources */,
+				9C8AC0101BA1688F006B980F /* FeedViewController+Pager.swift in Sources */,
 				9CC44CE31B36CF260026564D /* FeedViewController.swift in Sources */,
 				9C5057381B5AE42000D71885 /* ViewController+Extensions.swift in Sources */,
 				9C6CD5111B58F99F00B62C36 /* StatusBarDownloadProgressView.swift in Sources */,
@@ -971,6 +976,7 @@
 				9C330CAC1B34B179002A0D1E /* NewsViewController.swift in Sources */,
 				9C6EFA381B3AFF4E00FE7A72 /* MDViewController.swift in Sources */,
 				9CF717F01B384A750093C636 /* Notification.swift in Sources */,
+				9C8AC0171BA16F8E006B980F /* UIImage+Extension.swift in Sources */,
 				9C330CA61B34B164002A0D1E /* UserModel.swift in Sources */,
 				9C330C831B34B005002A0D1E /* AF+Date+Extension.swift in Sources */,
 				9C06CAE01B34C95E0056CC5F /* SessionsViewController.swift in Sources */,

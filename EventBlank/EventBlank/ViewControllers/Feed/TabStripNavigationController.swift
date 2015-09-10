@@ -7,20 +7,10 @@
 //
 
 import UIKit
-import XLPagerTabStrip
 
-class TabStripNavigationController: UINavigationController, XLPagerTabStripChildItem {
+class TabStripNavigationController: UINavigationController {
 
     //MARK: - page strip
-    
-    func titleForPagerTabStripViewController(pagerTabStripViewController: XLPagerTabStripViewController!) -> String! {
-        return self.title
-    }
-    
-    func colorForPagerTabStripViewController(pagerTabStripViewController: XLPagerTabStripViewController!) -> UIColor! {
-        return UIColor.whiteColor()
-    }
-
     override func pushViewController(viewController: UIViewController, animated: Bool) {
         super.pushViewController(viewController, animated: animated)
         

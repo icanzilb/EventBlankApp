@@ -3,6 +3,7 @@ PODS:
   - DynamicColor (1.5.4)
   - HanekeSwift (0.9.1)
   - JSImagePickerController (0.6.1)
+  - KHTabPagerViewController (0.1.1)
   - MAThemeKit (1.0)
   - Reachability (3.2)
   - SQLite.swift (0.1.0.pre):
@@ -21,6 +22,7 @@ DEPENDENCIES:
   - HanekeSwift
   - JSImagePickerController (from `https://github.com/icanzilb/JSImagePickerController.git`,
     tag `0.6.1`)
+  - KHTabPagerViewController (~> 0.1.0)
   - MAThemeKit
   - Reachability
   - SQLite.swift (from `https://github.com/stephencelis/SQLite.swift.git`)
@@ -49,6 +51,7 @@ SPEC CHECKSUMS:
   DynamicColor: 788c4add2bc2db5575423a2f2763ad11e0f0b4cf
   HanekeSwift: 50d37bfbc4432edc649167e538c259feccb4a2bb
   JSImagePickerController: 7a00f1ba272e7ea58e3cf1495b275f40885d000a
+  KHTabPagerViewController: 95f627e7d779fe95733c9c86f20d89d053521c02
   MAThemeKit: 559acc98ceadc051cccb1b6bb0c4ca28475eb021
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SQLite.swift: 62bdf79b05b2a88b94d4b8f9a3b7aa94bfedc660

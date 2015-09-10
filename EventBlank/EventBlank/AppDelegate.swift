@@ -74,6 +74,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func setupUI() {
+        window?.backgroundColor = UIColor.whiteColor()
+        
         let primaryColor = UIColor(hexString: event[Event.mainColor])
         let secondaryColor = UIColor(hexString: event[Event.secondaryColor])
 

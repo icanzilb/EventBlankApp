@@ -5,6 +5,7 @@ pod 'SQLite.swift', git: 'https://github.com/stephencelis/SQLite.swift.git'
 
 #tab strips
 pod 'XLPagerTabStrip', '~> 1.0'
+pod 'KHTabPagerViewController', '~> 0.1.0'
 
 #async tasks
 pod 'TaskQueue'

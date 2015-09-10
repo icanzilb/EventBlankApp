@@ -33,7 +33,7 @@
         <!--Feed-->
         <scene sceneID="zUJ-UM-X7c">
             <objects>
-                <navigationController id="elk-FC-sOG" customClass="EANavigationController" customModule="EventBlank" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController navigationBarHidden="YES" id="elk-FC-sOG" customClass="EANavigationController" customModule="EventBlank" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Feed" image="feed-empty" id="dlv-e0-axj"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="nhF-EP-Mfx">
@@ -325,23 +325,12 @@
                         <viewControllerLayoutGuide type="bottom" id="6Vq-Oi-XLB"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="14w-fQ-px6">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="gKd-Xd-WU5">
                         <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="DtP-Q9-giy">
-                            <rect key="frame" x="66.5" y="7" width="242" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <segments>
-                                <segment title="News"/>
-                                <segment title="Chatter"/>
-                            </segments>
-                            <connections>
-                                <action selector="actionChangeSelectedSegment:" destination="crl-hi-75M" eventType="valueChanged" id="0ma-ig-f9B"/>
-                            </connections>
-                        </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" enabled="NO" style="done" systemItem="compose" id="wA1-ry-1EO">
                             <connections>
                                 <action selector="actionNew:" destination="crl-hi-75M" id="jvU-ra-jeb"/>
@@ -350,8 +339,6 @@
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="btnCompose" destination="wA1-ry-1EO" id="D2w-SN-lDD"/>
-                        <outlet property="tabControl" destination="DtP-Q9-giy" id="38I-dg-Bju"/>
                         <segue destination="g9m-UN-DQn" kind="show" identifier="ContainNews" id="jSh-ut-XW7"/>
                         <segue destination="hxD-66-BoV" kind="show" identifier="ContainChat" id="ERP-Nx-Yjc"/>
                     </connections>
@@ -767,7 +754,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CHY-mQ-04m">
-                                                    <rect key="frame" x="80" y="27" width="287" height="83.5"/>
+                                                    <rect key="frame" x="80" y="29" width="287" height="81.5"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <attributedString key="attributedText">
                                                         <fragment>
@@ -787,14 +774,10 @@
                                                         <constraint firstAttribute="height" constant="64.5" id="ECt-f8-69i"/>
                                                         <constraint firstAttribute="width" constant="64" id="RUN-Aa-DDr"/>
                                                     </constraints>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="5"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bLK-W7-kQU">
+                                                <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bLK-W7-kQU">
                                                     <rect key="frame" x="85" y="11" width="38.5" height="16"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="TQd-RP-tPl"/>
                                                         <constraint firstAttribute="height" constant="16" id="jeV-PK-kP8"/>
@@ -808,10 +791,11 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SYh-kB-TTg">
-                                                    <rect key="frame" x="302" y="9" width="64" height="21"/>
+                                                <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SYh-kB-TTg">
+                                                    <rect key="frame" x="302" y="11.5" width="64" height="16"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="21" id="JZ6-fZ-IK5"/>
+                                                        <constraint firstAttribute="height" constant="16" id="JZ6-fZ-IK5"/>
                                                         <constraint firstAttribute="width" constant="64" id="uFb-La-xZc"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -836,7 +820,7 @@
                                                 <constraint firstItem="CHY-mQ-04m" firstAttribute="leading" secondItem="uU1-Do-Ej1" secondAttribute="leadingMargin" constant="72" id="73H-Om-NuX"/>
                                                 <constraint firstItem="R9r-zg-bDx" firstAttribute="top" secondItem="uU1-Do-Ej1" secondAttribute="topMargin" constant="5" id="9PT-Uq-CwE"/>
                                                 <constraint firstItem="CHY-mQ-04m" firstAttribute="trailing" secondItem="uU1-Do-Ej1" secondAttribute="trailingMargin" id="B2t-lV-xke"/>
-                                                <constraint firstItem="CHY-mQ-04m" firstAttribute="top" secondItem="uU1-Do-Ej1" secondAttribute="topMargin" constant="19" id="EiG-zO-SNk"/>
+                                                <constraint firstItem="CHY-mQ-04m" firstAttribute="top" secondItem="uU1-Do-Ej1" secondAttribute="topMargin" constant="21" id="EiG-zO-SNk"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="SYh-kB-TTg" secondAttribute="trailing" constant="1" id="K7z-LH-JdB"/>
                                                 <constraint firstItem="SYh-kB-TTg" firstAttribute="centerY" secondItem="bLK-W7-kQU" secondAttribute="centerY" id="Kno-Tx-N1p"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="lKC-vl-46F" secondAttribute="bottom" constant="0.5" id="R84-Jq-tOf"/>
@@ -1449,7 +1433,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Qj-mm-RcR">
-                                                    <rect key="frame" x="80" y="27" width="287" height="83.5"/>
+                                                    <rect key="frame" x="80" y="29" width="287" height="81.5"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <attributedString key="attributedText">
                                                         <fragment>
@@ -1469,14 +1453,10 @@
                                                         <constraint firstAttribute="height" constant="64.5" id="dE8-oP-ISx"/>
                                                         <constraint firstAttribute="width" constant="64" id="xmp-En-QjZ"/>
                                                     </constraints>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="5"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uos-xv-jtd">
+                                                <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uos-xv-jtd">
                                                     <rect key="frame" x="85" y="11" width="36" height="16"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="16" id="9oz-Wb-Nl1"/>
                                                         <constraint firstAttribute="height" constant="21" id="qM0-E1-MCw"/>
@@ -1490,11 +1470,12 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i9o-1o-srm">
-                                                    <rect key="frame" x="302" y="9" width="64" height="21"/>
+                                                <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i9o-1o-srm">
+                                                    <rect key="frame" x="302" y="11.5" width="64" height="16"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="64" id="Tpi-kM-6ya"/>
-                                                        <constraint firstAttribute="height" constant="21" id="Uij-Wk-SJh"/>
+                                                        <constraint firstAttribute="height" constant="16" id="Uij-Wk-SJh"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -1524,7 +1505,7 @@
                                                 <constraint firstItem="4Qj-mm-RcR" firstAttribute="trailing" secondItem="xF8-Oi-xyK" secondAttribute="trailingMargin" id="GY6-Jv-T8I"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="i9o-1o-srm" secondAttribute="trailing" constant="1" id="WbF-5x-s0S"/>
                                                 <constraint firstItem="8Z7-nc-dch" firstAttribute="leading" secondItem="xF8-Oi-xyK" secondAttribute="leadingMargin" constant="72" id="Z2h-9a-6aO"/>
-                                                <constraint firstItem="4Qj-mm-RcR" firstAttribute="top" secondItem="xF8-Oi-xyK" secondAttribute="topMargin" constant="19" id="aRV-ME-6da"/>
+                                                <constraint firstItem="4Qj-mm-RcR" firstAttribute="top" secondItem="xF8-Oi-xyK" secondAttribute="topMargin" constant="21" id="aRV-ME-6da"/>
                                                 <constraint firstItem="8Z7-nc-dch" firstAttribute="top" secondItem="4Qj-mm-RcR" secondAttribute="bottom" constant="6.5" id="f4n-Cp-D9r"/>
                                                 <constraint firstItem="Uos-xv-jtd" firstAttribute="leading" secondItem="xF8-Oi-xyK" secondAttribute="leadingMargin" constant="77" id="n20-Lr-LJJ"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="8Z7-nc-dch" secondAttribute="bottom" constant="0.5" id="vQw-g1-gTQ"/>
@@ -1575,6 +1556,6 @@
         <image name="star-empty" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="8vY-CE-T4n"/>
+        <segue reference="xHw-1A-5jL"/>
     </inferredMetricsTieBreakers>
 </document>

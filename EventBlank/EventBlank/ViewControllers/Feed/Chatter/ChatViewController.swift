@@ -52,7 +52,11 @@ class ChatViewController: TweetListViewController {
         if let user = user {
             cell.nameLabel.text = user[User.name]
             if let imageUrlString = user[User.photoUrl], let imageUrl = NSURL(string: imageUrlString) {
-                cell.userImage.hnk_setImageFromURL(imageUrl, placeholder: UIImage(named: "feed-item"))
+                cell.userImage.hnk_setImageFromURL(imageUrl, placeholder: UIImage(named: "feed-item"), format: nil, failure: nil, success: {image in
+                    image.asyncToSize(cell.userImage.bounds.size, cornerRadius: 5.0, completion: {result in
+                        cell.userImage.image = result
+                    })
+                })
             }
         }
         
@@ -72,8 +76,16 @@ class ChatViewController: TweetListViewController {
     //MARK: - fetching data
     
     override func loadTweets() {
+        //fetch latest tweets from db
+        let latestText = tweets.first?[Chat.message]
+        
         tweets = self.chatCtr.allMessages()
         lastRefresh = NSDate().timeIntervalSince1970
+        
+        if latestText == tweets.first?[Chat.message] {
+            //latest tweet is the same, bail
+            return;
+        }
         
         mainQueue {
             self.tableView.reloadData()
