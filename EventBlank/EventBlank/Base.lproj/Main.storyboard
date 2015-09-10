@@ -809,11 +809,6 @@
                                                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="150" id="FLU-RQ-l0R"/>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="agD-cY-06M"/>
                                                     </constraints>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="5"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
                                                 </imageView>
                                             </subviews>
                                             <constraints>
@@ -1488,11 +1483,6 @@
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="bA3-MW-2bN"/>
                                                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="150" id="xUt-re-jor"/>
                                                     </constraints>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="5"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
                                                 </imageView>
                                             </subviews>
                                             <constraints>
@@ -1556,6 +1546,6 @@
         <image name="star-empty" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="xHw-1A-5jL"/>
+        <segue reference="8vY-CE-T4n"/>
     </inferredMetricsTieBreakers>
 </document>

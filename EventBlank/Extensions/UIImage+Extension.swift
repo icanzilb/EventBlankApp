@@ -10,17 +10,28 @@ import UIKit
 
 extension UIImage {
     
-    func asyncToSize(size: CGSize, cornerRadius: CGFloat = 0.0, completion: ((UIImage?)->Void)? = nil) {
+    func asyncToSize(newSize: CGSize, cornerRadius: CGFloat = 0.0, completion: ((UIImage?)->Void)? = nil) {
 
         var result: UIImage? = nil
         
         backgroundQueue({
-            let rect = CGRect(origin: CGPoint.zeroPoint, size: size)
-
-            UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.mainScreen().scale)
-            CGContextAddPath(UIGraphicsGetCurrentContext(), UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius).CGPath)
-            CGContextClip(UIGraphicsGetCurrentContext())
             
+            let aspectWidth = newSize.width / self.size.width
+            let aspectHeight = newSize.height / self.size.height
+            let aspectRatio = max(aspectWidth, aspectHeight)
+            
+            var rect = CGRect.zeroRect
+            
+            rect.size.width = self.size.width * aspectRatio
+            rect.size.height = self.size.height * aspectRatio
+            rect.origin.x = (newSize.width - rect.size.width) / 2.0
+            rect.origin.y = (newSize.height - rect.size.height) / 2.0
+
+            UIGraphicsBeginImageContextWithOptions(newSize, false, UIScreen.mainScreen().scale)
+            if cornerRadius > 0.0 {
+                CGContextAddPath(UIGraphicsGetCurrentContext(), UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius).CGPath)
+                CGContextClip(UIGraphicsGetCurrentContext())
+            }
             self.drawInRect(rect)
             
             result = UIGraphicsGetImageFromCurrentImageContext()

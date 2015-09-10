@@ -42,7 +42,11 @@ class ChatViewController: TweetListViewController {
         cell.message.selectedRange = NSRange(location: 0, length: 0)
         
         if let attachmentUrlString = tweet[Chat.imageUrl], let attachmentUrl = NSURL(string: attachmentUrlString) {
-            cell.attachmentImage.hnk_setImageFromURL(attachmentUrl)
+            cell.attachmentImage.hnk_setImageFromURL(attachmentUrl, placeholder: nil, format: nil, failure: nil, success: {image in
+                image.asyncToSize(CGSize(width: cell.attachmentImage.bounds.width, height: 150), cornerRadius: 0.0, completion: {result in
+                    cell.attachmentImage.image = result
+                })
+            })
             cell.didTapAttachment = {
                 PhotoPopupView.showImageWithUrl(attachmentUrl, inView: self.view)
             }
