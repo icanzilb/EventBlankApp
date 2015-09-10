@@ -1,0 +1,6 @@
+framework module KHTabPagerViewController {
+  umbrella header "KHTabPagerViewController-umbrella.h"
+
+  export *
+  module * { export * }
+}

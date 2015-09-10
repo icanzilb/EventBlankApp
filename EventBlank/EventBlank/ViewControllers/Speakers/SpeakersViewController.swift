@@ -27,6 +27,8 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     typealias SpeakerSection = [String: [Row]]
     
     var items = [SpeakerSection]()
+    var filteredItems = [SpeakerSection]()
+    
     var favorites = Favorite.allSpeakerFavoriteIDs()
     
     var lastSelectedSpeaker: Row?
@@ -41,14 +43,14 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     var initialized = false
     
     //MARK: - view controller
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        backgroundQueue(loadSpeakers)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        backgroundQueue(loadSpeakers, completion: {
-            self.tableView.reloadData()
-        })
-
         //notifications
         observeNotification(kFavoritesChangedNotification, selector: "didFavoritesChange")
         observeNotification(kDidReplaceEventFileNotification, selector: "didChangeEventFile")
@@ -68,6 +70,12 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         
         if !initialized {
             initialized = true
+            
+            if items.count == 0 {
+                backgroundQueue(loadSpeakers, completion: {
+                    self.tableView.reloadData()
+                })
+            }
             
             //set up the fav button
             btnFavorites.frame = CGRect(x: navigationController!.navigationBar.bounds.size.width - 40, y: 0, width: 40, height: 38)
@@ -97,9 +105,10 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
             searchController.dimsBackgroundDuringPresentation = false
             
             searchController.searchBar.center = CGPoint(
-                x: CGRectGetMinX(navigationController!.navigationBar.frame) + 4,
-                y: CGRectGetMinY(navigationController!.navigationBar.frame))
-
+                x: CGRectGetMidX(navigationController!.navigationBar.frame) + 4,
+                y: 20) //wtf search controller, just wtf?
+            searchController.searchBar.hidden = true
+            
             navigationController!.navigationBar.addSubview(
                 searchController.searchBar
             )
@@ -108,6 +117,8 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         if count(searchController.searchBar.text) > 0 {
             actionSearch(self)
         }
+        
+        observeNotification(kTabItemSelectedNotification, selector: "didTapTabItem:")
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -117,8 +128,18 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         didDismissSearchController(searchController)
         
         btnFavorites.hidden = true
+        
+        observeNotification(kTabItemSelectedNotification, selector: nil)
     }
     
+    func didTapTabItem(notification: NSNotification) {
+        if let index = notification.userInfo?["object"] as? Int where index == EventBlankTabIndex.Speakers.rawValue {
+            mainQueue({
+                self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+            })
+        }
+    }
+
     override func willMoveToParentViewController(parent: UIViewController?) {
         super.willMoveToParentViewController(parent)
         
@@ -133,17 +154,11 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func loadSpeakers(searchTerm: String?) {
-        items = []
+
+        var items = [ScheduleDaySection]()
         
         //load speakers
         var rows = database[SpeakerConfig.tableName].order(Speaker.name).map {$0}
-        if btnFavorites.selected {
-            rows = rows.filter({ (find(self.favorites, $0[Speaker.idColumn]) != nil) })
-        }
-        
-        if let searchTerm = searchTerm {
-            rows = rows.filter({ ($0[Speaker.name]).contains(searchTerm, ignoreCase: true) })
-        }
         
         //order and group speakers
         var sectionUsers = [Row]()
@@ -169,15 +184,19 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
             items.append(newSection)
         }
         
-        mainQueue({
-            if self.items.count == 0 {
-                self.tableView.hidden = true
-                self.view.addSubview(MessageView(text: "You currently have no favorited speakers"))
-            } else {
-                self.tableView.hidden = false
-                MessageView.removeViewFrom(self.view)
-            }
-        })
+        if self.tableView != nil {
+            mainQueue({
+                if self.items.count == 0 {
+                    self.tableView.hidden = true
+                    self.view.addSubview(MessageView(text: "You currently have no favorited speakers"))
+                } else {
+                    self.tableView.hidden = false
+                    MessageView.removeViewFrom(self.view)
+                }
+            })
+        }
+        
+        self.items = items
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -185,20 +204,27 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
             speakerDetails.speaker = lastSelectedSpeaker
             speakerDetails.favorites = favorites
         }
+        
+        searchController.searchBar.endEditing(true)
     }
     
     //MARK: - table view methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        let items = isFiltering ? filteredItems : self.items
+        
         return items.count
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let items = isFiltering ? filteredItems : self.items
+        
         let section = items[section]
         return section[section.keys.first!]!.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let items = isFiltering ? filteredItems : self.items
         
         let cell = self.tableView.dequeueReusableCellWithIdentifier("SpeakerCell") as! SpeakerCell
         
@@ -210,16 +236,24 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         let section = items[indexPath.section]
         let row = section[section.keys.first!]![indexPath.row]
         
-        cell.userImage.image = row[Speaker.photo]?.imageValue ?? UIImage(named: "empty")
+        let userImage = row[Speaker.photo]?.imageValue ?? UIImage(named: "empty")!
+        userImage.asyncToSize(.FillSize(cell.userImage.bounds.size), cornerRadius: cell.userImage.bounds.size.width/2, completion: {result in
+            cell.userImage.image = result
+        })
+        
         cell.nameLabel.text = row[Speaker.name]
-        if let twitter = row[Speaker.twitter] {
+        if let twitter = row[Speaker.twitter] where count(twitter) > 0 {
             cell.twitterLabel.text = twitter.hasPrefix("@") ? twitter : "@"+twitter
+        } else {
+            cell.twitterLabel.text = ""
         }
         cell.btnToggleIsFavorite.selected = (find(favorites, row[Speaker.idColumn]) != nil)
         
         if row[Speaker.photo]?.imageValue == nil {
-            userCtr.lookupUserImage(row, completion: {image in
-                mainQueue { cell.imageView?.image = image }
+            userCtr.lookupUserImage(row, completion: {userImage in
+                userImage?.asyncToSize(.FillSize(cell.userImage.bounds.size), cornerRadius: cell.userImage.bounds.size.width/2, completion: {result in
+                    cell.userImage.image = result
+                })
             })
         }
         
@@ -240,6 +274,8 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+        let items = isFiltering ? filteredItems : self.items
+        
         let section = items[indexPath.section]
         lastSelectedSpeaker = section[section.keys.first!]![indexPath.row]
         return indexPath
@@ -251,6 +287,8 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func sectionIndexTitlesForTableView(tableView: UITableView) -> [AnyObject]! {
+        let items = isFiltering ? filteredItems : self.items
+        
         if items.count < 4 {
             return []
         } else {
@@ -260,10 +298,11 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     
     //MARK: - favorites
     func didFavoritesChange() {
-        favorites = Favorite.allSpeakerFavoriteIDs()
-        loadSpeakers()
-        mainQueue({ self.tableView.reloadData() })
-        
+        backgroundQueue({
+            self.favorites = Favorite.allSpeakerFavoriteIDs()
+            self.filterItemsWithTerm(nil, favorites: self.btnFavorites.selected)
+        },
+        completion: { self.tableView.reloadData() })
     }
     
     //notifications
@@ -276,15 +315,18 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     
     func actionToggleFavorites(sender: AnyObject) {
         btnFavorites.selected = !btnFavorites.selected
-        btnFavorites.animateSelect(scale: 0.8, completion: {
-            self.notification(kFavoritesToggledNotification, object: nil)
+      
+        self.notification(kFavoritesToggledNotification, object: nil)
 
-            backgroundQueue(self.loadSpeakers, completion: {
-                UIView.transitionWithView(self.tableView, duration: 0.35, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
-                    self.tableView.reloadData()
-                    }, completion: nil)
-            })
+        let message = alert(btnFavorites.selected ? "Showing favorite speakers only" : "Showing all speakers", buttons: [], completion: nil)
+        delay(seconds: 1.0, {
+            message.dismissViewControllerAnimated(true, completion: nil)
         })
+        
+        btnFavorites.animateSelect(scale: 0.8, completion: nil)
+        
+        backgroundQueue({ self.filterItemsWithTerm(nil, favorites: self.btnFavorites.selected) },
+            completion: { self.tableView.reloadData() })
     }
 
 }
@@ -321,12 +363,40 @@ extension SpeakersViewController: UISearchControllerDelegate, UISearchResultsUpd
             }, completion: nil)
     }
     
-    //search controller
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
-        backgroundQueue({ self.loadSpeakers(searchController.searchBar.text) },
-            completion: { self.tableView.reloadData() })
+    func filterItemsWithTerm(term: String?, favorites: Bool = false) {
+        var results = [Row]()
+        for section in items {
+            for row in section.values.first! {
+                var eligibleResult = true
+                if favorites {
+                    if find(self.favorites, row[Speaker.idColumn]) == nil {
+                        eligibleResult = false
+                    }
+                }
+                if let term = term {
+                    if !(row[Speaker.name]).contains(term, ignoreCase: true) {
+                        eligibleResult = false
+                    }
+                }
+                if eligibleResult {
+                    results.append(row)
+                }
+            }
+        }
+        let searchSection: SpeakerSection = ["search": results]
+        filteredItems = [searchSection]
     }
     
+    var isFiltering: Bool {
+        let result = count(searchController.searchBar.text) > 0 || self.btnFavorites.selected
+        return result
+    }
+    
+    //search controller
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        backgroundQueue({ self.filterItemsWithTerm(searchController.searchBar.text, favorites: self.btnFavorites.selected) },
+            completion: { self.tableView.reloadData() })
+    }
 }
 
 

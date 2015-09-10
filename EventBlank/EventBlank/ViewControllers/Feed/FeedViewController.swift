@@ -10,34 +10,36 @@ import UIKit
 import XLPagerTabStrip
 import Social
 import JSImagePickerController
+import KHTabPagerViewController
 
 let kDidPostTweetNotification = "kDidPostTweetNotification"
 let kTwitterAuthorizationChangedNotification = "kTwitterAuthorizationChangedNotification"
 
-class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStripViewControllerDataSource, UIScrollViewDelegate, UIPopoverPresentationControllerDelegate, JSImagePickerViewControllerDelegate {
+//TODO: ALL the pager code was added in a hurry for iOS9, need to clean up this mess
 
-    @IBOutlet weak var tabControl: UISegmentedControl!
-    @IBOutlet weak var btnCompose: UIBarButtonItem!
-    
+class FeedViewController: KHTabPagerViewController, KHTabPagerDataSource, UIScrollViewDelegate, UIPopoverPresentationControllerDelegate, JSImagePickerViewControllerDelegate {
+
     var popoverController: UIPopoverController?
     var twitterAuthorized = true
     
     var initialized = false
     
-    required convenience init(coder aDecoder: NSCoder) {
-        self.init()
-        self.skipIntermediateViewControllers = true
-    }
+    let btnCompose = UIButton.buttonWithType(.Custom) as! UIButton
     
     override func viewDidLoad() {
         super.viewDidLoad()
         println("loaded feed vc view")
         
+        dataSource = self
+        delegate = self
+        
+        btnCompose.hidden = true
+        
         //notifications
         observeNotification(kDidReplaceEventFileNotification, selector: "didChangeEventFile")
         observeNotification(kTwitterAuthorizationChangedNotification, selector: "didChangeTwitterAuthorization:")
     }
-
+    
     deinit {
         //notifications
         observeNotification(kDidReplaceEventFileNotification, selector: nil)
@@ -49,48 +51,32 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
         
         if !initialized {
             initialized = true
-            
-            //TODO: why? and what to do if there aren't two days in the conference?
-            moveToViewControllerAtIndex(1)
-            moveToViewControllerAtIndex(0)
-            
-            //check if needs to show audience chatter
-            if Event.event[Event.twitterChatter] < 1 {
-                tabControl.removeSegmentAtIndex(1, animated: false)
-            }
+            reloadData()
         }
     }
     
-    override func childViewControllersForPagerTabStripViewController(pagerTabStripViewController: XLPagerTabStripViewController!) -> [AnyObject]! {
-        let newsVC = self.storyboard!.instantiateViewControllerWithIdentifier("NewsNavigationController")! as! TabStripNavigationController
-        let chatterVC = self.storyboard!.instantiateViewControllerWithIdentifier("ChatNavigationController")! as! TabStripNavigationController
-        if Event.event[Event.twitterChatter] < 1 {
-            return [newsVC]
-        }
-        return [newsVC, chatterVC]
-    }
+    override func reloadData() {
+        super.reloadData()
 
-    @IBAction func actionChangeSelectedSegment(sender: AnyObject) {
-        if let sender = sender as? UISegmentedControl {
-            moveToViewControllerAtIndex(UInt(sender.selectedSegmentIndex))
-            btnCompose.enabled = (sender.selectedSegmentIndex == 1)
-        }
-    }
-    
-    //MARK: - scroll view methods
-    override func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        //super.scrollViewDidEndDecelerating(scrollView)
-        if Event.event[Event.twitterChatter] < 1 {
-            return
-        }
-        let currentPage = lround(Double(scrollView.contentOffset.x / scrollView.frame.size.width))
-        tabControl.selectedSegmentIndex = currentPage
-        btnCompose.enabled = twitterAuthorized && (tabControl.selectedSegmentIndex == 1)
+        let header = valueForKey("header") as! KHTabScrollView // you made me to, the header view is not public
+        
+        //add compose button
+        btnCompose.setImage(UIImage(named: "compose")!, forState: .Normal)
+        btnCompose.setTitle(nil, forState: .Normal)
+        btnCompose.tintColor = UIColor.whiteColor()
+        btnCompose.frame = CGRect(
+            x: header.frame.size.width - 50,
+            y: 20,
+            width: 46,
+            height: 46)
+        btnCompose.addTarget(self, action: "actionNew:", forControlEvents: .TouchUpInside)
+        updateComposeButtonHidden()
+        header.addSubview(btnCompose)
     }
     
     //notifications
     func didChangeEventFile() {
-        reloadPagerTabStripView()
+        reloadData()
         navigationController?.popToRootViewControllerAnimated(true)
     }
     
@@ -107,8 +93,9 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
         
         var detailPopover: UIPopoverPresentationController = contentViewController.popoverPresentationController!
         detailPopover.delegate = self
-        detailPopover.barButtonItem = sender as! UIBarButtonItem
-        detailPopover.permittedArrowDirections = .Any
+        detailPopover.sourceView = sender as! UIButton
+        detailPopover.sourceRect = CGRect(x: 20, y: 30, width: 10, height: 10)
+        detailPopover.permittedArrowDirections = .Up
         
         contentViewController.preferredContentSize = CGSize(width: 230, height: 80)
         contentViewController.buttonCallback = {hasImage in
@@ -124,6 +111,12 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
         tweet("\(tag) ", image: image, urlString: nil, completion: {success in
             if success {
                 self.notification(kDidPostTweetNotification, object: nil)
+                mainQueue({
+                    let message = self.alert("Tweet posted successfully. It could take up to a minute to see it in the stream.", buttons: ["Close"], completion: nil)
+                    delay(seconds: 2.0, {
+                        message.dismissViewControllerAnimated(true, completion: nil)
+                    })
+                })
             }
         })
     }
@@ -135,7 +128,7 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
     }
 
     func imagePickerDidSelectImage(image: UIImage!) {
-        delay(seconds: 0.1, {
+        delay(seconds: 0.5, {
             self.composeTweet(image: image)
         })
     }
@@ -149,8 +142,32 @@ class FeedViewController: XLSegmentedPagerTabStripViewController, XLPagerTabStri
         if let authorized = notification.userInfo?["object"] as? Bool {
             twitterAuthorized = authorized
         }
-        btnCompose.enabled = twitterAuthorized && (tabControl.selectedSegmentIndex == 1)
-        btnCompose.tintColor = btnCompose.enabled ? nil : UIColor.darkGrayColor()
     }
     
+    func updateComposeButtonHidden() {
+        let showBtn = (twitterAuthorized && (selectedIndex() == 1))
+        
+        if showBtn && btnCompose.hidden {
+            btnCompose.center.x -= 10
+            btnCompose.hidden = false
+            btnCompose.alpha = 0
+            UIView.animateWithDuration(0.33, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
+                self.btnCompose.center.x += 10
+                self.btnCompose.alpha = 1
+            }, completion: nil)
+        } else if !showBtn && btnCompose.hidden == false {
+            UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
+                self.btnCompose.center.x -= 5
+                self.btnCompose.alpha = 0
+            }, completion: {_ in
+                self.btnCompose.center.x += 5
+                self.btnCompose.alpha = 1
+                self.btnCompose.hidden = true
+            })
+        }
+    }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
+    }
 }

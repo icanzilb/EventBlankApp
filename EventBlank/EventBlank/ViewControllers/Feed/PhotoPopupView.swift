@@ -25,9 +25,27 @@ class PhotoPopupView: UIView {
         popup.photoUrl = url
     }
     
+    func hideImage() {
+        didTapPhoto(UITapGestureRecognizer()) //hack
+    }
+    //UIViewController.alert("Couldn't fetch image. \(error.localizedDescription)", buttons: ["Close"], completion: {
+    //self.hideImage()
+    //});
+    
     var photoUrl: NSURL! {
         didSet {
-            imgView.hnk_setImageFromURL(photoUrl)
+            imgView.hnk_setImageFromURL(photoUrl, placeholder: nil, format: nil, failure: {error in
+                
+                UIViewController.alert("Couldn't fetch image. \(error)", buttons: ["Close"], completion: {_ in
+                    self.hideImage()
+                })
+                
+            }, success: {[weak self]image in
+                self?.imgView.image = image
+                if self?.spinner != nil {
+                    self?.spinner.removeFromSuperview()
+                }
+            })
         }
     }
     
@@ -38,6 +56,7 @@ class PhotoPopupView: UIView {
     }
     
     var imgView: UIImageView!
+    var spinner: UIActivityIndicatorView!
     
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
@@ -54,7 +73,7 @@ class PhotoPopupView: UIView {
         addSubview(backdrop)
         
         //spinner
-        let spinner = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        spinner = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.WhiteLarge
         spinner.center = center
         spinner.startAnimating()
@@ -89,7 +108,7 @@ class PhotoPopupView: UIView {
         UIView.animateWithDuration(0.67, delay: 0.0, usingSpringWithDamping: 0.33, initialSpringVelocity: 0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
             let yDelta = ((UIApplication.sharedApplication().windows.first! as! UIWindow).rootViewController as! UITabBarController).tabBar.frame.size.height/2
             self.imgView.center.y -= yDelta
-            spinner.center.y -= yDelta
+            self.spinner.center.y -= yDelta
         }, completion: nil)
     }
     

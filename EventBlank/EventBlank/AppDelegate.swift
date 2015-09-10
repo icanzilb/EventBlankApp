@@ -36,35 +36,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //start the update manager if there's a remote file
         if let updateUrlString = event[Event.updateFileUrl], let updateUrl = NSURL(string: updateUrlString) where !updateUrlString.isEmpty {
-            updateManager = UpdateManager(
-                filePath: FilePath(inLibrary: eventDataFileName),
-                remoteURL: updateUrl, autostart: false)
-            
-            updateManager!.fileBinder.addAction(didReplaceFile: {success in
-                mainQueue({
-                    self.databaseProvider!.didChangeSourceFile(success)
-                    self.loadEventData()
-                })
-                }, withKey: nil)
-            updateManager!.fileBinder.addAction(didReplaceFile: {_ in
-                //reload event data
-                delay(seconds: 2.0, {
-                    println("event name: " + self.event[Event.name])
-                    self.notification(kDidReplaceEventFileNotification, object: nil)
-                    
-                    //replace the schedule controller, test again if that's the only way
-                    let tabBarController = self.window!.rootViewController as! UITabBarController
-                    let scheduleVC: AnyObject = tabBarController.storyboard!.instantiateViewControllerWithIdentifier("ScheduleViewController") as AnyObject
-                    
-                    var tabVCs = tabBarController.viewControllers!
-                    tabVCs[EventBlankTabIndex.Schedule.rawValue] = scheduleVC
-                    
-                    tabBarController.setViewControllers(tabVCs, animated: false)
-                })
-                }, withKey: nil)
+            backgroundQueue({
+                self.startUpdateManager(url: updateUrl)
+            })
         }
 
         return true
+    }
+
+    func startUpdateManager(url updateUrl: NSURL) {
+        updateManager = UpdateManager(
+            filePath: FilePath(inLibrary: eventDataFileName),
+            remoteURL: updateUrl, autostart: false)
+        
+        updateManager!.fileBinder.addAction(didReplaceFile: {success in
+            mainQueue({
+                self.databaseProvider!.didChangeSourceFile(success)
+                self.loadEventData()
+            })
+            }, withKey: nil)
+        updateManager!.fileBinder.addAction(didReplaceFile: {_ in
+            //reload event data
+            delay(seconds: 2.0, {
+                self.notification(kDidReplaceEventFileNotification, object: nil)
+                
+                //replace the schedule controller, test again if that's the only way
+                let tabBarController = self.window!.rootViewController as! UITabBarController
+                let scheduleVC: AnyObject = tabBarController.storyboard!.instantiateViewControllerWithIdentifier("ScheduleViewController") as AnyObject
+                
+                var tabVCs = tabBarController.viewControllers!
+                tabVCs[EventBlankTabIndex.Schedule.rawValue] = scheduleVC
+                
+                tabBarController.setViewControllers(tabVCs, animated: false)
+            })
+            }, withKey: nil)
     }
     
     func loadEventData() {
@@ -74,6 +79,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func setupUI() {
+        window?.backgroundColor = UIColor.whiteColor()
+        
         let primaryColor = UIColor(hexString: event[Event.mainColor])
         let secondaryColor = UIColor(hexString: event[Event.secondaryColor])
 

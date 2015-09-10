@@ -11,6 +11,10 @@ import Social
 
 extension UIViewController {
 
+    static func alert(message: String, buttons: [String] = ["OK"], completion: ((Int)->Void)?) -> UIAlertController {
+        return (UIApplication.sharedApplication().windows.first as! UIWindow).rootViewController!.alert(message, buttons: buttons, completion: completion)
+    }
+    
     func alert(message: String, buttons: [String] = ["OK"], completion: ((Int)->Void)?) -> UIAlertController {
         
         let alertVC = UIAlertController(title: "",

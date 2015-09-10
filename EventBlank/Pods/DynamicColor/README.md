@@ -113,12 +113,14 @@ This can mix a given color with the receiver. It takes the average of each of th
 ```swift
 let originalColor = UIColor(hex: 0xc0392b)
 
-let mixColor = originalColor.mixColor(UIColor.blueColor())
+let mixColor = originalColor.mixWithColor(UIColor.blueColor())
 // equivalent to
-// mixColor = originalColor.mixColor(UIColor.blueColor(), weight: 0.5)
+// mixColor = originalColor.mixWithColor(UIColor.blueColor(), weight: 0.5)
 ```
 
-To go further, take a look at the example project.
+#### And many more...
+
+`DynamicColor` also provides many another useful methods to manipulate the colors like hex strings, color components, etc. To go further, take a look at the example project.
 
 ## Installation
 
@@ -140,7 +142,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
 use_frameworks!
-pod 'DynamicColor', '~> 1.2.1'
+pod 'DynamicColor', '~> 1.5.4'
 ```
 
 Install into your project:
@@ -171,7 +173,7 @@ $ brew install carthage
 To integrate `DynamicColor` into your Xcode project using Carthage, specify it in your `Cartfile` file:
 
 ```ogdl
-github "yannickl/DynamicColor" >= 1.2.1
+github "yannickl/DynamicColor" >= 1.5.4
 ```
 
 #### Manually

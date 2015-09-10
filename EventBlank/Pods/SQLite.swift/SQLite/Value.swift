@@ -22,8 +22,6 @@
 // THE SOFTWARE.
 //
 
-import Foundation
-
 /// Binding is a protocol that SQLite.swift uses internally to directly map
 /// SQLite types to Swift types.
 ///
@@ -47,28 +45,54 @@ public protocol Value {
 
 }
 
-public struct Blob {
+private let hexChars: [Character] = Array("0123456789abcdef")
 
-    private let data: NSData
+public struct Blob: Equatable, Printable {
 
-    public var bytes: UnsafePointer<Void> {
-        return data.bytes
+    public let data: [UInt8]
+    
+    public init(data: [UInt8]) {
+        self.data = data
     }
-
-    public var length: Int {
-        return data.length
-    }
-
+    
     public init(bytes: UnsafePointer<Void>, length: Int) {
-        data = NSData(bytes: bytes, length: length)
+        self.data = [UInt8](UnsafeBufferPointer<UInt8>(
+            start: UnsafePointer<UInt8>(bytes),
+            count: length
+        ))
+    }
+    
+    public func toHex() -> String {
+        var string: String = ""
+        string.reserveCapacity(data.count*2)
+        for byte in data {
+            let a = hexChars[Int(byte >> 4)]
+            let b = hexChars[Int(byte & 0xF)]
+            string.append(a)
+            string.append(b)
+        }
+        return string
+    }
+    
+    public var description: String {
+        return "x'\(toHex())'"
     }
 
 }
 
-extension Blob: Equatable {}
-
 public func ==(lhs: Blob, rhs: Blob) -> Bool {
     return lhs.data == rhs.data
+}
+
+
+extension Blob {
+    public var bytes: UnsafePointer<Void> {
+        return UnsafePointer<Void>(data)
+    }
+    
+    public var length: Int {
+        return data.count
+    }
 }
 
 extension Blob: Binding, Value {
@@ -81,16 +105,6 @@ extension Blob: Binding, Value {
 
     public var datatypeValue: Blob {
         return self
-    }
-
-}
-
-extension Blob: Printable {
-
-    public var description: String {
-        let buf = UnsafeBufferPointer(start: UnsafePointer<UInt8>(bytes), count: length)
-        let hex = join("", map(buf) { String(format: "%02x", $0) })
-        return "x'\(hex)'"
     }
 
 }

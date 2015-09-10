@@ -26,6 +26,24 @@ class ChatViewController: TweetListViewController {
         observeNotification(kDidPostTweetNotification, selector: nil)
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        observeNotification(kTabItemSelectedNotification, selector: "didTapTabItem:")
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        observeNotification(kTabItemSelectedNotification, selector: nil)
+    }
+    
+    func didTapTabItem(notification: NSNotification) {
+        if let index = notification.userInfo?["object"] as? Int where index == EventBlankTabIndex.Feed.rawValue {
+            mainQueue({
+                self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+            })
+        }
+    }
+
     //MARK: - table view methods
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
@@ -42,7 +60,11 @@ class ChatViewController: TweetListViewController {
         cell.message.selectedRange = NSRange(location: 0, length: 0)
         
         if let attachmentUrlString = tweet[Chat.imageUrl], let attachmentUrl = NSURL(string: attachmentUrlString) {
-            cell.attachmentImage.hnk_setImageFromURL(attachmentUrl)
+            cell.attachmentImage.hnk_setImageFromURL(attachmentUrl, placeholder: nil, format: nil, failure: nil, success: {image in
+                image.asyncToSize(.Fill(cell.attachmentImage.bounds.width, 150), cornerRadius: 0.0, completion: {result in
+                    cell.attachmentImage.image = result
+                })
+            })
             cell.didTapAttachment = {
                 PhotoPopupView.showImageWithUrl(attachmentUrl, inView: self.view)
             }
@@ -52,7 +74,11 @@ class ChatViewController: TweetListViewController {
         if let user = user {
             cell.nameLabel.text = user[User.name]
             if let imageUrlString = user[User.photoUrl], let imageUrl = NSURL(string: imageUrlString) {
-                cell.userImage.hnk_setImageFromURL(imageUrl, placeholder: UIImage(named: "feed-item"))
+                cell.userImage.hnk_setImageFromURL(imageUrl, placeholder: UIImage(named: "feed-item"), format: nil, failure: nil, success: {image in
+                    image.asyncToSize(.FillSize(cell.userImage.bounds.size), cornerRadius: 5.0, completion: {result in
+                        cell.userImage.image = result
+                    })
+                })
             }
         }
         
@@ -72,8 +98,16 @@ class ChatViewController: TweetListViewController {
     //MARK: - fetching data
     
     override func loadTweets() {
+        //fetch latest tweets from db
+        let latestText = tweets.first?[Chat.message]
+        
         tweets = self.chatCtr.allMessages()
         lastRefresh = NSDate().timeIntervalSince1970
+        
+        if latestText == tweets.first?[Chat.message] {
+            //latest tweet is the same, bail
+            return;
+        }
         
         mainQueue {
             self.tableView.reloadData()

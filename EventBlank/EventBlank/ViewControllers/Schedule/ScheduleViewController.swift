@@ -88,6 +88,8 @@ class ScheduleViewController: XLButtonBarPagerTabStripViewController, XLPagerTab
             moveToViewControllerAtIndex(1)
             moveToViewControllerAtIndex(0)
         }
+        
+        observeNotification(kTabItemSelectedNotification, selector: "didTapTabItem:")
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -106,7 +108,14 @@ class ScheduleViewController: XLButtonBarPagerTabStripViewController, XLPagerTab
             self.btnFavorites.transform = CGAffineTransformIdentity
             self.btnFavorites.alpha = 1.0
         })
+        
+        observeNotification(kTabItemSelectedNotification, selector: nil)
     }
+    
+    func didTapTabItem(notification: NSNotification) {
+        moveToViewControllerAtIndex(0)
+    }
+    
     
     override func childViewControllersForPagerTabStripViewController(pagerTabStripViewController: XLPagerTabStripViewController!) -> [AnyObject]! {
         

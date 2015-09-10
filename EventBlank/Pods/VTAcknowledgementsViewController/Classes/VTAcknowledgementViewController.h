@@ -30,9 +30,9 @@
 @interface VTAcknowledgementViewController : UIViewController
 
 /**
- Custom font for the main text view. If `nil` (default), the system font (size 17) is used.
+ The main text view.
  */
-@property (nonatomic, strong) UIFont *textViewFont;
+@property (nonatomic, weak, nullable) UITextView *textView;
 
 /**
  Initializes an acknowledgement view controller with a title and a body text.
@@ -42,6 +42,6 @@
 
  @return A newly created `VTAcknowledgementViewController` instance.
  */
-- (instancetype)initWithTitle:(NSString *)title text:(NSString *)text;
+- (nullable instancetype)initWithTitle:(nonnull NSString *)title text:(nonnull NSString *)text;
 
 @end

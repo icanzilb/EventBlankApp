@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "EB4CC28CD8E666EFF6DA0AEAF402EFE73E96355F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "E293F888C20272B394EAC10E034938D94489905D" : 0,
+    "EB4CC28CD8E666EFF6DA0AEAF402EFE73E96355F" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "B2C18D4B-6D39-4F82-9E4F-97B50AB92763",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "E293F888C20272B394EAC10E034938D94489905D" : "EventBlank\/NSSpain\/EventFileRepo",
+    "EB4CC28CD8E666EFF6DA0AEAF402EFE73E96355F" : "EventBlank-iOS"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "EventBlank",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "EventBlank\/EventBlank.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/icanzilb\/EventBlankData-NSSpain.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E293F888C20272B394EAC10E034938D94489905D"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/icanzilb\/EventBlankApp.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "EB4CC28CD8E666EFF6DA0AEAF402EFE73E96355F"
+    }
+  ]
+}

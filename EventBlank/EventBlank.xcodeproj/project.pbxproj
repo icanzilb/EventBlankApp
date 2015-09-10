@@ -55,8 +55,9 @@
 		9C34BB8F1B5D85FA00C888A6 /* FontAwesome+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C34BB881B5D85FA00C888A6 /* FontAwesome+UILabel.swift */; };
 		9C34BB901B5D85FA00C888A6 /* FontAwesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C34BB891B5D85FA00C888A6 /* FontAwesome.swift */; };
 		9C34BB911B5D85FA00C888A6 /* fontawesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C34BB8A1B5D85FA00C888A6 /* fontawesome.ttf */; };
-		9C4653D01B9380A900E7F744 /* NSSpain15.eventblank in Resources */ = {isa = PBXBuildFile; fileRef = 9C4653CF1B9380A900E7F744 /* NSSpain15.eventblank */; };
+		9C4653D21B938C4800E7F744 /* NSSpain15.eventblank in Resources */ = {isa = PBXBuildFile; fileRef = 9C4653D11B938C4800E7F744 /* NSSpain15.eventblank */; };
 		9C5057381B5AE42000D71885 /* ViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5057371B5AE42000D71885 /* ViewController+Extensions.swift */; };
+		9C51200B1B943458003A5DB4 /* CREDITS.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9C51200A1B943458003A5DB4 /* CREDITS.txt */; };
 		9C624FE71B53A4E600C84168 /* FreshFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C624FE61B53A4E600C84168 /* FreshFile.swift */; };
 		9C624FE91B53AE6200C84168 /* FilePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C624FE81B53AE6200C84168 /* FilePath.swift */; };
 		9C624FED1B53BA9B00C84168 /* UpdateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C624FEC1B53BA9B00C84168 /* UpdateManager.swift */; };
@@ -65,6 +66,9 @@
 		9C6EFA361B3AFBFC00FE7A72 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EFA351B3AFBFC00FE7A72 /* MoreViewController.swift */; };
 		9C6EFA381B3AFF4E00FE7A72 /* MDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EFA371B3AFF4E00FE7A72 /* MDViewController.swift */; };
 		9C7F1C441B91FDD4008CE136 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F1C431B91FDD4008CE136 /* MainViewController.swift */; };
+		9C8AC0101BA1688F006B980F /* FeedViewController+Pager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AC00F1BA1688F006B980F /* FeedViewController+Pager.swift */; };
+		9C8AC0171BA16F8E006B980F /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AC0161BA16F8E006B980F /* UIImage+Extension.swift */; };
+		9C8AC0191BA1E900006B980F /* EATabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AC0181BA1E900006B980F /* EATabbarController.swift */; };
 		9C8E49581B8A139000A5FA8D /* PhotoPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8E49571B8A139000A5FA8D /* PhotoPopupView.swift */; };
 		9C8E495A1B8A788A00A5FA8D /* FollowTwitterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8E49591B8A788A00A5FA8D /* FollowTwitterButton.swift */; };
 		9C8FCA9A1B40881300EFE8B8 /* Pods-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C8FCA991B40881300EFE8B8 /* Pods-acknowledgements.plist */; };
@@ -75,12 +79,12 @@
 		9CA0F7261B374C8F0054197F /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA0F7251B374C8F0054197F /* WebViewController.swift */; };
 		9CA0F7281B37504F0054197F /* TabStripNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA0F7271B37504F0054197F /* TabStripNavigationController.swift */; };
 		9CA0F72A1B375E960054197F /* RefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA0F7291B375E960054197F /* RefreshView.swift */; };
-		9CAECFCC1B4ED5AC009F3D2F /* CocoaMarkdown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CAECFBE1B4ED511009F3D2F /* CocoaMarkdown.framework */; };
 		9CAECFCF1B4ED651009F3D2F /* event-data.eventblank in Resources */ = {isa = PBXBuildFile; fileRef = 9CAECFCE1B4ED651009F3D2F /* event-data.eventblank */; };
 		9CC051951B34BE710024033A /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC051941B34BE710024033A /* ScheduleViewController.swift */; };
 		9CC44CDD1B36C1D60026564D /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC44CDC1B36C1D60026564D /* Favorite.swift */; };
 		9CC44CDF1B36C47D0026564D /* appdata.db in Resources */ = {isa = PBXBuildFile; fileRef = 9CC44CDE1B36C47D0026564D /* appdata.db */; };
 		9CC44CE31B36CF260026564D /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC44CE21B36CF260026564D /* FeedViewController.swift */; };
+		9CCE95391B9F817F00F9D126 /* EANavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCE95381B9F817F00F9D126 /* EANavigationController.swift */; };
 		9CD078001B3BF7FF008DB96C /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD077FF1B3BF7FF008DB96C /* MessageView.swift */; };
 		9CD4317F1B3BDE0D00B2E7E1 /* markdown.html in Resources */ = {isa = PBXBuildFile; fileRef = 9CD4317E1B3BDE0D00B2E7E1 /* markdown.html */; };
 		9CDF8C6E1B37FDD800CDD2B8 /* TweetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CDF8C6D1B37FDD800CDD2B8 /* TweetCell.swift */; };
@@ -214,8 +218,9 @@
 		9C34BB881B5D85FA00C888A6 /* FontAwesome+UILabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FontAwesome+UILabel.swift"; sourceTree = "<group>"; };
 		9C34BB891B5D85FA00C888A6 /* FontAwesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesome.swift; sourceTree = "<group>"; };
 		9C34BB8A1B5D85FA00C888A6 /* fontawesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = fontawesome.ttf; sourceTree = "<group>"; };
-		9C4653CF1B9380A900E7F744 /* NSSpain15.eventblank */ = {isa = PBXFileReference; lastKnownFileType = file; path = NSSpain15.eventblank; sourceTree = "<group>"; };
+		9C4653D11B938C4800E7F744 /* NSSpain15.eventblank */ = {isa = PBXFileReference; lastKnownFileType = file; name = NSSpain15.eventblank; path = ../../../../EventBlank/NSSpain/EventFileRepo/NSSpain15.eventblank; sourceTree = "<group>"; };
 		9C5057371B5AE42000D71885 /* ViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ViewController+Extensions.swift"; sourceTree = "<group>"; };
+		9C51200A1B943458003A5DB4 /* CREDITS.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CREDITS.txt; sourceTree = "<group>"; };
 		9C624FE61B53A4E600C84168 /* FreshFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreshFile.swift; sourceTree = "<group>"; };
 		9C624FE81B53AE6200C84168 /* FilePath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilePath.swift; sourceTree = "<group>"; };
 		9C624FEC1B53BA9B00C84168 /* UpdateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateManager.swift; sourceTree = "<group>"; };
@@ -224,6 +229,9 @@
 		9C6EFA351B3AFBFC00FE7A72 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		9C6EFA371B3AFF4E00FE7A72 /* MDViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MDViewController.swift; sourceTree = "<group>"; };
 		9C7F1C431B91FDD4008CE136 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainViewController.swift; path = Main/MainViewController.swift; sourceTree = "<group>"; };
+		9C8AC00F1BA1688F006B980F /* FeedViewController+Pager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FeedViewController+Pager.swift"; sourceTree = "<group>"; };
+		9C8AC0161BA16F8E006B980F /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		9C8AC0181BA1E900006B980F /* EATabbarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EATabbarController.swift; sourceTree = "<group>"; };
 		9C8E49571B8A139000A5FA8D /* PhotoPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPopupView.swift; sourceTree = "<group>"; };
 		9C8E49591B8A788A00A5FA8D /* FollowTwitterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowTwitterButton.swift; sourceTree = "<group>"; };
 		9C8FCA991B40881300EFE8B8 /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Pods-acknowledgements.plist"; path = "Pods/Target Support Files/Pods/Pods-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -239,6 +247,7 @@
 		9CC44CDC1B36C1D60026564D /* Favorite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Favorite.swift; sourceTree = "<group>"; };
 		9CC44CDE1B36C47D0026564D /* appdata.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = appdata.db; sourceTree = "<group>"; };
 		9CC44CE21B36CF260026564D /* FeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
+		9CCE95381B9F817F00F9D126 /* EANavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EANavigationController.swift; sourceTree = "<group>"; };
 		9CD077FF1B3BF7FF008DB96C /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		9CD4317E1B3BDE0D00B2E7E1 /* markdown.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = markdown.html; sourceTree = "<group>"; };
 		9CDF8C6D1B37FDD800CDD2B8 /* TweetCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetCell.swift; sourceTree = "<group>"; };
@@ -257,7 +266,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C2D60B51B5AFA0600CD38BB /* CocoaMarkdown.framework in Frameworks */,
-				9CAECFCC1B4ED5AC009F3D2F /* CocoaMarkdown.framework in Frameworks */,
 				175F180D912D8562B199622C /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -292,6 +300,7 @@
 		9C10A0C01AB186490052C730 = {
 			isa = PBXGroup;
 			children = (
+				9C51200A1B943458003A5DB4 /* CREDITS.txt */,
 				9CAECFCD1B4ED633009F3D2F /* __EventFile */,
 				9C0EA6691B34AD3B0099337C /* Podfile */,
 				9C8FCA991B40881300EFE8B8 /* Pods-acknowledgements.plist */,
@@ -416,6 +425,7 @@
 				9CF717EF1B384A750093C636 /* Notification.swift */,
 				9C5057371B5AE42000D71885 /* ViewController+Extensions.swift */,
 				9C3487CB1B88C48300FB0973 /* UIView+Extensions.swift */,
+				9C8AC0161BA16F8E006B980F /* UIImage+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -449,6 +459,8 @@
 				9CA0F7241B374C820054197F /* Web */,
 				9CC44CE01B36CE720026564D /* Feed */,
 				9CC051931B34BE5E0024033A /* Schedule */,
+				9CCE95381B9F817F00F9D126 /* EANavigationController.swift */,
+				9C8AC0181BA1E900006B980F /* EATabbarController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -627,7 +639,7 @@
 		9CAECFCD1B4ED633009F3D2F /* __EventFile */ = {
 			isa = PBXGroup;
 			children = (
-				9C4653CF1B9380A900E7F744 /* NSSpain15.eventblank */,
+				9C4653D11B938C4800E7F744 /* NSSpain15.eventblank */,
 				9CAECFCE1B4ED651009F3D2F /* event-data.eventblank */,
 			);
 			path = __EventFile;
@@ -657,6 +669,7 @@
 			isa = PBXGroup;
 			children = (
 				9CC44CE21B36CF260026564D /* FeedViewController.swift */,
+				9C8AC00F1BA1688F006B980F /* FeedViewController+Pager.swift */,
 				9CA0F7271B37504F0054197F /* TabStripNavigationController.swift */,
 				9C32BF631B4FE99A00196B19 /* TweetListViewController.swift */,
 				9CDF8C6D1B37FDD800CDD2B8 /* TweetCell.swift */,
@@ -679,9 +692,9 @@
 		9CF717E61B3835AC0093C636 /* Speakers */ = {
 			isa = PBXGroup;
 			children = (
+				9C330CAD1B34B18F002A0D1E /* SpeakersViewController.swift */,
 				9CF717ED1B3844EA0093C636 /* SpeakerDetailsCell.swift */,
 				9CF717EB1B3842BB0093C636 /* SpeakerDetailsViewController.swift */,
-				9C330CAD1B34B18F002A0D1E /* SpeakersViewController.swift */,
 				9CF717E71B3836180093C636 /* SpeakerCell.swift */,
 				9C8E49591B8A788A00A5FA8D /* FollowTwitterButton.swift */,
 			);
@@ -738,11 +751,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = "Underplot ltd.";
 				TargetAttributes = {
 					9C10A0C81AB186490052C730 = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 9MF8G8D9Y5;
 					};
 					9C10A0DF1AB186490052C730 = {
 						CreatedOnToolsVersion = 6.2;
@@ -826,8 +840,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C8FCAA71B408C0D00EFE8B8 /* credits.markdown in Resources */,
+				9C51200B1B943458003A5DB4 /* CREDITS.txt in Resources */,
 				9C0EA66A1B34AD3B0099337C /* Podfile in Resources */,
-				9C4653D01B9380A900E7F744 /* NSSpain15.eventblank in Resources */,
+				9C4653D21B938C4800E7F744 /* NSSpain15.eventblank in Resources */,
 				9CD4317F1B3BDE0D00B2E7E1 /* markdown.html in Resources */,
 				9C10A0D61AB186490052C730 /* Main.storyboard in Resources */,
 				9C10A0DB1AB186490052C730 /* LaunchScreen.xib in Resources */,
@@ -922,6 +937,7 @@
 				9CA0F7281B37504F0054197F /* TabStripNavigationController.swift in Sources */,
 				9CA0F72A1B375E960054197F /* RefreshView.swift in Sources */,
 				9C330CAA1B34B173002A0D1E /* NewsController.swift in Sources */,
+				9C8AC0191BA1E900006B980F /* EATabbarController.swift in Sources */,
 				9C8FCAA51B408BE100EFE8B8 /* credits.markdown in Sources */,
 				9C10A1081AB188C80052C730 /* Ext.swift in Sources */,
 				9CF717EE1B3844EA0093C636 /* SpeakerDetailsCell.swift in Sources */,
@@ -929,6 +945,7 @@
 				9CA0F7261B374C8F0054197F /* WebViewController.swift in Sources */,
 				9C624FEF1B53CDE300C84168 /* OrderedMap.swift in Sources */,
 				9C330CA01B34B14B002A0D1E /* ChatController.swift in Sources */,
+				9CCE95391B9F817F00F9D126 /* EANavigationController.swift in Sources */,
 				9C10A0CF1AB186490052C730 /* AppDelegate.swift in Sources */,
 				9C34BB7A1B5D83FF00C888A6 /* TweetComposeViewController.swift in Sources */,
 				9C330CA51B34B164002A0D1E /* UserConfig.swift in Sources */,
@@ -951,6 +968,7 @@
 				9C34BB8B1B5D85FA00C888A6 /* FontAwesome+UIBarButtonItem.swift in Sources */,
 				9C34BB8E1B5D85FA00C888A6 /* FontAwesome+UIImage.swift in Sources */,
 				9C34BB901B5D85FA00C888A6 /* FontAwesome.swift in Sources */,
+				9C8AC0101BA1688F006B980F /* FeedViewController+Pager.swift in Sources */,
 				9CC44CE31B36CF260026564D /* FeedViewController.swift in Sources */,
 				9C5057381B5AE42000D71885 /* ViewController+Extensions.swift in Sources */,
 				9C6CD5111B58F99F00B62C36 /* StatusBarDownloadProgressView.swift in Sources */,
@@ -963,6 +981,7 @@
 				9C330CAC1B34B179002A0D1E /* NewsViewController.swift in Sources */,
 				9C6EFA381B3AFF4E00FE7A72 /* MDViewController.swift in Sources */,
 				9CF717F01B384A750093C636 /* Notification.swift in Sources */,
+				9C8AC0171BA16F8E006B980F /* UIImage+Extension.swift in Sources */,
 				9C330CA61B34B164002A0D1E /* UserModel.swift in Sources */,
 				9C330C831B34B005002A0D1E /* AF+Date+Extension.swift in Sources */,
 				9C06CAE01B34C95E0056CC5F /* SessionsViewController.swift in Sources */,
@@ -1097,6 +1116,7 @@
 			baseConfigurationReference = B2F9D2E5254DB9D7F95D6C03 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "EventBlank/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1108,9 +1128,12 @@
 			baseConfigurationReference = 106062F49854E430EC4B1FC5 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				INFOPLIST_FILE = "EventBlank/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "2e43492c-cdde-4aff-8e31-b8b3810b8641";
 			};
 			name = Release;
 		};

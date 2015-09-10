@@ -66,7 +66,7 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
             
             cell.trackTitleLabel.text = session[Track.track]
             
-            if let twitter = session[Speaker.twitter] {
+            if let twitter = session[Speaker.twitter] where count(twitter) > 0 {
                 cell.twitterLabel.text = twitter.hasPrefix("@") ? twitter : "@"+twitter
                 cell.didTapTwitter = {
                     let twitterUrl = NSURL(string: "https://twitter.com/" + twitter)!
@@ -83,7 +83,11 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
             cell.btnToggleIsFavorite.selected = find(favorites, session[Session.idColumn]) != nil
             cell.descriptionTextView.text = session[Session.description]
             
-            cell.userImage.image = session[Speaker.photo]?.imageValue ?? UIImage(named: "empty")
+            let userImage = session[Speaker.photo]?.imageValue ?? UIImage(named: "empty")!
+            userImage.asyncToSize(.FillSize(cell.userImage.bounds.size), cornerRadius: 5, completion: {result in
+                cell.userImage.image = result
+            })
+
             if session[Speaker.photo]?.imageValue != nil {
                 cell.didTapPhoto = {
                     PhotoPopupView.showImage(cell.userImage.image!, inView: self.view)
