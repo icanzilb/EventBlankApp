@@ -83,7 +83,11 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
             cell.btnToggleIsFavorite.selected = find(favorites, session[Session.idColumn]) != nil
             cell.descriptionTextView.text = session[Session.description]
             
-            cell.userImage.image = session[Speaker.photo]?.imageValue ?? UIImage(named: "empty")
+            let userImage = session[Speaker.photo]?.imageValue ?? UIImage(named: "empty")!
+            userImage.asyncToSize(.FillSize(cell.userImage.bounds.size), cornerRadius: 5, completion: {result in
+                cell.userImage.image = result
+            })
+
             if session[Speaker.photo]?.imageValue != nil {
                 cell.didTapPhoto = {
                     PhotoPopupView.showImage(cell.userImage.image!, inView: self.view)

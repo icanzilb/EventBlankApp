@@ -134,7 +134,11 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         let sessionDate = NSDate(timeIntervalSince1970: Double(session[Session.beginTime]))
         cell.timeLabel.text = dateFormatter.stringFromDate(sessionDate)
         
-        cell.speakerImageView.image = session[Speaker.photo]?.imageValue
+        let userImage = session[Speaker.photo]?.imageValue ?? UIImage(named: "empty")!
+        userImage.asyncToSize(.FillSize(cell.speakerImageView.bounds.size), cornerRadius: cell.speakerImageView.bounds.size.width/2, completion: {result in
+            cell.speakerImageView.image = result
+        })
+
         cell.locationLabel.text = session[Location.name]
         
         cell.btnToggleIsFavorite.selected = (find(favorites, session[Session.idColumn]) != nil)
