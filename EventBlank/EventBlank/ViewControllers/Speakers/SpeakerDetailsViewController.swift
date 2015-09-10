@@ -121,20 +121,21 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
             cell.websiteLabel.text = speaker[Speaker.url]
             cell.btnToggleIsFavorite.selected = find(favorites, speaker[Speaker.idColumn]) != nil
             cell.bioTextView.text = speaker[Speaker.bio]
-            cell.userImage.image = speaker[Speaker.photo]?.imageValue ?? UIImage(named: "empty")
+            let userImage = speaker[Speaker.photo]?.imageValue ?? UIImage(named: "empty")!
+            userImage.asyncToSize(.FillSize(cell.userImage.bounds.size), cornerRadius: 5, completion: {result in
+                cell.userImage.image = result
+            })
             
             backgroundQueue({
                 
                 if self.speaker[Speaker.photo]?.imageValue == nil {
-                    
-                    self.userCtr.lookupUserImage(self.speaker, completion: {image in
-                        mainQueue {
-                            //update the image
-                            cell.userImage.image = image
-                        }
-                        if let image = image {
+                    self.userCtr.lookupUserImage(self.speaker, completion: {userImage in
+                        userImage?.asyncToSize(.FillSize(cell.userImage.bounds.size), cornerRadius: 5, completion: {result in
+                            cell.userImage.image = result
+                        })
+                        if let userImage = userImage {
                             cell.didTapPhoto = {
-                                PhotoPopupView.showImage(image, inView: self.view)
+                                PhotoPopupView.showImage(userImage, inView: self.view)
                             }
                         }
                     })
@@ -191,7 +192,11 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
             cell.message.selectedRange = NSRange(location: 0, length: 0)
             
             if let attachmentUrl = tweet.imageUrl {
-                cell.attachmentImage.hnk_setImageFromURL(attachmentUrl)
+                cell.attachmentImage.hnk_setImageFromURL(attachmentUrl, placeholder: nil, format: nil, failure: nil, success: {image in
+                    image.asyncToSize(.Fill(cell.attachmentImage.bounds.width, 150), cornerRadius: 5.0, completion: {result in
+                        cell.attachmentImage.image = result
+                    })
+                })
                 cell.didTapAttachment = {
                     PhotoPopupView.showImageWithUrl(attachmentUrl, inView: self.view)
                 }
@@ -206,7 +211,9 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
             }
             
             if let userImage = user?[User.photo]?.imageValue {
-                cell.userImage.image = userImage
+                userImage.asyncToSize(.FillSize(cell.userImage.bounds.size), cornerRadius: 5, completion: {result in
+                    cell.userImage.image = result
+                })
             } else {
                 if !fetchingUserImage {
                     fetchUserImage()

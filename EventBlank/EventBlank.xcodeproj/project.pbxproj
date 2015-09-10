@@ -689,9 +689,9 @@
 		9CF717E61B3835AC0093C636 /* Speakers */ = {
 			isa = PBXGroup;
 			children = (
+				9C330CAD1B34B18F002A0D1E /* SpeakersViewController.swift */,
 				9CF717ED1B3844EA0093C636 /* SpeakerDetailsCell.swift */,
 				9CF717EB1B3842BB0093C636 /* SpeakerDetailsViewController.swift */,
-				9C330CAD1B34B18F002A0D1E /* SpeakersViewController.swift */,
 				9CF717E71B3836180093C636 /* SpeakerCell.swift */,
 				9C8E49591B8A788A00A5FA8D /* FollowTwitterButton.swift */,
 			);

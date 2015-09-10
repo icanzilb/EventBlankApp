@@ -8,17 +8,47 @@
 
 import UIKit
 
+enum UIImageResizeMode {
+    case Fill(CGFloat, CGFloat)
+    case FillSize(CGSize)
+    case Fit(CGFloat, CGFloat)
+    case Match(CGFloat, CGFloat)
+}
+
 extension UIImage {
     
-    func asyncToSize(newSize: CGSize, cornerRadius: CGFloat = 0.0, completion: ((UIImage?)->Void)? = nil) {
+    func asyncToSize(newSizeMode: UIImageResizeMode, cornerRadius: CGFloat = 0.0, completion: ((UIImage?)->Void)? = nil) {
 
         var result: UIImage? = nil
         
         backgroundQueue({
+
+            var newSize: CGSize!
+            
+            switch newSizeMode {
+            case .Fill(let w, let h):
+                newSize = CGSize(width: w, height: h)
+            case .FillSize(let s):
+                newSize = s
+            case .Fit(let w, let h):
+                newSize = CGSize(width: w, height: h)
+            case .Match(let w, let h):
+                newSize = CGSize(width: w, height: h)
+            }
             
             let aspectWidth = newSize.width / self.size.width
             let aspectHeight = newSize.height / self.size.height
-            let aspectRatio = max(aspectWidth, aspectHeight)
+            let aspectRatio: CGFloat!
+            
+            switch newSizeMode {
+            case .Fill(let w, let h): fallthrough
+            case .FillSize(_):
+                aspectRatio = max(aspectWidth, aspectHeight)
+            case .Fit(let w, let h):
+                aspectRatio = min(aspectWidth, aspectHeight)
+            case .Match(let w, let h):
+                aspectRatio = newSize.width / newSize.height
+            }
             
             var rect = CGRect.zeroRect
             
@@ -29,7 +59,8 @@ extension UIImage {
 
             UIGraphicsBeginImageContextWithOptions(newSize, false, UIScreen.mainScreen().scale)
             if cornerRadius > 0.0 {
-                CGContextAddPath(UIGraphicsGetCurrentContext(), UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius).CGPath)
+                let clipRect = CGRect(origin: CGPoint.zeroPoint, size: newSize)
+                CGContextAddPath(UIGraphicsGetCurrentContext(), UIBezierPath(roundedRect: clipRect, cornerRadius: cornerRadius).CGPath)
                 CGContextClip(UIGraphicsGetCurrentContext())
             }
             self.drawInRect(rect)

@@ -42,7 +42,7 @@ class NewsViewController: TweetListViewController {
 
         if let attachmentUrlString = tweet[News.imageUrl], let attachmentUrl = NSURL(string: attachmentUrlString) {
             cell.attachmentImage.hnk_setImageFromURL(attachmentUrl, placeholder: nil, format: nil, failure: nil, success: {image in
-                image.asyncToSize(CGSize(width: cell.attachmentImage.bounds.width, height: 150), cornerRadius: 5.0, completion: {result in
+                image.asyncToSize(.Fill(cell.attachmentImage.bounds.width, 150), cornerRadius: 5.0, completion: {result in
                     cell.attachmentImage.image = result
                 })
             })
@@ -56,7 +56,7 @@ class NewsViewController: TweetListViewController {
             cell.nameLabel.text = user[User.name]
             if let imageUrlString = user[User.photoUrl], let imageUrl = NSURL(string: imageUrlString) {
                 cell.userImage.hnk_setImageFromURL(imageUrl, placeholder: UIImage(named: "feed-item"), format: nil, failure: nil, success: {image in
-                    image.asyncToSize(cell.userImage.bounds.size, cornerRadius: 5.0, completion: {result in
+                    image.asyncToSize(.FillSize(cell.userImage.bounds.size), cornerRadius: 5.0, completion: {result in
                         cell.userImage.image = result
                     })
                 })
