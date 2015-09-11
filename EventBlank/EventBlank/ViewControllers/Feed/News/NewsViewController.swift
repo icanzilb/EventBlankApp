@@ -31,7 +31,9 @@ class NewsViewController: TweetListViewController {
     func didTapTabItem(notification: NSNotification) {
         if let index = notification.userInfo?["object"] as? Int where index == EventBlankTabIndex.Feed.rawValue {
             mainQueue({
+              if self.tweets.count > 0 {
                 self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+              }
             })
         }
     }

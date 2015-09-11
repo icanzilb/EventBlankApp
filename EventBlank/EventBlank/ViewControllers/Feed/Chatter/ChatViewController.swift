@@ -38,9 +38,11 @@ class ChatViewController: TweetListViewController {
     
     func didTapTabItem(notification: NSNotification) {
         if let index = notification.userInfo?["object"] as? Int where index == EventBlankTabIndex.Feed.rawValue {
+          if self.tweets.count > 0 {
             mainQueue({
                 self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
             })
+          }
         }
     }
 
