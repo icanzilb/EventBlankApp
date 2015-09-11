@@ -12,7 +12,8 @@ allow creating an event/conference iPhone app in a matter of \~ 1 hour. The
 project will aim to have as few as possible dependanies so that it can be cloned
 from GitHub and built immediately.
 
-This project is currently in **alpha** stage.
+This project is currently in **alpha** stage. You will need Xcode 6.4 for
+building it.
 
 Video demo of the alpha build so far: https://vimeo.com/132935515
 
