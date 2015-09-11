@@ -252,10 +252,12 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
             for index in 0 ..< items.count {
                 if now < items[index].values.first!.first![Session.beginTime] {
                     mainQueue({
+                      if self.items.count > 0 {
                         self.tableView.scrollToRowAtIndexPath(
                             NSIndexPath(forRow: 0, inSection: index),
                             atScrollPosition: UITableViewScrollPosition.Top,
                             animated: true)
+                      }
                     })
                     return
                 }

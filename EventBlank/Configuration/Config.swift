@@ -12,7 +12,7 @@ import Foundation
 // database file names
 //
 
-let eventDataFileName = "NSSpain15.eventblank"
+let eventDataFileName = "event-data.eventblank"
 let appDataFileName = "appdata.db"
 
-let initialEtag = "44420d"
+let initialEtag = "44425d"
