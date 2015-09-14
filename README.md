@@ -31,9 +31,6 @@ Project Timeline
 -   2016 - tell your friends about the project and we’ll see...
 
 Credit
-======
-
-Credit
 ========
 
 Author: **Marin Todorov**
