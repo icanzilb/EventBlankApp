@@ -33,10 +33,31 @@ Project Timeline
 Credit
 ======
 
+Credit
+========
+
+Author: **Marin Todorov**
+
+* [http://www.underplot.com](http://www.underplot.com)
+* [https://twitter.com/icanzilb](https://twitter.com/icanzilb)
+
+More about Marin:
+
+<table>
+<tr>
+<td>
+<a href="http://www.ios-animations-by-tutorials.com/"><img src="http://www.underplot.com/images/thumbs/iat.jpg" width="170"><br>
+<b>iOS Animations by Tutorials</b>, Author</a>
+</td>
+<td>
+<a href="http://www.ios-animations-by-emails.com/"><img src="http://www.underplot.com/images/thumbs/ios-animations-by-emails.jpg" width="170"><br>
+iOS Animations by Emails Newsletter, Author</a>
+</td>
+</tr>
+</table>
+
 My name is Marin Todorov. I like open sourcing my code and I really would like
 to help any event no matter small or big to have a proper iPhone app :]
-
-More about me: [http://www.underplot.com](<http://www.underplot.com >)
 
 This source code is distributed under a Attribution MIT license.
 
