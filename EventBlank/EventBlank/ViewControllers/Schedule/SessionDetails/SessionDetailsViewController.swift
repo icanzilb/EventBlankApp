@@ -60,9 +60,10 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
             let cell = tableView.dequeueReusableCellWithIdentifier("SessionDetailsCell") as! SessionDetailsCell
             
             cell.nameLabel.text = session[Speaker.name]
-            let time = dateFormatter.stringFromDate(
-                NSDate(timeIntervalSince1970: Double(session[Session.beginTime]))
-            )
+
+            let sessionDate = NSDate(timeIntervalSince1970: Double(session[Session.beginTime]))
+            let time = dateFormatter.stringFromDate(sessionDate)
+            
             cell.sessionTitleLabel.attributedText = NSAttributedString(
                 string: "\(time) \(session[Session.title])",
                 attributes: NSDictionary(object: UIFont.systemFontOfSize(22), forKey: NSFontAttributeName) as [NSObject : AnyObject])
@@ -125,6 +126,13 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
             //theme
             cell.sessionTitleLabel.textColor = UIColor(hexString: event[Event.mainColor])
             cell.trackTitleLabel.textColor = UIColor(hexString: event[Event.mainColor]).lightenColor(0.1).desaturatedColor()
+            
+            //check if in the past
+            if NSDate().isLaterThanDate(sessionDate) {
+                println("\(sessionDate) is in the past")
+                cell.sessionTitleLabel.textColor = cell.sessionTitleLabel.textColor.desaturateColor(0.5).lighterColor()
+                cell.trackTitleLabel.textColor = cell.sessionTitleLabel.textColor
+            }
             
             return cell
         }

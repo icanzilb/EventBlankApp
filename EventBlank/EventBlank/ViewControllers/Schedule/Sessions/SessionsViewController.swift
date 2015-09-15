@@ -122,9 +122,10 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         cell.titleLabel.text = session[Session.title]        
         cell.speakerLabel.text = session[Speaker.name]
         cell.trackLabel.text = session[Track.track]
-        cell.timeLabel.text = dateFormatter.stringFromDate(
-            NSDate(timeIntervalSince1970: Double(session[Session.beginTime]))
-        )
+
+        let sessionDate = NSDate(timeIntervalSince1970: Double(session[Session.beginTime]))
+        cell.timeLabel.text = dateFormatter.stringFromDate(sessionDate)
+        
         cell.speakerImageView.image = session[Speaker.photo]?.imageValue
         cell.locationLabel.text = session[Location.name]
         
@@ -146,7 +147,18 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         //theme
         cell.titleLabel.textColor = UIColor(hexString: event[Event.mainColor])
         cell.trackLabel.textColor = UIColor(hexString: event[Event.mainColor]).lightenColor(0.1).desaturatedColor()
+        cell.speakerLabel.textColor = UIColor.blackColor()
+        cell.locationLabel.textColor = UIColor.blackColor()
         
+        //check if in the past
+        if NSDate().isLaterThanDate(sessionDate) {
+            println("\(sessionDate) is in the past")
+            cell.titleLabel.textColor = cell.titleLabel.textColor.desaturateColor(0.5).lighterColor()
+            cell.trackLabel.textColor = cell.titleLabel.textColor
+            cell.speakerLabel.textColor = UIColor.grayColor()
+            cell.locationLabel.textColor = UIColor.grayColor()
+        }
+
         return cell
     }
 

@@ -507,7 +507,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Track" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jLX-87-OHI">
-                                                    <rect key="frame" x="117" y="72" width="209" height="17"/>
+                                                    <rect key="frame" x="117" y="72" width="217" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" weight="thin" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -531,7 +531,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WNn-o1-hfC">
-                                                    <rect key="frame" x="117" y="48" width="171" height="20.5"/>
+                                                    <rect key="frame" x="117" y="48" width="217" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -552,7 +552,7 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cNf-kI-4qk">
-                                                    <rect key="frame" x="117" y="97" width="181" height="16"/>
+                                                    <rect key="frame" x="117" y="97" width="197" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -571,7 +571,7 @@
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="jLX-87-OHI" secondAttribute="trailing" constant="8" id="3e5-AM-iDI"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="jLX-87-OHI" secondAttribute="trailing" id="3e5-AM-iDI"/>
                                                 <constraint firstItem="cNf-kI-4qk" firstAttribute="top" secondItem="jLX-87-OHI" secondAttribute="bottom" constant="5.5" id="GQu-uk-Z9g"/>
                                                 <constraint firstItem="MdB-VM-LCg" firstAttribute="leading" secondItem="Mfv-aQ-qHm" secondAttribute="leadingMargin" constant="10" id="JmZ-8H-6Ol"/>
                                                 <constraint firstItem="jLX-87-OHI" firstAttribute="top" secondItem="WNn-o1-hfC" secondAttribute="bottom" constant="4" id="KFX-dI-mYA"/>
@@ -583,11 +583,11 @@
                                                 <constraint firstAttribute="bottomMargin" secondItem="IMn-tD-kRC" secondAttribute="bottom" constant="9.5" id="bin-59-PWf"/>
                                                 <constraint firstItem="jLX-87-OHI" firstAttribute="leading" secondItem="cNf-kI-4qk" secondAttribute="leading" id="fOK-qn-jmc"/>
                                                 <constraint firstItem="MdB-VM-LCg" firstAttribute="top" secondItem="2Nf-cd-CtU" secondAttribute="bottom" constant="57" id="gpL-yq-jvq"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="WNn-o1-hfC" secondAttribute="trailing" constant="46" id="iuI-7u-hQB"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="WNn-o1-hfC" secondAttribute="trailing" id="iuI-7u-hQB"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="cNf-kI-4qk" secondAttribute="bottom" constant="14" id="jG1-Q6-f0x"/>
                                                 <constraint firstItem="jLX-87-OHI" firstAttribute="leading" secondItem="WNn-o1-hfC" secondAttribute="leading" id="kag-rI-Mzh"/>
                                                 <constraint firstItem="IMn-tD-kRC" firstAttribute="top" secondItem="2Nf-cd-CtU" secondAttribute="bottom" constant="2" id="nyq-xi-efz"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="cNf-kI-4qk" secondAttribute="trailing" constant="36" id="qg4-1V-xOz"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="cNf-kI-4qk" secondAttribute="trailing" constant="20" id="qg4-1V-xOz"/>
                                                 <constraint firstItem="WNn-o1-hfC" firstAttribute="top" secondItem="2Nf-cd-CtU" secondAttribute="bottom" constant="8" id="sNX-vj-aK6"/>
                                                 <constraint firstItem="2Nf-cd-CtU" firstAttribute="leading" secondItem="Mfv-aQ-qHm" secondAttribute="leadingMargin" constant="10" id="zF5-gP-NF2"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="2Nf-cd-CtU" secondAttribute="trailing" constant="-8" id="zji-KZ-EVh"/>
