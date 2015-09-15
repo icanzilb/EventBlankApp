@@ -173,9 +173,40 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         lastSelectedSession = nil
     }
     
+    var currentSectionIndex: Int? = nil
+    
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let section = items[section]
-        return section.keys.first!
+        //this section
+        let nowSection = items[section]
+        var nowSectionTitle = nowSection.keys.first!
+        let nowSession = nowSection.values.first!.first!
+        let nowSessionStartTime = nowSession[Session.beginTime]
+        
+        if currentSectionIndex == section - 1 {
+            //next upcoming session
+            return nowSectionTitle + " (coming up next)"
+        }
+        
+        //next section
+        if items.count > section+1 {
+            
+            let nextSection = items[section+1]
+            let nextSession = nextSection.values.first!.first!
+            let nextSessionStartTime = nextSession[Session.beginTime]
+            
+            let rightNow = NSDate().timeIntervalSince1970
+            
+            if Double(nowSessionStartTime) < rightNow && rightNow < Double(nextSessionStartTime) {
+                //current session
+                currentSectionIndex = section
+                return nowSectionTitle + " (LIVE now)"
+            }
+        } else {
+            //reset the current section index
+            currentSectionIndex = nil
+        }
+        
+        return nowSectionTitle
     }
     
     // MARK: - notifications
