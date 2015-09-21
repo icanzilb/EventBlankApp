@@ -33,7 +33,12 @@ class SpeakersModel {
         return result
     }
 
-    var totalNumberOfItems = 0
+    private var totalNumberOfItems = 0
+    private var filteredNumberOfItems = 0
+    
+    var currentNumberOfItems: Int {
+        return isFiltering ? filteredNumberOfItems : totalNumberOfItems
+    }
     
     //MARK: - load
     
@@ -106,6 +111,7 @@ class SpeakersModel {
         }
         let searchSection: SpeakerSection = ["search": results]
         filteredItems = [searchSection]
+        filteredNumberOfItems = results.count
     }
     
     // MARK: - favorites

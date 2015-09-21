@@ -20,9 +20,10 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     var database: Database {
         return DatabaseProvider.databases[eventDataFileName]!
     }
-        
-    var lastSelectedSpeaker: Row?
     
+    let speakers = SpeakersModel()
+
+    var lastSelectedSpeaker: Row?
     var btnFavorites = UIButton()
 
     var event: Row {
@@ -31,8 +32,6 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
 
     let searchController = UISearchController(searchResultsController:  nil)
     var initialized = false
-    
-    let speakers = SpeakersModel()
     
     //MARK: - view controller
     required init(coder aDecoder: NSCoder) {
@@ -46,14 +45,9 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         
         if self.tableView != nil {
             mainQueue({
-                let section = self.speakers.currentItems.first!
-                let nrResults = section[section.keys.first!]!.count
-                
-                if nrResults == 0 {
-                    self.tableView.hidden = true
+                if self.speakers.currentNumberOfItems == 0 {
                     self.view.addSubview(MessageView(text: "You currently have no favorited speakers"))
                 } else {
-                    self.tableView.hidden = false
                     MessageView.removeViewFrom(self.view)
                 }
             })
@@ -146,13 +140,8 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     
     func didTapTabItem(notification: NSNotification) {
         if let index = notification.userInfo?["object"] as? Int where index == EventBlankTabIndex.Speakers.rawValue {
-
-            if tableView(self.tableView, numberOfRowsInSection: 0) == 0 {
-                return
-            }
-            
             mainQueue({
-              if self.speakers.totalNumberOfItems > 0 {
+              if self.speakers.currentNumberOfItems > 0 {
                 self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
               }
             })
@@ -289,7 +278,8 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         backgroundQueue({ self.speakers.filterItemsWithTerm(self.searchController.searchBar.text, favorites: self.btnFavorites.selected) },
             completion: {
                     //show no sessions message
-                    if self.speakers.totalNumberOfItems == 0 {
+                print("nr of speakers: \(self.speakers.currentNumberOfItems)")
+                    if self.speakers.currentNumberOfItems == 0 {
                         self.tableView.addSubview(MessageView(text: "You didn't favorite any speakers yet"))
                     } else {
                         MessageView.removeViewFrom(self.tableView)
