@@ -28,9 +28,6 @@ class PhotoPopupView: UIView {
     func hideImage() {
         didTapPhoto(UITapGestureRecognizer()) //hack
     }
-    //UIViewController.alert("Couldn't fetch image. \(error.localizedDescription)", buttons: ["Close"], completion: {
-    //self.hideImage()
-    //});
     
     var photoUrl: NSURL! {
         didSet {
