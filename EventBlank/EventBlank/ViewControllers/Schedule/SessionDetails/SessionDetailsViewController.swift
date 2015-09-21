@@ -64,7 +64,7 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
                 string: "\(time) \(session[Session.title])",
                 attributes: NSDictionary(object: UIFont.systemFontOfSize(22), forKey: NSFontAttributeName) as [NSObject : AnyObject])
             
-            cell.trackTitleLabel.text = session[Track.track]
+            cell.trackTitleLabel.text = (session[Track.track] ?? "") + "\n"
             
             if let twitter = session[Speaker.twitter] where count(twitter) > 0 {
                 cell.twitterLabel.text = twitter.hasPrefix("@") ? twitter : "@"+twitter
@@ -81,7 +81,8 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
             
             cell.websiteLabel.text = session[Speaker.url]
             cell.btnToggleIsFavorite.selected = find(favorites, session[Session.idColumn]) != nil
-            cell.descriptionTextView.text = session[Session.description]
+            //only way to force textview autosizing I found
+            cell.descriptionTextView.text = (session[Session.description] ?? "") + "\n\n"
             
             let userImage = session[Speaker.photo]?.imageValue ?? UIImage(named: "empty")!
             userImage.asyncToSize(.FillSize(cell.userImage.bounds.size), cornerRadius: 5, completion: {result in
