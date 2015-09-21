@@ -9,7 +9,7 @@
 import UIKit
 import SQLite
 
-class SpeakersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SpeakersViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -175,164 +175,11 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         searchController.searchBar.endEditing(true)
     }
     
-    //MARK: - table view methods
-    
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return speakers.currentItems.count
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let section = speakers.currentItems[section]
-        return section[section.keys.first!]!.count
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("SpeakerCell") as! SpeakerCell
-        
-        //eg guard
-        if indexPath.section >= speakers.currentItems.count {
-            return cell
-        }
-        
-        let section = speakers.currentItems[indexPath.section]
-        let row = section[section.keys.first!]![indexPath.row]
-        
-        let userImage = row[Speaker.photo]?.imageValue ?? UIImage(named: "empty")!
-        userImage.asyncToSize(.FillSize(cell.userImage.bounds.size), cornerRadius: cell.userImage.bounds.size.width/2, completion: {result in
-            cell.userImage.image = result
-        })
-        
-        cell.nameLabel.text = row[Speaker.name]
-        if let twitter = row[Speaker.twitter] where count(twitter) > 0 {
-            cell.twitterLabel.text = twitter.hasPrefix("@") ? twitter : "@"+twitter
-        } else {
-            cell.twitterLabel.text = ""
-        }
-        cell.btnToggleIsFavorite.selected = speakers.isFavorite(speakerId: row[Speaker.idColumn])
-            
-        cell.indexPath = indexPath
-        cell.didSetIsFavoriteTo = {setIsFavorite, indexPath in
-            //TODO: update all this to Swift 2.0
-            let isInFavorites = self.speakers.isFavorite(speakerId: row[Speaker.idColumn])
-            
-            if setIsFavorite && !isInFavorites {
-                self.speakers.addFavorite(speakerId: row[Speaker.idColumn])
-            } else if !setIsFavorite && isInFavorites {
-                self.speakers.removeFavorite(speakerId: row[Speaker.idColumn])
-            }
-        }
-        
-        return cell
-    }
-
-    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
-        let section = speakers.currentItems[indexPath.section]
-        lastSelectedSpeaker = section[section.keys.first!]![indexPath.row]
-        return indexPath
-    }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        lastSelectedSpeaker = nil
-    }
-    
-    func sectionIndexTitlesForTableView(tableView: UITableView) -> [AnyObject]! {
-        
-        if speakers.currentItems.count < 4 {
-            return []
-        } else {
-            return speakers.currentItems.map {$0.keys.first!}
-        }
-    }
-    
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return (section == speakers.currentItems.count - 1) ?
-            /* leave enough space to expand under the tab bar */ ((UIApplication.sharedApplication().windows.first! as! UIWindow).rootViewController as! UITabBarController).tabBar.frame.size.height :
-            /* no space between sections */ 0
-    }
-    
-    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return (section == speakers.currentItems.count - 1) ? UIView() : nil
-    }
-    
-    //MARK: - favorites
-    func didFavoritesChange() {
-        backgroundQueue({
-            self.speakers.reloadFavorites()
-            self.speakers.filterItemsWithTerm(self.searchController.searchBar.text, favorites: self.btnFavorites.selected)
-        },
-        completion: { self.tableView.reloadData() })
-    }
-    
     //notifications
     func didChangeEventFile() {
         backgroundQueue(loadSpeakers, completion: {
             self.navigationController?.popToRootViewControllerAnimated(true)
             self.tableView.reloadData()
         })
-    }
-    
-    func actionToggleFavorites(sender: AnyObject) {
-        btnFavorites.selected = !btnFavorites.selected
-      
-        self.notification(kFavoritesToggledNotification, object: nil)
-
-        let message = alert(btnFavorites.selected ? "Showing favorite speakers only" : "Showing all speakers", buttons: [], completion: nil)
-        delay(seconds: 1.0, {
-            message.dismissViewControllerAnimated(true, completion: nil)
-        })
-        
-        btnFavorites.animateSelect(scale: 0.8, completion: nil)
-        
-        backgroundQueue({ self.speakers.filterItemsWithTerm(self.searchController.searchBar.text, favorites: self.btnFavorites.selected) },
-            completion: {
-                    //show no sessions message
-                print("nr of speakers: \(self.speakers.currentNumberOfItems)")
-                    if self.speakers.currentNumberOfItems == 0 {
-                        self.tableView.addSubview(MessageView(text: "You didn't favorite any speakers yet"))
-                    } else {
-                        MessageView.removeViewFrom(self.tableView)
-                    }
-                    self.tableView.reloadData()
-        })
-    }
-}
-
-extension SpeakersViewController: UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
-
-    //how can a single class be so broken @UISearchController?
-    
-    @IBAction func actionSearch(sender: AnyObject) {
-        searchController.searchBar.hidden = false
-        
-        btnFavorites.hidden = true
-        navigationItem.leftBarButtonItem = nil
-        
-        searchController.searchBar.becomeFirstResponder()
-    }
-    
-    func didDismissSearchController(searchController: UISearchController) {
-        searchController.searchBar.hidden = true
-        
-        self.btnFavorites.hidden = false
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Search, target: self, action: "actionSearch:")
-    }
-    
-    func showSearchBar() {
-        UIView.animateWithDuration(0.33, delay: 0, options: nil, animations: {
-            self.searchController.searchBar.alpha = 1
-            }, completion: nil)
-    }
-    
-    func hideSearchBar(completion: (()->Void)? = nil) {
-        UIView.animateWithDuration(0.33, delay: 0, options: nil, animations: {
-            self.searchController.searchBar.alpha = 0
-            }, completion: nil)
-    }
-    
-    //search controller
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
-        backgroundQueue({ self.speakers.filterItemsWithTerm(searchController.searchBar.text, favorites: self.btnFavorites.selected) },
-            completion: { self.tableView.reloadData() })
     }
 }
