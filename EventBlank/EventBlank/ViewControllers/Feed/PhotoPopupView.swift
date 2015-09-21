@@ -36,7 +36,7 @@ class PhotoPopupView: UIView {
         didSet {
             imgView.hnk_setImageFromURL(photoUrl, placeholder: nil, format: nil, failure: {error in
                 
-                UIViewController.alert("Couldn't fetch image. \(error)", buttons: ["Close"], completion: {_ in
+                UIViewController.alert("Couldn't fetch image.", buttons: ["Close"], completion: {_ in
                     self.hideImage()
                 })
                 
