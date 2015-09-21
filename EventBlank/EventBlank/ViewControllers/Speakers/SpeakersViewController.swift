@@ -13,9 +13,6 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
 
     @IBOutlet weak var tableView: UITableView!
 
-    let twitter = TwitterController()
-    let userCtr = UserController()
-    
     var appData: Database {
         return DatabaseProvider.databases[appDataFileName]!
         }
@@ -23,18 +20,7 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     var database: Database {
         return DatabaseProvider.databases[eventDataFileName]!
     }
-    
-    typealias SpeakerSection = [String: [Row]]
-    
-    var items = [SpeakerSection]()
-    var filteredItems = [SpeakerSection]()
-    
-    var currentItems: [SpeakerSection] {
-        return isFiltering ? filteredItems : items
-    }
-    
-    var favorites = Favorite.allSpeakerFavoriteIDs()
-    
+        
     var lastSelectedSpeaker: Row?
     
     var btnFavorites = UIButton()
@@ -46,10 +32,32 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     let searchController = UISearchController(searchResultsController:  nil)
     var initialized = false
     
+    let speakers = SpeakersModel()
+    
     //MARK: - view controller
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         backgroundQueue(loadSpeakers)
+    }
+    
+    func loadSpeakers() {
+        speakers.load(searchTerm: searchController.searchBar.text,
+            showOnlyFavorites: self.btnFavorites.selected)
+        
+        if self.tableView != nil {
+            mainQueue({
+                let section = self.speakers.currentItems.first!
+                let nrResults = section[section.keys.first!]!.count
+                
+                if nrResults == 0 {
+                    self.tableView.hidden = true
+                    self.view.addSubview(MessageView(text: "You currently have no favorited speakers"))
+                } else {
+                    self.tableView.hidden = false
+                    MessageView.removeViewFrom(self.view)
+                }
+            })
+        }
     }
     
     override func viewDidLoad() {
@@ -75,8 +83,8 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         if !initialized {
             initialized = true
             
-            if items.count == 0 {
-                backgroundQueue(loadSpeakers, completion: {
+            if speakers.currentItems.count == 0 {
+                backgroundQueue({ self.speakers.load() }, completion: {
                     self.tableView.reloadData()
                 })
             }
@@ -143,11 +151,8 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
                 return
             }
             
-            let section = currentItems.first!
-            let nrResults = section[section.keys.first!]!.count
-
             mainQueue({
-              if nrResults > 0 {
+              if self.speakers.totalNumberOfItems > 0 {
                 self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
               }
             })
@@ -162,64 +167,11 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
             searchController.searchBar.removeFromSuperview()
         }
     }
-    
-    func loadSpeakers() {
-        loadSpeakers(nil)
-    }
-    
-    func loadSpeakers(searchTerm: String?) {
-
-        var items = [ScheduleDaySection]()
         
-        //load speakers
-        var rows = database[SpeakerConfig.tableName].order(Speaker.name).map {$0}
-        
-        //order and group speakers
-        var sectionUsers = [Row]()
-        var lastUsedLetter = ""
-        
-        for speaker in rows {
-            let firstNameCharacter = speaker[Speaker.name][0...0].uppercaseString
-            
-            if lastUsedLetter != "" && lastUsedLetter != firstNameCharacter {
-                let newSectionTitle = lastUsedLetter
-                let newSection: SpeakerSection = [newSectionTitle: sectionUsers]
-                items.append(newSection)
-                sectionUsers = []
-            }
-            
-            sectionUsers.append(speaker)
-            lastUsedLetter = firstNameCharacter
-        }
-        
-        if sectionUsers.count > 0 {
-            let newSectionTitle = lastUsedLetter
-            let newSection: ScheduleDaySection = [newSectionTitle: sectionUsers]
-            items.append(newSection)
-        }
-        
-        if self.tableView != nil {
-            mainQueue({
-                let section = self.currentItems.first!
-                let nrResults = section[section.keys.first!]!.count
-
-                if nrResults == 0 {
-                    self.tableView.hidden = true
-                    self.view.addSubview(MessageView(text: "You currently have no favorited speakers"))
-                } else {
-                    self.tableView.hidden = false
-                    MessageView.removeViewFrom(self.view)
-                }
-            })
-        }
-        
-        self.items = items
-    }
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let speakerDetails = segue.destinationViewController as? SpeakerDetailsViewController {
             speakerDetails.speaker = lastSelectedSpeaker
-            speakerDetails.favorites = favorites
+            speakerDetails.favorites = speakers.favorites
         }
         
         searchController.searchBar.endEditing(true)
@@ -228,11 +180,11 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     //MARK: - table view methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return currentItems.count
+        return speakers.currentItems.count
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let section = currentItems[section]
+        let section = speakers.currentItems[section]
         return section[section.keys.first!]!.count
     }
     
@@ -240,11 +192,11 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = self.tableView.dequeueReusableCellWithIdentifier("SpeakerCell") as! SpeakerCell
         
         //eg guard
-        if indexPath.section >= currentItems.count {
+        if indexPath.section >= speakers.currentItems.count {
             return cell
         }
         
-        let section = currentItems[indexPath.section]
+        let section = speakers.currentItems[indexPath.section]
         let row = section[section.keys.first!]![indexPath.row]
         
         let userImage = row[Speaker.photo]?.imageValue ?? UIImage(named: "empty")!
@@ -258,26 +210,17 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         } else {
             cell.twitterLabel.text = ""
         }
-        cell.btnToggleIsFavorite.selected = (find(favorites, row[Speaker.idColumn]) != nil)
-        
-        if row[Speaker.photo]?.imageValue == nil {
-            userCtr.lookupUserImage(row, completion: {userImage in
-                userImage?.asyncToSize(.FillSize(cell.userImage.bounds.size), cornerRadius: cell.userImage.bounds.size.width/2, completion: {result in
-                    cell.userImage.image = result
-                })
-            })
-        }
-        
+        cell.btnToggleIsFavorite.selected = speakers.isFavorite(speakerId: row[Speaker.idColumn])
+            
         cell.indexPath = indexPath
         cell.didSetIsFavoriteTo = {setIsFavorite, indexPath in
             //TODO: update all this to Swift 2.0
-            let isInFavorites = find(self.favorites, row[Speaker.idColumn]) != nil
+            let isInFavorites = self.speakers.isFavorite(speakerId: row[Speaker.idColumn])
+            
             if setIsFavorite && !isInFavorites {
-                self.favorites.append(row[Speaker.idColumn])
-                Favorite.saveSessionId(row[Speaker.idColumn])
+                self.speakers.addFavorite(speakerId: row[Speaker.idColumn])
             } else if !setIsFavorite && isInFavorites {
-                self.favorites.removeAtIndex(find(self.favorites, row[Speaker.idColumn])!)
-                Favorite.removeSessionId(row[Speaker.idColumn])
+                self.speakers.removeFavorite(speakerId: row[Speaker.idColumn])
             }
         }
         
@@ -285,7 +228,7 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
-        let section = currentItems[indexPath.section]
+        let section = speakers.currentItems[indexPath.section]
         lastSelectedSpeaker = section[section.keys.first!]![indexPath.row]
         return indexPath
     }
@@ -297,28 +240,28 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     
     func sectionIndexTitlesForTableView(tableView: UITableView) -> [AnyObject]! {
         
-        if currentItems.count < 4 {
+        if speakers.currentItems.count < 4 {
             return []
         } else {
-            return currentItems.map {$0.keys.first!}
+            return speakers.currentItems.map {$0.keys.first!}
         }
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return (section == currentItems.count - 1) ?
+        return (section == speakers.currentItems.count - 1) ?
             /* leave enough space to expand under the tab bar */ ((UIApplication.sharedApplication().windows.first! as! UIWindow).rootViewController as! UITabBarController).tabBar.frame.size.height :
             /* no space between sections */ 0
     }
     
     func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return (section == currentItems.count - 1) ? UIView() : nil
+        return (section == speakers.currentItems.count - 1) ? UIView() : nil
     }
     
     //MARK: - favorites
     func didFavoritesChange() {
         backgroundQueue({
-            self.favorites = Favorite.allSpeakerFavoriteIDs()
-            self.filterItemsWithTerm(nil, favorites: self.btnFavorites.selected)
+            self.speakers.reloadFavorites()
+            self.speakers.filterItemsWithTerm(self.searchController.searchBar.text, favorites: self.btnFavorites.selected)
         },
         completion: { self.tableView.reloadData() })
     }
@@ -343,14 +286,10 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         
         btnFavorites.animateSelect(scale: 0.8, completion: nil)
         
-        backgroundQueue({ self.filterItemsWithTerm(nil, favorites: self.btnFavorites.selected) },
+        backgroundQueue({ self.speakers.filterItemsWithTerm(self.searchController.searchBar.text, favorites: self.btnFavorites.selected) },
             completion: {
                     //show no sessions message
-                    let items = self.isFiltering ? self.filteredItems : self.items
-                    let section = items.first!
-                    let nrResults = section[section.keys.first!]!.count
-
-                    if nrResults == 0 {
+                    if self.speakers.totalNumberOfItems == 0 {
                         self.tableView.addSubview(MessageView(text: "You didn't favorite any speakers yet"))
                     } else {
                         MessageView.removeViewFrom(self.tableView)
@@ -358,7 +297,6 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
                     self.tableView.reloadData()
         })
     }
-
 }
 
 extension SpeakersViewController: UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
@@ -393,40 +331,9 @@ extension SpeakersViewController: UISearchControllerDelegate, UISearchResultsUpd
             }, completion: nil)
     }
     
-    func filterItemsWithTerm(term: String?, favorites: Bool = false) {
-        var results = [Row]()
-        for section in items {
-            for row in section.values.first! {
-                var eligibleResult = true
-                if favorites {
-                    if find(self.favorites, row[Speaker.idColumn]) == nil {
-                        eligibleResult = false
-                    }
-                }
-                if let term = term {
-                    if !(row[Speaker.name]).contains(term, ignoreCase: true) {
-                        eligibleResult = false
-                    }
-                }
-                if eligibleResult {
-                    results.append(row)
-                }
-            }
-        }
-        let searchSection: SpeakerSection = ["search": results]
-        filteredItems = [searchSection]
-    }
-    
-    var isFiltering: Bool {
-        let result = count(searchController.searchBar.text) > 0 || self.btnFavorites.selected
-        return result
-    }
-    
     //search controller
     func updateSearchResultsForSearchController(searchController: UISearchController) {
-        backgroundQueue({ self.filterItemsWithTerm(searchController.searchBar.text, favorites: self.btnFavorites.selected) },
+        backgroundQueue({ self.speakers.filterItemsWithTerm(searchController.searchBar.text, favorites: self.btnFavorites.selected) },
             completion: { self.tableView.reloadData() })
     }
 }
-
-
