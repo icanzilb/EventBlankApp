@@ -112,8 +112,17 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
             
             searchController.searchBar.center = CGPoint(
                 x: CGRectGetMidX(navigationController!.navigationBar.frame) + 4,
-                y: 20) //wtf search controller, just wtf?
+                y: 20)
             searchController.searchBar.hidden = true
+
+            //search controller is the worst
+            let iOSVersion = NSString(string: UIDevice.currentDevice().systemVersion).doubleValue
+            if iOSVersion < 9.0 {
+                //position the bar on iOS8
+                searchController.searchBar.center = CGPoint(
+                    x: CGRectGetMinX(navigationController!.navigationBar.frame) + 4,
+                    y: 20)
+            }
             
             navigationController!.navigationBar.addSubview(
                 searchController.searchBar
