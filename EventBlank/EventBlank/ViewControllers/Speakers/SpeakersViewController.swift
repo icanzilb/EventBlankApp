@@ -29,6 +29,10 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     var items = [SpeakerSection]()
     var filteredItems = [SpeakerSection]()
     
+    var currentItems: [SpeakerSection] {
+        return isFiltering ? filteredItems : items
+    }
+    
     var favorites = Favorite.allSpeakerFavoriteIDs()
     
     var lastSelectedSpeaker: Row?
@@ -134,9 +138,16 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     
     func didTapTabItem(notification: NSNotification) {
         if let index = notification.userInfo?["object"] as? Int where index == EventBlankTabIndex.Speakers.rawValue {
-          let items = isFiltering ? filteredItems : self.items
+
+            if tableView(self.tableView, numberOfRowsInSection: 0) == 0 {
+                return
+            }
+            
+            let section = currentItems.first!
+            let nrResults = section[section.keys.first!]!.count
+
             mainQueue({
-              if items.count > 0 {
+              if nrResults > 0 {
                 self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
               }
             })
@@ -189,7 +200,10 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         
         if self.tableView != nil {
             mainQueue({
-                if self.items.count == 0 {
+                let section = self.currentItems.first!
+                let nrResults = section[section.keys.first!]!.count
+
+                if nrResults == 0 {
                     self.tableView.hidden = true
                     self.view.addSubview(MessageView(text: "You currently have no favorited speakers"))
                 } else {
@@ -214,29 +228,23 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     //MARK: - table view methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        let items = isFiltering ? filteredItems : self.items
-        
-        return items.count
+        return currentItems.count
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let items = isFiltering ? filteredItems : self.items
-        
-        let section = items[section]
+        let section = currentItems[section]
         return section[section.keys.first!]!.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let items = isFiltering ? filteredItems : self.items
-        
         let cell = self.tableView.dequeueReusableCellWithIdentifier("SpeakerCell") as! SpeakerCell
         
         //eg guard
-        if indexPath.section >= items.count {
+        if indexPath.section >= currentItems.count {
             return cell
         }
         
-        let section = items[indexPath.section]
+        let section = currentItems[indexPath.section]
         let row = section[section.keys.first!]![indexPath.row]
         
         let userImage = row[Speaker.photo]?.imageValue ?? UIImage(named: "empty")!
@@ -277,9 +285,7 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
-        let items = isFiltering ? filteredItems : self.items
-        
-        let section = items[indexPath.section]
+        let section = currentItems[indexPath.section]
         lastSelectedSpeaker = section[section.keys.first!]![indexPath.row]
         return indexPath
     }
@@ -290,13 +296,22 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func sectionIndexTitlesForTableView(tableView: UITableView) -> [AnyObject]! {
-        let items = isFiltering ? filteredItems : self.items
         
-        if items.count < 4 {
+        if currentItems.count < 4 {
             return []
         } else {
-            return items.map {$0.keys.first!}
+            return currentItems.map {$0.keys.first!}
         }
+    }
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return (section == currentItems.count - 1) ?
+            /* leave enough space to expand under the tab bar */ ((UIApplication.sharedApplication().windows.first! as! UIWindow).rootViewController as! UITabBarController).tabBar.frame.size.height :
+            /* no space between sections */ 0
+    }
+    
+    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return (section == currentItems.count - 1) ? UIView() : nil
     }
     
     //MARK: - favorites
@@ -329,7 +344,19 @@ class SpeakersViewController: UIViewController, UITableViewDelegate, UITableView
         btnFavorites.animateSelect(scale: 0.8, completion: nil)
         
         backgroundQueue({ self.filterItemsWithTerm(nil, favorites: self.btnFavorites.selected) },
-            completion: { self.tableView.reloadData() })
+            completion: {
+                    //show no sessions message
+                    let items = self.isFiltering ? self.filteredItems : self.items
+                    let section = items.first!
+                    let nrResults = section[section.keys.first!]!.count
+
+                    if nrResults == 0 {
+                        self.tableView.addSubview(MessageView(text: "You didn't favorite any speakers yet"))
+                    } else {
+                        MessageView.removeViewFrom(self.tableView)
+                    }
+                    self.tableView.reloadData()
+        })
     }
 
 }
