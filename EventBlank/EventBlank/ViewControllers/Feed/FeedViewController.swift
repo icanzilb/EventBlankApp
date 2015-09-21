@@ -28,7 +28,6 @@ class FeedViewController: KHTabPagerViewController, KHTabPagerDataSource, UIScro
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        println("loaded feed vc view")
         
         dataSource = self
         delegate = self
