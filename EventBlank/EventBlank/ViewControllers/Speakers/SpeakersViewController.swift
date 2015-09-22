@@ -169,7 +169,6 @@ class SpeakersViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let speakerDetails = segue.destinationViewController as? SpeakerDetailsViewController {
             speakerDetails.speaker = lastSelectedSpeaker
-            speakerDetails.favorites = speakers.favorites
         }
         
         searchController.searchBar.endEditing(true)
