@@ -152,7 +152,6 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 }
             })
             
-            
             cell.indexPath = indexPath
             cell.didSetIsFavoriteTo = {setIsFavorite, indexPath in
                 //TODO: update all this to Swift 2.0

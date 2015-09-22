@@ -31,4 +31,8 @@ class SpeakerCell: UITableViewCell {
         return
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        userImage.image = nil
+    }
 }
