@@ -26,6 +26,13 @@ struct RightNowItems {
 
 class Schedule {
     
+    var database: Database {
+        return DatabaseProvider.databases[eventDataFileName]!
+    }
+
+    var favorites: [Int]!
+    var speakerFavorites: [Int]!
+
     func dayRanges() -> [ScheduleDay] {
         
         //read the event data
@@ -54,7 +61,7 @@ class Schedule {
         return result
     }
     
-    func groupSessionsByStartTime(sessions: [Row]) -> [ScheduleDaySection] {
+    func sessionsByStartTime(day: ScheduleDay, onlyFavorites: Bool = false) -> [ScheduleDaySection] {
         var result = [ScheduleDaySection]()
         
         let timeFormatter = NSDateFormatter()
@@ -62,6 +69,23 @@ class Schedule {
         
         var lastBeginTime: Int = 0
         var rows = [Row]()
+
+        //load sessions
+        var sessions = database[SessionConfig.tableName]
+            .join(database[SpeakerConfig.tableName], on: {Session.fk_speaker == Speaker.idColumn}())
+            .join(database[TrackConfig.tableName], on: {Session.fk_track == Track.idColumn}())
+            .join(database[LocationConfig.tableName], on: {Session.fk_location == Location.idColumn}())
+            .filter(Session.beginTime > Int(day.startTimeStamp) && Session.beginTime < Int(day.endTimeStamp))
+            .order(Session.beginTime.asc)
+            .map {$0}
+        
+        //filter sessions
+        if onlyFavorites {
+            sessions = sessions.filter({ session in
+                return find(self.favorites, session[Session.idColumn]) != nil ||
+                    (find(self.speakerFavorites, session[Speaker.idColumn]) != nil)
+            })
+        }
         
         for session in sessions {
             if lastBeginTime>0 && session[Session.beginTime] > lastBeginTime {
@@ -84,7 +108,7 @@ class Schedule {
         return result
     }
     
-    func rightNowItems() -> RightNowItems? {
+    func rightNowItems(var day: ScheduleDay? = nil) -> RightNowItems? {
         let database = DatabaseProvider.databases[eventDataFileName]!
         
         let todayMorning = NSDate().dateAtStartOfDay().timeIntervalSince1970
@@ -100,7 +124,11 @@ class Schedule {
             .map {$0}
         
         //build schedule sections
-        let items = Schedule().groupSessionsByStartTime(sessions)
+        if day == nil {
+            day = ScheduleDay(startTimeStamp: todayMorning, endTimeStamp: todayEvening, text: "dummy")
+        }
+        
+        let items = Schedule().sessionsByStartTime(day!)
         let now = NSDate().timeIntervalSince1970
         
         var currentSectionIndex: Int? = nil
