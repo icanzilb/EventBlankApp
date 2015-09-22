@@ -29,30 +29,24 @@ extension SpeakersViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         let section = speakers.currentItems[indexPath.section]
-        let row = section[section.keys.first!]![indexPath.row]
+        let speaker = section[section.keys.first!]![indexPath.row]
         
-        let userImage = row[Speaker.photo]?.imageValue ?? UIImage(named: "empty")!
-        userImage.asyncToSize(.FillSize(cell.userImage.bounds.size), cornerRadius: cell.userImage.bounds.size.width/2, completion: {result in
-            cell.userImage.image = result
-        })
-        
-        cell.nameLabel.text = row[Speaker.name]
-        if let twitter = row[Speaker.twitter] where count(twitter) > 0 {
-            cell.twitterLabel.text = twitter.hasPrefix("@") ? twitter : "@"+twitter
-        } else {
-            cell.twitterLabel.text = ""
-        }
-        cell.btnToggleIsFavorite.selected = speakers.isFavorite(speakerId: row[Speaker.idColumn])
-        
+        //configure the cell
+        cell.isFavoriteSpeaker = speakers.isFavorite(speakerId: speaker[Speaker.idColumn])
         cell.indexPath = indexPath
+        
+        //populate
+        cell.populateFromSpeaker(speaker)
+        
+        //tap handlers
         cell.didSetIsFavoriteTo = {setIsFavorite, indexPath in
             //TODO: update all this to Swift 2.0
-            let isInFavorites = self.speakers.isFavorite(speakerId: row[Speaker.idColumn])
+            let isInFavorites = self.speakers.isFavorite(speakerId: speaker[Speaker.idColumn])
             
             if setIsFavorite && !isInFavorites {
-                self.speakers.addFavorite(speakerId: row[Speaker.idColumn])
+                self.speakers.addFavorite(speakerId: speaker[Speaker.idColumn])
             } else if !setIsFavorite && isInFavorites {
-                self.speakers.removeFavorite(speakerId: row[Speaker.idColumn])
+                self.speakers.removeFavorite(speakerId: speaker[Speaker.idColumn])
             }
         }
         

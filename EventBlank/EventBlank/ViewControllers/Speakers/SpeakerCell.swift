@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SQLite
 
 class SpeakerCell: UITableViewCell {
 
@@ -34,5 +35,25 @@ class SpeakerCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         userImage.image = nil
+    }
+    
+    var isFavoriteSpeaker = false
+    
+    func populateFromSpeaker(speaker: Row) {
+        
+        let userImage = speaker[Speaker.photo]?.imageValue ?? UIImage(named: "empty")!
+        userImage.asyncToSize(.FillSize(self.userImage.bounds.size), cornerRadius: self.userImage.bounds.size.width/2, completion: {result in
+            self.userImage.image = result
+        })
+        
+        nameLabel.text = speaker[Speaker.name]
+        if let twitter = speaker[Speaker.twitter] where count(twitter) > 0 {
+            twitterLabel.text = twitter.hasPrefix("@") ? twitter : "@"+twitter
+        } else {
+            twitterLabel.text = ""
+        }
+        btnToggleIsFavorite.selected = isFavoriteSpeaker
+        
+
     }
 }

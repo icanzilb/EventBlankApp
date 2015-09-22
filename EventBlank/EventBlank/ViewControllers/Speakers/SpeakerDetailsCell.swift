@@ -1,5 +1,5 @@
 //
-//  SpeakerDetailsCell.swift
+//  SpeakerDetailsswift
 //  EventBlank
 //
 //  Created by Marin Todorov on 6/22/15.
@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SQLite
 
 class SpeakerDetailsCell: UITableViewCell {
     
@@ -73,6 +74,55 @@ class SpeakerDetailsCell: UITableViewCell {
     
     func didTapPhotoWithRecognizer(tap: UITapGestureRecognizer) {
         didTapPhoto?()
+    }
+    
+    var isFavoriteSpeaker = false
+    
+    func populateFromSpeaker(speaker: Row, twitter: TwitterController) {
+        nameLabel.text = speaker[Speaker.name]
+
+        if let twitterHandle = speaker[Speaker.twitter] where count(twitterHandle) > 0 {
+            twitterLabel.text = twitterHandle.hasPrefix("@") ? twitterHandle : "@"+twitterHandle
+            
+            btnIsFollowing.hidden = false
+            btnIsFollowing.username = twitterLabel.text
+            
+            
+            //check if already following speaker
+            twitter.authorize({success in
+                if success {
+                    twitter.isFollowingUser(twitterHandle, completion: {following in
+                        if let following = following {
+                            self.btnIsFollowing.followState = following ? .Following : .Follow
+                        } else {
+                            self.btnIsFollowing.hidden = true
+                        }
+                    })
+                } else {
+                    self.btnIsFollowing.hidden = true
+                }
+            })
+        } else {
+            mainQueue {
+                self.btnIsFollowing.hidden = true
+                self.twitterLabel.text = ""
+                self.didTapTwitter = nil
+            }
+        }
+
+        websiteLabel.text = speaker[Speaker.url]
+        btnToggleIsFavorite.selected = isFavoriteSpeaker
+        bioTextView.text = speaker[Speaker.bio]
+        let userImage = speaker[Speaker.photo]?.imageValue ?? UIImage(named: "empty")!
+        userImage.asyncToSize(.FillSize(self.userImage.bounds.size), cornerRadius: 5, completion: {result in
+            self.userImage.image = result
+        })
+
+        if let urlString = speaker[Speaker.url], let url = NSURL(string: urlString) {
+            speakerUrl = url
+        } else {
+            speakerUrl = nil
+        }
     }
 }
 

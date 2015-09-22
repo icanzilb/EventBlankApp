@@ -38,10 +38,15 @@ extension SpeakerDetailsViewController {
             
             let cell = tableView.dequeueReusableCellWithIdentifier("SpeakerDetailsCell") as! SpeakerDetailsCell
             
-            cell.nameLabel.text = speaker[Speaker.name]
+            //configure
+            cell.isFavoriteSpeaker = speakersModel.isFavorite(speakerId: speaker[Speaker.idColumn])
+            cell.indexPath = indexPath
+
+            //populate
+            cell.populateFromSpeaker(speaker, twitter: twitter)
             
+            //tap handlers
             if let twitterHandle = speaker[Speaker.twitter] where count(twitterHandle) > 0 {
-                cell.twitterLabel.text = twitterHandle.hasPrefix("@") ? twitterHandle : "@"+twitterHandle
                 cell.didTapTwitter = {
                     let twitterUrl = NSURL(string: "https://twitter.com/" + twitterHandle)!
                     
@@ -49,10 +54,6 @@ extension SpeakerDetailsViewController {
                     webVC.initialURL = twitterUrl
                     self.navigationController!.pushViewController(webVC, animated: true)
                 }
-                
-                cell.btnIsFollowing.hidden = false
-                cell.btnIsFollowing.username = cell.twitterLabel.text
-                
                 cell.didTapFollow = {
                     self.twitter.authorize({success in
                         if success {
@@ -66,37 +67,27 @@ extension SpeakerDetailsViewController {
                         }
                     })
                 }
-                
-                //check if already following speaker
-                twitter.authorize({success in
-                    if success {
-                        self.twitter.isFollowingUser(twitterHandle, completion: {following in
-                            if let following = following {
-                                cell.btnIsFollowing.followState = following ? .Following : .Follow
-                            } else {
-                                cell.btnIsFollowing.hidden = true
-                            }
-                        })
-                    } else {
-                        cell.btnIsFollowing.hidden = true
-                    }
-                })
-            } else {
-                mainQueue {
-                    cell.btnIsFollowing.hidden = true
-                    cell.twitterLabel.text = ""
-                    cell.didTapTwitter = nil
-                }
             }
-            
-            cell.websiteLabel.text = speaker[Speaker.url]
-            cell.btnToggleIsFavorite.selected = speakersModel.isFavorite(speakerId: speaker[Speaker.idColumn])
-            cell.bioTextView.text = speaker[Speaker.bio]
-            let userImage = speaker[Speaker.photo]?.imageValue ?? UIImage(named: "empty")!
-            userImage.asyncToSize(.FillSize(cell.userImage.bounds.size), cornerRadius: 5, completion: {result in
-                cell.userImage.image = result
-            })
-            
+            cell.didSetIsFavoriteTo = {setIsFavorite, indexPath in
+                //TODO: update all this to Swift 2.0
+                let id = self.speaker[Speaker.idColumn]
+                
+                let isInFavorites = self.speakersModel.isFavorite(speakerId: self.speaker[Speaker.idColumn])
+                if setIsFavorite && !isInFavorites {
+                    self.speakersModel.addFavorite(speakerId: self.speaker[Speaker.idColumn])
+                } else if !setIsFavorite && isInFavorites {
+                    self.speakersModel.removeFavorite(speakerId: self.speaker[Speaker.idColumn])
+                }
+                
+                self.notification(kFavoritesChangedNotification, object: nil)
+            }
+            cell.didTapURL = {tappedUrl in
+                let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
+                webVC.initialURL = tappedUrl
+                self.navigationController!.pushViewController(webVC, animated: true)
+            }
+
+            //work on the user photo
             backgroundQueue({
                 
                 if self.speaker[Speaker.photo]?.imageValue == nil {
@@ -116,34 +107,6 @@ extension SpeakerDetailsViewController {
                     }
                 }
             })
-            
-            cell.indexPath = indexPath
-            cell.didSetIsFavoriteTo = {setIsFavorite, indexPath in
-                //TODO: update all this to Swift 2.0
-                let id = self.speaker[Speaker.idColumn]
-                
-                let isInFavorites = self.speakersModel.isFavorite(speakerId: self.speaker[Speaker.idColumn])
-                if setIsFavorite && !isInFavorites {
-                    self.speakersModel.addFavorite(speakerId: self.speaker[Speaker.idColumn])
-                } else if !setIsFavorite && isInFavorites {
-                    self.speakersModel.removeFavorite(speakerId: self.speaker[Speaker.idColumn])
-                }
-                
-                self.notification(kFavoritesChangedNotification, object: nil)
-            }
-            
-            
-            if let urlString = speaker[Speaker.url], let url = NSURL(string: urlString) {
-                cell.speakerUrl = url
-            } else {
-                cell.speakerUrl = nil
-            }
-            
-            cell.didTapURL = {tappedUrl in
-                let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
-                webVC.initialURL = tappedUrl
-                self.navigationController!.pushViewController(webVC, animated: true)
-            }
             
             return cell
         }

@@ -26,25 +26,18 @@ extension SessionsViewController {
         
         let section = items[indexPath.section]
         let session = section[section.keys.first!]![indexPath.row]
-        
-        cell.titleLabel.text = session[Session.title]
-        cell.speakerLabel.text = session[Speaker.name]
-        cell.trackLabel.text = session[Track.track]
-        
-        let sessionDate = NSDate(timeIntervalSince1970: Double(session[Session.beginTime]))
-        cell.timeLabel.text = dateFormatter.stringFromDate(sessionDate)
-        
-        let userImage = session[Speaker.photo]?.imageValue ?? UIImage(named: "empty")!
-        userImage.asyncToSize(.FillSize(cell.speakerImageView.bounds.size), cornerRadius: cell.speakerImageView.bounds.size.width/2, completion: {result in
-            cell.speakerImageView.image = result
-        })
-        
-        cell.locationLabel.text = session[Location.name]
-        
-        cell.btnToggleIsFavorite.selected = (find(favorites, session[Session.idColumn]) != nil)
-        cell.btnSpeakerIsFavorite.selected = (find(speakerFavorites, session[Speaker.idColumn]) != nil)
-        
+
+        //configure the cell
+        cell.dateFormatter = dateFormatter
+        cell.isFavoriteSession = (find(favorites, session[Session.idColumn]) != nil)
+        cell.isFavoriteSpeaker = (find(speakerFavorites, session[Speaker.idColumn]) != nil)
         cell.indexPath = indexPath
+        cell.mainColor = UIColor(hexString: event[Event.mainColor])
+        
+        //populate from session
+        cell.populateFromSession(session)
+        
+        //tap handlers
         cell.didSetIsFavoriteTo = {setIsFavorite, indexPath in
             //TODO: update all this to Swift 2.0
             let isInFavorites = find(self.favorites, session[Session.idColumn]) != nil
@@ -55,22 +48,6 @@ extension SessionsViewController {
             }
             self.notification(kFavoritesChangedNotification, object: nil)
         }
-        
-        //theme
-        cell.titleLabel.textColor = UIColor(hexString: event[Event.mainColor])
-        cell.trackLabel.textColor = UIColor(hexString: event[Event.mainColor]).lightenColor(0.1).desaturatedColor()
-        cell.speakerLabel.textColor = UIColor.blackColor()
-        cell.locationLabel.textColor = UIColor.blackColor()
-        
-        //check if in the past
-        if NSDate().isLaterThanDate(sessionDate) {
-            println("\(sessionDate) is in the past")
-            cell.titleLabel.textColor = cell.titleLabel.textColor.desaturateColor(0.5).lighterColor()
-            cell.trackLabel.textColor = cell.titleLabel.textColor
-            cell.speakerLabel.textColor = UIColor.grayColor()
-            cell.locationLabel.textColor = UIColor.grayColor()
-        }
-        
         return cell
     }
     

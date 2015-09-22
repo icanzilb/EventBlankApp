@@ -1,5 +1,5 @@
 //
-//  SessionTableViewCell.swift
+//  SessionTableViewswift
 //  EventBlank
 //
 //  Created by Marin Todorov on 6/20/15.
@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SQLite
 
 class SessionTableViewCell: UITableViewCell {
 
@@ -41,5 +42,45 @@ class SessionTableViewCell: UITableViewCell {
         
         return
     }
+  
+    var dateFormatter: NSDateFormatter!
+    var isFavoriteSession = false
+    var isFavoriteSpeaker = false
     
+    var mainColor: UIColor!
+    
+    func populateFromSession(session: Row) {
+        
+        titleLabel.text = session[Session.title]
+        speakerLabel.text = session[Speaker.name]
+        trackLabel.text = session[Track.track]
+        
+        let sessionDate = NSDate(timeIntervalSince1970: Double(session[Session.beginTime]))
+        timeLabel.text = dateFormatter.stringFromDate(sessionDate)
+        
+        let userImage = session[Speaker.photo]?.imageValue ?? UIImage(named: "empty")!
+        userImage.asyncToSize(.FillSize(speakerImageView.bounds.size), cornerRadius: speakerImageView.bounds.size.width/2, completion: {result in
+            self.speakerImageView.image = result
+        })
+        
+        locationLabel.text = session[Location.name]
+        
+        btnToggleIsFavorite.selected = isFavoriteSession
+        btnSpeakerIsFavorite.selected = isFavoriteSpeaker
+        
+        //theme
+        titleLabel.textColor = mainColor
+        trackLabel.textColor = mainColor.lightenColor(0.1).desaturatedColor()
+        speakerLabel.textColor = UIColor.blackColor()
+        locationLabel.textColor = UIColor.blackColor()
+        
+        //check if in the past
+        if NSDate().isLaterThanDate(sessionDate) {
+            titleLabel.textColor = titleLabel.textColor.desaturateColor(0.5).lighterColor()
+            trackLabel.textColor = titleLabel.textColor
+            speakerLabel.textColor = UIColor.grayColor()
+            locationLabel.textColor = UIColor.grayColor()
+        }
+    }
+  
 }
