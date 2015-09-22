@@ -135,6 +135,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                 
                 if self.speaker[Speaker.photo]?.imageValue == nil {
                     self.userCtr.lookupUserImage(self.speaker, completion: {userImage in
+                        println("speaker img size \(userImage!.size)")
                         userImage?.asyncToSize(.FillSize(cell.userImage.bounds.size), cornerRadius: 5, completion: {result in
                             cell.userImage.image = result
                         })
@@ -146,7 +147,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
                     })
                 } else {
                     cell.didTapPhoto = {
-                        PhotoPopupView.showImage(cell.userImage.image!, inView: self.view)
+                        PhotoPopupView.showImage(self.speaker[Speaker.photo]!.imageValue!, inView: self.view)
                     }
                 }
             })
