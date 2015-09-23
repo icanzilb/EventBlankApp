@@ -11,8 +11,6 @@ import SQLite
 import MAThemeKit
 import DynamicColor
 
-let kDidReplaceEventFileNotification = "kDidReplaceEventFileNotification"
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     

@@ -7,3 +7,22 @@
 //
 
 import Foundation
+
+let kFavoritesToggledNotification = "kFavoritesToggledNotification"
+let kFavoritesChangedNotification = "kFavoritesChangedNotification"
+
+let kDidReplaceEventFileNotification = "kDidReplaceEventFileNotification"
+
+let kTabItemSelectedNotification = "kTabItemSelectedNotification"
+
+let kDidPostTweetNotification = "kDidPostTweetNotification"
+let kTwitterAuthorizationChangedNotification = "kTwitterAuthorizationChangedNotification"
+
+let kShowCurrentSessionNotification = "kShowCurrentSessionNotification"
+
+let kScrollToCurrentSessionNotification = "kScrollToCurrentSessionNotification"
+
+let kPendingUpdateChangedNotification = "kPendingUpdateChangedNotification"
+
+
+
