@@ -10,36 +10,20 @@ import UIKit
 import SQLite
 import XLPagerTabStrip
 
-let kFavoritesToggledNotification = "kFavoritesToggledNotification"
-let kFavoritesChangedNotification = "kFavoritesChangedNotification"
-
 class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITableViewDataSource, UITableViewDelegate {
     
     var day: ScheduleDay! //set from container VC
     var items = [ScheduleDaySection]()
     
-    var favorites = [Int]()
-    var speakerFavorites = [Int]()
-    
     var delegate: SessionViewControllerDelegate! //set from previous VC
     
-    var database: Database {
-        return DatabaseProvider.databases[eventDataFileName]!
-    }
-    
+    let schedule = Schedule()
+  
     var event: Row {
         return (UIApplication.sharedApplication().delegate as! AppDelegate).event
     }
     
     var currentSectionIndex: Int? = nil
-    
-    let dateFormatter: NSDateFormatter = {
-        let formatter = NSDateFormatter()
-        formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        formatter.timeStyle = .ShortStyle
-        formatter.dateFormat = .None
-        return formatter
-        }()
     
     var lastSelectedSession: Row?
     
@@ -65,12 +49,9 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
     
     func loadItems() {
         
-        //load favorites
-        favorites = Favorite.allSessionFavoritesIDs()
-        speakerFavorites = Favorite.allSpeakerFavoriteIDs()
-                
         //build schedule sections
-        items = Schedule().sessionsByStartTime(day, onlyFavorites: delegate.isFavoritesFilterOn())
+        schedule.refreshFavorites()
+        items = schedule.sessionsByStartTime(day, onlyFavorites: delegate.isFavoritesFilterOn())
         
         mainQueue({
             //show no sessions message

@@ -28,9 +28,9 @@ extension SessionsViewController {
         let session = section[section.keys.first!]![indexPath.row]
 
         //configure the cell
-        cell.dateFormatter = dateFormatter
-        cell.isFavoriteSession = (find(favorites, session[Session.idColumn]) != nil)
-        cell.isFavoriteSpeaker = (find(speakerFavorites, session[Speaker.idColumn]) != nil)
+        cell.dateFormatter = shortStyleDateFormatter
+        cell.isFavoriteSession = (find(schedule.favorites, session[Session.idColumn]) != nil)
+        cell.isFavoriteSpeaker = (find(schedule.speakerFavorites, session[Speaker.idColumn]) != nil)
         cell.indexPath = indexPath
         cell.mainColor = UIColor(hexString: event[Event.mainColor])
         
@@ -40,7 +40,7 @@ extension SessionsViewController {
         //tap handlers
         cell.didSetIsFavoriteTo = {setIsFavorite, indexPath in
             //TODO: update all this to Swift 2.0
-            let isInFavorites = find(self.favorites, session[Session.idColumn]) != nil
+            let isInFavorites = find(self.schedule.favorites, session[Session.idColumn]) != nil
             if setIsFavorite && !isInFavorites {
                 Favorite.saveSessionId(session[Session.idColumn])
             } else if !setIsFavorite && isInFavorites {

@@ -14,24 +14,12 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
     var session: Row! //set from previous view controller
     var favorites = [Int]()
     
-    var database: Database {
-        return DatabaseProvider.databases[eventDataFileName]!
-    }
-    
     @IBOutlet weak var tableView: UITableView!
     
     var event: Row {
         return (UIApplication.sharedApplication().delegate as! AppDelegate).event
         }
     
-    let dateFormatter: NSDateFormatter = {
-        let formatter = NSDateFormatter()
-        formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        formatter.timeStyle = .ShortStyle
-        formatter.dateFormat = .None
-        return formatter
-        }()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,8 +28,6 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
         
         tableView.estimatedRowHeight = 100.0
         tableView.rowHeight = UITableViewAutomaticDimension
-        
-        title = "Session details"
     }
     
     //MARK: - table view methods
@@ -56,7 +42,7 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
             let cell = tableView.dequeueReusableCellWithIdentifier("SessionDetailsCell") as! SessionDetailsCell
 
             //configure the cell
-            cell.dateFormatter = dateFormatter
+            cell.dateFormatter = shortStyleDateFormatter
             cell.isFavoriteSession = (find(favorites, session[Session.idColumn]) != nil)
             cell.indexPath = indexPath
             cell.mainColor = UIColor(hexString: event[Event.mainColor])

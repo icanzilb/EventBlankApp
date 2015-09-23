@@ -9,8 +9,6 @@
 import UIKit
 import SQLite
 
-let kShowCurrentSessionNotification = "kShowCurrentSessionNotification"
-
 enum EventBlankTabIndex: Int {
     case Schedule = 1
     case Feed = 2

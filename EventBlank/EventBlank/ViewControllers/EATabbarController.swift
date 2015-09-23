@@ -8,8 +8,6 @@
 
 import UIKit
 
-let kTabItemSelectedNotification = "kTabItemSelectedNotification"
-
 class EATabbarController: UITabBarController {
 }
 

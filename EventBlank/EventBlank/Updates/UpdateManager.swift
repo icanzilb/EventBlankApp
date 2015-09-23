@@ -10,8 +10,6 @@ import Foundation
 import UIKit
 import CWStatusBarNotification
 
-let kPendingUpdateChangedNotification = "kPendingUpdateChangedNotification"
-
 class UpdateManager: NSObject {
     
     var updateCheckInterval = 1.0 * 60.0

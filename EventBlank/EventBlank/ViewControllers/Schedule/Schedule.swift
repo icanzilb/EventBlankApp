@@ -174,4 +174,9 @@ class Schedule {
         }
     }
 
+    func refreshFavorites() {
+        //load favorites
+        favorites = Favorite.allSessionFavoritesIDs()
+        speakerFavorites = Favorite.allSpeakerFavoriteIDs()
+    }
 }
