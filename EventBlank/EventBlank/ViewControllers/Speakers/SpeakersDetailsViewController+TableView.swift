@@ -39,7 +39,7 @@ extension SpeakerDetailsViewController {
             let cell = tableView.dequeueReusableCellWithIdentifier("SpeakerDetailsCell") as! SpeakerDetailsCell
             
             //configure
-            cell.isFavoriteSpeaker = speakersModel.isFavorite(speakerId: speaker[Speaker.idColumn])
+            cell.isFavoriteSpeaker = speakers.isFavorite(speakerId: speaker[Speaker.idColumn])
             cell.indexPath = indexPath
 
             //populate
@@ -72,14 +72,16 @@ extension SpeakerDetailsViewController {
                 //TODO: update all this to Swift 2.0
                 let id = self.speaker[Speaker.idColumn]
                 
-                let isInFavorites = self.speakersModel.isFavorite(speakerId: self.speaker[Speaker.idColumn])
+                let isInFavorites = self.speakers.isFavorite(speakerId: id)
                 if setIsFavorite && !isInFavorites {
-                    self.speakersModel.addFavorite(speakerId: self.speaker[Speaker.idColumn])
+                    self.speakers.addFavorite(speakerId: id)
                 } else if !setIsFavorite && isInFavorites {
-                    self.speakersModel.removeFavorite(speakerId: self.speaker[Speaker.idColumn])
+                    self.speakers.removeFavorite(speakerId: id)
                 }
                 
-                self.notification(kFavoritesChangedNotification, object: nil)
+                delay(seconds: 0.1, {
+                    self.notification(kFavoritesChangedNotification, object: self.speakers)
+                })
             }
             cell.didTapURL = {tappedUrl in
                 let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController

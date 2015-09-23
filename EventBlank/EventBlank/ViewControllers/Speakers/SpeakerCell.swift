@@ -53,7 +53,5 @@ class SpeakerCell: UITableViewCell {
             twitterLabel.text = ""
         }
         btnToggleIsFavorite.selected = isFavoriteSpeaker
-        
-
     }
 }

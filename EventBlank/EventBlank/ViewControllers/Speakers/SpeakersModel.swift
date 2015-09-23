@@ -25,7 +25,7 @@ class SpeakersModel {
     
     var searchTerm: String = ""
     
-    var favorites = Favorite.allSpeakerFavoriteIDs()
+    var favorites: [Int]!
     var filterOnlyFavorites = false
     
     var isFiltering: Bool {
@@ -122,17 +122,17 @@ class SpeakersModel {
     
     func addFavorite(#speakerId: Int) {
         favorites.append(speakerId)
-        Favorite.saveSessionId(speakerId)
+        Favorite.saveSpeakerId(speakerId)
     }
 
     func removeFavorite(#speakerId: Int) {
         if let currentSpeakerIndex = find(favorites, speakerId) {
             favorites.removeAtIndex(currentSpeakerIndex)
         }
-        Favorite.removeSessionId(speakerId)
+        Favorite.removeSpeakerId(speakerId)
     }
     
-    func reloadFavorites() {
+    func refreshFavorites() {
         favorites = Favorite.allSpeakerFavoriteIDs()
     }
 }

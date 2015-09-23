@@ -11,12 +11,19 @@ import UIKit
 //MARK: - favorites
 extension SpeakersViewController {
     
-    func didFavoritesChange() {
+    func didFavoritesChange(n: NSNotification) {
+        
+        if let sender = n.userInfo?.values.first as? SpeakersModel where sender === speakers {
+            //model already up to date, just reload table
+            self.tableView.reloadData()
+            return
+        }
+        
         backgroundQueue({
-            self.speakers.reloadFavorites()
+            self.speakers.refreshFavorites()
             self.speakers.filterItemsWithTerm(self.searchController.searchBar.text, favorites: self.btnFavorites.selected)
             },
-            completion: { self.tableView.reloadData() })
+            completion: self.tableView.reloadData)
     }
     
     func actionToggleFavorites(sender: AnyObject) {

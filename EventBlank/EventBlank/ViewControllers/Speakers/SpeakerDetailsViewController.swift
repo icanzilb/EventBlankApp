@@ -26,7 +26,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
         return DatabaseProvider.databases[appDataFileName]!
     }
     
-    let speakersModel = SpeakersModel()
+    var speakers: SpeakersModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()

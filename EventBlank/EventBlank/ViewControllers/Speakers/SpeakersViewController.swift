@@ -17,10 +17,6 @@ class SpeakersViewController: UIViewController {
         return DatabaseProvider.databases[appDataFileName]!
         }
 
-    var database: Database {
-        return DatabaseProvider.databases[eventDataFileName]!
-    }
-    
     let speakers = SpeakersModel()
 
     var lastSelectedSpeaker: Row?
@@ -40,6 +36,7 @@ class SpeakersViewController: UIViewController {
     }
     
     func loadSpeakers() {
+        speakers.refreshFavorites()
         speakers.load(searchTerm: searchController.searchBar.text,
             showOnlyFavorites: self.btnFavorites.selected)
         
@@ -58,7 +55,7 @@ class SpeakersViewController: UIViewController {
         super.viewDidLoad()
         
         //notifications
-        observeNotification(kFavoritesChangedNotification, selector: "didFavoritesChange")
+        observeNotification(kFavoritesChangedNotification, selector: "didFavoritesChange:")
         observeNotification(kDidReplaceEventFileNotification, selector: "didChangeEventFile")
     }
 
@@ -78,9 +75,7 @@ class SpeakersViewController: UIViewController {
             initialized = true
             
             if speakers.currentItems.count == 0 {
-                backgroundQueue({ self.speakers.load() }, completion: {
-                    self.tableView.reloadData()
-                })
+                backgroundQueue(loadSpeakers, completion: tableView.reloadData)
             }
             
             //set up the fav button
@@ -169,6 +164,7 @@ class SpeakersViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let speakerDetails = segue.destinationViewController as? SpeakerDetailsViewController {
             speakerDetails.speaker = lastSelectedSpeaker
+            speakerDetails.speakers = speakers
         }
         
         searchController.searchBar.endEditing(true)
