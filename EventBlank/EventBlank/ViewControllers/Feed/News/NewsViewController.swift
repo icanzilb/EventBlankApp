@@ -19,7 +19,6 @@ class NewsViewController: TweetListViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
         observeNotification(kTabItemSelectedNotification, selector: "didTapTabItem:")
     }
     
@@ -46,36 +45,17 @@ class NewsViewController: TweetListViewController {
 
         let tweet = self.tweets[indexPath.row]
         
-        let usersTable = database[UserConfig.tableName]
-        let user = usersTable.filter(User.idColumn == tweet[Chat.idUser]).first
-
-        cell.message.text = tweet[News.news]
-        cell.timeLabel.text = NSDate(timeIntervalSince1970: Double(tweet[News.created])).relativeTimeToString()
-        cell.message.selectedRange = NSRange(location: 0, length: 0)
-
+        cell.database = database
+        
+        //populate
+        cell.populateFromNewsTweet(tweet)
+        
+        //tap handlers
         if let attachmentUrlString = tweet[News.imageUrl], let attachmentUrl = NSURL(string: attachmentUrlString) {
-            cell.attachmentImage.hnk_setImageFromURL(attachmentUrl, placeholder: nil, format: nil, failure: nil, success: {image in
-                image.asyncToSize(.Fill(cell.attachmentImage.bounds.width, 150), cornerRadius: 5.0, completion: {result in
-                    cell.attachmentImage.image = result
-                })
-            })
             cell.didTapAttachment = {
                 PhotoPopupView.showImageWithUrl(attachmentUrl, inView: self.view)
             }
-            cell.attachmentHeight.constant = 148.0
         }
-
-        if let user = user {
-            cell.nameLabel.text = user[User.name]
-            if let imageUrlString = user[User.photoUrl], let imageUrl = NSURL(string: imageUrlString) {
-                cell.userImage.hnk_setImageFromURL(imageUrl, placeholder: UIImage(named: "feed-item"), format: nil, failure: nil, success: {image in
-                    image.asyncToSize(.FillSize(cell.userImage.bounds.size), cornerRadius: 5.0, completion: {result in
-                        cell.userImage.image = result
-                    })
-                })
-            }
-        }
-
         cell.didTapURL = {tappedUrl in
             if tappedUrl.absoluteString!.hasPrefix("http") {
                 let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController

@@ -11,8 +11,6 @@ import SQLite
 
 import XLPagerTabStrip
 
-let kScrollToCurrentSessionNotification = "kScrollToCurrentSessionNotification"
-
 protocol SessionViewControllerDelegate {
     func isFavoritesFilterOn() -> Bool
 }
@@ -30,8 +28,6 @@ class ScheduleViewController: XLButtonBarPagerTabStripViewController, XLPagerTab
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //notifications
         observeNotification(kShowCurrentSessionNotification, selector: "showCurrentSession")
     }
     

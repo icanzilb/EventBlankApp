@@ -12,9 +12,6 @@ import Social
 import JSImagePickerController
 import KHTabPagerViewController
 
-let kDidPostTweetNotification = "kDidPostTweetNotification"
-let kTwitterAuthorizationChangedNotification = "kTwitterAuthorizationChangedNotification"
-
 //TODO: ALL the pager code was added in a hurry for iOS9, need to clean up this mess
 
 class FeedViewController: KHTabPagerViewController, KHTabPagerDataSource, UIScrollViewDelegate, UIPopoverPresentationControllerDelegate, JSImagePickerViewControllerDelegate {
@@ -28,7 +25,6 @@ class FeedViewController: KHTabPagerViewController, KHTabPagerDataSource, UIScro
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        println("loaded feed vc view")
         
         dataSource = self
         delegate = self

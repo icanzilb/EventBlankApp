@@ -1,5 +1,5 @@
 //
-//  TweetCell.swift
+//  Tweetswift
 //  EventBlank
 //
 //  Created by Marin Todorov on 6/22/15.
@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SQLite
 
 class TweetCell: UITableViewCell, UITextViewDelegate {
 
@@ -52,6 +53,69 @@ class TweetCell: UITableViewCell, UITextViewDelegate {
         
         didTapAttachment = nil
         attachmentHeight.constant = 0.0
+    }
+    
+    
+    var database: Database!
+    
+    func populateFromNewsTweet(tweet: Row) {
+        
+        let usersTable = database[UserConfig.tableName]
+        let user = usersTable.filter(User.idColumn == tweet[Chat.idUser]).first
+        
+        message.text = tweet[News.news]
+        timeLabel.text = NSDate(timeIntervalSince1970: Double(tweet[News.created])).relativeTimeToString()
+        message.selectedRange = NSRange(location: 0, length: 0)
+        
+        if let attachmentUrlString = tweet[News.imageUrl], let attachmentUrl = NSURL(string: attachmentUrlString) {
+            attachmentImage.hnk_setImageFromURL(attachmentUrl, placeholder: nil, format: nil, failure: nil, success: {image in
+                image.asyncToSize(.Fill(self.attachmentImage.bounds.width, 150), cornerRadius: 5.0, completion: {result in
+                    self.attachmentImage.image = result
+                })
+            })
+            attachmentHeight.constant = 148.0
+        }
+        
+        if let user = user {
+            nameLabel.text = user[User.name]
+            if let imageUrlString = user[User.photoUrl], let imageUrl = NSURL(string: imageUrlString) {
+                userImage.hnk_setImageFromURL(imageUrl, placeholder: UIImage(named: "feed-item"), format: nil, failure: nil, success: {image in
+                    image.asyncToSize(.FillSize(self.userImage.bounds.size), cornerRadius: 5.0, completion: {result in
+                        self.userImage.image = result
+                    })
+                })
+            }
+        }
+    }
+    
+    func populateFromChatTweet(tweet: Row) {
+        
+        let usersTable = database[UserConfig.tableName]
+        let user = usersTable.filter(User.idColumn == tweet[Chat.idUser]).first
+        
+        message.text = tweet[Chat.message]
+        timeLabel.text = NSDate(timeIntervalSince1970: Double(tweet[Chat.created])).relativeTimeToString()
+        message.selectedRange = NSRange(location: 0, length: 0)
+        
+        if let attachmentUrlString = tweet[Chat.imageUrl], let attachmentUrl = NSURL(string: attachmentUrlString) {
+            attachmentImage.hnk_setImageFromURL(attachmentUrl, placeholder: nil, format: nil, failure: nil, success: {image in
+                image.asyncToSize(.Fill(self.attachmentImage.bounds.width, 150), cornerRadius: 0.0, completion: {result in
+                    self.attachmentImage.image = result
+                })
+            })
+            attachmentHeight.constant = 148.0
+        }
+        
+        if let user = user {
+            nameLabel.text = user[User.name]
+            if let imageUrlString = user[User.photoUrl], let imageUrl = NSURL(string: imageUrlString) {
+                self.userImage.hnk_setImageFromURL(imageUrl, placeholder: UIImage(named: "feed-item"), format: nil, failure: nil, success: {image in
+                    image.asyncToSize(.FillSize(self.userImage.bounds.size), cornerRadius: 5.0, completion: {result in
+                        self.userImage.image = result
+                    })
+                })
+            }
+        }
     }
 }
 

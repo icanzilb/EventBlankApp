@@ -1,5 +1,5 @@
 //
-//  SessionDetailsCell.swift
+//  SessionDetailsswift
 //  EventBlank
 //
 //  Created by Marin Todorov on 6/25/15.
@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SQLite
 
 class SessionDetailsCell: UITableViewCell, UITextViewDelegate {
     
@@ -64,6 +65,56 @@ class SessionDetailsCell: UITableViewCell, UITextViewDelegate {
     
     func didTapPhotoWithRecognizer(tap: UITapGestureRecognizer) {
         didTapPhoto?()
+    }
+    
+    var dateFormatter: NSDateFormatter!
+    var isFavoriteSession = false
+    var mainColor: UIColor!
+    
+    func populateFromSession(session: Row) {
+        nameLabel.text = session[Speaker.name]
+        
+        let sessionDate = NSDate(timeIntervalSince1970: Double(session[Session.beginTime]))
+        let time = dateFormatter.stringFromDate(sessionDate)
+        
+        sessionTitleLabel.attributedText = NSAttributedString(
+            string: "\(time) \(session[Session.title])",
+            attributes: NSDictionary(object: UIFont.systemFontOfSize(22), forKey: NSFontAttributeName) as [NSObject : AnyObject])
+        
+        trackTitleLabel.text = (session[Track.track] ?? "") + "\n"
+        
+        if let twitter = session[Speaker.twitter] where count(twitter) > 0 {
+            twitterLabel.text = twitter.hasPrefix("@") ? twitter : "@"+twitter
+        } else {
+            twitterLabel.text = nil
+        }
+        
+        websiteLabel.text = session[Speaker.url]
+        btnToggleIsFavorite.selected = isFavoriteSession
+            
+        //only way to force textview autosizing I found
+        descriptionTextView.text = (session[Session.description] ?? "") + "\n\n"
+        
+        let userImage = session[Speaker.photo]?.imageValue ?? UIImage(named: "empty")!
+        userImage.asyncToSize(.FillSize(self.userImage.bounds.size), cornerRadius: 5, completion: {result in
+            self.userImage.image = result
+        })
+
+        if let urlString = session[Speaker.url], let url = NSURL(string: urlString) {
+            speakerUrl = url
+        } else {
+            speakerUrl = nil
+        }
+        
+        //theme
+        sessionTitleLabel.textColor = mainColor
+        trackTitleLabel.textColor = mainColor.lightenColor(0.1).desaturatedColor()
+        
+        //check if in the past
+        if NSDate().isLaterThanDate(sessionDate) {
+            sessionTitleLabel.textColor = sessionTitleLabel.textColor.desaturateColor(0.5).lighterColor()
+            trackTitleLabel.textColor = sessionTitleLabel.textColor
+        }
     }
 }
 
