@@ -78,7 +78,7 @@ class SessionDetailsCell: UITableViewCell, UITextViewDelegate {
         let time = dateFormatter.stringFromDate(sessionDate)
         
         sessionTitleLabel.attributedText = NSAttributedString(
-            string: "\(time) \(session[Session.title])",
+            string: "\(time) \(session[Session.title])\n",
             attributes: NSDictionary(object: UIFont.systemFontOfSize(22), forKey: NSFontAttributeName) as [NSObject : AnyObject])
         
         trackTitleLabel.text = (session[Track.track] ?? "") + "\n"
