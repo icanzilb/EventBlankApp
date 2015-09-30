@@ -50,11 +50,13 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
         
         observeNotification(kFavoritesToggledNotification, selector: "didToggleFavorites")
         observeNotification(kFavoritesChangedNotification, selector: "didChangeFavorites")
+        observeNotification(kScrollToCurrentSessionNotification, selector: "scrollToCurrentSession:")
     }
     
     deinit {
         observeNotification(kFavoritesToggledNotification, selector: nil)
         observeNotification(kFavoritesChangedNotification, selector: nil)
+        observeNotification(kScrollToCurrentSessionNotification, selector: nil)
     }
     
     func loadItems() {
@@ -224,4 +226,21 @@ class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITabl
             }, completion: nil)
     }
 
+    func scrollToCurrentSession(n: NSNotification) {
+        if let dayName = n.userInfo?.values.first as? String where dayName == day.text {
+
+            let now = Int(NSDate().timeIntervalSince1970)
+            
+            for index in 0 ..< items.count {
+                if now < items[index].values.first!.first![Session.beginTime] {
+                    tableView.scrollToRowAtIndexPath(
+                        NSIndexPath(forRow: 0, inSection: index),
+                        atScrollPosition: UITableViewScrollPosition.Top,
+                        animated: true)
+                    return
+                }
+            }
+        }
+    }
+    
 }
