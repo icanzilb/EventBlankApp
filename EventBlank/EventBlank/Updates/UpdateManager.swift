@@ -20,7 +20,7 @@ class UpdateManager: NSObject {
     
     init(filePath path: FilePath, remoteURL: NSURL, autostart: Bool = true) {
         
-        fileBinder = FreshFile(localURL: NSURL(fileURLWithPath: path.filePath)!, remoteURL: remoteURL)
+        fileBinder = FreshFile(localURL: NSURL(fileURLWithPath: path.filePath), remoteURL: remoteURL)
 
         super.init()
 
@@ -35,7 +35,9 @@ class UpdateManager: NSObject {
         statusBarNotification.notificationAnimationOutStyle = .Top
         
         let barView = StatusBarDownloadProgressView()
-        let primaryColor = UIColor(hexString: (UIApplication.sharedApplication().delegate as! AppDelegate).event[Event.mainColor])
+        //TODO let primaryColor = UIColor(hexString: (UIApplication.sharedApplication().delegate as! AppDelegate).event[Event.mainColor])
+        let primaryColor = UIColor.redColor()
+        
         barView.backgroundColor = primaryColor
 
         fileBinder.downloadHandlerWithProgress = {progress in
@@ -47,7 +49,7 @@ class UpdateManager: NSObject {
                 case 1.0:
                     //download ended hide in 1 second
                     barView.setProgress(1.0, text: "Update downloaded successfully!")
-                    delay(seconds: 1.0, {
+                    delay(seconds: 1.0, completion: {
                         self.statusBarNotification.dismissNotification()
                     })
                 default:
@@ -58,7 +60,7 @@ class UpdateManager: NSObject {
         }
         
         if autostart {
-            delay(seconds: 1.0, {
+            delay(seconds: 1.0, completion: {
                 self.start()
             })
         }
@@ -73,7 +75,7 @@ class UpdateManager: NSObject {
     }
     
     func askUserAboutDownloadingUpdate(info: FreshInfo, result: (Bool)->Void) {
-        println("update manager: will download \(info.etag) update")
+        print("update manager: will download \(info.etag) update")
 
         let defaults = NSUserDefaults.standardUserDefaults()
         

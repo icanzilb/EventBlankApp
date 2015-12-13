@@ -1,31 +1,33 @@
 PODS:
   - CWStatusBarNotification (2.3.3)
-  - DynamicColor (1.5.4)
-  - HanekeSwift (0.9.1)
+  - DynamicColor (2.3.0)
+  - Font-Awesome-Swift (1.4.5)
+  - HanekeSwift (0.10.0)
   - JSImagePickerController (0.6.1)
   - KHTabPagerViewController (0.1.1)
   - MAThemeKit (1.0)
   - Reachability (3.2)
-  - SQLite.swift (0.1.0.pre):
-    - SQLite.swift/Library (= 0.1.0.pre)
-  - SQLite.swift/Core (0.1.0.pre)
-  - SQLite.swift/Library (0.1.0.pre):
-    - SQLite.swift/Core
-  - SwiftSpinner (0.7.0)
-  - TaskQueue (0.9.6)
-  - VTAcknowledgementsViewController (0.15)
+  - Realm (0.96.3):
+    - Realm/Headers (= 0.96.3)
+  - Realm/Headers (0.96.3)
+  - RealmSwift (0.96.3):
+    - Realm (= 0.96.3)
+  - SwiftSpinner (0.8.0)
+  - TaskQueue (0.9.8)
+  - VTAcknowledgementsViewController (0.17)
   - XLPagerTabStrip (1.1.1)
 
 DEPENDENCIES:
   - CWStatusBarNotification
   - DynamicColor
+  - Font-Awesome-Swift
   - HanekeSwift
   - JSImagePickerController (from `https://github.com/icanzilb/JSImagePickerController.git`,
     tag `0.6.1`)
   - KHTabPagerViewController (~> 0.1.0)
   - MAThemeKit
   - Reachability
-  - SQLite.swift (from `https://github.com/stephencelis/SQLite.swift.git`)
+  - RealmSwift
   - SwiftSpinner
   - TaskQueue
   - VTAcknowledgementsViewController
@@ -35,29 +37,26 @@ EXTERNAL SOURCES:
   JSImagePickerController:
     :git: https://github.com/icanzilb/JSImagePickerController.git
     :tag: 0.6.1
-  SQLite.swift:
-    :git: https://github.com/stephencelis/SQLite.swift.git
 
 CHECKOUT OPTIONS:
   JSImagePickerController:
     :git: https://github.com/icanzilb/JSImagePickerController.git
     :tag: 0.6.1
-  SQLite.swift:
-    :commit: d87e05da167bdded01ae74001c5adda865346867
-    :git: https://github.com/stephencelis/SQLite.swift.git
 
 SPEC CHECKSUMS:
   CWStatusBarNotification: 2349142e97c9f16fb8247ed3c00308cd355d334b
-  DynamicColor: 788c4add2bc2db5575423a2f2763ad11e0f0b4cf
-  HanekeSwift: 50d37bfbc4432edc649167e538c259feccb4a2bb
+  DynamicColor: 18badd22ee5edeefcbe0a8f5887a86640c592a1c
+  Font-Awesome-Swift: 0af30357ab68dbcfa2d211254a5c11a158261112
+  HanekeSwift: d6f5bdf9dbdbbc09d59623b2c1d533e46463dd4d
   JSImagePickerController: 7a00f1ba272e7ea58e3cf1495b275f40885d000a
   KHTabPagerViewController: 95f627e7d779fe95733c9c86f20d89d053521c02
   MAThemeKit: 559acc98ceadc051cccb1b6bb0c4ca28475eb021
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
-  SQLite.swift: 62bdf79b05b2a88b94d4b8f9a3b7aa94bfedc660
-  SwiftSpinner: 034bb8b00675b3e4f4c97531fa9af3f550462192
-  TaskQueue: 86cea1f6cb37b77a85bd826b564e9b387faadce4
-  VTAcknowledgementsViewController: 575f5841fb47b7d9c852ccb406104ea68de07b21
+  Realm: 145d3cdf78a03aee71bde5381ad7e542bd541720
+  RealmSwift: aab84968aad662f61f36473d1aea019f63481505
+  SwiftSpinner: 11c2c5ec7443d92f3026d3067ca8a91d4adef13f
+  TaskQueue: 3e370ea5b913bd1d47d25ab863d65a4aaa4dc3ee
+  VTAcknowledgementsViewController: 6056f5f5e5ed995bbf0581bed6ddd29355ca9a80
   XLPagerTabStrip: 222995115ef0d3a7134073b02d38023592835c17
 
-COCOAPODS: 0.38.0
+COCOAPODS: 0.39.0

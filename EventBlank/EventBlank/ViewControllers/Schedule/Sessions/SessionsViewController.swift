@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SQLite
+import RealmSwift
 import XLPagerTabStrip
 
 class SessionsViewController: UIViewController, XLPagerTabStripChildItem, UITableViewDataSource, UITableViewDelegate {

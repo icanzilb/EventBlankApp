@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SQLite
+import RealmSwift
 
 class SpeakerDetailsCell: UITableViewCell {
     

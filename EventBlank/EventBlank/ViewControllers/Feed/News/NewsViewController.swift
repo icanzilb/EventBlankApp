@@ -9,7 +9,7 @@
 import UIKit
 import Social
 import Accounts
-import SQLite
+import RealmSwift
 import XLPagerTabStrip
 
 class NewsViewController: TweetListViewController {

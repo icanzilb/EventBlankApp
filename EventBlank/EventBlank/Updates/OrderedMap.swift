@@ -28,7 +28,7 @@ struct OrderedMap<TK: Hashable, TV> {
         }
         
         set {
-            if find(array, key)==nil  {
+            if array.indexOf(key) > -1  {
                array.append(key)
             }
             

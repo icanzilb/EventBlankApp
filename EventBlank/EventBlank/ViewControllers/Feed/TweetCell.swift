@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SQLite
+import RealmSwift
 
 class TweetCell: UITableViewCell, UITextViewDelegate {
 
@@ -56,7 +56,7 @@ class TweetCell: UITableViewCell, UITextViewDelegate {
     }
     
     
-    var database: Database!
+    var database: Connection!
     
     func populateFromNewsTweet(tweet: Row) {
         

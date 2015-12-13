@@ -95,6 +95,6 @@ extension World {
     }
 
     public func pending(description: String, closure: () -> ()) {
-        println("Pending: \(description)")
+        print("Pending: \(description)")
     }
 }

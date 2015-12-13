@@ -83,8 +83,8 @@ class WebViewController: UIViewController, WKNavigationDelegate {
             loadingIndicator.frame = CGRect(x: 0, y: 0, width: 30, height: navigationController!.navigationBar.bounds.size.height)
         }
     }
-    
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+  
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if keyPath == "estimatedProgress" {
             
             if loadingIndicator.hidden {

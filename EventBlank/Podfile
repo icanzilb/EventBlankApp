@@ -1,7 +1,7 @@
 use_frameworks!
 
 #database
-pod 'SQLite.swift', git: 'https://github.com/stephencelis/SQLite.swift.git'
+pod 'RealmSwift'
 
 #tab strips
 pod 'XLPagerTabStrip', '~> 1.0'
@@ -36,6 +36,9 @@ pod 'JSImagePickerController', git: 'https://github.com/icanzilb/JSImagePickerCo
 
 #pod net availability
 pod 'Reachability'
+
+#font awesome
+pod 'Font-Awesome-Swift'
 
 #copy the acknowledgements file when installing news pods
 post_install do | installer |

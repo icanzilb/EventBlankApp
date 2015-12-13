@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SQLite
+import RealmSwift
 import MAThemeKit
 import DynamicColor
 
@@ -16,28 +16,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
-    let databaseProvider = DatabaseProvider(
-        path: FilePath(inLibrary: eventDataFileName),
-        defaultPath: FilePath(inBundle: eventDataFileName),
-        preferNewerSourceFile: true)
-    
-    let appDataProvider = DatabaseProvider(
-        path: FilePath(inLibrary: appDataFileName),
-        defaultPath: FilePath(inBundle: appDataFileName))
-    
-    var event: Row!
+//    let databaseProvider = DatabaseProvider(
+//        path: FilePath(inLibrary: eventDataFileName),
+//        defaultPath: FilePath(inBundle: eventDataFileName),
+//        preferNewerSourceFile: true)
+//    
+//    let appDataProvider = DatabaseProvider(
+//        path: FilePath(inLibrary: appDataFileName),
+//        defaultPath: FilePath(inBundle: appDataFileName))
+//    
+//    var event: Row!
+
     var updateManager: UpdateManager?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
         loadEventData()
         
-        //start the update manager if there's a remote file
-        if let updateUrlString = event[Event.updateFileUrl], let updateUrl = NSURL(string: updateUrlString) where !updateUrlString.isEmpty {
-            backgroundQueue({
-                self.startUpdateManager(url: updateUrl)
-            })
-        }
+//        //start the update manager if there's a remote file
+//        if let updateUrlString = event[Event.updateFileUrl], let updateUrl = NSURL(string: updateUrlString) where !updateUrlString.isEmpty {
+//            backgroundQueue({
+//                self.startUpdateManager(url: updateUrl)
+//            })
+//        }
 
         return true
     }
@@ -49,13 +50,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         updateManager!.fileBinder.addAction(didReplaceFile: {success in
             mainQueue({
-                self.databaseProvider!.didChangeSourceFile(success)
+//                self.databaseProvider!.didChangeSourceFile(success)
                 self.loadEventData()
             })
             }, withKey: nil)
         updateManager!.fileBinder.addAction(didReplaceFile: {_ in
             //reload event data
-            delay(seconds: 2.0, {
+            delay(seconds: 2.0, completion: {
                 self.notification(kDidReplaceEventFileNotification, object: nil)
                 
                 //replace the schedule controller, test again if that's the only way
@@ -63,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let scheduleVC: AnyObject = tabBarController.storyboard!.instantiateViewControllerWithIdentifier("ScheduleViewController") as AnyObject
                 
                 var tabVCs = tabBarController.viewControllers!
-                tabVCs[EventBlankTabIndex.Schedule.rawValue] = scheduleVC
+                tabVCs[EventBlankTabIndex.Schedule.rawValue] = scheduleVC as! UIViewController
                 
                 tabBarController.setViewControllers(tabVCs, animated: false)
             })
@@ -72,15 +73,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func loadEventData() {
         //load event data
-        event = databaseProvider!.database[EventConfig.tableName].first!
+        //event = databaseProvider!.database[EventConfig.tableName].first!
         setupUI()
     }
     
     func setupUI() {
         window?.backgroundColor = UIColor.whiteColor()
+
+        let primaryColor = UIColor.redColor()
         
-        let primaryColor = UIColor(hexString: event[Event.mainColor])
-        let secondaryColor = UIColor(hexString: event[Event.secondaryColor])
+//        let primaryColor = UIColor(hexString: event[Event.mainColor])
+//        _ = UIColor(hexString: event[Event.secondaryColor])
 
         MAThemeKit.customizeNavigationBarColor(primaryColor, textColor: UIColor.whiteColor(), buttonColor: UIColor.whiteColor())
         MAThemeKit.customizeButtonColor(primaryColor)

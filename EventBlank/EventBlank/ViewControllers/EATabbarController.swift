@@ -12,7 +12,7 @@ class EATabbarController: UITabBarController {
 }
 
 extension EATabbarController : UITabBarControllerDelegate {
-    override func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem!) {
+    override func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
         notification(kTabItemSelectedNotification, object: selectedIndex)
     }
 }

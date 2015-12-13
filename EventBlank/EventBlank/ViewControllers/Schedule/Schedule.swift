@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SQLite
+import RealmSwift
 
 struct ScheduleDay {
     let startTimeStamp: NSTimeInterval
@@ -26,7 +26,7 @@ struct RightNowItems {
 
 class Schedule {
     
-    var database: Database {
+    var database: Connection {
         return DatabaseProvider.databases[eventDataFileName]!
     }
 

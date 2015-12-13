@@ -23,7 +23,15 @@
 
 #import "VTAcknowledgementsViewController.h"
 #import "VTAcknowledgementViewController.h"
+#import "VTAcknowledgementsParser.h"
 #import "VTAcknowledgement.h"
+
+#if __has_feature(modules)
+@import SafariServices;
+#else
+#import <SafariServices/SafariServices.h>
+#endif
+
 
 static NSString *const VTDefaultAcknowledgementsPlistName = @"Pods-acknowledgements";
 static NSString *const VTDefaultHeaderText                = @"This application makes use of the following third party libraries:";
@@ -44,6 +52,7 @@ static const CGFloat VTFooterBottomMargin = 20;
 
 - (void)configureHeaderView;
 - (void)configureFooterView;
+- (UIFont *)headerFooterFont;
 - (CGFloat)heightForLabelWithText:(NSString *)labelText andWidth:(CGFloat)labelWidth;
 
 - (IBAction)dismissViewController:(id)sender;
@@ -98,39 +107,25 @@ static const CGFloat VTFooterBottomMargin = 20;
 
 - (void)commonInitWithAcknowledgementsPlistPath:(NSString *)acknowledgementsPlistPath
 {
-    self.title = self.class.localizedTitle;    
-    NSDictionary *root = [NSDictionary dictionaryWithContentsOfFile:acknowledgementsPlistPath];
-    NSArray *preferenceSpecifiers = root[@"PreferenceSpecifiers"];
-    if (preferenceSpecifiers.count >= 2) {
-        NSString *headerText = preferenceSpecifiers.firstObject[@"FooterText"];
-        NSString *footerText = preferenceSpecifiers.lastObject[@"FooterText"];
+    self.title = self.class.localizedTitle;
 
-        if ([headerText isEqualToString:VTDefaultHeaderText]) {
-            self.headerText = nil;
-        }
-        else if (![headerText isEqualToString:@""]) {
-            self.headerText = headerText;
-        }
+    VTAcknowledgementsParser *parser = [[VTAcknowledgementsParser alloc] initWithAcknowledgementsPlistPath:acknowledgementsPlistPath];
 
-        if ([footerText isEqualToString:VTDefaultFooterText]) {
-            self.footerText = [VTAcknowledgementsViewController localizedCocoaPodsFooterText];
-        }
-        else if (![footerText isEqualToString:@""]) {
-            self.footerText = footerText;
-        }
-
-        // Remove the header and footer
-        NSRange range = NSMakeRange(1, preferenceSpecifiers.count - 2);
-        preferenceSpecifiers = [preferenceSpecifiers subarrayWithRange:range];
+    if ([parser.header isEqualToString:VTDefaultHeaderText]) {
+        self.headerText = nil;
+    }
+    else if (![parser.header isEqualToString:@""]) {
+        self.headerText = parser.header;
     }
 
-    NSMutableArray *acknowledgements = [NSMutableArray array];
-    for (NSDictionary *preferenceSpecifier in preferenceSpecifiers) {
-        VTAcknowledgement *acknowledgement = [VTAcknowledgement new];
-        acknowledgement.title = preferenceSpecifier[@"Title"];
-        acknowledgement.text  = preferenceSpecifier[@"FooterText"];
-        [acknowledgements addObject:acknowledgement];
+    if ([parser.footer isEqualToString:VTDefaultFooterText]) {
+        self.footerText = [VTAcknowledgementsViewController localizedCocoaPodsFooterText];
     }
+    else if (![parser.footer isEqualToString:@""]) {
+        self.footerText = parser.footer;
+    }
+
+    NSMutableArray *acknowledgements = [parser.acknowledgements mutableCopy];
 
     [acknowledgements sortUsingComparator:^NSComparisonResult(VTAcknowledgement *obj1, VTAcknowledgement *obj2) {
         return [obj1.title compare:obj2.title
@@ -201,9 +196,19 @@ static const CGFloat VTFooterBottomMargin = 20;
     }
 }
 
+- (UIFont *)headerFooterFont
+{
+    if ([UIFont respondsToSelector:@selector(preferredFontForTextStyle:)]) {
+        return [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+    }
+    else {
+        return [UIFont systemFontOfSize:12];
+    }
+}
+
 - (void)configureHeaderView
 {
-    UIFont *font = [UIFont systemFontOfSize:12];
+    UIFont *font = [self headerFooterFont];
     CGFloat labelWidth = CGRectGetWidth(self.view.frame) - 2 * VTLabelMargin;
     CGFloat labelHeight = [self heightForLabelWithText:self.headerText andWidth:labelWidth];
 
@@ -226,7 +231,7 @@ static const CGFloat VTFooterBottomMargin = 20;
 
 - (void)configureFooterView
 {
-    UIFont *font = [UIFont systemFontOfSize:12];
+    UIFont *font = [self headerFooterFont];
     CGFloat labelWidth = CGRectGetWidth(self.view.frame) - 2 * VTLabelMargin;
     CGFloat labelHeight = [self heightForLabelWithText:self.footerText andWidth:labelWidth];
 
@@ -257,7 +262,7 @@ static const CGFloat VTFooterBottomMargin = 20;
 
 - (CGFloat)heightForLabelWithText:(NSString *)labelText andWidth:(CGFloat)labelWidth
 {
-    UIFont *font = [UIFont systemFontOfSize:12];
+    UIFont *font = self.headerFooterFont;
     CGFloat labelHeight;
 
     if ([labelText respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
@@ -318,7 +323,14 @@ static const CGFloat VTFooterBottomMargin = 20;
 - (void)openCocoaPodsWebsite:(id)sender
 {
     NSURL *URL = [NSURL URLWithString:VTCocoaPodsURLString];
-    [[UIApplication sharedApplication] openURL:URL];
+
+    if ([SFSafariViewController class]) {
+        SFSafariViewController *viewController = [[SFSafariViewController alloc] initWithURL:URL];
+        [self presentViewController:viewController animated:YES completion:nil];
+    }
+    else {
+        [[UIApplication sharedApplication] openURL:URL];
+    }
 }
 
 - (IBAction)dismissViewController:(id)sender

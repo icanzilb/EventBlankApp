@@ -1,6 +1,7 @@
 #import <UIKit/UIKit.h>
 
 #import "VTAcknowledgement.h"
+#import "VTAcknowledgementsParser.h"
 #import "VTAcknowledgementsViewController.h"
 #import "VTAcknowledgementViewController.h"
 

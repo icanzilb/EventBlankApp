@@ -48,7 +48,7 @@ class TwitterController: NSObject {
         request.account = account
         request.performRequestWithHandler({responseData, urlResponse, error in
             if let error = error {
-                println("error making request: \(error)")
+                print("error making request: \(error)")
                 completion([], nil)
                 return
             }
@@ -70,7 +70,7 @@ class TwitterController: NSObject {
             if error == nil, let data = NSData(contentsOfURL: url), let image = UIImage(data: data) {
                 completion(image)
             } else {
-                println("download error: \(error)")
+                print("download error: \(error)")
                 completion(nil)
             }
         })
@@ -95,7 +95,7 @@ class TwitterController: NSObject {
         request.account = account
         request.performRequestWithHandler({responseData, urlResponse, error in
             if let error = error {
-                println("error making request: \(error)")
+                print("error making request: \(error)")
                 return
             }
             
@@ -129,7 +129,7 @@ class TwitterController: NSObject {
         request.account = account
         request.performRequestWithHandler({responseData, urlResponse, error in
             if let error = error {
-                println("error making request: \(error)")
+                print("error making request: \(error)")
                 return
             }
             
@@ -159,7 +159,7 @@ class TwitterController: NSObject {
         request.account = account
         request.performRequestWithHandler({responseData, urlResponse, error in
             if let error = error {
-                println("error making request: \(error)")
+                print("error making request: \(error)")
                 completion(nil)
                 return
             }
@@ -195,7 +195,7 @@ class TwitterController: NSObject {
         request.account = account
         request.performRequestWithHandler({responseData, urlResponse, error in
             if let error = error {
-                println("error making request: \(error)")
+                print("error making request: \(error)")
                 return
             }
             

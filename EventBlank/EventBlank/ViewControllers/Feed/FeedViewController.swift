@@ -21,7 +21,7 @@ class FeedViewController: KHTabPagerViewController, KHTabPagerDataSource, UIScro
     
     var initialized = false
     
-    let btnCompose = UIButton.buttonWithType(.Custom) as! UIButton
+    let btnCompose = UIButton(type: .Custom)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,7 +87,7 @@ class FeedViewController: KHTabPagerViewController, KHTabPagerDataSource, UIScro
         
         contentViewController.modalPresentationStyle = .Popover
         
-        var detailPopover: UIPopoverPresentationController = contentViewController.popoverPresentationController!
+        let detailPopover: UIPopoverPresentationController = contentViewController.popoverPresentationController!
         detailPopover.delegate = self
         detailPopover.sourceView = sender as! UIButton
         detailPopover.sourceRect = CGRect(x: 20, y: 30, width: 10, height: 10)
@@ -109,7 +109,7 @@ class FeedViewController: KHTabPagerViewController, KHTabPagerDataSource, UIScro
                 self.notification(kDidPostTweetNotification, object: nil)
                 mainQueue({
                     let message = self.alert("Tweet posted successfully. It could take up to a minute to see it in the stream.", buttons: ["Close"], completion: nil)
-                    delay(seconds: 2.0, {
+                    delay(seconds: 2.0, completion: {
                         message.dismissViewControllerAnimated(true, completion: nil)
                     })
                 })
@@ -124,8 +124,8 @@ class FeedViewController: KHTabPagerViewController, KHTabPagerDataSource, UIScro
     }
 
     func imagePickerDidSelectImage(image: UIImage!) {
-        delay(seconds: 0.5, {
-            self.composeTweet(image: image)
+        delay(seconds: 0.5, completion: {
+            self.composeTweet(image)
         })
     }
 

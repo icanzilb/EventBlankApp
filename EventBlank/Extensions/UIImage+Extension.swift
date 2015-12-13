@@ -41,16 +41,16 @@ extension UIImage {
             let aspectRatio: CGFloat!
             
             switch newSizeMode {
-            case .Fill(let w, let h): fallthrough
+            case .Fill(_, _): fallthrough
             case .FillSize(_):
                 aspectRatio = max(aspectWidth, aspectHeight)
-            case .Fit(let w, let h):
+            case .Fit(_, _):
                 aspectRatio = min(aspectWidth, aspectHeight)
-            case .Match(let w, let h):
+            case .Match(_, _):
                 aspectRatio = newSize.width / newSize.height
             }
             
-            var rect = CGRect.zeroRect
+            var rect = CGRect.zero
             
             rect.size.width = self.size.width * aspectRatio
             rect.size.height = self.size.height * aspectRatio
@@ -59,7 +59,7 @@ extension UIImage {
 
             UIGraphicsBeginImageContextWithOptions(newSize, false, UIScreen.mainScreen().scale)
             if cornerRadius > 0.0 {
-                let clipRect = CGRect(origin: CGPoint.zeroPoint, size: newSize)
+                let clipRect = CGRect(origin: CGPoint.zero, size: newSize)
                 CGContextAddPath(UIGraphicsGetCurrentContext(), UIBezierPath(roundedRect: clipRect, cornerRadius: cornerRadius).CGPath)
                 CGContextClip(UIGraphicsGetCurrentContext())
             }

@@ -23,6 +23,9 @@
 import UIKit
 import QuartzCore
 
+let kRefreshViewHeight: CGFloat = 60.0
+let kRefreshTimeout: Double = 5 * 60.0
+
 // MARK: Refresh View Delegate Protocol
 protocol RefreshViewDelegate {
     func refreshViewDidRefresh(refreshView: RefreshView)

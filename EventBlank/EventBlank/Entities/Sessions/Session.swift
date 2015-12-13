@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SQLite
+import RealmSwift
 
 var SessionConfig = EntityConfig(
     tableName: "sessions",

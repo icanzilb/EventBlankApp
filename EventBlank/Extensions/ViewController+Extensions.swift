@@ -12,7 +12,7 @@ import Social
 extension UIViewController {
 
     static func alert(message: String, buttons: [String] = ["OK"], completion: ((Int)->Void)?) -> UIAlertController {
-        return (UIApplication.sharedApplication().windows.first as! UIWindow).rootViewController!.alert(message, buttons: buttons, completion: completion)
+        return (UIApplication.sharedApplication().windows.first!).rootViewController!.alert(message, buttons: buttons, completion: completion)
     }
     
     func alert(message: String, buttons: [String] = ["OK"], completion: ((Int)->Void)?) -> UIAlertController {
@@ -36,7 +36,7 @@ extension UIViewController {
     func tweet(message: String, image: UIImage? = nil, urlString: String? = nil, completion: ((Bool)->Void)?) {
         
         if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter) {
-            println("twitter available")
+            print("twitter available")
             
             let composer = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
             composer.setInitialText(message)

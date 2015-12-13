@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SQLite
+import RealmSwift
 import VTAcknowledgementsViewController
 
 class MoreViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {

@@ -8,7 +8,7 @@ SwiftSpinner is an extra beautiful activity indicator with plain and bold style 
 
 - - -
 
-**Note:** SwiftSpinner is now **Swift 1.2** compatible.
+**Note:** SwiftSpinner is now **Swift 2.0** compatible.
 - - -
 
 I developed it for my Swift app called **Doodle Doodle** and wanted to share it with everyone. Check the app here: http://doodledoodle.io
@@ -120,9 +120,28 @@ it, simply add the following line to your Podfile:
 
 In case you don’t want to use CocoaPods - just copy the file **SwiftSpinner/SwiftSpinner.swift** to your Xcode project.
 
-## Author
+Credit
+========
 
-**Marin Todorov**, [http://www.touch-code-magazine.com/about](http://www.touch-code-magazine.com/about)
+Author: **Marin Todorov**
+
+* [http://www.underplot.com](http://www.underplot.com)
+* [https://twitter.com/icanzilb](https://twitter.com/icanzilb)
+
+More about Marin:
+
+<table>
+<tr>
+<td>
+<a href="http://www.ios-animations-by-tutorials.com/"><img src="http://www.underplot.com/images/thumbs/iat.jpg" width="170"><br>
+<b>iOS Animations by Tutorials</b>, Author</a>
+</td>
+<td>
+<a href="http://www.ios-animations-by-emails.com/"><img src="http://www.underplot.com/images/thumbs/ios-animations-by-emails.jpg" width="170"><br>
+iOS Animations by Emails Newsletter, Author</a>
+</td>
+</tr>
+</table>
 
 ## License
 

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SQLite
+import RealmSwift
 
 var UserConfig = EntityConfig(
     tableName: "users",

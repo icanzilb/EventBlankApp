@@ -7,18 +7,18 @@
 //
 
 import Foundation
-import SQLite
+import RealmSwift
 
 class DatabaseProvider {
     
     var path: FilePath
-    var _database: Database!
+    var _database: Connection!
     
-    var database: Database {
+    var database: Connection {
         return _database
     }
     
-    static var databases = [String: Database]()
+    static var databases = [String: Connection]()
     
     init?(path targetPath: FilePath, defaultPath: FilePath? = nil, preferNewerSourceFile: Bool = false) {
         
@@ -39,12 +39,11 @@ class DatabaseProvider {
     }
     
     private func loadDatabaseFile() {
-        _database = Database(path.filePath)
-        DatabaseProvider.databases[path.filePath.lastPathComponent] = _database
+        //TODO: connect a database?
     }
     
     func didChangeSourceFile(success: Bool) {
-        println("Database Provider: reload database: \(path.filePath)")
+        print("Database Provider: reload database: \(path.filePath)")
         loadDatabaseFile()
     }
 }

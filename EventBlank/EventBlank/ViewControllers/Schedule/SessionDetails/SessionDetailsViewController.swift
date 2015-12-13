@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SQLite
+import RealmSwift
 
 class SessionDetailsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -43,7 +43,7 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
 
             //configure the cell
             cell.dateFormatter = shortStyleDateFormatter
-            cell.isFavoriteSession = (find(favorites, session[Session.idColumn]) != nil)
+            cell.isFavoriteSession = (favorites.indexOf(session[Session.idColumn]) != nil)
             cell.indexPath = indexPath
             cell.mainColor = UIColor(hexString: event[Event.mainColor])
             
@@ -51,7 +51,7 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
             cell.populateFromSession(session)
             
             //tap handlers
-            if let twitter = session[Speaker.twitter] where count(twitter) > 0 {
+            if let twitter = session[Speaker.twitter] { //where twitter.count > 0
                 cell.didTapTwitter = {
                     let twitterUrl = NSURL(string: "https://twitter.com/" + twitter)!
                     let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
@@ -72,12 +72,12 @@ class SessionDetailsViewController: UIViewController, UITableViewDataSource, UIT
                 //TODO: update all this to Swift 2.0
                 let id = self.session[Session.idColumn]
                 
-                let isInFavorites = find(self.favorites, id) != nil
+                let isInFavorites = self.favorites.indexOf(id) != nil
                 if setIsFavorite && !isInFavorites {
                     self.favorites.append(id)
                     Favorite.saveSessionId(id)
                 } else if !setIsFavorite && isInFavorites {
-                    self.favorites.removeAtIndex(find(self.favorites, id)!)
+                    self.favorites.removeAtIndex(self.favorites.indexOf(id)!)
                     Favorite.removeSessionId(id)
                 }
                 

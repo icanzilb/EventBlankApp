@@ -12,7 +12,7 @@ class MessageView: UIView {
     
     var message = ""
     let label = UILabel()
-    let button = UIButton.buttonWithType(.Custom) as! UIButton
+    let button = UIButton(type: .Custom)
     
     var tapHandler: (()->Void)?
     

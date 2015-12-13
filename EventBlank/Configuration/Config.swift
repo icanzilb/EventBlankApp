@@ -15,4 +15,15 @@ import Foundation
 let eventDataFileName = "Pragma15.eventblank"
 let appDataFileName = "appdata.db"
 
-let initialEtag = ""
+let initialEtag = "44557d"
+
+
+//
+//
+//
+
+enum EventBlankTabIndex: Int {
+    case Schedule = 1
+    case Feed = 2
+    case Speakers = 3
+}

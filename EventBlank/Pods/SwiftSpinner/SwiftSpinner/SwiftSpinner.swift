@@ -18,7 +18,7 @@ public class SwiftSpinner: UIView {
     //
     public class var sharedInstance: SwiftSpinner {
         struct Singleton {
-            static let instance = SwiftSpinner(frame: CGRect.zeroRect)
+            static let instance = SwiftSpinner(frame: CGRect.zero)
         }
         return Singleton.instance
     }
@@ -82,19 +82,25 @@ public class SwiftSpinner: UIView {
         innerCircle.strokeEnd = 1.0
         
         vibrancyView.contentView.addSubview(innerCircleView)
+        
+        userInteractionEnabled = true
+    }
+    
+    public override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+        return self
     }
     
     // MARK: - Public interface
     
     public lazy var titleLabel = UILabel()
     public var subtitleLabel: UILabel?
-
+    
     //
     // Show the spinner activity on screen, if visible only update the title
     //
     public class func show(title: String, animated: Bool = true) -> SwiftSpinner {
         
-        let window = UIApplication.sharedApplication().windows.first as! UIWindow
+        let window = UIApplication.sharedApplication().windows.first!
         let spinner = SwiftSpinner.sharedInstance
         
         spinner.showWithDelayBlock = nil
@@ -126,7 +132,7 @@ public class SwiftSpinner: UIView {
     }
     
     //
-    // Show the spinner activity on screen, after delay. If new call to show, 
+    // Show the spinner activity on screen, after delay. If new call to show,
     // showWithDelay or hide is maked before execution this call is discarded
     //
     public class func showWithDelay(delay: Double, title: String, animated: Bool = true) -> SwiftSpinner {
@@ -151,7 +157,7 @@ public class SwiftSpinner: UIView {
     public class func hide(completion: (() -> Void)? = nil) {
         
         let spinner = SwiftSpinner.sharedInstance
-
+        
         NSNotificationCenter.defaultCenter().removeObserver(spinner)
         
         dispatch_async(dispatch_get_main_queue(), {
@@ -182,7 +188,7 @@ public class SwiftSpinner: UIView {
     //
     public class func setTitleFont(font: UIFont?) {
         let spinner = SwiftSpinner.sharedInstance
-
+        
         if let font = font {
             spinner.titleLabel.font = font
         } else {
@@ -203,7 +209,7 @@ public class SwiftSpinner: UIView {
                 spinner.titleLabel.alpha = 0.2
                 }, completion: {_ in
                     spinner.titleLabel.text = self.title
-                    UIView.animateWithDuration(0.35, delay: 0.0, usingSpringWithDamping: 0.35, initialSpringVelocity: 0.0, options: nil, animations: {
+                    UIView.animateWithDuration(0.35, delay: 0.0, usingSpringWithDamping: 0.35, initialSpringVelocity: 0.0, options: [], animations: {
                         spinner.titleLabel.transform = CGAffineTransformIdentity
                         spinner.titleLabel.alpha = 1.0
                         }, completion: nil)
@@ -216,7 +222,7 @@ public class SwiftSpinner: UIView {
     //
     public override var frame: CGRect {
         didSet {
-            if frame == CGRect.zeroRect {
+            if frame == CGRect.zero {
                 return
             }
             blurView.frame = bounds
@@ -266,10 +272,9 @@ public class SwiftSpinner: UIView {
     public func addTapHandler(tap: (()->()), subtitle subtitleText: String? = nil) {
         clearTapHandler()
         
-        userInteractionEnabled = true
-        vibrancyView.contentView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("didTapSpinner")))
+        //vibrancyView.contentView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("didTapSpinner")))
         tapHandler = tap
-
+        
         if subtitleText != nil {
             subtitleLabel = UILabel()
             if let subtitle = subtitleLabel {
@@ -283,6 +288,15 @@ public class SwiftSpinner: UIView {
                 subtitle.center = CGPoint(x: CGRectGetMidX(bounds), y: CGRectGetMaxY(bounds) - CGRectGetMidY(subtitle.bounds) - subtitle.font.pointSize)
                 vibrancyView.contentView.addSubview(subtitle)
             }
+        }
+    }
+    
+    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesBegan(touches, withEvent: event)
+        
+        if tapHandler != nil {
+            tapHandler?()
+            tapHandler = nil
         }
     }
     
@@ -314,7 +328,7 @@ public class SwiftSpinner: UIView {
     
     private var showWithDelayBlock: (()->())?
     
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("Not coder compliant")
     }
     
@@ -331,7 +345,7 @@ public class SwiftSpinner: UIView {
         let randomRotation = Double(Float(arc4random()) /  Float(UInt32.max)) * M_PI_4 + M_PI_4
         
         //outer circle
-        UIView.animateWithDuration(duration, delay: 0.0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: nil, animations: {
+        UIView.animateWithDuration(duration, delay: 0.0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0, options: [], animations: {
             self.currentOuterRotation -= CGFloat(randomRotation)
             self.outerCircleView.transform = CGAffineTransformMakeRotation(self.currentOuterRotation)
             }, completion: {_ in
@@ -350,7 +364,7 @@ public class SwiftSpinner: UIView {
         }
         
         //inner circle
-        UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.0, options: nil, animations: {
+        UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.0, options: [], animations: {
             self.currentInnerRotation += CGFloat(M_PI_4)
             self.innerCircleView.transform = CGAffineTransformMakeRotation(self.currentInnerRotation)
             }, completion: {_ in
@@ -363,13 +377,13 @@ public class SwiftSpinner: UIView {
     }
     
     public func updateFrame() {
-        let window = UIApplication.sharedApplication().windows.first as! UIWindow
+        let window = UIApplication.sharedApplication().windows.first!
         SwiftSpinner.sharedInstance.frame = window.frame
     }
     
     // MARK: - Util methods
     
-    func delay(#seconds: Double, completion:()->()) {
+    func delay(seconds seconds: Double, completion:()->()) {
         let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC) * seconds ))
         
         dispatch_after(popTime, dispatch_get_main_queue()) {

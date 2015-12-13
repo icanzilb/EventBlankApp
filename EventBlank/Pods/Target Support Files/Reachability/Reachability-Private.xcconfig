@@ -1,6 +1,0 @@
-#include "Reachability.xcconfig"
-GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/Reachability" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/CWStatusBarNotification" "${PODS_ROOT}/Headers/Public/DynamicColor" "${PODS_ROOT}/Headers/Public/HanekeSwift" "${PODS_ROOT}/Headers/Public/JSImagePickerController" "${PODS_ROOT}/Headers/Public/KHTabPagerViewController" "${PODS_ROOT}/Headers/Public/MAThemeKit" "${PODS_ROOT}/Headers/Public/Reachability" "${PODS_ROOT}/Headers/Public/SQLite.swift" "${PODS_ROOT}/Headers/Public/SwiftSpinner" "${PODS_ROOT}/Headers/Public/TaskQueue" "${PODS_ROOT}/Headers/Public/VTAcknowledgementsViewController" "${PODS_ROOT}/Headers/Public/XLPagerTabStrip"
-OTHER_LDFLAGS = ${REACHABILITY_OTHER_LDFLAGS}
-PODS_ROOT = ${SRCROOT}
-SKIP_INSTALL = YES

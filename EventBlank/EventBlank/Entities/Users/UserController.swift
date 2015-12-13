@@ -7,11 +7,11 @@
 //
 
 import UIKit
-import SQLite
+import RealmSwift
 
 class UserController: UIViewController {
 
-    var database: Database {
+    var database: Connection {
         return DatabaseProvider.databases[appDataFileName]!
     }
 

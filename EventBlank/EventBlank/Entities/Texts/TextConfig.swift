@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SQLite
+import RealmSwift
 
 var TextConfig = EntityConfig(
     tableName: "texts",

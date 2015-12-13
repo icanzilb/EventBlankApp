@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SQLite
+import RealmSwift
 import CocoaMarkdown
 
 class CreditViewController: UIViewController, UIWebViewDelegate {

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SQLite
+import RealmSwift
 
 let SpeakerConfig = EntityConfig(
     tableName: "speakers",

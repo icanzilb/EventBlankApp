@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SQLite
+import RealmSwift
 
 var FavoriteConfig = EntityConfig(
     tableName: "favorites",
@@ -33,22 +33,24 @@ struct Favorite {
     
     static func allSessionFavoritesIDs() -> [Int] {
         let database = DatabaseProvider.databases[appDataFileName]!
-        return database[FavoriteConfig.tableName]
-            .filter(Favorite.idSession > 0)
-            .map {$0[Favorite.idSession]}
+//        return database.prepare(FavoriteConfig.tableName)
+//            .filter(Favorite.idSession > 0)
+//            .map {$0[Favorite.idSession]}
+        return []
     }
     
     static func saveSessionId(id: Int) {
         let database = DatabaseProvider.databases[appDataFileName]!
-        database[FavoriteConfig.tableName].insert(Favorite.idSession <- id)
-        if let err = database.lastError {
-            println(err)
-        }
+        let favorites = Table(FavoriteConfig.tableName)
+        
+        try! database.run(favorites.insert(Favorite.idSession <- id))
     }
     
     static func removeSessionId(id: Int) {
         let database = DatabaseProvider.databases[appDataFileName]!
-        database[FavoriteConfig.tableName].filter({Favorite.idSession == id}()).delete()
+        let favorites = Table(FavoriteConfig.tableName)
+        
+        try! database.run(favorites.filter({Favorite.idSession == id}()).delete())
     }
     
     //
@@ -57,19 +59,26 @@ struct Favorite {
     
     static func allSpeakerFavoriteIDs() -> [Int] {
         let database = DatabaseProvider.databases[appDataFileName]!
-        return database[FavoriteConfig.tableName]
-            .filter(Favorite.idSpeaker > 0)
-            .map {$0[Favorite.idSpeaker]}
+        let favorites = Table(FavoriteConfig.tableName)
+        
+//        return database.prepare(FavoriteConfig.tableName)
+//            .filter(Favorite.idSpeaker > 0)
+//            .map {$0[Favorite.idSpeaker]}
+        return []
     }
     
     static func saveSpeakerId(id: Int) {
         let database = DatabaseProvider.databases[appDataFileName]!
-        database[FavoriteConfig.tableName].insert(Favorite.idSpeaker <- id)
+        let favorites = Table(FavoriteConfig.tableName)
+        
+        try! database.run(favorites.insert(Favorite.idSpeaker <- id))
     }
     
     static func removeSpeakerId(id: Int) {
         let database = DatabaseProvider.databases[appDataFileName]!
-        database[FavoriteConfig.tableName].filter({Favorite.idSpeaker == id}()).delete()
+        let favorites = Table(FavoriteConfig.tableName)
+        
+        try! database.run(favorites.filter({Favorite.idSpeaker == id}()).delete())
     }
     
 }

@@ -7,13 +7,13 @@
 //
 
 import UIKit
-import SQLite
+import RealmSwift
 
 class SpeakersViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
-    var appData: Database {
+    var appData: Connection {
         return DatabaseProvider.databases[appDataFileName]!
         }
 
@@ -30,14 +30,14 @@ class SpeakersViewController: UIViewController {
     var initialized = false
     
     //MARK: - view controller
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         backgroundQueue(loadSpeakers)
     }
     
     func loadSpeakers() {
         speakers.refreshFavorites()
-        speakers.load(searchTerm: searchController.searchBar.text,
+        speakers.load(searchTerm: searchController.searchBar.text!,
             showOnlyFavorites: self.btnFavorites.selected)
         
         if self.tableView != nil {
@@ -124,7 +124,7 @@ class SpeakersViewController: UIViewController {
             )
         }
         
-        if count(searchController.searchBar.text) > 0 {
+        if searchController.searchBar.text!.characters.count > 0 {
             actionSearch(self)
         }
         

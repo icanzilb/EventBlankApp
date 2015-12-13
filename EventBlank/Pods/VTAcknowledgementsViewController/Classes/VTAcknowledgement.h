@@ -21,7 +21,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#if __has_feature(modules)
+@import Foundation;
+#else
 #import <Foundation/Foundation.h>
+#endif
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  `VTAcknowledgement` is a subclass of `NSObject` that represents a single acknowledgement.
@@ -31,11 +37,25 @@
 /**
  The acknowledgement title (for instance the pod’s name).
  */
-@property (nonatomic, copy, nonnull) NSString *title;
+@property (nonatomic, copy) NSString *title;
 
 /**
  The acknowledgement body text (for instance the pod’s license).
  */
-@property (nonatomic, copy, nonnull) NSString *text;
+@property (nonatomic, copy) NSString *text;
+
+
+/**
+ Initializes an acknowledgement with a title and a body text.
+
+ @param title The acknowledgement title.
+ @param text The acknowledgement body text.
+
+ @return The newly initialized acknowledgement.
+ */
+- (instancetype)initWithTitle:(NSString *)title
+                         text:(NSString *)text NS_DESIGNATED_INITIALIZER;
 
 @end
+
+NS_ASSUME_NONNULL_END

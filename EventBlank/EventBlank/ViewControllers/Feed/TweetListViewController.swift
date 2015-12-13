@@ -7,10 +7,7 @@
 //
 
 import UIKit
-import SQLite
-
-let kRefreshViewHeight: CGFloat = 60.0
-let kRefreshTimeout: Double = 5 * 60.0
+import RealmSwift
 
 class TweetListViewController: UIViewController, RefreshViewDelegate {
 
@@ -21,7 +18,7 @@ class TweetListViewController: UIViewController, RefreshViewDelegate {
 
     var refreshView: RefreshView!
     
-    var database: Database {
+    var database: Connection {
         return DatabaseProvider.databases[appDataFileName]!
     }
     

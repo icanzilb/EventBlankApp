@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 Underplot ltd. All rights reserved.
 //
 
-import SQLite
+import RealmSwift
 
 typealias SpeakerSection = [String: [Row]]
 
 class SpeakersModel {
     
-    var database: Database {
+    var database: Connection {
         return DatabaseProvider.databases[eventDataFileName]!
     }
 
@@ -95,7 +95,7 @@ class SpeakersModel {
             for row in section.values.first! {
                 var eligibleResult = true
                 if favorites {
-                    if find(self.favorites, row[Speaker.idColumn]) == nil {
+                    if self.favorites.indexOf(row[Speaker.idColumn]) == nil {
                         eligibleResult = false
                     }
                 }
@@ -116,17 +116,17 @@ class SpeakersModel {
     
     // MARK: - favorites
     
-    func isFavorite(#speakerId: Int) -> Bool {
-        return (find(favorites, speakerId) != nil)
+    func isFavorite(speakerId speakerId: Int) -> Bool {
+        return favorites.indexOf(speakerId) != nil
     }
     
-    func addFavorite(#speakerId: Int) {
+    func addFavorite(speakerId speakerId: Int) {
         favorites.append(speakerId)
         Favorite.saveSpeakerId(speakerId)
     }
 
-    func removeFavorite(#speakerId: Int) {
-        if let currentSpeakerIndex = find(favorites, speakerId) {
+    func removeFavorite(speakerId speakerId: Int) {
+        if let currentSpeakerIndex = favorites.indexOf(speakerId) {
             favorites.removeAtIndex(currentSpeakerIndex)
         }
         Favorite.removeSpeakerId(speakerId)

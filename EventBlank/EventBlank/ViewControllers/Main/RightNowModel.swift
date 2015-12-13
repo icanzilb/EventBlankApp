@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Underplot ltd. All rights reserved.
 //
 
-import SQLite
+import RealmSwift
 
 class RightNowModel {
 

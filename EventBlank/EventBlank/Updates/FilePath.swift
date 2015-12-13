@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct FilePath: Printable {
+struct FilePath: CustomStringConvertible {
     
     //MARK: - properties
     
@@ -41,11 +41,13 @@ struct FilePath: Printable {
     //MARK: - internal string path functions
     
     internal static func inDocuments(fileName: String) -> String {
-        return (NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as! String).stringByAppendingPathComponent(fileName)
+        let folderPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+        return folderPath.stringByAppendingString("/"+fileName)
     }
     
     internal static func inLibrary(fileName: String) -> String {
-        return (NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first as! String).stringByAppendingPathComponent(fileName)
+        let folderPath = NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first!
+        return folderPath.stringByAppendingString("/"+fileName)
     }
     
     internal static func inBundle(fileName: String) -> String? {
@@ -57,9 +59,9 @@ struct FilePath: Printable {
         
         let manager = NSFileManager.defaultManager()
         
-        if  let atAttributes = manager.attributesOfItemAtPath(self.filePath, error: nil),
+        if  let atAttributes = try? manager.attributesOfItemAtPath(self.filePath),
             let atModDate = atAttributes[NSFileModificationDate] as? NSDate,
-            let toAttributes = manager.attributesOfItemAtPath(toPath.filePath, error: nil),
+            let toAttributes = try? manager.attributesOfItemAtPath(toPath.filePath),
             let toModDate = toAttributes[NSFileModificationDate] as? NSDate
         {
             return atModDate.compare(toModDate) == NSComparisonResult.OrderedDescending
@@ -70,45 +72,40 @@ struct FilePath: Printable {
     
     //MARK: - copy functions
     
-    func copyOnceTo(toPath: FilePath) {
+    func copyOnceTo(toPath: FilePath) throws {
         let manager = NSFileManager.defaultManager()
         
         if manager.fileExistsAtPath(toPath.filePath) == false {
-            println("copy \(self) to \(toPath)")
-            copyAndReplaceItemToPath(toPath, error: nil)
+            print("copy \(self) to \(toPath)")
+            try copyAndReplaceItemToPath(toPath)
         }
     }
     
-    func copyIfNewer(toPath: FilePath) {
+    func copyIfNewer(toPath: FilePath) throws {
         if isItemNewerThanItemAtPath(toPath) {
-            copyAndReplaceItemToPath(toPath, error: nil)
+            try copyAndReplaceItemToPath(toPath)
         }
     }
     
-    func copyAndReplaceItemToPath(toPath: FilePath, error: NSErrorPointer?) -> Bool {
-        var result = false
-        
-        var deleteError: NSError?
-        var copyError: NSError?
-        
+    func copyAndReplaceItemToPath(toPath: FilePath) throws {
         let manager = NSFileManager.defaultManager()
         
         if manager.fileExistsAtPath(toPath.filePath) {
-            println("file exists! delete it first")
+            print("file exists! delete it first")
             
-            if manager.removeItemAtPath(toPath.filePath, error: &deleteError) == false {
-                println("failed to delete file: \(deleteError?.localizedDescription)")
-                error?.memory = deleteError
+            do {
+                try manager.removeItemAtPath(toPath.filePath)
+            } catch let error as NSError {
+                print("failed to delete file: \(error.description)")
+                throw error
             }
         }
         
-        if manager.copyItemAtPath(self.filePath, toPath: toPath.filePath, error: &copyError) {
-            result = true
-        } else {
-            println("failed to copy file: \(copyError?.localizedDescription)")
-            error?.memory = copyError
+        do {
+            try manager.copyItemAtPath(self.filePath, toPath: toPath.filePath)
+        } catch let error as NSError {
+            print("failed to copy file: \(error.description)")
+            throw error
         }
-        
-        return result
     }
 }

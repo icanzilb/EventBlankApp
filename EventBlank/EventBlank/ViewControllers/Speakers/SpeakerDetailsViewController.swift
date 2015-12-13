@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SQLite
+import RealmSwift
 
 class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -22,7 +22,7 @@ class SpeakerDetailsViewController: UIViewController, UITableViewDelegate, UITab
     
     var user: Row?
     
-    var database: Database {
+    var database: Connection {
         return DatabaseProvider.databases[appDataFileName]!
     }
     

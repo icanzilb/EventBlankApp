@@ -7,13 +7,7 @@
 //
 
 import UIKit
-import SQLite
-
-enum EventBlankTabIndex: Int {
-    case Schedule = 1
-    case Feed = 2
-    case Speakers = 3
-}
+import RealmSwift
 
 class MainViewController: UIViewController {
 
@@ -26,7 +20,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var lblOrganizer: UILabel!
     
     var nowTap: UITapGestureRecognizer!
-    let rightNow = RightNowModel()
+    //let rightNow = RightNowModel()
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,36 +43,36 @@ class MainViewController: UIViewController {
     var linkToSchedule = false
     
     func didChangeFile() {
-        setupUI(scheduleAnotherReload: false)
+        setupUI(false)
     }
     
     func setupUI(scheduleAnotherReload: Bool = true) {
-        let event = (UIApplication.sharedApplication().delegate as! AppDelegate).event
-        let primaryColor = UIColor(hexString: event[Event.mainColor])
-        
-        //logo
-        imgConfLogo.image = event[Event.logo]?.imageValue ?? nil
-        
-        //name
-        lblConfName.textColor = primaryColor
-        lblConfName.text = event[Event.name]
-        
-        //subtitle
-        lblConfSubtitle.textColor = UIColor.grayColor()
-        lblConfSubtitle.text = event[Event.subtitle]
-        
-        //organizer
-        lblOrganizer.textColor = UIColor.grayColor()
-        lblOrganizer.text = "organized by \n" + event[Event.organizer]
-        
-        //right now
-        lblRightNow.textColor = primaryColor
-        let (nowText, shouldLinkToSchedule) = rightNow.current(event)
-        lblRightNow.text = nowText
-        linkToSchedule = shouldLinkToSchedule
-        
+//        let event = (UIApplication.sharedApplication().delegate as! AppDelegate).event
+//        let primaryColor = UIColor(hexString: event[Event.mainColor])
+//        
+//        //logo
+//        imgConfLogo.image = event[Event.logo]?.imageValue ?? nil
+//        
+//        //name
+//        lblConfName.textColor = primaryColor
+//        lblConfName.text = event[Event.name]
+//        
+//        //subtitle
+//        lblConfSubtitle.textColor = UIColor.grayColor()
+//        lblConfSubtitle.text = event[Event.subtitle]
+//        
+//        //organizer
+//        lblOrganizer.textColor = UIColor.grayColor()
+//        lblOrganizer.text = "organized by \n" + event[Event.organizer]
+//        
+//        //right now
+//        lblRightNow.textColor = primaryColor
+//        let (nowText, shouldLinkToSchedule) = rightNow.current(event)
+//        lblRightNow.text = nowText
+//        linkToSchedule = shouldLinkToSchedule
+//        
         if scheduleAnotherReload {
-            delay(seconds: 1 * 60, {
+            delay(seconds: 1 * 60, completion: {
                 //refresh the right now info
                 self.setupUI()
             })
@@ -100,7 +94,7 @@ class MainViewController: UIViewController {
         tabController.selectedIndex = EventBlankTabIndex.Schedule.rawValue
         
         //emit "show current sessions" notification
-        delay(seconds: 0.25, {
+        delay(seconds: 0.25, completion: {
             //allow for the schedule view controller to build up if 1st display
             self.notification(kShowCurrentSessionNotification, object: nil)
         })
