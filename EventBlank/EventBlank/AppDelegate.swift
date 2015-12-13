@@ -17,13 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     let realmProvider = RealmProvider()
-    
-//    let appDataProvider = DatabaseProvider(
-//        path: FilePath(inLibrary: appDataFileName),
-//        defaultPath: FilePath(inBundle: appDataFileName))
-//    
-//    var event: Row!
-
     var updateManager: UpdateManager?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {

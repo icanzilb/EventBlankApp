@@ -11,13 +11,24 @@ import RealmSwift
 
 class RealmProvider {
 
-    static var defaultRealm: Realm {
-        return try! Realm()
+    static private var eventRealmConfig: Realm.Configuration?
+    static private var appRealmConfig: Realm.Configuration?
+
+    static var eventRealm: Realm {
+        return try! Realm(configuration: eventRealmConfig!)
+    }
+
+    static var appRealm: Realm {
+        return try! Realm(configuration: appRealmConfig!)
     }
     
-    init(eventFile: String = eventDataFileName) {
-        if let defaultConfig = loadConfig(eventFile, path: FilePath(inLibrary: eventFile), defaultPath: FilePath(inBundle: eventFile), preferNewerSourceFile: true) {
-            Realm.Configuration.defaultConfiguration = defaultConfig
+    init(eventFile: String = eventDataFileName, appFile: String = appDataFileName) {
+        //event configuration
+        if let eventConfig = loadConfig(eventFile, path: FilePath(inLibrary: eventFile), defaultPath: FilePath(inBundle: eventFile), preferNewerSourceFile: true),
+            let appConfig = loadConfig(appFile, path: FilePath(inLibrary: appFile), defaultPath: FilePath(inBundle: appFile))
+        {
+            RealmProvider.eventRealmConfig = eventConfig
+            RealmProvider.appRealmConfig = appConfig
         } else {
             fatalError("Can't load the default realm")
         }

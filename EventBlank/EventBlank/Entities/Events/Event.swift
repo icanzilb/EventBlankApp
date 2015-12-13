@@ -30,7 +30,7 @@ class Event: Object {
     dynamic var updateFileUrl: String?
     
     static var defaultEvent: Event {
-        return RealmProvider.defaultRealm.objects(Event).first!
+        return RealmProvider.eventRealm.objects(Event).first!
     }
 }
 
