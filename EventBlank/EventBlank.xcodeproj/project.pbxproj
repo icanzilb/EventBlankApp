@@ -31,6 +31,10 @@
 		9C8AC0171BA16F8E006B980F /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AC0161BA16F8E006B980F /* UIImage+Extension.swift */; };
 		9C8AC0191BA1E900006B980F /* EATabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AC0181BA1E900006B980F /* EATabbarController.swift */; };
 		9C8C1DD01C1D96B2006B1A4A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F1C431B91FDD4008CE136 /* MainViewController.swift */; };
+		9C8C1DD11C1D9749006B1A4A /* RealmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C330C991B34B122002A0D1E /* RealmProvider.swift */; };
+		9C8C1DD21C1D9BB4006B1A4A /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C330C861B34B08B002A0D1E /* Event.swift */; };
+		9C8C1DD71C1DA2B9006B1A4A /* NSData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8C1DD61C1DA2B9006B1A4A /* NSData.swift */; };
+		9C8C1DDD1C1DA320006B1A4A /* RightNowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C08002B1BAFE7CD00E94666 /* RightNowModel.swift */; };
 		9C8FCA9A1B40881300EFE8B8 /* Pods-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C8FCA991B40881300EFE8B8 /* Pods-acknowledgements.plist */; };
 		9C8FCAA51B408BE100EFE8B8 /* credits.markdown in Sources */ = {isa = PBXBuildFile; fileRef = 9C8FCAA31B408A0F00EFE8B8 /* credits.markdown */; };
 		9C943BC31BB1B7680075C197 /* Pragma15.eventblank in Resources */ = {isa = PBXBuildFile; fileRef = 9C943BC21BB1B7680075C197 /* Pragma15.eventblank */; };
@@ -143,13 +147,13 @@
 		9C32BF631B4FE99A00196B19 /* TweetListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetListViewController.swift; sourceTree = "<group>"; };
 		9C330C821B34B005002A0D1E /* AF+Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AF+Date+Extension.swift"; sourceTree = "<group>"; };
 		9C330C841B34B07C002A0D1E /* TextConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextConfig.swift; sourceTree = "<group>"; };
-		9C330C861B34B08B002A0D1E /* EventConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventConfig.swift; sourceTree = "<group>"; };
+		9C330C861B34B08B002A0D1E /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		9C330C881B34B094002A0D1E /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		9C330C8A1B34B09E002A0D1E /* LocationConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationConfig.swift; sourceTree = "<group>"; };
 		9C330C8C1B34B0A4002A0D1E /* EntityConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityConfig.swift; sourceTree = "<group>"; };
 		9C330C8E1B34B0AA002A0D1E /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		9C330C901B34B0AF002A0D1E /* Speaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Speaker.swift; sourceTree = "<group>"; };
-		9C330C991B34B122002A0D1E /* DatabaseProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseProvider.swift; sourceTree = "<group>"; };
+		9C330C991B34B122002A0D1E /* RealmProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmProvider.swift; sourceTree = "<group>"; };
 		9C330C9D1B34B146002A0D1E /* ChatConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatConfig.swift; sourceTree = "<group>"; };
 		9C330C9F1B34B14B002A0D1E /* ChatController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 		9C330CA11B34B159002A0D1E /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
@@ -180,6 +184,7 @@
 		9C8AC00F1BA1688F006B980F /* FeedViewController+Pager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FeedViewController+Pager.swift"; sourceTree = "<group>"; };
 		9C8AC0161BA16F8E006B980F /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		9C8AC0181BA1E900006B980F /* EATabbarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EATabbarController.swift; sourceTree = "<group>"; };
+		9C8C1DD61C1DA2B9006B1A4A /* NSData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSData.swift; sourceTree = "<group>"; };
 		9C8E49571B8A139000A5FA8D /* PhotoPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPopupView.swift; sourceTree = "<group>"; };
 		9C8E49591B8A788A00A5FA8D /* FollowTwitterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowTwitterButton.swift; sourceTree = "<group>"; };
 		9C8FCA991B40881300EFE8B8 /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Pods-acknowledgements.plist"; path = "Pods/Target Support Files/Pods/Pods-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -400,6 +405,7 @@
 				9C5057371B5AE42000D71885 /* ViewController+Extensions.swift */,
 				9C3487CB1B88C48300FB0973 /* UIView+Extensions.swift */,
 				9C8AC0161BA16F8E006B980F /* UIImage+Extension.swift */,
+				9C8C1DD61C1DA2B9006B1A4A /* NSData.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -408,7 +414,7 @@
 			isa = PBXGroup;
 			children = (
 				9CC44CDB1B36C1C80026564D /* Favorite */,
-				9C330C991B34B122002A0D1E /* DatabaseProvider.swift */,
+				9C330C991B34B122002A0D1E /* RealmProvider.swift */,
 				9C330C8C1B34B0A4002A0D1E /* EntityConfig.swift */,
 				9C330CB11B34B1B8002A0D1E /* Tweets */,
 				9C330C9C1B34B136002A0D1E /* Chat */,
@@ -474,7 +480,7 @@
 		9C330C961B34B0E5002A0D1E /* Events */ = {
 			isa = PBXGroup;
 			children = (
-				9C330C861B34B08B002A0D1E /* EventConfig.swift */,
+				9C330C861B34B08B002A0D1E /* Event.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -883,7 +889,9 @@
 				9C10A1081AB188C80052C730 /* Ext.swift in Sources */,
 				9C624FEF1B53CDE300C84168 /* OrderedMap.swift in Sources */,
 				9CCE95391B9F817F00F9D126 /* EANavigationController.swift in Sources */,
+				9C8C1DD21C1D9BB4006B1A4A /* Event.swift in Sources */,
 				9C10A0CF1AB186490052C730 /* AppDelegate.swift in Sources */,
+				9C8C1DD71C1DA2B9006B1A4A /* NSData.swift in Sources */,
 				9C3487CC1B88C48300FB0973 /* UIView+Extensions.swift in Sources */,
 				9CC8A4E61BB2945500461E6A /* Notifications.swift in Sources */,
 				9C624FE91B53AE6200C84168 /* FilePath.swift in Sources */,
@@ -892,8 +900,10 @@
 				9C5057381B5AE42000D71885 /* ViewController+Extensions.swift in Sources */,
 				9C6CD5111B58F99F00B62C36 /* StatusBarDownloadProgressView.swift in Sources */,
 				9C624FE71B53A4E600C84168 /* FreshFile.swift in Sources */,
+				9C8C1DD11C1D9749006B1A4A /* RealmProvider.swift in Sources */,
 				9C330CB81B34B1FC002A0D1E /* Config.swift in Sources */,
 				9CF717F01B384A750093C636 /* Notification.swift in Sources */,
+				9C8C1DDD1C1DA320006B1A4A /* RightNowModel.swift in Sources */,
 				9C8AC0171BA16F8E006B980F /* UIImage+Extension.swift in Sources */,
 				9C330C831B34B005002A0D1E /* AF+Date+Extension.swift in Sources */,
 			);

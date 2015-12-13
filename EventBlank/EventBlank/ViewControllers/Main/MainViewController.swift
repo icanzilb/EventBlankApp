@@ -20,7 +20,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var lblOrganizer: UILabel!
     
     var nowTap: UITapGestureRecognizer!
-    //let rightNow = RightNowModel()
+    let rightNow = RightNowModel()
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,30 +47,32 @@ class MainViewController: UIViewController {
     }
     
     func setupUI(scheduleAnotherReload: Bool = true) {
-//        let event = (UIApplication.sharedApplication().delegate as! AppDelegate).event
-//        let primaryColor = UIColor(hexString: event[Event.mainColor])
-//        
-//        //logo
-//        imgConfLogo.image = event[Event.logo]?.imageValue ?? nil
-//        
-//        //name
-//        lblConfName.textColor = primaryColor
-//        lblConfName.text = event[Event.name]
-//        
-//        //subtitle
-//        lblConfSubtitle.textColor = UIColor.grayColor()
-//        lblConfSubtitle.text = event[Event.subtitle]
-//        
-//        //organizer
-//        lblOrganizer.textColor = UIColor.grayColor()
-//        lblOrganizer.text = "organized by \n" + event[Event.organizer]
-//        
-//        //right now
-//        lblRightNow.textColor = primaryColor
-//        let (nowText, shouldLinkToSchedule) = rightNow.current(event)
-//        lblRightNow.text = nowText
-//        linkToSchedule = shouldLinkToSchedule
-//        
+        
+        let event = Event.defaultEvent
+        
+        let primaryColor = UIColor(hexString: event.mainColor)
+
+        //logo
+        imgConfLogo.image = event.logo.imageValue ?? nil
+
+        //name
+        lblConfName.textColor = primaryColor
+        lblConfName.text = event.title
+
+        //subtitle
+        lblConfSubtitle.textColor = UIColor.grayColor()
+        lblConfSubtitle.text = event.subtitle
+        
+        //organizer
+        lblOrganizer.textColor = UIColor.grayColor()
+        lblOrganizer.text = "organized by \n" + event.organizer
+        
+        //right now
+        lblRightNow.textColor = primaryColor
+        let (nowText, shouldLinkToSchedule) = rightNow.current(event)
+        lblRightNow.text = nowText
+        linkToSchedule = shouldLinkToSchedule
+        
         if scheduleAnotherReload {
             delay(seconds: 1 * 60, completion: {
                 //refresh the right now info

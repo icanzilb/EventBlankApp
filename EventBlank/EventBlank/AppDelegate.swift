@@ -16,11 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
-//    let databaseProvider = DatabaseProvider(
-//        path: FilePath(inLibrary: eventDataFileName),
-//        defaultPath: FilePath(inBundle: eventDataFileName),
-//        preferNewerSourceFile: true)
-//    
+    let realmProvider = RealmProvider()
+    
 //    let appDataProvider = DatabaseProvider(
 //        path: FilePath(inLibrary: appDataFileName),
 //        defaultPath: FilePath(inBundle: appDataFileName))
