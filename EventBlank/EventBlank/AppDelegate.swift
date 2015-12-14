@@ -16,11 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
-    let realmProvider = RealmProvider()
+    var realmProvider: RealmProvider!
     var updateManager: UpdateManager?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-
+        realmProvider = RealmProvider()
         loadEventData()
         
 //        //start the update manager if there's a remote file

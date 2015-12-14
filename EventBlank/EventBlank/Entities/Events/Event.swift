@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-class Event: Object {
+class EventData: Object {
 
     dynamic var title = ""
     dynamic var subtitle = ""
@@ -29,8 +29,8 @@ class Event: Object {
     
     dynamic var updateFileUrl: String?
     
-    static var defaultEvent: Event {
-        return RealmProvider.eventRealm.objects(Event).first!
+    static var defaultEvent: EventData {
+        return RealmProvider.eventRealm.objects(EventData).first!
     }
 }
 

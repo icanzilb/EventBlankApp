@@ -48,12 +48,13 @@ class MainViewController: UIViewController {
     
     func setupUI(scheduleAnotherReload: Bool = true) {
         
-        let event = Event.defaultEvent
+        let event = EventData.defaultEvent
+        print("event \(event)")
         
         let primaryColor = UIColor(hexString: event.mainColor)
 
         //logo
-        imgConfLogo.image = event.logo.imageValue ?? nil
+        imgConfLogo.image = event.logo.imageValue
 
         //name
         lblConfName.textColor = primaryColor

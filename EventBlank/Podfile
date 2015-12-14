@@ -3,6 +3,10 @@ use_frameworks!
 #database
 pod 'RealmSwift'
 
+#frp
+pod 'RxSwift', '~> 2.0.0-beta'
+pod 'RxCocoa', '~> 2.0.0-beta'
+
 #tab strips
 pod 'XLPagerTabStrip', '~> 1.0'
 pod 'KHTabPagerViewController', '~> 0.1.0'

@@ -17,8 +17,6 @@ struct ScheduleDay {
 
 //TODO: update all entities with Swift 2.0 - add database provider via a protocol extension
 
-typealias ScheduleDaySection = [String: [Row]]
-
 struct RightNowItems {
     let currentSessions: [Row]?
     let nextSessions: [Row]?

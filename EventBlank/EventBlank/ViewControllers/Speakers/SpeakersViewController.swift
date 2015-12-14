@@ -6,53 +6,76 @@
 //  Copyright (c) 2015 Underplot ltd. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import RealmSwift
+
+import RxSwift
+import RxCocoa
+
 
 class SpeakersViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
-    var appData: Connection {
-        return DatabaseProvider.databases[appDataFileName]!
-        }
-
-    let speakers = SpeakersModel()
-
-    var lastSelectedSpeaker: Row?
     var btnFavorites = UIButton()
-
-    var event: Row {
-        return (UIApplication.sharedApplication().delegate as! AppDelegate).event
-    }
-
     let searchController = UISearchController(searchResultsController:  nil)
-    var initialized = false
+    var speakers = SpeakersModel()
+    
+    typealias SpeakerSection = SectionModel<String, Speaker>
+    
+    var items: Observable<[SpeakerSection]> = just([])
+    
+    var disposeBag = DisposeBag()
+    let dataSource = RxTableViewSectionedReloadDataSource<SpeakerSection>()
     
     //MARK: - view controller
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        backgroundQueue(loadSpeakers)
     }
     
     func loadSpeakers() {
-        speakers.refreshFavorites()
-        speakers.load(searchTerm: searchController.searchBar.text!,
-            showOnlyFavorites: self.btnFavorites.selected)
+//        speakers.refreshFavorites()
         
-        if self.tableView != nil {
-            mainQueue({
-                if self.speakers.currentNumberOfItems == 0 {
-                    self.view.addSubview(MessageView(text: "You currently have no favorited speakers"))
-                } else {
-                    MessageView.removeViewFrom(self.view)
-                }
-            })
+        let dataSource = self.dataSource
+        
+        speakers.load(searchTerm: searchController.searchBar.text!,
+            showOnlyFavorites: btnFavorites.selected)
+        
+        dataSource.cellFactory = { (tv, indexPath, element) in
+            let cell = tv.dequeueReusableCellWithIdentifier("SpeakerCell")!
+            cell.textLabel?.text = "\(element.name) @ row \(indexPath.row)"
+            return cell
+        }
+        
+        items = just(speakers.items)
+
+        items
+            .bindTo(tableView.rx_itemsWithDataSource(dataSource))
+            .addDisposableTo(disposeBag)
+        
+        if self.speakers.items.count == 0 {
+            self.view.addSubview(MessageView(text: "You currently have no favorited speakers"))
+        } else {
+            MessageView.removeViewFrom(self.view)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadSpeakers()
+        
+        
+        
+        if let _ = btnFavorites.superview where btnFavorites.hidden == true {
+            btnFavorites.hidden = false
+        }
+        
+        setupUI()
+        
+        if searchController.searchBar.text!.characters.count > 0 {
+            //actionSearch(self)
+        }
         
         //notifications
         observeNotification(kFavoritesChangedNotification, selector: "didFavoritesChange:")
@@ -64,69 +87,56 @@ class SpeakersViewController: UIViewController {
         observeNotification(kDidReplaceEventFileNotification, selector: nil)
     }
 
+    func setupUI() {
+        //set up the fav button
+        btnFavorites.frame = CGRect(x: navigationController!.navigationBar.bounds.size.width - 40, y: 0, width: 40, height: 38)
+        
+        btnFavorites.setImage(UIImage(named: "like-empty")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), forState: .Normal)
+        btnFavorites.setImage(UIImage(named: "like-full")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), forState: UIControlState.Selected)
+        btnFavorites.addTarget(self, action: Selector("actionToggleFavorites:"), forControlEvents: .TouchUpInside)
+        btnFavorites.tintColor = UIColor.whiteColor()
+        
+        navigationController!.navigationBar.addSubview(btnFavorites)
+        
+        //add button background
+        let gradient = CAGradientLayer()
+        gradient.frame = btnFavorites.bounds
+        gradient.colors = [UIColor(hexString: EventData.defaultEvent.mainColor).colorWithAlphaComponent(0.1).CGColor, UIColor(hexString: EventData.defaultEvent.mainColor).CGColor]
+        gradient.locations = [0, 0.25]
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1.0, y: 0.5)
+        btnFavorites.layer.insertSublayer(gradient, below: btnFavorites.imageView!.layer)
+        
+        //search bar
+//        searchController.searchResultsUpdater = self
+//        searchController.delegate = self
+//        searchController.searchBar.delegate = self
+        
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
+        
+        searchController.searchBar.center = CGPoint(
+            x: CGRectGetMidX(navigationController!.navigationBar.frame) + 4,
+            y: 20)
+        searchController.searchBar.hidden = true
+        
+        //search controller is the worst
+        let iOSVersion = NSString(string: UIDevice.currentDevice().systemVersion).doubleValue
+        if iOSVersion < 9.0 {
+            //position the bar on iOS8
+            searchController.searchBar.center = CGPoint(
+                x: CGRectGetMinX(navigationController!.navigationBar.frame) + 4,
+                y: 20)
+        }
+        
+        navigationController!.navigationBar.addSubview(
+            searchController.searchBar
+        )
+
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if let _ = btnFavorites.superview where btnFavorites.hidden == true {
-            btnFavorites.hidden = false
-        }
-        
-        if !initialized {
-            initialized = true
-            
-            if speakers.currentItems.count == 0 {
-                backgroundQueue(loadSpeakers, completion: tableView.reloadData)
-            }
-            
-            //set up the fav button
-            btnFavorites.frame = CGRect(x: navigationController!.navigationBar.bounds.size.width - 40, y: 0, width: 40, height: 38)
-            
-            btnFavorites.setImage(UIImage(named: "like-empty")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), forState: .Normal)
-            btnFavorites.setImage(UIImage(named: "like-full")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), forState: UIControlState.Selected)
-            btnFavorites.addTarget(self, action: Selector("actionToggleFavorites:"), forControlEvents: .TouchUpInside)
-            btnFavorites.tintColor = UIColor.whiteColor()
-            
-            navigationController!.navigationBar.addSubview(btnFavorites)
-            
-            //add button background
-            let gradient = CAGradientLayer()
-            gradient.frame = btnFavorites.bounds
-            gradient.colors = [UIColor(hexString: event[Event.mainColor]).colorWithAlphaComponent(0.1).CGColor, UIColor(hexString: event[Event.mainColor]).CGColor]
-            gradient.locations = [0, 0.25]
-            gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
-            gradient.endPoint = CGPoint(x: 1.0, y: 0.5)
-            btnFavorites.layer.insertSublayer(gradient, below: btnFavorites.imageView!.layer)
-            
-            //search bar
-            searchController.searchResultsUpdater = self
-            searchController.delegate = self
-            searchController.searchBar.delegate = self
-            
-            searchController.hidesNavigationBarDuringPresentation = false
-            searchController.dimsBackgroundDuringPresentation = false
-            
-            searchController.searchBar.center = CGPoint(
-                x: CGRectGetMidX(navigationController!.navigationBar.frame) + 4,
-                y: 20)
-            searchController.searchBar.hidden = true
-
-            //search controller is the worst
-            let iOSVersion = NSString(string: UIDevice.currentDevice().systemVersion).doubleValue
-            if iOSVersion < 9.0 {
-                //position the bar on iOS8
-                searchController.searchBar.center = CGPoint(
-                    x: CGRectGetMinX(navigationController!.navigationBar.frame) + 4,
-                    y: 20)
-            }
-            
-            navigationController!.navigationBar.addSubview(
-                searchController.searchBar
-            )
-        }
-        
-        if searchController.searchBar.text!.characters.count > 0 {
-            actionSearch(self)
-        }
         
         observeNotification(kTabItemSelectedNotification, selector: "didTapTabItem:")
     }
@@ -135,7 +145,7 @@ class SpeakersViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         //search bar
-        didDismissSearchController(searchController)
+        //didDismissSearchController(searchController)
         
         btnFavorites.hidden = true
         
@@ -145,7 +155,7 @@ class SpeakersViewController: UIViewController {
     func didTapTabItem(notification: NSNotification) {
         if let index = notification.userInfo?["object"] as? Int where index == EventBlankTabIndex.Speakers.rawValue {
             mainQueue({
-              if self.speakers.currentNumberOfItems > 0 {
+              if self.speakers.items.count > 0 {
                 self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
               }
             })
@@ -162,12 +172,12 @@ class SpeakersViewController: UIViewController {
     }
         
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let speakerDetails = segue.destinationViewController as? SpeakerDetailsViewController {
-            speakerDetails.speaker = lastSelectedSpeaker
-            speakerDetails.speakers = speakers
-        }
-        
-        searchController.searchBar.endEditing(true)
+//        if let speakerDetails = segue.destinationViewController as? SpeakerDetailsViewController {
+//            speakerDetails.speaker = lastSelectedSpeaker
+//            speakerDetails.speakers = speakers
+//        }
+//        
+//        searchController.searchBar.endEditing(true)
     }
     
     //notifications

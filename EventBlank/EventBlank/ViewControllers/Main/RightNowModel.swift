@@ -19,7 +19,7 @@ class RightNowModel {
     }()
   
 
-  func current(event: Event) -> (String, Bool) {
+  func current(event: EventData) -> (String, Bool) {
     
     return ("current", false)
 //    

@@ -39,15 +39,15 @@ class SpeakerCell: UITableViewCell {
     
     var isFavoriteSpeaker = false
     
-    func populateFromSpeaker(speaker: Row) {
+    func populateFromSpeaker(speaker: Speaker) {
         
-        let userImage = speaker[Speaker.photo]?.imageValue ?? UIImage(named: "empty")!
+        let userImage = speaker.photo?.imageValue ?? UIImage(named: "empty")!
         userImage.asyncToSize(.FillSize(self.userImage.bounds.size), cornerRadius: self.userImage.bounds.size.width/2, completion: {result in
             self.userImage.image = result
         })
         
-        nameLabel.text = speaker[Speaker.name]
-        if let twitter = speaker[Speaker.twitter] where count(twitter) > 0 {
+        nameLabel.text = speaker.name
+        if let twitter = speaker.twitter where twitter.characters.count > 0 {
             twitterLabel.text = twitter.hasPrefix("@") ? twitter : "@"+twitter
         } else {
             twitterLabel.text = ""

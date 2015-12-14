@@ -33,7 +33,7 @@ class MessageView: UIView {
         self.init(text: text)
         
         button.setTitle(buttonTitle, forState: .Normal)
-        let primaryColor = UIColor(hexString: (UIApplication.sharedApplication().delegate as! AppDelegate).event[Event.mainColor])
+        let primaryColor = UIColor(hexString: EventData.defaultEvent.mainColor)
         button.backgroundColor = primaryColor
         button.clipsToBounds = true
         button.layer.cornerRadius = 5
@@ -54,7 +54,7 @@ class MessageView: UIView {
             return
         }
         
-        for sv in newSuperview?.subviews as! [UIView] {
+        for sv in (newSuperview?.subviews)! {
             if let sv = sv as? MessageView {
                 sv.removeFromSuperview()
             }
@@ -63,7 +63,7 @@ class MessageView: UIView {
         frame = CGRectInset(newSuperview!.bounds, 16, 0)
         label.frame = bounds
 
-        let tabBarHeight = ((UIApplication.sharedApplication().windows.first! as! UIWindow).rootViewController as! UITabBarController).tabBar.frame.size.height
+        let tabBarHeight = ((UIApplication.sharedApplication().windows.first!).rootViewController as! UITabBarController).tabBar.frame.size.height
         
         button.sizeToFit()
         button.frame.size.width *= 1.2
@@ -74,7 +74,7 @@ class MessageView: UIView {
     }
     
     static func removeViewFrom(view: UIView) {
-        for sv in view.subviews as! [UIView] {
+        for sv in view.subviews {
             if let sv = sv as? MessageView {
                 sv.removeFromSuperview()
             }

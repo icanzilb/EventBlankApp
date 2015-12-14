@@ -30,21 +30,21 @@ extension SpeakersViewController: UISearchControllerDelegate, UISearchResultsUpd
     }
     
     func showSearchBar() {
-        UIView.animateWithDuration(0.33, delay: 0, options: nil, animations: {
+        UIView.animateWithDuration(0.33, delay: 0, options: [], animations: {
             self.searchController.searchBar.alpha = 1
             }, completion: nil)
     }
     
     func hideSearchBar(completion: (()->Void)? = nil) {
-        UIView.animateWithDuration(0.33, delay: 0, options: nil, animations: {
+        UIView.animateWithDuration(0.33, delay: 0, options: [], animations: {
             self.searchController.searchBar.alpha = 0
             }, completion: nil)
     }
     
     //search controller
     func updateSearchResultsForSearchController(searchController: UISearchController) {
-        backgroundQueue({ self.speakers.filterItemsWithTerm(searchController.searchBar.text, favorites: self.btnFavorites.selected) },
-            completion: { self.tableView.reloadData() })
+        self.speakers.filterItemsWithTerm(searchController.searchBar.text, favorites: self.btnFavorites.selected)
+        self.tableView.reloadData()
     }
 }
 

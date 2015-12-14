@@ -15,6 +15,7 @@ class RealmProvider {
     static private var appRealmConfig: Realm.Configuration?
 
     static var eventRealm: Realm {
+        print("event realm!")
         return try! Realm(configuration: eventRealmConfig!)
     }
 
@@ -29,9 +30,11 @@ class RealmProvider {
         {
             RealmProvider.eventRealmConfig = eventConfig
             RealmProvider.appRealmConfig = appConfig
+            Realm.Configuration.defaultConfiguration = eventConfig
         } else {
             fatalError("Can't load the default realm")
         }
+        stubbyRealm()
     }
     
     func loadConfig(name: String, path targetPath: FilePath, defaultPath: FilePath? = nil, preferNewerSourceFile: Bool = false) -> Realm.Configuration? {
@@ -59,7 +62,6 @@ class RealmProvider {
     
     private func loadDatabaseFile(name: String) {
         //TODO: connect a database?
-        stubbyProvider(name)
     }
     
     func didChangeSourceFile(name: String, success: Bool) {
@@ -67,24 +69,46 @@ class RealmProvider {
         loadDatabaseFile(name)
     }
     
-    func stubbyProvider(name: String) {
+    func stubbyRealm() {
+        //event
+        print("stubby realm")
+
+        let event = EventData()
+        event.title = "Marin Conf '16"
+        event.subtitle = "My own conference"
+        event.beginDate = NSDate(timeIntervalSinceNow: 0)
+        event.endDate = NSDate(timeIntervalSinceNow: 3 * 24 * 60 * 60)
+        event.organizer = "Marin Todorov"
+        event.mainColor = "#ff3333"
+        let img = UIImage(named: "pragma15-logo.png")!
+        let imgData = UIImagePNGRepresentation(img)!
+        event.logo = imgData
         
-        // Open the Realm with the configuration
-        let realm = try! Realm()
+        //speakers
+        let speaker1 = Speaker()
+        speaker1.name = "Ashley Nelson-Hornstein"
+        speaker1.bio = "Ashley Nelson-Hornstein is an iOS developer at Dropbox. She fell in love with the iOS platform at Apple, and later developed a passion for crafting intuitive user interfaces as a lead at a news startup named Circa. When not driving new features or advocating for accessibility at Dropbox, Ashley enjoys reading, weightlifting, and trying really hard not to let her blog go stale."
+        speaker1.url = "http://www.underplot.com"
+        speaker1.twitter = "ashley"
+        speaker1.photo = UIImagePNGRepresentation(UIImage(named: "ashley.jpg")!)!
         
-        try! realm.write {
-            realm.deleteAll()
+        let speaker2 = Speaker()
+        speaker2.name = "Bibi Nonaka"
+        speaker2.bio = "Airplane Mode is an indie rock band from New York City. Dave Wiskus (vocals, guitar) and Joe Cieplinski (bass, everything else) are making a record and documenting the process in their critically-acclaimed self-titled podcast, capturing the highs and lows of forming a truly independent band in the age of social media."
+        speaker2.url = "http://www.yahoo.com"
+        speaker2.twitter = "ayaka"
+        speaker2.photo = UIImagePNGRepresentation(UIImage(named: "ayaka.jpg")!)!
+        
+        
+        
+        try! RealmProvider.eventRealm.write {
+            RealmProvider.eventRealm.deleteAll()
             
-            let event = Event()
+            RealmProvider.eventRealm.add(event)
+            RealmProvider.eventRealm.add(speaker1)
+            RealmProvider.eventRealm.add(speaker2)
             
-            event.title = "Marin Conf '16"
-            event.subtitle = "My own conference"
-            event.beginDate = NSDate(timeIntervalSinceNow: 0)
-            event.endDate = NSDate(timeIntervalSinceNow: 3 * 24 * 60 * 60)
-            event.organizer = "Marin Todorov"
-            event.mainColor = "#ff3333"
-            
-            realm.add(event)
         }
+        
     }
 }
