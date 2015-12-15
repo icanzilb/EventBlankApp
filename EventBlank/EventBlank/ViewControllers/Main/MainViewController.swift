@@ -36,6 +36,12 @@ class MainViewController: UIViewController {
         observeNotification(kDidReplaceEventFileNotification, selector: "didChangeFile")
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        tabBarController!.selectedIndex = 3
+    }
+    
     deinit {
         observeNotification(kDidReplaceEventFileNotification, selector: nil)
     }
@@ -80,6 +86,7 @@ class MainViewController: UIViewController {
                 self.setupUI()
             })
         }
+        
     }
     
     func didTapRightNow(tap: UITapGestureRecognizer) {

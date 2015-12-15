@@ -284,7 +284,6 @@
                                             <outlet property="nameLabel" destination="DX7-Zy-Ags" id="f0C-tP-RJw"/>
                                             <outlet property="twitterLabel" destination="lC2-po-YJ3" id="KK5-h6-eTQ"/>
                                             <outlet property="userImage" destination="d8A-t5-Rin" id="pth-Og-Cen"/>
-                                            <segue destination="nhR-fJ-18o" kind="show" identifier="SpeakerDetails" id="18I-nU-c9m"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -308,6 +307,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="tableView" destination="9g4-vm-81A" id="B0v-ER-nPd"/>
+                        <segue destination="nhR-fJ-18o" kind="show" identifier="ShowSpeaker" id="fJN-Zd-XZN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L4B-mj-Fnf" userLabel="First Responder" sceneMemberID="firstResponder"/>

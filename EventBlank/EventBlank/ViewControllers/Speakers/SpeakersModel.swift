@@ -8,7 +8,6 @@
 
 import RealmSwift
 
-typealias SpeakerSection = [String: [Speaker]]
 typealias ScheduleDaySection = [String: [Speaker]]
 
 extension CollectionType {

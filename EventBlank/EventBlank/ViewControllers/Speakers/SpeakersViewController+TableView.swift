@@ -9,55 +9,86 @@
 import UIKit
 
 //MARK: - table view methods
-extension SpeakersViewController: UITableViewDelegate, UITableViewDataSource {
+extension SpeakersViewController: UITableViewDelegate {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return speakers.items.count
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let section = speakers.items[section]
-        return 1//section[section.keys.first!]!.count
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("SpeakerCell") as! SpeakerCell
-        
-        //eg guard
-        if indexPath.section >= speakers.items.count {
-            return cell
-        }
-        return cell;
-        
-//        let section = speakers.items[indexPath.section]
-//        let speaker = section[section.keys.first!]![indexPath.row]
+//    func configureSpeakerCellForIndexPath(indexPath: NSIndexPath) -> SpeakerCell {
 //        
+//        let cell = self.tableView.dequeueReusableCellWithIdentifier("SpeakerCell") as! SpeakerCell
+//        
+//        if indexPath.section >= speakers.items.count {
+//            return cell
+//        }
+//        
+//        let section = speakers.items[indexPath.section]
+//        let speaker = section.items[indexPath.row]
+//
 //        //configure the cell
 //        //cell.isFavoriteSpeaker = speakers.isFavorite(speakerId: speaker[Speaker.idColumn])
 //        cell.indexPath = indexPath
-//        
+//
 //        //populate
 //        cell.populateFromSpeaker(speaker)
-//        
+//
 //        //tap handlers
 //        cell.didSetIsFavoriteTo = {setIsFavorite, indexPath in
 //            //TODO: update all this to Swift 2.0
 ////            let isInFavorites = self.speakers.isFavorite(speakerId: speaker[Speaker.idColumn])
-////            
+////
 ////            if setIsFavorite && !isInFavorites {
 ////                self.speakers.addFavorite(speakerId: speaker[Speaker.idColumn])
 ////            } else if !setIsFavorite && isInFavorites {
 ////                self.speakers.removeFavorite(speakerId: speaker[Speaker.idColumn])
 ////            }
 //        }
-        
-        return cell
-    }
+//        
+//        return cell
+//
+//    }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-    }
+//    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+//        return speakers.items.count
+//    }
+//    
+//    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        let section = speakers.items[section]
+//        return 1//section[section.keys.first!]!.count
+//    }
     
+//    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+//        let cell = self.tableView.dequeueReusableCellWithIdentifier("SpeakerCell") as! SpeakerCell
+//        
+//        //eg guard
+//        if indexPath.section >= speakers.items.count {
+//            return cell
+//        }
+//        return cell;
+//        
+////        let section = speakers.items[indexPath.section]
+////        let speaker = section[section.keys.first!]![indexPath.row]
+////        
+////        //configure the cell
+////        //cell.isFavoriteSpeaker = speakers.isFavorite(speakerId: speaker[Speaker.idColumn])
+////        cell.indexPath = indexPath
+////        
+////        //populate
+////        cell.populateFromSpeaker(speaker)
+////        
+////        //tap handlers
+////        cell.didSetIsFavoriteTo = {setIsFavorite, indexPath in
+////            //TODO: update all this to Swift 2.0
+//////            let isInFavorites = self.speakers.isFavorite(speakerId: speaker[Speaker.idColumn])
+//////            
+//////            if setIsFavorite && !isInFavorites {
+//////                self.speakers.addFavorite(speakerId: speaker[Speaker.idColumn])
+//////            } else if !setIsFavorite && isInFavorites {
+//////                self.speakers.removeFavorite(speakerId: speaker[Speaker.idColumn])
+//////            }
+////        }
+//        
+//        return cell
+//    }
+//    
+
     func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
         guard speakers.items.count < 4 else {
             return nil
