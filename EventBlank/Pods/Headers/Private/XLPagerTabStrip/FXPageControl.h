@@ -1,1 +1,1 @@
-../../../XLPagerTabStrip/XLPagerTabStrip/XL/Views/FXPageControl/FXPageControl.h
+../../../XLPagerTabStrip/Sources/FXPageControl.h

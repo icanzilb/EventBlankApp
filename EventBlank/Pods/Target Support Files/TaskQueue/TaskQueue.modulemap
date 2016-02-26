@@ -1,6 +1,0 @@
-framework module TaskQueue {
-  umbrella header "TaskQueue-umbrella.h"
-
-  export *
-  module * { export * }
-}

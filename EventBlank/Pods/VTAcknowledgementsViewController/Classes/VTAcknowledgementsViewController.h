@@ -21,12 +21,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#if __has_feature(modules)
+@import UIKit;
+#else
 #import <UIKit/UIKit.h>
-
-// Only available with Xcode 6+, so we need to handle older versions too.
-#ifndef IBInspectable
-#define IBInspectable
 #endif
+
+@class VTAcknowledgement;
 
 
 /**
@@ -38,7 +39,7 @@
 /**
  Array of `VTAcknowledgement`.
  */
-@property (nonatomic, strong, nullable) NSArray *acknowledgements;
+@property (nonatomic, strong, nullable) NSArray <VTAcknowledgement *> *acknowledgements;
 
 /**
  Header text to be displayed above the list of the acknowledgements. 
@@ -66,7 +67,7 @@
 
  @return A newly created `VTAcknowledgementsViewController` instance.
  */
-+ (nullable instancetype)acknowledgementsViewController;
++ (nullable instancetype)acknowledgementsViewController NS_SWIFT_NAME(acknowledgementsViewController());
 
 /**
  The localized version of “Acknowledgements”.

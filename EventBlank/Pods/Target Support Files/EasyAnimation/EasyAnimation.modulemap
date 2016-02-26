@@ -1,0 +1,6 @@
+framework module EasyAnimation {
+  umbrella header "EasyAnimation-umbrella.h"
+
+  export *
+  module * { export * }
+}

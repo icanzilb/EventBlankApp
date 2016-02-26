@@ -1,44 +1,33 @@
 use_frameworks!
 
-#database
-pod 'SQLite.swift', git: 'https://github.com/stephencelis/SQLite.swift.git'
+#just because
+pod 'EasyAnimation'
 
-#tab strips
-pod 'XLPagerTabStrip', '~> 1.0'
-pod 'KHTabPagerViewController', '~> 0.1.0'
+pod 'RxSwift'
+pod 'RxCocoa'
 
-#async tasks
-pod 'TaskQueue'
+pod 'RxViewModel', :git => "https://github.com/icanzilb/RxViewModel"
 
-#animation lib - re-include with version 0.7.1
-#pod 'EasyAnimation'
+pod 'RxDataSources'
 
-#image cache
+pod 'RealmSwift'
+pod 'RxRealm', :git => "https://github.com/icanzilb/RxRealm"
+
 pod 'HanekeSwift'
 
-#ui themes
 pod 'MAThemeKit'
-
-#colors
 pod 'DynamicColor'
 
-#pod credits
 pod 'VTAcknowledgementsViewController'
 
-#pod modal alert
-pod 'SwiftSpinner'
-
-#pod status bar message
 pod 'CWStatusBarNotification'
 
-#github repo JSImagePickerController
-pod 'JSImagePickerController', git: 'https://github.com/icanzilb/JSImagePickerController.git', :tag => '0.6.1'
-
-#pod net availability
 pod 'Reachability'
+pod 'XLPagerTabStrip'
 
-#copy the acknowledgements file when installing news pods
+pod 'Then'
+
 post_install do | installer |
-  require 'fileutils'
-  FileUtils.cp_r('Pods/Target Support Files/Pods/Pods-acknowledgements.plist', 'Pods-acknowledgements.plist', :remove_destination => true)
+    require 'fileutils'
+    FileUtils.cp_r('Pods/Target Support Files/Pods/Pods-acknowledgements.plist', 'Pods-acknowledgements.plist', :remove_destination => true)
 end

@@ -1,1 +1,0 @@
-../../../XLPagerTabStrip/XLPagerTabStrip/XL/Controllers/XLSegmentedPagerTabStripViewController.h

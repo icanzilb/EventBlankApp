@@ -1,6 +1,6 @@
 # VTAcknowledgementsViewController
 
-_Ready to use “Acknowledgements”/“Licenses”/“Credits” view controller for [CocoaPods](http://cocoapods.org/)._
+_Ready to use “Acknowledgements”/“Licenses”/“Credits” view controller for [CocoaPods](http://cocoapods.org/). Now also available in Swift with [AcknowList](https://github.com/vtourraine/AcknowList)._
 
 Tested on Travis CI: [![Build Status](https://travis-ci.org/vtourraine/VTAcknowledgementsViewController.svg?branch=master)](https://travis-ci.org/vtourraine/VTAcknowledgementsViewController)
 
@@ -67,7 +67,7 @@ If you need to further customize the appearance or behavior of this pod, feel fr
 
 ## Requirements
 
-VTAcknowledgementsViewController requires iOS 5.0 and above, Xcode 6.3 and above, and uses ARC.
+VTAcknowledgementsViewController requires iOS 5.0 and above, Xcode 7.0 and above, and uses ARC. If you need lower requirements, look for an [older version of this repository](https://github.com/vtourraine/VTAcknowledgementsViewController/releases).
 
 
 ## Credits

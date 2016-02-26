@@ -1,6 +1,0 @@
-framework module JSImagePickerController {
-  umbrella header "JSImagePickerController-umbrella.h"
-
-  export *
-  module * { export * }
-}

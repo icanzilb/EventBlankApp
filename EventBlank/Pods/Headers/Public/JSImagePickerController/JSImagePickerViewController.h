@@ -1,1 +1,0 @@
-../../../JSImagePickerController/JSImagePickerController/JSImagePickerViewController.h

@@ -1,63 +1,80 @@
 PODS:
-  - CWStatusBarNotification (2.3.3)
-  - DynamicColor (1.5.4)
-  - HanekeSwift (0.9.1)
-  - JSImagePickerController (0.6.1)
-  - KHTabPagerViewController (0.1.1)
+  - CWStatusBarNotification (2.3.4)
+  - DynamicColor (2.3.0)
+  - EasyAnimation (1.0.4)
+  - HanekeSwift (0.10.1)
   - MAThemeKit (1.0)
   - Reachability (3.2)
-  - SQLite.swift (0.1.0.pre):
-    - SQLite.swift/Library (= 0.1.0.pre)
-  - SQLite.swift/Core (0.1.0.pre)
-  - SQLite.swift/Library (0.1.0.pre):
-    - SQLite.swift/Core
-  - SwiftSpinner (0.7.0)
-  - TaskQueue (0.9.6)
-  - VTAcknowledgementsViewController (0.15)
-  - XLPagerTabStrip (1.1.1)
+  - Realm (0.98.2):
+    - Realm/Headers (= 0.98.2)
+  - Realm/Headers (0.98.2)
+  - RealmSwift (0.98.2):
+    - Realm (= 0.98.2)
+  - RxCocoa (2.2.0):
+    - RxSwift (~> 2.2)
+  - RxDataSources (0.5):
+    - RxCocoa (~> 2.2)
+    - RxSwift (~> 2.2)
+  - RxRealm (0.0.3):
+    - RxRealm/Core (= 0.0.3)
+  - RxRealm/Core (0.0.3):
+    - RealmSwift (~> 0.98)
+    - RxSwift (~> 2.2.0)
+  - RxSwift (2.2.0)
+  - RxViewModel (3.0.1):
+    - RxCocoa (~> 2.2.0)
+    - RxSwift (~> 2.2.0)
+  - Then (1.0.1)
+  - VTAcknowledgementsViewController (0.17)
+  - XLPagerTabStrip (4.0.1)
 
 DEPENDENCIES:
   - CWStatusBarNotification
   - DynamicColor
+  - EasyAnimation
   - HanekeSwift
-  - JSImagePickerController (from `https://github.com/icanzilb/JSImagePickerController.git`,
-    tag `0.6.1`)
-  - KHTabPagerViewController (~> 0.1.0)
   - MAThemeKit
   - Reachability
-  - SQLite.swift (from `https://github.com/stephencelis/SQLite.swift.git`)
-  - SwiftSpinner
-  - TaskQueue
+  - RealmSwift
+  - RxCocoa
+  - RxDataSources
+  - RxRealm (from `https://github.com/icanzilb/RxRealm`)
+  - RxSwift
+  - RxViewModel (from `https://github.com/icanzilb/RxViewModel`)
+  - Then
   - VTAcknowledgementsViewController
-  - XLPagerTabStrip (~> 1.0)
+  - XLPagerTabStrip
 
 EXTERNAL SOURCES:
-  JSImagePickerController:
-    :git: https://github.com/icanzilb/JSImagePickerController.git
-    :tag: 0.6.1
-  SQLite.swift:
-    :git: https://github.com/stephencelis/SQLite.swift.git
+  RxRealm:
+    :git: https://github.com/icanzilb/RxRealm
+  RxViewModel:
+    :git: https://github.com/icanzilb/RxViewModel
 
 CHECKOUT OPTIONS:
-  JSImagePickerController:
-    :git: https://github.com/icanzilb/JSImagePickerController.git
-    :tag: 0.6.1
-  SQLite.swift:
-    :commit: d87e05da167bdded01ae74001c5adda865346867
-    :git: https://github.com/stephencelis/SQLite.swift.git
+  RxRealm:
+    :commit: 93f1a62eb0c9571902864e07bd4c4525570f2270
+    :git: https://github.com/icanzilb/RxRealm
+  RxViewModel:
+    :commit: 9b54f5f78a0c035c3947a4dd3ff58219d2d9b732
+    :git: https://github.com/icanzilb/RxViewModel
 
 SPEC CHECKSUMS:
-  CWStatusBarNotification: 2349142e97c9f16fb8247ed3c00308cd355d334b
-  DynamicColor: 788c4add2bc2db5575423a2f2763ad11e0f0b4cf
-  HanekeSwift: 50d37bfbc4432edc649167e538c259feccb4a2bb
-  JSImagePickerController: 7a00f1ba272e7ea58e3cf1495b275f40885d000a
-  KHTabPagerViewController: 95f627e7d779fe95733c9c86f20d89d053521c02
+  CWStatusBarNotification: 3fec41edcb0ae3677d9febfcb9632d8bdf52294c
+  DynamicColor: 18badd22ee5edeefcbe0a8f5887a86640c592a1c
+  EasyAnimation: 4aabd439b4038f48d72939cc19d6220363b3206e
+  HanekeSwift: 08e47d3d0f2899ec58e5d257beba0de619aca9e8
   MAThemeKit: 559acc98ceadc051cccb1b6bb0c4ca28475eb021
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
-  SQLite.swift: 62bdf79b05b2a88b94d4b8f9a3b7aa94bfedc660
-  SwiftSpinner: 034bb8b00675b3e4f4c97531fa9af3f550462192
-  TaskQueue: 86cea1f6cb37b77a85bd826b564e9b387faadce4
-  VTAcknowledgementsViewController: 575f5841fb47b7d9c852ccb406104ea68de07b21
-  XLPagerTabStrip: 222995115ef0d3a7134073b02d38023592835c17
+  Realm: 88a147fe04b8f07191a676b15c779b2b448991de
+  RealmSwift: 9907c7415b3e19ef2ab9f89878fc890f03f93aea
+  RxCocoa: 42efb7a7145a8d1d5878e94ce48a580d29e0c796
+  RxDataSources: dc37b814dd4efd761e1e65521b977677e4197614
+  RxRealm: 9362a652925fc115f0ddfa44d3c9c061707df0be
+  RxSwift: b8a749f2204c6c7a5c29b306a9c3bc11d5b87c5b
+  RxViewModel: b4c2b18df49b3369d5fa1355f83ae754e41bdfae
+  Then: e0f10228179772ba4d0d9dd75e4c05e42e24013a
+  VTAcknowledgementsViewController: 6056f5f5e5ed995bbf0581bed6ddd29355ca9a80
+  XLPagerTabStrip: a39467a6e71017d2be92807ed9308b4d06557c80
 
-COCOAPODS: 0.38.0
+COCOAPODS: 0.39.0
