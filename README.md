@@ -9,7 +9,7 @@ care of … and a nice app takes a lot of time do develop.
 
 My goal with this project is to provide a free open source blueprint, which will
 allow creating an event/conference iPhone app in a matter of \~ 1 hour. The
-project will aim to have as few as possible dependanies so that it can be cloned
+project will aim to have as few as possible dependencies so that it can be cloned
 from GitHub and built immediately.
 
 This project is currently in **alpha** stage.
@@ -33,13 +33,13 @@ Credit
 ======
 
 My name is Marin Todorov. I like open sourcing my code and I really would like
-to help any event no matter small or big to have a proper iPhone app :]
+to help any event no matter how small or big to have a proper iPhone app :]
 
 More about me: [http://www.underplot.com](<http://www.underplot.com >)
 
 This source code is distributed under a Attribution MIT license.
 
-If you build your event/conference app you **must** to leave in the Credit
+If you build your event/conference app you **must** keep the Credit
 screen with the project information and the Acknowledgments screen which lists
 the CocoaPods used (also legally you are obliged to do that).
 
