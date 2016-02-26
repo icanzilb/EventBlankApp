@@ -121,9 +121,9 @@
 		9C677B031C7CBABE0028045B /* NSObject+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+Extension.swift"; sourceTree = "<group>"; };
 		9C677B051C7CCD4E0028045B /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		9C8AC8A91C7F1CCC00B8E625 /* FavoritesBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesBarButtonItem.swift; sourceTree = "<group>"; };
-		9CE743E61C80CA9D00D140A0 /* marin_codebits_small.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = marin_codebits_small.jpg; path = "test-assets/marin_codebits_small.jpg"; sourceTree = "<group>"; };
-		9CE743E71C80CA9D00D140A0 /* Marin-Todorov.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "Marin-Todorov.jpg"; path = "test-assets/Marin-Todorov.jpg"; sourceTree = "<group>"; };
-		9CE743EA1C80CB9700D140A0 /* marin-conf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "marin-conf.png"; path = "test-assets/marin-conf.png"; sourceTree = "<group>"; };
+		9CE743E61C80CA9D00D140A0 /* marin_codebits_small.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = marin_codebits_small.jpg; sourceTree = "<group>"; };
+		9CE743E71C80CA9D00D140A0 /* Marin-Todorov.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Marin-Todorov.jpg"; sourceTree = "<group>"; };
+		9CE743EA1C80CB9700D140A0 /* marin-conf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "marin-conf.png"; sourceTree = "<group>"; };
 		AE9E084DFA39D7539307AA2A /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C18C4E7B5947C971EF3C2686 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -160,18 +160,18 @@
 			isa = PBXGroup;
 			children = (
 			);
-			name = __EventFile;
+			path = __EventFile;
 			sourceTree = "<group>";
 		};
 		9C1B20D31C77C5B700DE7A1A /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				9C558E701C7B118C009830D5 /* EANavigationController.swift */,
+				9C1B20D41C77C5BD00DE7A1A /* Main */,
 				9C558E681C7B10BF009830D5 /* Speakers */,
 				9C677AFD1C7CB39E0028045B /* SpeakersDetails */,
-				9C1B20D41C77C5BD00DE7A1A /* Main */,
+				9C558E701C7B118C009830D5 /* EANavigationController.swift */,
 			);
-			name = ViewControllers;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		9C1B20D41C77C5BD00DE7A1A /* Main */ = {
@@ -180,7 +180,7 @@
 				9C1B20D51C77C5D400DE7A1A /* MainViewController.swift */,
 				9C1B20FF1C77CC1300DE7A1A /* MainViewModel.swift */,
 			);
-			name = Main;
+			path = Main;
 			sourceTree = "<group>";
 		};
 		9C1B20DA1C77C69E00DE7A1A /* Entities */ = {
@@ -190,7 +190,7 @@
 				9C1F11711C7C6BCE009AFC2D /* Event Realm */,
 				9C1B20DD1C77C6F400DE7A1A /* RealmProvider.swift */,
 			);
-			name = Entities;
+			path = Entities;
 			sourceTree = "<group>";
 		};
 		9C1B20DF1C77C70600DE7A1A /* Config */ = {
@@ -199,7 +199,7 @@
 				9C1B20E01C77C71A00DE7A1A /* Config.swift */,
 				9C1B210F1C78663D00DE7A1A /* Defines.swift */,
 			);
-			name = Config;
+			path = Config;
 			sourceTree = "<group>";
 		};
 		9C1B20E41C77C7CB00DE7A1A /* Vendor */ = {
@@ -207,48 +207,48 @@
 			children = (
 				9C1B20E51C77C7D800DE7A1A /* FilePath.swift */,
 			);
-			name = Vendor;
+			path = Vendor;
 			sourceTree = "<group>";
 		};
 		9C1B20E91C77C80300DE7A1A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				9C1B20EA1C77C82800DE7A1A /* Ext.swift */,
-				9C1B20EB1C77C82800DE7A1A /* String.swift */,
-				9C1B20EC1C77C82800DE7A1A /* Notification.swift */,
-				9C1B20ED1C77C82800DE7A1A /* ViewController+Extensions.swift */,
-				9C1B20EE1C77C82800DE7A1A /* UIView+Extensions.swift */,
-				9C1B20EF1C77C82800DE7A1A /* UIImage+Extension.swift */,
-				9C1B20F01C77C82800DE7A1A /* NSData.swift */,
-				9C1B21021C77D7E200DE7A1A /* Results+Rx.swift */,
-				9C1B21041C78589200DE7A1A /* UILabel+Rx.swift */,
 				9C558E741C7B1A2C009830D5 /* CollectionType.swift */,
+				9C1B20EA1C77C82800DE7A1A /* Ext.swift */,
+				9C1B20F01C77C82800DE7A1A /* NSData.swift */,
 				9C677B031C7CBABE0028045B /* NSObject+Extension.swift */,
+				9C1B20EC1C77C82800DE7A1A /* Notification.swift */,
+				9C1B21021C77D7E200DE7A1A /* Results+Rx.swift */,
+				9C1B20EB1C77C82800DE7A1A /* String.swift */,
+				9C1B20EF1C77C82800DE7A1A /* UIImage+Extension.swift */,
+				9C1B21041C78589200DE7A1A /* UILabel+Rx.swift */,
+				9C1B20EE1C77C82800DE7A1A /* UIView+Extensions.swift */,
+				9C1B20ED1C77C82800DE7A1A /* ViewController+Extensions.swift */,
 			);
-			name = Extensions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		9C1B20F81C77C93400DE7A1A /* stubby-assets */ = {
 			isa = PBXGroup;
 			children = (
-				9CE743E61C80CA9D00D140A0 /* marin_codebits_small.jpg */,
 				9CE743E71C80CA9D00D140A0 /* Marin-Todorov.jpg */,
 				9CE743EA1C80CB9700D140A0 /* marin-conf.png */,
+				9CE743E61C80CA9D00D140A0 /* marin_codebits_small.jpg */,
 			);
-			name = "stubby-assets";
+			path = "stubby-assets";
 			sourceTree = "<group>";
 		};
 		9C1F11711C7C6BCE009AFC2D /* Event Realm */ = {
 			isa = PBXGroup;
 			children = (
-				9C1B210C1C785DF600DE7A1A /* Session.swift */,
 				9C1B20DB1C77C6B900DE7A1A /* EventData.swift */,
-				9C1B20E71C77C7F500DE7A1A /* Speaker.swift */,
 				9C1B21061C785CC200DE7A1A /* Location.swift */,
+				9C1B210C1C785DF600DE7A1A /* Session.swift */,
+				9C1B20E71C77C7F500DE7A1A /* Speaker.swift */,
 				9C1B21081C785DB100DE7A1A /* Text.swift */,
 				9C1B210A1C785DDA00DE7A1A /* Track.swift */,
 			);
-			name = "Event Realm";
+			path = "Event Realm";
 			sourceTree = "<group>";
 		};
 		9C1F11721C7C6BDF009AFC2D /* App Realm */ = {
@@ -256,20 +256,20 @@
 			children = (
 				9C1F11731C7C6BF0009AFC2D /* Favorite.swift */,
 			);
-			name = "App Realm";
+			path = "App Realm";
 			sourceTree = "<group>";
 		};
 		9C4216191C77C14A003321FC = {
 			isa = PBXGroup;
 			children = (
-				9C1B20F81C77C93400DE7A1A /* stubby-assets */,
-				9C1B20D21C77C3E400DE7A1A /* __EventFile */,
-				9C4216451C77C16A003321FC /* Podfile */,
 				9C4216241C77C14A003321FC /* EventBlank2-iOS */,
 				9C4216391C77C14A003321FC /* EventBlank2-iOSTests */,
-				9C4216231C77C14A003321FC /* Products */,
-				23B5C0793DDA72F03E21C7B6 /* Pods */,
 				CE728E1149BDDE7B127F3138 /* Frameworks */,
+				23B5C0793DDA72F03E21C7B6 /* Pods */,
+				9C4216231C77C14A003321FC /* Products */,
+				9C1B20D21C77C3E400DE7A1A /* __EventFile */,
+				9C1B20F81C77C93400DE7A1A /* stubby-assets */,
+				9C4216451C77C16A003321FC /* Podfile */,
 			);
 			sourceTree = "<group>";
 		};
@@ -285,20 +285,20 @@
 		9C4216241C77C14A003321FC /* EventBlank2-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				9C463BF61C7BA67200FB7333 /* Rx-Extensions */,
-				9C1B20E91C77C80300DE7A1A /* Extensions */,
-				9C1B20E41C77C7CB00DE7A1A /* Vendor */,
 				9C1B20DF1C77C70600DE7A1A /* Config */,
 				9C1B20DA1C77C69E00DE7A1A /* Entities */,
+				9C1B20E91C77C80300DE7A1A /* Extensions */,
+				9C463BF61C7BA67200FB7333 /* Rx-Extensions */,
+				9C1B20E41C77C7CB00DE7A1A /* Vendor */,
 				9C1B20D31C77C5B700DE7A1A /* ViewControllers */,
-				9C677B051C7CCD4E0028045B /* MessageView.swift */,
 				9C4216251C77C14A003321FC /* AppDelegate.swift */,
-				9C4216271C77C14A003321FC /* ViewController.swift */,
-				9C1B20E21C77C7B800DE7A1A /* Shared.swift */,
-				9C4216291C77C14A003321FC /* Main.storyboard */,
 				9C42162C1C77C14A003321FC /* Assets.xcassets */,
-				9C42162E1C77C14A003321FC /* LaunchScreen.storyboard */,
 				9C4216311C77C14A003321FC /* Info.plist */,
+				9C42162E1C77C14A003321FC /* LaunchScreen.storyboard */,
+				9C4216291C77C14A003321FC /* Main.storyboard */,
+				9C677B051C7CCD4E0028045B /* MessageView.swift */,
+				9C1B20E21C77C7B800DE7A1A /* Shared.swift */,
+				9C4216271C77C14A003321FC /* ViewController.swift */,
 			);
 			path = "EventBlank2-iOS";
 			sourceTree = "<group>";
@@ -317,32 +317,32 @@
 			children = (
 				9C463BF71C7BA68300FB7333 /* Rx-extensions.swift */,
 			);
-			name = "Rx-Extensions";
+			path = "Rx-Extensions";
 			sourceTree = "<group>";
 		};
 		9C558E681C7B10BF009830D5 /* Speakers */ = {
 			isa = PBXGroup;
 			children = (
 				9C8AC8A91C7F1CCC00B8E625 /* FavoritesBarButtonItem.swift */,
+				9C64EDBF1C7B245400985D51 /* SpeakerCell.swift */,
+				9C558E721C7B12B5009830D5 /* SpeakersModel.swift */,
+				9C64EDC11C7B31F800985D51 /* SpeakersViewController+Search.swift */,
 				9C558E691C7B10D6009830D5 /* SpeakersViewController.swift */,
 				9C558E6B1C7B10EA009830D5 /* SpeakersViewModel.swift */,
-				9C558E721C7B12B5009830D5 /* SpeakersModel.swift */,
-				9C64EDBF1C7B245400985D51 /* SpeakerCell.swift */,
-				9C64EDC11C7B31F800985D51 /* SpeakersViewController+Search.swift */,
 			);
-			name = Speakers;
+			path = Speakers;
 			sourceTree = "<group>";
 		};
 		9C677AFD1C7CB39E0028045B /* SpeakersDetails */ = {
 			isa = PBXGroup;
 			children = (
+				9C4E70AF1C7F0A29005C948A /* FollowTwitterButton.swift */,
+				9C4E70AD1C7F08D3005C948A /* SpeakerDetailsCell.swift */,
+				9C4E70A71C7F04A8005C948A /* SpeakerDetailsModel.swift */,
 				9C677B011C7CBA2D0028045B /* SpeakerDetailsViewController.swift */,
 				9C4E70A51C7F042A005C948A /* SpeakerDetailsViewModel.swift */,
-				9C4E70A71C7F04A8005C948A /* SpeakerDetailsModel.swift */,
-				9C4E70AD1C7F08D3005C948A /* SpeakerDetailsCell.swift */,
-				9C4E70AF1C7F0A29005C948A /* FollowTwitterButton.swift */,
 			);
-			name = SpeakersDetails;
+			path = SpeakersDetails;
 			sourceTree = "<group>";
 		};
 		CE728E1149BDDE7B127F3138 /* Frameworks */ = {
@@ -578,6 +578,7 @@
 				9C42162A1C77C14A003321FC /* Base */,
 			);
 			name = Main.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 		9C42162E1C77C14A003321FC /* LaunchScreen.storyboard */ = {
@@ -586,6 +587,7 @@
 				9C42162F1C77C14A003321FC /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
