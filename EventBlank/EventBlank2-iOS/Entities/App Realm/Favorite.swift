@@ -11,6 +11,10 @@ import RealmSwift
 
 class FavoriteSpeaker: Object {
     dynamic var speakerUuid: String = ""
+    
+    override class func primaryKey() -> String {
+        return "speakerUuid"
+    }
 }
 
 class FavoriteSession: Object {

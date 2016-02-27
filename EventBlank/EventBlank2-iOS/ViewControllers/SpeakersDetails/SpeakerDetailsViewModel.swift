@@ -22,15 +22,40 @@ class SpeakerDetailsViewModel: RxViewModel {
     typealias AnySection = SectionModel<String, AnyObject>
     let tableItems = BehaviorSubject<[AnySection]>(value: [])
     
+    let dataSource = RxTableViewSectionedReloadDataSource<AnySection>()
+
     init(speaker: Speaker) {
         self.model = SpeakerDetailsModel(speaker: speaker)
         
         super.init()
         
+        //table items
         tableItems.onNext([
             AnySection(model: "details", items: [speaker])
             ])
         
+        //the data source
+        dataSource.configureCell = {[unowned self] (tv, indexPath, _) in
+            switch indexPath.section {
+            case 0:
+                let cell = SpeakerDetailsCell.cellOfTable(tv, speaker: speaker)
+                
+                self.model.favorites
+                    .map {favorites in favorites.contains(speaker.uuid)}
+                    .bindTo(cell.isFavorite)
+                    .addDisposableTo(self.bag)
+                
+                cell.isFavorite
+                    .bindNext(self.model.updateSpeakerFavoriteTo)
+                    .addDisposableTo(self.bag)
+                
+                return cell
+            default: return UITableViewCell()
+            }
+        }
+        dataSource.titleForHeaderInSection = {section in
+            return "Speaker Details"
+        }
+
     }
-    
 }

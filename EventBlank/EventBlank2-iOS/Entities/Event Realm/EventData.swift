@@ -16,7 +16,15 @@ class EventData: Object {
     dynamic var beginDate = NSDate()
     dynamic var endDate = NSDate()
     dynamic var organizer = ""
-    dynamic var logo = NSData()
+    dynamic private var _logo: NSData?
+    var logo: UIImage? {
+        get {
+            return _logo?.imageValue
+        }
+        set {
+            _logo = newValue?.dataValue
+        }
+    }
     
     dynamic var twitterTag: String?
     dynamic var twitterAdmin: String?
@@ -45,6 +53,6 @@ class EventData: Object {
     }
     
     override class func ignoredProperties() -> [String] {
-        return ["mainColor"]
+        return ["mainColor", "logo"]
     }
 }

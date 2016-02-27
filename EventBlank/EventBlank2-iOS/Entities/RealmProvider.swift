@@ -90,9 +90,7 @@ class RealmProvider {
         event.endDate = NSDate(timeIntervalSinceNow: 3 * 24 * 60 * 60)
         event.organizer = "Marin Todorov"
         event.mainColor = UIColor(hexString: "#ff3333")
-        let img = UIImage(named: "marin-conf.png")!
-        let imgData = UIImagePNGRepresentation(img)!
-        event.logo = imgData
+        event.logo = UIImage(named: "marin-conf.png")
         
         //speakers
         let speaker1 = Speaker()

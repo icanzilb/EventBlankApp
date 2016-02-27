@@ -26,4 +26,7 @@ class Location: Object {
     dynamic var lat: Double = 0.0
     dynamic var lng: Double = 0.0
     
+    override class func ignoredProperties() -> [String] {
+        return ["map"]
+    }
 }

@@ -14,14 +14,18 @@ import RxCocoa
 
 class SpeakerCell: UITableViewCell {
 
+    let bag = DisposeBag()
+
+    // outlets
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var twitterLabel: UILabel!
     @IBOutlet weak var btnToggleIsFavorite: UIButton!
     
-    let bag = DisposeBag()
+    // input
     let isFavorite = PublishSubject<Bool>()
     
+    //methods
     override func awakeFromNib() {
         super.awakeFromNib()
 

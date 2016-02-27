@@ -45,7 +45,7 @@ class MainViewModel: RxViewModel {
             self.title.onNext(data.title)
             self.subtitle.onNext(data.subtitle)
             self.organizer.onNext("organized by \n" + data.organizer)
-            self.logo.onNext(data.logo.imageValue)
+            self.logo.onNext(data.logo)
             self.mainColor.onNext(data.mainColor)
             
         }).addDisposableTo(bag)

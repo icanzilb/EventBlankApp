@@ -94,7 +94,6 @@ class SpeakersViewController: UIViewController {
     func bindTableView() {
         //bind table view
         viewModel.speakers
-            .debug("speakers")
             .bindTo(tableView.rx_itemsWithDataSource(viewModel.dataSource))
             .addDisposableTo(bag)
         

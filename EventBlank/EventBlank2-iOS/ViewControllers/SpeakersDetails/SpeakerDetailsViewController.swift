@@ -15,14 +15,12 @@ import RxDataSources
 
 class SpeakerDetailsViewController: UIViewController {
     
+    let bag = DisposeBag()
+
     @IBOutlet weak var tableView: UITableView!
 
     var speaker: Speaker!
-    
-    let dataSource = RxTableViewSectionedReloadDataSource<SpeakerDetailsViewModel.AnySection>()
-    var viewModel: SpeakerDetailsViewModel!
-    
-    let bag = DisposeBag()
+    private var viewModel: SpeakerDetailsViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,15 +47,8 @@ class SpeakerDetailsViewController: UIViewController {
     }
     
     func bindUI() {
-        //set the cell factory
-        dataSource.configureCell = {[unowned self] (tv, indexPath, element) in
-            switch indexPath.section {
-            case 0: return (tv.dequeueReusableCellWithIdentifier("SpeakerDetailsCell") as! SpeakerDetailsCell).populateFromSpeaker(self.speaker)
-            default: return UITableViewCell()
-            }
-        }
-        
+        //bind the table view
         viewModel.tableItems
-            .bindTo(tableView.rx_itemsWithDataSource(dataSource)).addDisposableTo(bag)
+            .bindTo(tableView.rx_itemsWithDataSource(viewModel.dataSource)).addDisposableTo(bag)
     }
 }

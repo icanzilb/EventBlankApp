@@ -5,11 +5,11 @@ PODS:
   - HanekeSwift (0.10.1)
   - MAThemeKit (1.0)
   - Reachability (3.2)
-  - Realm (0.98.2):
-    - Realm/Headers (= 0.98.2)
-  - Realm/Headers (0.98.2)
-  - RealmSwift (0.98.2):
-    - Realm (= 0.98.2)
+  - Realm (0.98.3):
+    - Realm/Headers (= 0.98.3)
+  - Realm/Headers (0.98.3)
+  - RealmSwift (0.98.3):
+    - Realm (= 0.98.3)
   - RxCocoa (2.2.0):
     - RxSwift (~> 2.2)
   - RxDataSources (0.5):
@@ -55,8 +55,8 @@ SPEC CHECKSUMS:
   HanekeSwift: 08e47d3d0f2899ec58e5d257beba0de619aca9e8
   MAThemeKit: 559acc98ceadc051cccb1b6bb0c4ca28475eb021
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
-  Realm: 88a147fe04b8f07191a676b15c779b2b448991de
-  RealmSwift: 9907c7415b3e19ef2ab9f89878fc890f03f93aea
+  Realm: c6a7d00221a2d5177810a674aebd40c5e0b70b0f
+  RealmSwift: d6ecad6e4c2a645d6ac956c2c7e9efb375f39c31
   RxCocoa: 42efb7a7145a8d1d5878e94ce48a580d29e0c796
   RxDataSources: dc37b814dd4efd761e1e65521b977677e4197614
   RxSwift: b8a749f2204c6c7a5c29b306a9c3bc11d5b87c5b
