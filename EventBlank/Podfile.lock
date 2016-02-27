@@ -15,11 +15,6 @@ PODS:
   - RxDataSources (0.5):
     - RxCocoa (~> 2.2)
     - RxSwift (~> 2.2)
-  - RxRealm (0.0.3):
-    - RxRealm/Core (= 0.0.3)
-  - RxRealm/Core (0.0.3):
-    - RealmSwift (~> 0.98)
-    - RxSwift (~> 2.2.0)
   - RxSwift (2.2.0)
   - RxViewModel (3.0.1):
     - RxCocoa (~> 2.2.0)
@@ -38,7 +33,6 @@ DEPENDENCIES:
   - RealmSwift
   - RxCocoa
   - RxDataSources
-  - RxRealm (from `https://github.com/icanzilb/RxRealm`)
   - RxSwift
   - RxViewModel (from `https://github.com/icanzilb/RxViewModel`)
   - Then
@@ -46,15 +40,10 @@ DEPENDENCIES:
   - XLPagerTabStrip
 
 EXTERNAL SOURCES:
-  RxRealm:
-    :git: https://github.com/icanzilb/RxRealm
   RxViewModel:
     :git: https://github.com/icanzilb/RxViewModel
 
 CHECKOUT OPTIONS:
-  RxRealm:
-    :commit: 93f1a62eb0c9571902864e07bd4c4525570f2270
-    :git: https://github.com/icanzilb/RxRealm
   RxViewModel:
     :commit: 9b54f5f78a0c035c3947a4dd3ff58219d2d9b732
     :git: https://github.com/icanzilb/RxViewModel
@@ -70,7 +59,6 @@ SPEC CHECKSUMS:
   RealmSwift: 9907c7415b3e19ef2ab9f89878fc890f03f93aea
   RxCocoa: 42efb7a7145a8d1d5878e94ce48a580d29e0c796
   RxDataSources: dc37b814dd4efd761e1e65521b977677e4197614
-  RxRealm: 9362a652925fc115f0ddfa44d3c9c061707df0be
   RxSwift: b8a749f2204c6c7a5c29b306a9c3bc11d5b87c5b
   RxViewModel: b4c2b18df49b3369d5fa1355f83ae754e41bdfae
   Then: e0f10228179772ba4d0d9dd75e4c05e42e24013a

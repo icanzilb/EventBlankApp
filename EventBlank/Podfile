@@ -11,7 +11,7 @@ pod 'RxViewModel', :git => "https://github.com/icanzilb/RxViewModel"
 pod 'RxDataSources'
 
 pod 'RealmSwift'
-pod 'RxRealm', :git => "https://github.com/icanzilb/RxRealm"
+#pod 'RxRealm', :git => "https://github.com/icanzilb/RxRealm"
 
 pod 'HanekeSwift'
 

@@ -14,12 +14,13 @@ enum FollowTwitterButtonState {
 
 class FollowTwitterButton: UIButton {
 
+    var username: String!
+
     var followState: FollowTwitterButtonState = .Checking {
         didSet {
             mainQueue { self.refreshUI() }
         }
     }
-    var username: String!
     
     override func didMoveToSuperview() {
         super.didMoveToSuperview()

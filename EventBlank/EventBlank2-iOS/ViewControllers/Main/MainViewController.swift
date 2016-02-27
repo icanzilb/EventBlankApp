@@ -23,7 +23,7 @@ class MainViewController: UIViewController {
     
     // MARK: variables
     let viewModel = MainViewModel()
-    let disposeBag = DisposeBag()
+    let bag = DisposeBag()
     
     // MARK: methods
     override func viewDidLoad() {
@@ -42,21 +42,22 @@ class MainViewController: UIViewController {
     }
     
     func bindUI() {
+        
         // bind texts
         viewModel.title.bindTo(lblConfName.rx_text)
-            .addDisposableTo(disposeBag)
+            .addDisposableTo(bag)
         viewModel.subtitle.bindTo(lblConfSubtitle.rx_text)
-            .addDisposableTo(disposeBag)
+            .addDisposableTo(bag)
         viewModel.organizer.bindTo(lblOrganizer.rx_text)
-            .addDisposableTo(disposeBag)
+            .addDisposableTo(bag)
         viewModel.logo.bindTo(imgConfLogo.rx_image)
-            .addDisposableTo(disposeBag)
+            .addDisposableTo(bag)
         
         // bind color
         viewModel.mainColor.bindTo(lblConfName.rx_textColor)
-            .addDisposableTo(disposeBag)
+            .addDisposableTo(bag)
         viewModel.mainColor.bindTo(lblConfSubtitle.rx_textColor)
-            .addDisposableTo(disposeBag)
+            .addDisposableTo(bag)
     }
     
 }

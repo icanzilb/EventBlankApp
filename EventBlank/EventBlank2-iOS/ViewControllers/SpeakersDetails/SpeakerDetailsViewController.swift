@@ -36,9 +36,9 @@ class SpeakerDetailsViewController: UIViewController {
         precondition(speaker != nil)
 
         viewModel = SpeakerDetailsViewModel(speaker: speaker)
-        bindUI()
-
         viewModel.active = true
+        
+        bindUI()
     }
 
     func setupUI() {
@@ -58,7 +58,6 @@ class SpeakerDetailsViewController: UIViewController {
         }
         
         viewModel.tableItems
-            .debug("table items")
             .bindTo(tableView.rx_itemsWithDataSource(dataSource)).addDisposableTo(bag)
     }
 }

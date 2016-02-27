@@ -11,13 +11,12 @@ import Foundation
 import RealmSwift
 import RxSwift
 import RxCocoa
-import RxRealm
 import RxViewModel
 
 class MainViewModel: RxViewModel {
     
     // MARK: input
-    private let fileReplaceEvent = NSNotificationCenter.defaultCenter().rx_notification(kDidReplaceEventFileNotification).map({_ in return})
+    private let fileReplaceEvent = NSNotificationCenter.defaultCenter().rx_notification(kDidReplaceEventFileNotification).replaceWith()
 
     // MARK: output
     var title = BehaviorSubject<String>(value: "")
@@ -26,15 +25,18 @@ class MainViewModel: RxViewModel {
     var logo = BehaviorSubject<UIImage?>(value: nil)
     var mainColor = BehaviorSubject<UIColor>(value: UIColor.blackColor())
     
+    // MARK: private
+    let bag = DisposeBag()
+
     // MARK: init
     override init() {
         super.init()
         
         // refresh events
-        [didBecomeActive.map({_ in return}), fileReplaceEvent].toObservable()
+        [didBecomeActive.replaceWith(), fileReplaceEvent].toObservable()
         .merge()
         .flatMapLatest({_ in
-            return Realm.rx_objects(EventData)
+            return RealmProvider.eventRealm.objects(EventData).asObservable()
         })
         .map({ results in results.first! })
         .debug()
@@ -46,9 +48,6 @@ class MainViewModel: RxViewModel {
             self.logo.onNext(data.logo.imageValue)
             self.mainColor.onNext(UIColor(hexString: data.mainColor))
             
-        }).addDisposableTo(disposeBag)
+        }).addDisposableTo(bag)
     }
-    
-    // MARK: private
-    var disposeBag = DisposeBag()    
 }

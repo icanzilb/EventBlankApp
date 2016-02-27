@@ -13,18 +13,12 @@ import RxSwift
 
 class SpeakersModel {
     
-    //favorites
-    let favoritesNames = RealmProvider.appRealm.objects(FavoriteSpeaker).asObservableArray()
-        .map { $0.map {speaker in speaker.name} }
-
-    //filtering
-    func isFavorite(speaker: Speaker, matchNames: [String]) -> Bool {
-        return matchNames.contains(speaker.name)
-    }
-
-    //loading speakers
     func speakers(searchTerm term: String = "", showOnlyFavorites: Bool = false) -> Observable<[Speaker]> {
         
+        //filtering
+        func isFavorite(speaker: Speaker, matchNames: [String]) -> Bool {
+            return matchNames.contains(speaker.name)
+        }
         
         func filterSpeakers(speakers: [Speaker], matchNames: [String]) -> [Speaker] {
             return speakers.filter { speaker -> Bool in
@@ -39,6 +33,10 @@ class SpeakersModel {
             })
         }
         
+        //favorites
+        let favoritesNames = RealmProvider.appRealm.objects(FavoriteSpeaker).asObservableArray()
+            .map { $0.map {speaker in speaker.name} }
+
         //speakers
         let speakersList = RealmProvider.eventRealm.objects(Speaker)
             .filter("name contains[c] %@", term)
@@ -46,11 +44,16 @@ class SpeakersModel {
         
         //the filtered/sorted speakers list
         return Observable.combineLatest(speakersList, favoritesNames, resultSelector: {speakers, favorites in
-            guard showOnlyFavorites else {
-                return speakers
+            let list = speakers.map {(speaker) in
+                speaker.favorite.value = isFavorite(speaker, matchNames: favorites)
+                return speaker
             }
 
-            return speakers.filter { favorites.contains($0.name) }
+            guard showOnlyFavorites else {
+                return list
+            }
+
+            return list.filter {$0.favorite.value == true}
         })
         .map { sortSpeakers($0) }
     }

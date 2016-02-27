@@ -9,6 +9,9 @@
 import UIKit
 import RealmSwift
 
+import RxSwift
+import RxCocoa
+
 class SpeakerCell: UITableViewCell {
 
     @IBOutlet weak var userImage: UIImageView!
@@ -16,28 +19,25 @@ class SpeakerCell: UITableViewCell {
     @IBOutlet weak var twitterLabel: UILabel!
     @IBOutlet weak var btnToggleIsFavorite: UIButton!
     
-    var indexPath: NSIndexPath?
-    var didSetIsFavoriteTo: ((Bool, NSIndexPath)->Void)?
+    let bag = DisposeBag()
+    let isFavorite = PublishSubject<Bool>()
     
     override func awakeFromNib() {
         super.awakeFromNib()
 
         btnToggleIsFavorite.setImage(UIImage(named: "like-full")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Selected)
         btnToggleIsFavorite.setImage(nil, forState: .Normal)
-    }
-
-    @IBAction func actionToggleIsFavorite(sender: AnyObject) {
-        btnToggleIsFavorite.selected = !btnToggleIsFavorite.selected
-        didSetIsFavoriteTo!(btnToggleIsFavorite.selected, indexPath!)
-        return
+//        
+//        btnToggleIsFavorite.rx_tap.subscribeNext({_ in
+//            self.btnToggleIsFavorite.selected = !self.btnToggleIsFavorite.selected
+//            self.isFavorite.onNext(self.btnToggleIsFavorite.selected)
+//        }).addDisposableTo(bag)
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         userImage.image = nil
     }
-    
-    var isFavoriteSpeaker = false
     
     func populateFromSpeaker(speaker: Speaker) {
         
@@ -52,6 +52,7 @@ class SpeakerCell: UITableViewCell {
         } else {
             twitterLabel.text = ""
         }
-        btnToggleIsFavorite.selected = isFavoriteSpeaker
+        
+        isFavorite.bindTo(btnToggleIsFavorite.rx_selected).addDisposableTo(bag)
     }
 }

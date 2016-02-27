@@ -83,6 +83,9 @@ class SpeakersViewModel: RxViewModel {
     func configureSpeakerCellForIndexPath(tableView: UITableView, index: NSIndexPath, speaker: Speaker) -> SpeakerCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("SpeakerCell") as! SpeakerCell
         cell.populateFromSpeaker(speaker)
+        model.favoritesNames.subscribeNext {favorites in
+            cell.isFavorite.onNext(favorites.contains(speaker.name))
+        }.addDisposableTo(bag)
         return cell
     }
 

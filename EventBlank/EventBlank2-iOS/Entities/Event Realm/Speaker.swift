@@ -18,5 +18,7 @@ class Speaker: Object {
     dynamic var bio: String?
     dynamic var url: String?
     dynamic var twitter: String?
-    dynamic var photo: NSData?    
+    dynamic var photo: NSData?
+    
+    let favorite = RealmOptional<Bool>()
 }
