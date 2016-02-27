@@ -51,7 +51,11 @@ class SpeakersViewController: UIViewController {
         viewModel.active = false
     }
     
-    // MARK: bind
+    func setupUI() {
+        btnFavorites.button.tintColor = UIColor.whiteColor()
+    }
+
+    // bind
     
     func bindSearchBar() {
         //bind search bar
@@ -132,10 +136,6 @@ class SpeakersViewController: UIViewController {
                 MessageView.toggle(self.view, visible: show, text: "No speakers for that filter")
             }
             .addDisposableTo(bag)
-    }
-    
-    func setupUI() {
-        btnFavorites.button.tintColor = UIColor.whiteColor()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

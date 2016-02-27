@@ -17,3 +17,9 @@ extension NSData {
         }
     }
 }
+
+extension UIImage {
+    var dataValue: NSData? {
+        return UIImagePNGRepresentation(self)
+    }
+}

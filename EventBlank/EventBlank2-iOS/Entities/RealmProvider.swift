@@ -59,6 +59,7 @@ class RealmProvider {
         conf.readOnly = readOnly
         conf.path = targetPath.filePath
         conf.objectTypes = schemaForRealm(name)
+        conf.schemaVersion = 1
         return conf
     }
     
@@ -88,7 +89,7 @@ class RealmProvider {
         event.beginDate = NSDate(timeIntervalSinceNow: 0)
         event.endDate = NSDate(timeIntervalSinceNow: 3 * 24 * 60 * 60)
         event.organizer = "Marin Todorov"
-        event.mainColor = "#ff3333"
+        event.mainColor = UIColor(hexString: "#ff3333")
         let img = UIImage(named: "marin-conf.png")!
         let imgData = UIImagePNGRepresentation(img)!
         event.logo = imgData
@@ -99,14 +100,14 @@ class RealmProvider {
         speaker1.bio = "Marin Todorov is an independent iOS consultant and publisher. He’s the author of the “iOS Animations by Tutorials” book and runs the “iOS Animations by Emails” newsletter."
         speaker1.url = "http://www.underplot.com"
         speaker1.twitter = "icanzilb"
-        speaker1.photo = UIImagePNGRepresentation(UIImage(named: "marin_codebits_small.jpg")!)!
+        speaker1.photo = UIImage(named: "marin_codebits_small.jpg")!
         
         let speaker2 = Speaker()
         speaker2.name = "Billy Staton"
         speaker2.bio = "Airplane Mode is an indie rock band from New York City. Dave Wiskus (vocals, guitar) and Joe Cieplinski (bass, everything else) are making a record and documenting the process in their critically-acclaimed self-titled podcast, capturing the highs and lows of forming a truly independent band in the age of social media."
         speaker2.url = "http://www.yahoo.com"
         speaker2.twitter = "billy"
-        speaker2.photo = UIImagePNGRepresentation(UIImage(named: "Marin-Todorov.jpg")!)!
+        speaker2.photo = UIImage(named: "Marin-Todorov.jpg")!
         
         //tracks
         let track1 = Track()
@@ -167,7 +168,7 @@ class RealmProvider {
         }
         
         let favorite1 = FavoriteSpeaker()
-        favorite1.name = speaker1.name
+        favorite1.speakerUuid = speaker1.uuid
         
         try! RealmProvider.appRealm.write {
             RealmProvider.appRealm.deleteAll()
@@ -190,7 +191,7 @@ class RealmProvider {
             speaker1.bio = "Background descroption"
             speaker1.url = "http://www.underplot.com"
             speaker1.twitter = "boby"
-            speaker1.photo = UIImagePNGRepresentation(UIImage(named: "Marin-Todorov.jpg")!)!
+            speaker1.photo = UIImage(named: "Marin-Todorov.jpg")!
             try! RealmProvider.eventRealm.write {
                 RealmProvider.eventRealm.add(speaker1)
                 print("added a background speaker")

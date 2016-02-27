@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 
 class FavoriteSpeaker: Object {
-    dynamic var name: String = ""
+    dynamic var speakerUuid: String = ""
 }
 
 class FavoriteSession: Object {

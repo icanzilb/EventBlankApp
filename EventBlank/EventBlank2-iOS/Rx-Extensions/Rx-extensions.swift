@@ -76,6 +76,37 @@ extension Observable where Element: Equatable {
     }
 }
 
+protocol Optionable
+{
+    typealias WrappedType
+    func unwrap() -> WrappedType
+    func isEmpty() -> Bool
+}
+
+extension Optional : Optionable
+{
+    typealias WrappedType = Wrapped
+    func unwrap() -> WrappedType {
+        return self!
+    }
+    
+    func isEmpty() -> Bool {
+        return !(flatMap({_ in true})?.boolValue == true)
+    }
+}
+
+extension Observable where Element : Optionable {
+    func unwrap() -> Observable<Element.WrappedType> {
+        return self
+            .filter {value in
+                return !value.isEmpty()
+            }
+            .map {value -> Element.WrappedType in
+                value.unwrap()
+            }
+    }
+}
+
 extension UIView {
     public var rx_visible: AnyObserver<Bool> {
         return UIBindingObserver(UIElement: self) { view, visible in

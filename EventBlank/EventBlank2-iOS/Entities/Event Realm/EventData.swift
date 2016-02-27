@@ -21,7 +21,16 @@ class EventData: Object {
     dynamic var twitterTag: String?
     dynamic var twitterAdmin: String?
     
-    dynamic var mainColor = ""
+    dynamic private var _mainColor = ""
+    var mainColor: UIColor {
+        get {
+            return UIColor(hexString: _mainColor)
+        }
+        set {
+            _mainColor = newValue.toHexString()
+        }
+    }
+    
     dynamic var secondaryColor: String?
     dynamic var ternaryColor: String?
     
@@ -29,8 +38,13 @@ class EventData: Object {
     
     dynamic var updateFileUrl: String?
     
+    //methods
+    
     static var defaultEvent: EventData {
         return RealmProvider.eventRealm.objects(EventData).first!
     }
     
+    override class func ignoredProperties() -> [String] {
+        return ["mainColor"]
+    }
 }

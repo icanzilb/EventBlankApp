@@ -41,7 +41,8 @@ class SpeakersViewModel: RxViewModel {
         model = SpeakersModel()
         
         super.init()
-
+        print("create speakers view model")
+        
         //generate the speaker list
         let speakersList = Observable.combineLatest(searchTerm.asObservable(), onlyFavorites.asObservable(), resultSelector: {term, favs -> (String, Bool) in
             return (term, favs)
@@ -55,10 +56,10 @@ class SpeakersViewModel: RxViewModel {
             return results.breakIntoSections(self.sectionTitleWithSpeakers)
         }
         .debug("loaded speakers")
-        .shareReplayLatestWhileConnected()
+        .shareReplay(1)
         
         //generate reload events
-        [didBecomeActive.replaceWith(), fileReplaceEvent].toObservable()
+        [didBecomeActive.replaceWith().take(1), fileReplaceEvent].toObservable()
             .merge()
             .flatMapLatest {
                 return speakersList
@@ -83,8 +84,8 @@ class SpeakersViewModel: RxViewModel {
     func configureSpeakerCellForIndexPath(tableView: UITableView, index: NSIndexPath, speaker: Speaker) -> SpeakerCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("SpeakerCell") as! SpeakerCell
         cell.populateFromSpeaker(speaker)
-        model.favoritesNames.subscribeNext {favorites in
-            cell.isFavorite.onNext(favorites.contains(speaker.name))
+        model.favorites.subscribeNext {favorites in
+            cell.isFavorite.onNext(favorites.contains(speaker.uuid))
         }.addDisposableTo(bag)
         return cell
     }

@@ -13,7 +13,16 @@ class Location: Object {
     
     dynamic var location = ""
     dynamic var locationDescription = ""
-    dynamic var map: NSData?
+    dynamic var _map: NSData?
+    var map: UIImage? {
+        get {
+            return _map?.imageValue
+        }
+        set {
+            _map = newValue?.dataValue
+        }
+    }
+    
     dynamic var lat: Double = 0.0
     dynamic var lng: Double = 0.0
     

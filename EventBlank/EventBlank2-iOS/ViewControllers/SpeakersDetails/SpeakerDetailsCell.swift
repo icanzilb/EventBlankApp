@@ -66,7 +66,7 @@ class SpeakerDetailsCell: UITableViewCell {
         
         btnWebsite.setTitle(speaker.url, forState: .Normal)
         bioTextView.text = speaker.bio
-        let userImage = speaker.photo?.imageValue ?? UIImage(named: "empty")!
+        let userImage = speaker.photo ?? UIImage(named: "empty")!
         userImage.asyncToSize(.FillSize(self.userImage.bounds.size), cornerRadius: 5, completion: {result in
             self.userImage.image = result
         })

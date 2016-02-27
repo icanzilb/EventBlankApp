@@ -14,8 +14,8 @@ import RxSwift
 class SpeakersModel {
     
     //favorites
-    let favoritesNames = RealmProvider.appRealm.objects(FavoriteSpeaker).asObservableArray()
-        .map { $0.map {speaker in speaker.name} }
+    let favorites = RealmProvider.appRealm.objects(FavoriteSpeaker).asObservableArray()
+        .map { $0.map {speaker in speaker.speakerUuid} }
 
     //loading speakers
     func speakers(searchTerm term: String = "", showOnlyFavorites: Bool = false) -> Observable<[Speaker]> {
@@ -38,11 +38,11 @@ class SpeakersModel {
             .asObservableArray()
         
         //the filtered/sorted speakers list
-        return Observable.combineLatest(speakersList, favoritesNames, resultSelector: {speakers, favorites in
+        return Observable.combineLatest(speakersList, favorites, resultSelector: {speakers, favorites in
             guard showOnlyFavorites else {
                 return speakers
             }
-            return speakers.filter { favorites.contains($0.name) }
+            return speakers.filter { favorites.contains($0.uuid) }
         })
         .map { sortSpeakers($0) }
     }
