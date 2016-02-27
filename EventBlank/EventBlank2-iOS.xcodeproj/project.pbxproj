@@ -325,10 +325,10 @@
 			isa = PBXGroup;
 			children = (
 				9C64EDBF1C7B245400985D51 /* SpeakerCell.swift */,
-				9C73046A1C81A3230080EBE4 /* SpeakersModel.swift */,
 				9C64EDC11C7B31F800985D51 /* SpeakersViewController+Search.swift */,
 				9C558E691C7B10D6009830D5 /* SpeakersViewController.swift */,
 				9C558E6B1C7B10EA009830D5 /* SpeakersViewModel.swift */,
+				9C73046A1C81A3230080EBE4 /* SpeakersModel.swift */,
 			);
 			path = Speakers;
 			sourceTree = "<group>";

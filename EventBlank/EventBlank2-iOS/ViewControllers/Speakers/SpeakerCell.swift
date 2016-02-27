@@ -27,30 +27,25 @@ class SpeakerCell: UITableViewCell {
 
         btnToggleIsFavorite.setImage(UIImage(named: "like-full")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Selected)
         btnToggleIsFavorite.setImage(nil, forState: .Normal)
-//        
-//        btnToggleIsFavorite.rx_tap.subscribeNext({_ in
-//            self.btnToggleIsFavorite.selected = !self.btnToggleIsFavorite.selected
-//            self.isFavorite.onNext(self.btnToggleIsFavorite.selected)
-//        }).addDisposableTo(bag)
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        userImage.image = nil
+        userImage.image = UIImage(named: "empty")!
+        twitterLabel.text = nil
     }
     
     func populateFromSpeaker(speaker: Speaker) {
         
-        let userImage = speaker.photo?.imageValue ?? UIImage(named: "empty")!
-        userImage.asyncToSize(.FillSize(self.userImage.bounds.size), cornerRadius: self.userImage.bounds.size.width/2, completion: {result in
-            self.userImage.image = result
-        })
+        if let userImage = speaker.photo?.imageValue {
+            userImage.asyncToSize(.FillSize(self.userImage.bounds.size), cornerRadius: self.userImage.bounds.size.width/2, completion: {result in
+                self.userImage.image = result
+            })
+        }
         
         nameLabel.text = speaker.name
-        if let twitter = speaker.twitter where twitter.characters.count > 0 {
+        if let twitter = speaker.twitter where twitter.utf8.count > 0 {
             twitterLabel.text = twitter.hasPrefix("@") ? twitter : "@"+twitter
-        } else {
-            twitterLabel.text = ""
         }
         
         isFavorite.bindTo(btnToggleIsFavorite.rx_selected).addDisposableTo(bag)
