@@ -38,6 +38,11 @@ class SpeakerDetailsViewController: UIViewController {
         
         bindUI()
     }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        viewModel.active = false
+    }
 
     func setupUI() {
         title = speaker.name
@@ -51,4 +56,5 @@ class SpeakerDetailsViewController: UIViewController {
         viewModel.tableItems
             .bindTo(tableView.rx_itemsWithDataSource(viewModel.dataSource)).addDisposableTo(bag)
     }
+    
 }

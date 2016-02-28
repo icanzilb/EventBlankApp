@@ -150,6 +150,15 @@ class RealmProvider {
         session3.location = location2
         session3.speakers.append(speaker2)
         
+        let text1 = Text()
+        text1.title = "Code of Conduct"
+        text1.content = "All attendees, speakers, sponsors and volunteers at our conference are required to agree with the following inclusivity policy. Organizers will enforce this policy throughout the event. We are expecting cooperation from all participants to help ensuring a safe environment for everybody.\n\n## Short version\n\nPragma Conference is dedicated to providing a harassment-free conference experience for everyone, regardless of gender, sexual orientation, disability, physical appearance, body size, race, or religion. We do not tolerate harassment of conference participants in any form. Sexual language and imagery is not appropriate for any conference venue, including talks, workshops, parties, Twitter and other online media. Conference participants violating these rules may be sanctioned or expelled from the conference without a refund at the discretion of the conference organizers.\n\n## Long version\n\nHarassment includes offensive verbal comments related to gender, sexual orientation, disability, physical appearance, body size, race, religion, sexual images in public spaces, deliberate intimidation, stalking, following, harassing photography or recording, sustained disruption of talks or other events, inappropriate physical contact, and unwelcome sexual attention. \n\nParticipants asked to stop any harassing behavior are expected to comply immediately. \n\nSponsors are also subject to the anti-harassment policy. In particular, sponsors should not use sexualized images, activities, or other material. Booth staff (including volunteers) should not use sexualized clothing/uniforms/costumes, or otherwise create a sexualized environment. \n\nIf a participant engages in harassing behavior, the conference organizers may take any action they deem appropriate, including warning the offender or expulsion from the conference with no refund. \n\nIf you are being harassed, notice that someone else is being harassed, or have any other concerns, please contact a member of conference staff immediately. Conference staff can be identified by a black conference shirt with a orange or black Pragma Conference logo. \n\nConference staff will be happy to help participants contact hotel/venue security or local law enforcement, provide escorts, or otherwise assist those experiencing harassment to feel safe for the duration of the conference. We value your attendance. \n\nWe expect participants to follow these rules at conference and workshop venues and conference-related social events."
+        text1.required = true
+        
+        let text2 = Text()
+        text2.title = "About"
+        text2.content = "## The iOS & OS X Developers Conference\n### Build succeeded.\n\n#pragma mark community is proud to announce #Pragma Conference 2015: the only major event dedicated to iOS and OS X development in Italy. \n\nThere will be two full days of awesome workshops and talks by renowned international speakers.\n\n### Conference Day\n__Saturday, October 10 from 9am to 19pm__\n\nThe Conference Day is dedicated to sessions and networking: 16 speakers on 2 tracks will talk about the most interesting and cutting-edge topics of the Apple world. \n\nIt’s a unique opportunity to meet some of the most influential speakers to learn and discuss about novel frameworks, best practices and the latest development methodologies.\n\n### Workshop Day\n__Friday, October 9 from 9am to 19pm__\n\nA day of practical, in-depth, 6-hours workshops taught by industry experts. The topics will span from consolidated Cocoa technologies and practices to the latest announced APIs, tools and frameworks. \n\nEach workshop will get you from zero to hero on a specific topic, with a hands-on experience and in-depth explanation of advanced details, tips and tricks as learned from the teacher’s experience."
+        text2.required = true
         
         try! RealmProvider.eventRealm.write {
             RealmProvider.eventRealm.deleteAll()
@@ -163,6 +172,9 @@ class RealmProvider {
             RealmProvider.eventRealm.add(location2)
             RealmProvider.eventRealm.add(session1)
             RealmProvider.eventRealm.add(session2)
+            
+            RealmProvider.eventRealm.add(text1)
+            RealmProvider.eventRealm.add(text2)
         }
         
         let favorite1 = FavoriteSpeaker()

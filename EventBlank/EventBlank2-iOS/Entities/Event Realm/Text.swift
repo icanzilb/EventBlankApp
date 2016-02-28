@@ -13,5 +13,6 @@ class Text: Object {
     
     dynamic var title = ""
     dynamic var content = ""
+    dynamic var required = false
     
 }

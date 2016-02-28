@@ -4,6 +4,7 @@ PODS:
   - EasyAnimation (1.0.4)
   - HanekeSwift (0.10.1)
   - MAThemeKit (1.0)
+  - MMMarkdown (0.5.1)
   - Reachability (3.2)
   - Realm (0.98.3):
     - Realm/Headers (= 0.98.3)
@@ -29,6 +30,7 @@ DEPENDENCIES:
   - EasyAnimation
   - HanekeSwift
   - MAThemeKit
+  - MMMarkdown
   - Reachability
   - RealmSwift
   - RxCocoa
@@ -54,6 +56,7 @@ SPEC CHECKSUMS:
   EasyAnimation: 4aabd439b4038f48d72939cc19d6220363b3206e
   HanekeSwift: 08e47d3d0f2899ec58e5d257beba0de619aca9e8
   MAThemeKit: 559acc98ceadc051cccb1b6bb0c4ca28475eb021
+  MMMarkdown: 06f7989e0350d10a7de50516af6c812402ce554b
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   Realm: c6a7d00221a2d5177810a674aebd40c5e0b70b0f
   RealmSwift: d6ecad6e4c2a645d6ac956c2c7e9efb375f39c31

@@ -46,8 +46,8 @@ class SpeakersViewController: UIViewController {
         viewModel.active = true
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
         viewModel.active = false
     }
     
