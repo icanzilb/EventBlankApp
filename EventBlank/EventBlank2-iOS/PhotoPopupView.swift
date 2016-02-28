@@ -9,8 +9,13 @@
 import UIKit
 import Haneke
 
+import RxSwift
+import RxCocoa
+
 class PhotoPopupView: UIView {
 
+    var bag = DisposeBag()
+    
     static func showImage(image: UIImage, inView: UIView) {
         let popup = PhotoPopupView()
         inView.addSubview(popup)
@@ -25,78 +30,82 @@ class PhotoPopupView: UIView {
         popup.photoUrl = url
     }
     
-    func hideImage() {
-        didTapPhoto(UITapGestureRecognizer()) //hack
-    }
-    
     var photoUrl: NSURL! {
         didSet {
+            precondition(backdrop == nil)
+            setupUI()
+            
             imgView.hnk_setImageFromURL(photoUrl, placeholder: nil, format: nil, failure: {error in
-                
-                UIViewController.alert("Couldn't fetch image.", buttons: ["Close"], completion: {_ in
-                    self.hideImage()
-                })
-                
+                UIViewController.alert("Couldn't fetch image.", buttons: ["Close"], completion: {_ in self.didTapPhoto()})
             }, success: {[weak self]image in
                 self?.imgView.image = image
                 if self?.spinner != nil {
                     self?.spinner.removeFromSuperview()
                 }
             })
+            displayPhoto()
         }
     }
     
     var photo: UIImage! {
         didSet {
+            precondition(backdrop == nil)
+            setupUI()
             imgView.image = photo
+            displayPhoto()
         }
     }
     
-    private var imgView: UIImageView!
+    private var backdrop: UIView!
+    private var imgView: TappableImageView!
     private var spinner: UIActivityIndicatorView!
     
-    override func didMoveToSuperview() {
-        super.didMoveToSuperview()
-        
-        if superview == nil {
+    func setupUI() {
+        guard superview != nil else {
             return
         }
         
         frame = superview!.bounds
         
         //add background
-        let backdrop = UIView(frame: bounds)
+        backdrop = UIView(frame: bounds)
         backdrop.backgroundColor = UIColor(white: 0.0, alpha: 0.8)
+        backdrop.alpha = 0.0
         addSubview(backdrop)
         
-        //spinner
         spinner = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.WhiteLarge
         spinner.center = center
         spinner.startAnimating()
-        spinner.backgroundColor = UIColor.whiteColor()
+        spinner.backgroundColor = UIColor.clearColor()
         spinner.layer.masksToBounds = true
         spinner.layer.cornerRadius = 5
-        backdrop.addSubview(spinner)
-        
-        //add image view
-        imgView = UIImageView()
+
+        imgView = TappableImageView()
         imgView.frame = CGRectInset(bounds, 20, 40)
         imgView.layer.cornerRadius = 10
         imgView.clipsToBounds = true
         imgView.contentMode = .ScaleAspectFit
         imgView.alpha = 0
+    }
+    
+    func displayPhoto() {
+        //add image view
         backdrop.addSubview(imgView)
+        UIView.animateWithDuration(0.2, animations: {[unowned self] in
+            self.backdrop.alpha = 1.0
+        })
+
+        //spinner
+        if imgView.image == nil {
+            backdrop.addSubview(spinner)
+        }
         
-        imgView.userInteractionEnabled = true
-        imgView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "didTapPhoto:"))
-        
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: "didSwipePhoto:")
-        swipeDown.direction = .Down
-        imgView.addGestureRecognizer(swipeDown)
-        let swipeUp = UISwipeGestureRecognizer(target: self, action: "didSwipePhoto:")
-        swipeUp.direction = .Up
-        imgView.addGestureRecognizer(swipeUp)
+        //imgView.rx_tap.bindNext(didTapPhoto).addDisposableTo(bag)
+        imgView.rx_gesture([.Tap, .SwipeUp, .SwipeDown])
+            .subscribeNext({[unowned self] _ in
+            self.didTapPhoto()
+        }).addDisposableTo(bag)
         
         UIView.animateWithDuration(0.67, delay: 0.0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
             self.imgView.alpha = 1.0
@@ -109,7 +118,7 @@ class PhotoPopupView: UIView {
         }, completion: nil)
     }
     
-    func didTapPhoto(tap: UIGestureRecognizer) {
+    func didTapPhoto() {
         
         imgView.userInteractionEnabled = false
         

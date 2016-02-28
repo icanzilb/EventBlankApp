@@ -29,11 +29,13 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindUI()
+        
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.active = true
+        tabBarController!.selectedIndex = 1
     }
     
     override func viewWillDisappear(animated: Bool) {

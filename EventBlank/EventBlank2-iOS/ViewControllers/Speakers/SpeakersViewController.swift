@@ -78,9 +78,8 @@ class SpeakersViewController: UIViewController {
         searchBarActive
             .debug("search bar buttons")
             .subscribeNext({[unowned self] hideButtons in
-            print("BAM \(hideButtons) \(self.btnFavorites)")
-            self.navigationItem.leftBarButtonItem = hideButtons ? nil : self.btnSearch
-            self.navigationItem.rightBarButtonItem = hideButtons ? nil : self.btnFavorites
+                self.navigationItem.leftBarButtonItem = hideButtons ? nil : self.btnSearch
+                self.navigationItem.rightBarButtonItem = hideButtons ? nil : self.btnFavorites
             }).addDisposableTo(bag)
         
         

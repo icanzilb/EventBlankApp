@@ -93,6 +93,16 @@ class SpeakerDetailsCell: UITableViewCell {
             
         }.addDisposableTo(bag)
         
+        //twitter button
+        btnTwitter.rx_tap.replaceWith(speaker.twitter)
+            .unwrap()
+            .map {tw -> String in
+                let handle = tw.hasPrefix("@") ? tw : "@"+tw
+                return "https://www.twitter.com/\(handle)"
+            }
+            .bindNext(openUrl)
+            .addDisposableTo(bag)
+        
         //website button
         btnWebsite.rx_tap.replaceWith(speaker.url)
             .map { NSURL(stringOptional: $0) }
@@ -102,54 +112,6 @@ class SpeakerDetailsCell: UITableViewCell {
         
         return self
     }
-    
-    /*
-    func populateFromSpeaker(speaker: Speaker, twitter: TwitterController) {
-        nameLabel.text = speaker.name
-
-        if let twitterHandle = speaker.twitter where twitterHandle.utf8.count > 0 {
-            twitterLabel.text = twitterHandle.hasPrefix("@") ? twitterHandle : "@"+twitterHandle
-            
-            btnIsFollowing.hidden = false
-            btnIsFollowing.username = twitterLabel.text
-            
-            
-            //check if already following speaker
-            twitter.authorize({success in
-                if success {
-                    twitter.isFollowingUser(twitterHandle, completion: {following in
-                        if let following = following {
-                            self.btnIsFollowing.followState = following ? .Following : .Follow
-                        } else {
-                            self.btnIsFollowing.hidden = true
-                        }
-                    })
-                } else {
-                    self.btnIsFollowing.hidden = true
-                }
-            })
-        } else {
-            mainQueue {
-                self.btnIsFollowing.hidden = true
-                self.twitterLabel.text = ""
-                self.didTapTwitter = nil
-            }
-        }
-
-        websiteLabel.text = speaker[Speaker.url]
-        btnToggleIsFavorite.selected = isFavoriteSpeaker
-        bioTextView.text = speaker[Speaker.bio]
-        let userImage = speaker[Speaker.photo]?.imageValue ?? UIImage(named: "empty")!
-        userImage.asyncToSize(.FillSize(self.userImage.bounds.size), cornerRadius: 5, completion: {result in
-            self.userImage.image = result
-        })
-
-        if let urlString = speaker[Speaker.url], let url = NSURL(string: urlString) {
-            speakerUrl = url
-        } else {
-            speakerUrl = nil
-        }
-    } */
 }
 
 extension SpeakerDetailsCell: UITextViewDelegate {
