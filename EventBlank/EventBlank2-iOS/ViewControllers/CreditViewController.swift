@@ -13,7 +13,7 @@ import MMMarkdown
 
 class CreditViewController: UIViewController, UIWebViewDelegate {
 
-    var webView: UIWebView = UIWebView()
+    var webView = UIWebView()
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -30,6 +30,10 @@
 		9C1B210B1C785DDA00DE7A1A /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B210A1C785DDA00DE7A1A /* Track.swift */; };
 		9C1B210D1C785DF600DE7A1A /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B210C1C785DF600DE7A1A /* Session.swift */; };
 		9C1B21101C78663D00DE7A1A /* Defines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B210F1C78663D00DE7A1A /* Defines.swift */; };
+		9C1BE5671C872DFE0078D5DE /* TweetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1BE5641C872DFE0078D5DE /* TweetModel.swift */; };
+		9C1BE5681C872E700078D5DE /* TwitterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1BE5631C872DFE0078D5DE /* TwitterController.swift */; };
+		9C1BE56B1C873BDD0078D5DE /* TwitterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1BE56A1C873BDD0078D5DE /* TwitterProvider.swift */; };
+		9C1BE56D1C8743320078D5DE /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1BE56C1C8743320078D5DE /* Interactor.swift */; };
 		9C1F11741C7C6BF0009AFC2D /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F11731C7C6BF0009AFC2D /* Favorite.swift */; };
 		9C24D4E81C8399F400B1F0A2 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C24D4E31C8399F400B1F0A2 /* MoreViewController.swift */; };
 		9C24D4EB1C8399F400B1F0A2 /* markdown.html in Resources */ = {isa = PBXBuildFile; fileRef = 9C24D4E61C8399F400B1F0A2 /* markdown.html */; };
@@ -104,6 +108,10 @@
 		9C1B210A1C785DDA00DE7A1A /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		9C1B210C1C785DF600DE7A1A /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		9C1B210F1C78663D00DE7A1A /* Defines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Defines.swift; sourceTree = "<group>"; };
+		9C1BE5631C872DFE0078D5DE /* TwitterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterController.swift; sourceTree = "<group>"; };
+		9C1BE5641C872DFE0078D5DE /* TweetModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetModel.swift; sourceTree = "<group>"; };
+		9C1BE56A1C873BDD0078D5DE /* TwitterProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterProvider.swift; sourceTree = "<group>"; };
+		9C1BE56C1C8743320078D5DE /* Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
 		9C1F11731C7C6BF0009AFC2D /* Favorite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Favorite.swift; sourceTree = "<group>"; };
 		9C24D4E31C8399F400B1F0A2 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		9C24D4E41C8399F400B1F0A2 /* MDViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MDViewController.swift; sourceTree = "<group>"; };
@@ -261,6 +269,25 @@
 			path = "stubby-assets";
 			sourceTree = "<group>";
 		};
+		9C1BE5621C872DF40078D5DE /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				9C1BE5651C872DFE0078D5DE /* Twitter */,
+			);
+			name = Network;
+			sourceTree = "<group>";
+		};
+		9C1BE5651C872DFE0078D5DE /* Twitter */ = {
+			isa = PBXGroup;
+			children = (
+				9C1BE5631C872DFE0078D5DE /* TwitterController.swift */,
+				9C1BE5641C872DFE0078D5DE /* TweetModel.swift */,
+				9C1BE56A1C873BDD0078D5DE /* TwitterProvider.swift */,
+			);
+			name = Twitter;
+			path = "../../../eventblank-1/EventBlank/Entities/Tweets";
+			sourceTree = "<group>";
+		};
 		9C1F11711C7C6BCE009AFC2D /* Event Realm */ = {
 			isa = PBXGroup;
 			children = (
@@ -330,6 +357,7 @@
 		9C4216241C77C14A003321FC /* EventBlank2-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				9C1BE5621C872DF40078D5DE /* Network */,
 				9C7304661C8193B10080EBE4 /* Common */,
 				9C1B20DF1C77C70600DE7A1A /* Config */,
 				9C1B20DA1C77C69E00DE7A1A /* Entities */,
@@ -345,6 +373,7 @@
 				9C4216291C77C14A003321FC /* Main.storyboard */,
 				9C677B051C7CCD4E0028045B /* MessageView.swift */,
 				9C1B20E21C77C7B800DE7A1A /* Shared.swift */,
+				9C1BE56C1C8743320078D5DE /* Interactor.swift */,
 			);
 			path = "EventBlank2-iOS";
 			sourceTree = "<group>";
@@ -584,6 +613,7 @@
 				9C1B21071C785CC200DE7A1A /* Location.swift in Sources */,
 				9C1F11741C7C6BF0009AFC2D /* Favorite.swift in Sources */,
 				9C1B21031C77D7E200DE7A1A /* Results+Rx.swift in Sources */,
+				9C1BE5671C872DFE0078D5DE /* TweetModel.swift in Sources */,
 				9CD260DF1C8251AA00F24838 /* PhotoPopupView.swift in Sources */,
 				9C558E6C1C7B10EA009830D5 /* SpeakersViewModel.swift in Sources */,
 				9C1B20F71C77C82800DE7A1A /* NSData.swift in Sources */,
@@ -606,11 +636,13 @@
 				9C24D4F31C83A92100B1F0A2 /* CreditViewController.swift in Sources */,
 				9C677B041C7CBABE0028045B /* NSObject+Extension.swift in Sources */,
 				9C1B21001C77CC1300DE7A1A /* MainViewModel.swift in Sources */,
+				9C1BE5681C872E700078D5DE /* TwitterController.swift in Sources */,
 				9C677B021C7CBA2D0028045B /* SpeakerDetailsViewController.swift in Sources */,
 				9C24D4F21C83A72E00B1F0A2 /* WebViewController.swift in Sources */,
 				9C1B21101C78663D00DE7A1A /* Defines.swift in Sources */,
 				9C463BF81C7BA68300FB7333 /* Rx-extensions.swift in Sources */,
 				9C1B20DE1C77C6F400DE7A1A /* RealmProvider.swift in Sources */,
+				9C1BE56B1C873BDD0078D5DE /* TwitterProvider.swift in Sources */,
 				9C1B20E81C77C7F500DE7A1A /* Speaker.swift in Sources */,
 				9CD260DA1C824CF000F24838 /* TappableImageView.swift in Sources */,
 				9C1B20F31C77C82800DE7A1A /* Notification.swift in Sources */,
@@ -618,6 +650,7 @@
 				9C24D4E81C8399F400B1F0A2 /* MoreViewController.swift in Sources */,
 				9C1B20E11C77C71A00DE7A1A /* Config.swift in Sources */,
 				9C1B210D1C785DF600DE7A1A /* Session.swift in Sources */,
+				9C1BE56D1C8743320078D5DE /* Interactor.swift in Sources */,
 				9C1B20F61C77C82800DE7A1A /* UIImage+Extension.swift in Sources */,
 				9C1B20F11C77C82800DE7A1A /* Ext.swift in Sources */,
 				9C24D4EF1C83A55F00B1F0A2 /* MDViewController.swift in Sources */,
