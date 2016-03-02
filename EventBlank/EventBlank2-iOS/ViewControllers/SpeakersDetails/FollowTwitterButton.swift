@@ -8,38 +8,58 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
+
 enum FollowTwitterButtonState {
     case Checking, Follow, SendingRequest, Following
+}
+
+extension CALayer {
+    public var rx_borderColor: AnyObserver<CGColor?> {
+        return UIBindingObserver(UIElement: self) { layer, color in
+            layer.borderColor = color
+        }.asObserver()
+    }
 }
 
 class FollowTwitterButton: UIButton {
 
     var username: String!
 
-    var followState: FollowTwitterButtonState = .Checking {
-        didSet {
-            mainQueue { self.refreshUI() }
-        }
-    }
+    let bag = DisposeBag()
+    
+    //
+    // input
+    //
+    
+    let following = BehaviorSubject<FollowTwitterButtonState>(value: .Checking)
     
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
         
-        if superview == nil {
+        guard superview != nil else {
             return
         }
         
-        layer.cornerRadius = 5.0
-        backgroundColor = UIColor.whiteColor()
-        layer.borderWidth = 1.0
-        
-        refreshUI()
+        setupUI()
+        bindUI()
     }
     
-    func refreshUI() {
-        layer.borderColor = colorForFollowState(followState).CGColor
-        setTitle(titleForFollowState(followState), forState: .Normal)
-        setTitleColor(colorForFollowState(followState), forState: .Normal)
+    func setupUI() {
+        layer.cornerRadius = 5.0
+        layer.borderWidth = 1.0
+        backgroundColor = UIColor.whiteColor()
+    }
+
+    func bindUI() {
+        following.map(colorForFollowState) .map { $0.CGColor } .bindTo(layer.rx_borderColor).addDisposableTo(bag)
+        following.map(titleForFollowState) .bindNext {[unowned self] title in
+            self.setTitle(title, forState: .Normal)
+        } .addDisposableTo(bag)
+        following.map(colorForFollowState) .bindNext {[unowned self] color in
+            self.setTitleColor(color, forState: .Normal)
+        } .addDisposableTo(bag)
     }
     
     func colorForFollowState(state: FollowTwitterButtonState) -> UIColor {

@@ -13,14 +13,21 @@ import RxCocoa
 
 import RxDataSources
 
-class SpeakerDetailsViewController: UIViewController {
+protocol Storyboardable {
+    static var storyboardID: String {get}
+}
+
+class SpeakerDetailsViewController: UIViewController, Storyboardable {
     
-    let bag = DisposeBag()
+    static var storyboardID = "SpeakerDetailsViewController"
+    
+    private let bag = DisposeBag()
 
     @IBOutlet weak var tableView: UITableView!
 
-    var speaker: Speaker!
+    private var speaker: Speaker!
     private var viewModel: SpeakerDetailsViewModel!
+    private var twitterProvider: TwitterController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,12 +35,21 @@ class SpeakerDetailsViewController: UIViewController {
         setupUI()
     }
     
+    static func createWith(storyboard: UIStoryboard,
+        speaker: Speaker,
+        twitterProvider: TwitterController = TwitterController()) -> SpeakerDetailsViewController {
+        
+            let vc = storyboard.instantiateViewControllerWithIdentifier(storyboardID) as! SpeakerDetailsViewController
+            vc.speaker = speaker
+            vc.viewModel = SpeakerDetailsViewModel(speaker: speaker)
+            vc.twitterProvider = twitterProvider
+            return vc
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        precondition(speaker != nil)
-
-        viewModel = SpeakerDetailsViewModel(speaker: speaker)
+        precondition(viewModel != nil)
         viewModel.active = true
         
         bindUI()

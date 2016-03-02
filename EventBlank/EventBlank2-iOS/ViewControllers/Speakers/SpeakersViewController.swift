@@ -26,6 +26,8 @@ class SpeakersViewController: UIViewController {
     let searchController = UISearchController(searchResultsController:  nil)
     let searchBarBtnCancel = PublishSubject<Void>()
     
+    let interactor = Interactor()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -103,7 +105,7 @@ class SpeakersViewController: UIViewController {
                 return self.viewModel.dataSource.itemAtIndexPath(indexPath)
             }
             .subscribeNext {[unowned self] model in
-                self.performSegueWithIdentifier("speakerDetails", sender: model)
+                try! self.interactor.show(Segue.SpeakerDetails(speaker: model), sender: self)
             }
             .addDisposableTo(bag)
         
@@ -134,13 +136,6 @@ class SpeakersViewController: UIViewController {
                 MessageView.toggle(self.view, visible: show, text: "No speakers for that filter")
             }
             .addDisposableTo(bag)
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let speakerDetails = segue.destinationViewController as? SpeakerDetailsViewController,
-            let speaker = sender as? Speaker {
-                speakerDetails.speaker = speaker
-        }
     }
 }
 
