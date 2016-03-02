@@ -100,17 +100,11 @@ class SpeakersViewController: UIViewController {
         
         //table view delegate
         tableView.rx_itemSelected
-            .map {[unowned self] indexPath in
+            .subscribeNext {[unowned self] indexPath in
                 self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
-                return self.viewModel.dataSource.itemAtIndexPath(indexPath)
-            }
-            .subscribeNext {[unowned self] model in
+                let model = self.viewModel.dataSource.itemAtIndexPath(indexPath)
                 try! self.interactor.show(Segue.SpeakerDetails(speaker: model), sender: self)
             }
-            .addDisposableTo(bag)
-        
-        tableView
-            .rx_setDelegate(self)
             .addDisposableTo(bag)
     }
     
@@ -138,8 +132,3 @@ class SpeakersViewController: UIViewController {
             .addDisposableTo(bag)
     }
 }
-
-extension SpeakersViewController: UITableViewDelegate {
-    
-}
-
