@@ -29,6 +29,12 @@ extension UIResponder {
     }
 }
 
+extension Observable {
+    func replaceNilWith(value: Element) -> Observable<Element> {
+        return map {element in element == nil ? value : element}
+    }
+}
+
 extension Observable where Element : SignedIntegerType {
     public func negate() -> Observable<E> {
         return map {value in -value}

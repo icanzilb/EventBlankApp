@@ -48,8 +48,8 @@ class SpeakersViewController: UIViewController {
         viewModel.active = true
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
         viewModel.active = false
     }
     
@@ -72,13 +72,19 @@ class SpeakersViewController: UIViewController {
             .startWith(false)
             .debug("search bar active")
             .shareReplay(1)
+
+        //show/hide the bar
+        let active = viewModel.rx_observe(Bool.self, "active").unwrap()
         
-        searchBarActive
-            .debug("serch bar visible")
-            .bindTo(searchController.searchBar.rx_visible).addDisposableTo(bag)
+        Observable.combineLatest(searchBarActive, active, resultSelector: {a, b in
+            return a && b
+        })
+        .distinctUntilChanged()
+        .bindTo(searchController.searchBar.rx_visible)
+        .addDisposableTo(bag)
         
+        //show/hide nav buttons
         searchBarActive
-            .debug("search bar buttons")
             .subscribeNext({[unowned self] hideButtons in
                 self.navigationItem.leftBarButtonItem = hideButtons ? nil : self.btnSearch
                 self.navigationItem.rightBarButtonItem = hideButtons ? nil : self.btnFavorites
