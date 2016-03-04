@@ -27,7 +27,8 @@ class SpeakerDetailsCell: UITableViewCell {
 
     // input/output
     let isFavorite = PublishSubject<Bool>()
-
+    let isFollowing = PublishSubject<FollowingOnTwitter>()
+    
     // methods
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -36,20 +37,11 @@ class SpeakerDetailsCell: UITableViewCell {
         bioTextView.delegate = self
     }
     
-    var didTapFollow: (()->Void)?
-    
-    @IBAction func actionFollowSpeaker(sender: AnyObject) {
-//        if btnIsFollowing.followState == .Follow {
-//            didTapFollow?()
-//        }
-    }
-    
     static func cellOfTable(tv: UITableView, speaker: Speaker) -> SpeakerDetailsCell {
         return (tv.dequeueReusableCellWithIdentifier("SpeakerDetailsCell") as! SpeakerDetailsCell).populateFromSpeaker(speaker)
     }
     
     func populateFromSpeaker(speaker: Speaker) -> Self {
-        
         //
         // setup UI
         //
@@ -67,9 +59,10 @@ class SpeakerDetailsCell: UITableViewCell {
         image.asyncToSize(.FillSize(self.userImage.bounds.size), cornerRadius: 5, completion: {result in
             self.userImage.image = result
         })
+        btnIsFollowing.hidden = true
         
         self.speaker = speaker
-        
+
         //
         // bind UI
         //
@@ -88,11 +81,6 @@ class SpeakerDetailsCell: UITableViewCell {
             self.btnToggleIsFavorite.animateSelect(scale: 0.8, completion: nil)
         }.addDisposableTo(bag)
         
-        //following button
-        btnIsFollowing.rx_tap.subscribeNext {_ in
-            
-        }.addDisposableTo(bag)
-        
         //twitter button
         btnTwitter.rx_tap.replaceWith(speaker.twitter)
             .unwrap()
@@ -109,6 +97,9 @@ class SpeakerDetailsCell: UITableViewCell {
             .unwrap()
             .bindNext(openUrl)
             .addDisposableTo(bag)
+        
+        //following
+        isFollowing.asObservable().bindTo(btnIsFollowing.rx_following).addDisposableTo(bag)
         
         return self
     }

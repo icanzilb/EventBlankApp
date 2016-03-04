@@ -14,17 +14,18 @@ import RxDataSources
 import RxViewModel
 
 class SpeakerDetailsViewModel: RxViewModel {
+
+    typealias AnySection = SectionModel<String, AnyObject>
     
     private let bag = DisposeBag()
     private let model: SpeakerDetailsModel
     
     //output
-    typealias AnySection = SectionModel<String, AnyObject>
     let tableItems = BehaviorSubject<[AnySection]>(value: [])
-    
     let dataSource = RxTableViewSectionedReloadDataSource<AnySection>()
 
-    init(speaker: Speaker) {
+    //init
+    init(speaker: Speaker, twitterProvider: TwitterController) {
         self.model = SpeakerDetailsModel(speaker: speaker)
         
         super.init()
@@ -37,25 +38,42 @@ class SpeakerDetailsViewModel: RxViewModel {
         //the data source
         dataSource.configureCell = {[unowned self] (tv, indexPath, _) in
             switch indexPath.section {
-            case 0:
-                let cell = SpeakerDetailsCell.cellOfTable(tv, speaker: speaker)
-                
-                self.model.favorites
-                    .map {favorites in favorites.contains(speaker.uuid)}
-                    .bindTo(cell.isFavorite)
-                    .addDisposableTo(self.bag)
-                
-                cell.isFavorite
-                    .bindNext(self.model.updateSpeakerFavoriteTo)
-                    .addDisposableTo(self.bag)
-                
-                return cell
+            case 0: return self.setupSpeakerDetailsCell(tv, speaker: speaker, twitterProvider: twitterProvider)
             default: return UITableViewCell()
             }
         }
+        
+        //section headers
         dataSource.titleForHeaderInSection = {section in
             return "Speaker Details"
         }
-
+    }
+    
+    //private methods
+    private func setupSpeakerDetailsCell(tv: UITableView, speaker: Speaker, twitterProvider: TwitterController) -> SpeakerDetailsCell {
+        let cell = SpeakerDetailsCell.cellOfTable(tv, speaker: speaker)
+        
+        //is favorite
+        self.model.favorites
+            .map {favorites in favorites.contains(speaker.uuid)}
+            .bindTo(cell.isFavorite)
+            .addDisposableTo(self.bag)
+        
+        //toggle favorite
+        cell.isFavorite
+            .bindNext(self.model.updateSpeakerFavoriteTo)
+            .addDisposableTo(self.bag)
+        
+        //wire twitter
+        if let targetTwitterUsername = speaker.twitter {
+            twitterProvider.authorize()
+            .flatMapLatest {account in
+                return twitterProvider.isFollowingUser(account, username: targetTwitterUsername)
+            }
+            .bindTo(cell.isFollowing)
+            .addDisposableTo(bag)
+        }
+        
+        return cell
     }
 }

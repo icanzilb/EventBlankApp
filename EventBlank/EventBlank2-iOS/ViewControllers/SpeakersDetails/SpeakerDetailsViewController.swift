@@ -41,7 +41,7 @@ class SpeakerDetailsViewController: UIViewController, Storyboardable {
         
             let vc = storyboard.instantiateViewControllerWithIdentifier(storyboardID) as! SpeakerDetailsViewController
             vc.speaker = speaker
-            vc.viewModel = SpeakerDetailsViewModel(speaker: speaker)
+            vc.viewModel = SpeakerDetailsViewModel(speaker: speaker, twitterProvider: twitterProvider)
             vc.twitterProvider = twitterProvider
             return vc
     }
