@@ -32,9 +32,17 @@ extension SpeakersViewController: UISearchControllerDelegate, UISearchResultsUpd
                 y: 20)
         }
         
-        navigationController!.navigationBar.addSubview(
-            searchController.searchBar
-        )
+        toggleSearchBarVisibility(true)
+    }
+    
+    func toggleSearchBarVisibility(visible: Bool) {
+        if visible {
+            navigationController!.navigationBar.addSubview(
+                searchController.searchBar
+            )
+        } else {
+            searchController.searchBar.removeFromSuperview()
+        }
     }
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {

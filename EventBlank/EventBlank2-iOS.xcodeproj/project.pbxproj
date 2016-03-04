@@ -67,6 +67,8 @@
 		9C7304681C8193BB0080EBE4 /* Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7304671C8193BB0080EBE4 /* Services.swift */; };
 		9C73046B1C81A3230080EBE4 /* SpeakersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C73046A1C81A3230080EBE4 /* SpeakersModel.swift */; };
 		9C8AC8AA1C7F1CCC00B8E625 /* FavoritesBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AC8A91C7F1CCC00B8E625 /* FavoritesBarButtonItem.swift */; };
+		9CB7A8461C886E7B0035CCE7 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB7A8441C886E7B0035CCE7 /* Reachability.swift */; };
+		9CB7A8471C886E7B0035CCE7 /* ReachabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB7A8451C886E7B0035CCE7 /* ReachabilityService.swift */; };
 		9CD260DA1C824CF000F24838 /* TappableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD260D91C824CF000F24838 /* TappableImageView.swift */; };
 		9CD260DF1C8251AA00F24838 /* PhotoPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD260DE1C8251AA00F24838 /* PhotoPopupView.swift */; };
 		9CE743E81C80CA9D00D140A0 /* marin_codebits_small.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9CE743E61C80CA9D00D140A0 /* marin_codebits_small.jpg */; };
@@ -148,6 +150,8 @@
 		9C7304671C8193BB0080EBE4 /* Services.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Services.swift; sourceTree = "<group>"; };
 		9C73046A1C81A3230080EBE4 /* SpeakersModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeakersModel.swift; sourceTree = "<group>"; };
 		9C8AC8A91C7F1CCC00B8E625 /* FavoritesBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FavoritesBarButtonItem.swift; path = ViewControllers/Speakers/FavoritesBarButtonItem.swift; sourceTree = "<group>"; };
+		9CB7A8441C886E7B0035CCE7 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		9CB7A8451C886E7B0035CCE7 /* ReachabilityService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityService.swift; sourceTree = "<group>"; };
 		9CD260D91C824CF000F24838 /* TappableImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TappableImageView.swift; sourceTree = "<group>"; };
 		9CD260DE1C8251AA00F24838 /* PhotoPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPopupView.swift; sourceTree = "<group>"; };
 		9CE743E61C80CA9D00D140A0 /* marin_codebits_small.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = marin_codebits_small.jpg; sourceTree = "<group>"; };
@@ -357,6 +361,7 @@
 		9C4216241C77C14A003321FC /* EventBlank2-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				9CB7A8431C886E660035CCE7 /* Services */,
 				9C1BE5621C872DF40078D5DE /* Network */,
 				9C7304661C8193B10080EBE4 /* Common */,
 				9C1B20DF1C77C70600DE7A1A /* Config */,
@@ -435,6 +440,15 @@
 				9CD260D91C824CF000F24838 /* TappableImageView.swift */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		9CB7A8431C886E660035CCE7 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				9CB7A8441C886E7B0035CCE7 /* Reachability.swift */,
+				9CB7A8451C886E7B0035CCE7 /* ReachabilityService.swift */,
+			);
+			name = Services;
 			sourceTree = "<group>";
 		};
 		CE728E1149BDDE7B127F3138 /* Frameworks */ = {
@@ -624,6 +638,7 @@
 				9C1B20D61C77C5D400DE7A1A /* MainViewController.swift in Sources */,
 				9C4E70A81C7F04A8005C948A /* SpeakerDetailsModel.swift in Sources */,
 				9C4E70AE1C7F08D3005C948A /* SpeakerDetailsCell.swift in Sources */,
+				9CB7A8471C886E7B0035CCE7 /* ReachabilityService.swift in Sources */,
 				9C1B20DC1C77C6B900DE7A1A /* EventData.swift in Sources */,
 				9C4E70A61C7F042A005C948A /* SpeakerDetailsViewModel.swift in Sources */,
 				9C7304681C8193BB0080EBE4 /* Services.swift in Sources */,
@@ -636,6 +651,7 @@
 				9C24D4F31C83A92100B1F0A2 /* CreditViewController.swift in Sources */,
 				9C677B041C7CBABE0028045B /* NSObject+Extension.swift in Sources */,
 				9C1B21001C77CC1300DE7A1A /* MainViewModel.swift in Sources */,
+				9CB7A8461C886E7B0035CCE7 /* Reachability.swift in Sources */,
 				9C1BE5681C872E700078D5DE /* TwitterController.swift in Sources */,
 				9C677B021C7CBA2D0028045B /* SpeakerDetailsViewController.swift in Sources */,
 				9C24D4F21C83A72E00B1F0A2 /* WebViewController.swift in Sources */,
