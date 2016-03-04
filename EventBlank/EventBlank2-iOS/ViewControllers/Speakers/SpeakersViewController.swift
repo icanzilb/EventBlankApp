@@ -39,10 +39,6 @@ class SpeakersViewController: UIViewController {
         bindUI()
     }
     
-    func didTap() {
-        notification(kDidReplaceEventFileNotification)
-    }
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.active = true
@@ -62,7 +58,6 @@ class SpeakersViewController: UIViewController {
     func bindSearchBar() {
         //bind search bar
         searchController.searchBar.rx_text
-            .debug("search bar")
             .bindTo(viewModel.searchTerm)
             .addDisposableTo(bag)
         
@@ -70,16 +65,15 @@ class SpeakersViewController: UIViewController {
         let searchBarActive = [btnSearch.rx_tap.replaceWith(true), searchBarBtnCancel.replaceWith(false)].toObservable()
             .merge()
             .startWith(false)
-            .debug("search bar active")
             .shareReplay(1)
 
-        //show/hide the bar
-        let active = viewModel.rx_observe(Bool.self, "active").unwrap()
+        //present/dismiss search bar
+        searchBarActive.bindNext(toggleSearchBarVisibility).addDisposableTo(bag)
         
-        Observable.combineLatest(searchBarActive, active, resultSelector: {a, b in
+        //show/hide the bar
+        Observable.combineLatest(searchBarActive, viewModel.rx_observe(Bool.self, "active").unwrap(), resultSelector: {a, b in
             return a && b
         })
-        .distinctUntilChanged()
         .bindTo(searchController.searchBar.rx_visible)
         .addDisposableTo(bag)
         

@@ -31,8 +31,6 @@ extension SpeakersViewController: UISearchControllerDelegate, UISearchResultsUpd
                 x: CGRectGetMinX(navigationController!.navigationBar.frame) + 4,
                 y: 20)
         }
-        
-        toggleSearchBarVisibility(true)
     }
     
     func toggleSearchBarVisibility(visible: Bool) {

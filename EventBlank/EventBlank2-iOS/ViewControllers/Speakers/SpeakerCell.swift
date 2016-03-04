@@ -14,7 +14,7 @@ import RxCocoa
 
 class SpeakerCell: UITableViewCell {
 
-    let bag = DisposeBag()
+    private let bag = DisposeBag()
 
     // outlets
     @IBOutlet weak var userImage: UIImageView!
@@ -39,8 +39,13 @@ class SpeakerCell: UITableViewCell {
         twitterLabel.text = nil
     }
     
-    func populateFromSpeaker(speaker: Speaker) {
-        
+    static func cellOfTable(tv: UITableView, speaker: Speaker) -> SpeakerCell {
+        let cell = tv.dequeueReusableCellWithIdentifier("SpeakerCell") as! SpeakerCell
+        cell.populateFromSpeaker(speaker)
+        return cell
+    }
+    
+    private func populateFromSpeaker(speaker: Speaker) {
         if let userImage = speaker.photo {
             userImage.asyncToSize(.FillSize(self.userImage.bounds.size), cornerRadius: self.userImage.bounds.size.width/2, completion: {result in
                 self.userImage.image = result

@@ -19,7 +19,7 @@ protocol Storyboardable {
 
 class SpeakerDetailsViewController: UIViewController, Storyboardable {
     
-    static let storyboardID = "SpeakerDetailsViewController"
+    static internal let storyboardID = "SpeakerDetailsViewController"
     
     private let bag = DisposeBag()
 

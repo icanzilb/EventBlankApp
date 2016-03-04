@@ -15,11 +15,11 @@ import RxViewModel
 
 class SpeakersViewModel: RxViewModel {
     
-    let bag = DisposeBag()
+    private let bag = DisposeBag()
     typealias SpeakerSection = SectionModel<String, Speaker>
     
     let dataSource = RxTableViewSectionedReloadDataSource<SpeakerSection>()
-    let model: SpeakersModel
+    private let model: SpeakersModel
     
     //
     // MARK: input
@@ -41,7 +41,6 @@ class SpeakersViewModel: RxViewModel {
         model = SpeakersModel()
         
         super.init()
-        print("create speakers view model")
         
         //generate the speaker list
         let speakersList = Observable.combineLatest(searchTerm.asObservable(), onlyFavorites.asObservable(), resultSelector: {term, favs -> (String, Bool) in
@@ -78,12 +77,11 @@ class SpeakersViewModel: RxViewModel {
     // MARK: private methods
     //
     private func distinctSpeakerFilter(list1: [Speaker], list2: [Speaker]) -> Bool {
-        return list1.count == list2.count //fast semi-correct implementation
+        return list1.count == list2.count //just good enough implementation
     }
     
     func configureSpeakerCellForIndexPath(tableView: UITableView, index: NSIndexPath, speaker: Speaker) -> SpeakerCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("SpeakerCell") as! SpeakerCell
-        cell.populateFromSpeaker(speaker)
+        let cell = SpeakerCell.cellOfTable(tableView, speaker: speaker)
         model.favorites.subscribeNext {favorites in
             cell.isFavorite.onNext(favorites.contains(speaker.uuid))
         }.addDisposableTo(bag)
