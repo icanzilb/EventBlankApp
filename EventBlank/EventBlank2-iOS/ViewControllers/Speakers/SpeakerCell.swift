@@ -35,7 +35,7 @@ class SpeakerCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        userImage.image = UIImage(named: "empty")!
+        userImage.image = nil
         twitterLabel.text = nil
     }
     

@@ -56,9 +56,11 @@ class CreditViewController: UIViewController, UIWebViewDelegate {
     //MARK: - web view methods
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         if navigationType == UIWebViewNavigationType.LinkClicked && request.URL!.absoluteString.hasPrefix("http") {
-            let webVC = self.navigationController!.storyboard!.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
-            webVC.initialURL = request.URL
-            self.navigationController!.pushViewController(webVC, animated: true)
+            
+            //TODO: implement new web vc here
+//            let webVC = self.navigationController!.storyboard!.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
+//            webVC.initialURL = request.URL
+//            self.navigationController!.pushViewController(webVC, animated: true)
             return false
         }
         

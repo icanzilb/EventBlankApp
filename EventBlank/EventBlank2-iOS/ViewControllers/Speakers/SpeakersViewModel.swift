@@ -54,7 +54,6 @@ class SpeakersViewModel: RxViewModel {
         .map { results in
             return results.breakIntoSections(self.sectionTitleWithSpeakers)
         }
-        .debug("loaded speakers")
         .shareReplay(1)
         
         //generate reload events
