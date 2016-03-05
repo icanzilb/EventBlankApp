@@ -13,9 +13,19 @@ import RealmSwift
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    let realmProvider = RealmProvider()
-
+    var appController = AppController()
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         return true
+    }
+}
+
+extension UIApplication {
+    static var controller: AppController {
+        return (UIApplication.sharedApplication().delegate as! AppDelegate).appController
+    }
+    
+    static var interactor: Interactor {
+        return (UIApplication.sharedApplication().delegate as! AppDelegate).appController.interactor
     }
 }

@@ -71,6 +71,8 @@
 		9CB7A8471C886E7B0035CCE7 /* ReachabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB7A8451C886E7B0035CCE7 /* ReachabilityService.swift */; };
 		9CD260DA1C824CF000F24838 /* TappableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD260D91C824CF000F24838 /* TappableImageView.swift */; };
 		9CD260DF1C8251AA00F24838 /* PhotoPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD260DE1C8251AA00F24838 /* PhotoPopupView.swift */; };
+		9CE69BCB1C89E06A00CC283F /* WebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE69BCA1C89E06A00CC283F /* WebViewModel.swift */; };
+		9CE69BCD1C89E1BE00CC283F /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE69BCC1C89E1BE00CC283F /* AppController.swift */; };
 		9CE743E81C80CA9D00D140A0 /* marin_codebits_small.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9CE743E61C80CA9D00D140A0 /* marin_codebits_small.jpg */; };
 		9CE743E91C80CA9D00D140A0 /* Marin-Todorov.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9CE743E71C80CA9D00D140A0 /* Marin-Todorov.jpg */; };
 		9CE743EB1C80CB9700D140A0 /* marin-conf.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CE743EA1C80CB9700D140A0 /* marin-conf.png */; };
@@ -154,6 +156,8 @@
 		9CB7A8451C886E7B0035CCE7 /* ReachabilityService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityService.swift; sourceTree = "<group>"; };
 		9CD260D91C824CF000F24838 /* TappableImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TappableImageView.swift; sourceTree = "<group>"; };
 		9CD260DE1C8251AA00F24838 /* PhotoPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPopupView.swift; sourceTree = "<group>"; };
+		9CE69BCA1C89E06A00CC283F /* WebViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewModel.swift; sourceTree = "<group>"; };
+		9CE69BCC1C89E1BE00CC283F /* AppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		9CE743E61C80CA9D00D140A0 /* marin_codebits_small.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = marin_codebits_small.jpg; sourceTree = "<group>"; };
 		9CE743E71C80CA9D00D140A0 /* Marin-Todorov.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Marin-Todorov.jpg"; sourceTree = "<group>"; };
 		9CE743EA1C80CB9700D140A0 /* marin-conf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "marin-conf.png"; sourceTree = "<group>"; };
@@ -331,6 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				9C24D4F11C83A72E00B1F0A2 /* WebViewController.swift */,
+				9CE69BCA1C89E06A00CC283F /* WebViewModel.swift */,
 			);
 			name = Web;
 			sourceTree = "<group>";
@@ -379,6 +384,7 @@
 				9C677B051C7CCD4E0028045B /* MessageView.swift */,
 				9C1B20E21C77C7B800DE7A1A /* Shared.swift */,
 				9C1BE56C1C8743320078D5DE /* Interactor.swift */,
+				9CE69BCC1C89E1BE00CC283F /* AppController.swift */,
 			);
 			path = "EventBlank2-iOS";
 			sourceTree = "<group>";
@@ -665,6 +671,7 @@
 				9C1B20E61C77C7D800DE7A1A /* FilePath.swift in Sources */,
 				9C24D4E81C8399F400B1F0A2 /* MoreViewController.swift in Sources */,
 				9C1B20E11C77C71A00DE7A1A /* Config.swift in Sources */,
+				9CE69BCD1C89E1BE00CC283F /* AppController.swift in Sources */,
 				9C1B210D1C785DF600DE7A1A /* Session.swift in Sources */,
 				9C1BE56D1C8743320078D5DE /* Interactor.swift in Sources */,
 				9C1B20F61C77C82800DE7A1A /* UIImage+Extension.swift in Sources */,
@@ -673,6 +680,7 @@
 				9C73046B1C81A3230080EBE4 /* SpeakersModel.swift in Sources */,
 				9C24D4EE1C839C7500B1F0A2 /* MoreViewModel.swift in Sources */,
 				9C1B20F41C77C82800DE7A1A /* ViewController+Extensions.swift in Sources */,
+				9CE69BCB1C89E06A00CC283F /* WebViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

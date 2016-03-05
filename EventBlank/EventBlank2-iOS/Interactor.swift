@@ -10,6 +10,7 @@ import UIKit
 
 enum Segue {
     case SpeakerDetails(speaker: Speaker)
+    case WebPage(url: NSURL)
 }
 
 class Interactor {
@@ -21,8 +22,9 @@ class Interactor {
         //speaker details
         case .SpeakerDetails(let speaker):
             showViewController(SpeakerDetailsViewController.createWith(sender.storyboard!, speaker: speaker), sender: sender)
+        case .WebPage(let url):
+            showViewController(WebViewController.createWith(sender.storyboard!, url: url), sender: sender)
         }
-        
     }
     
     private func showViewController(target: UIViewController, sender: UIViewController) {

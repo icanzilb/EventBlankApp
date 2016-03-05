@@ -26,8 +26,6 @@ class SpeakersViewController: UIViewController {
     let searchController = UISearchController(searchResultsController:  nil)
     let searchBarBtnCancel = PublishSubject<Void>()
     
-    let interactor = Interactor()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -103,7 +101,7 @@ class SpeakersViewController: UIViewController {
             .subscribeNext {[unowned self] indexPath in
                 self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
                 let model = self.viewModel.dataSource.itemAtIndexPath(indexPath)
-                try! self.interactor.show(Segue.SpeakerDetails(speaker: model), sender: self)
+                try! UIApplication.interactor.show(Segue.SpeakerDetails(speaker: model), sender: self)
             }
             .addDisposableTo(bag)
     }
@@ -116,7 +114,6 @@ class SpeakersViewController: UIViewController {
             })
             .startWith(btnFavorites.selected)
             .shareReplayLatestWhileConnected()
-            .debug("favorites")
         
         favoritesSelected.bindTo(btnFavorites.rx_selected).addDisposableTo(bag)
         favoritesSelected.bindTo(viewModel.onlyFavorites).addDisposableTo(bag)

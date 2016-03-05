@@ -10,20 +10,59 @@ import UIKit
 import WebKit
 import Reachability
 
-//TODO: check the safari vc in iOS9 if iOS9 adoption rate is real high
+import RxSwift
 
-class WebViewController: UIViewController, WKNavigationDelegate {
+class WebViewController: UIViewController, WKNavigationDelegate, Storyboardable {
 
-    var initialURL: NSURL! //set from previous controller
-    private var webView = WKWebView()
+    static internal let storyboardID = "WebViewController"
+
+    private let bag = DisposeBag()
+    private let webView = WKWebView()
+    private let loadingIndicator = UIView()
     
-    var loadingIndicator = UIView()
+    private var viewModel: WebViewModel!
     
+    // MARK: create
+    
+    static func createWith(storyboard: UIStoryboard,
+        url: NSURL) -> WebViewController {
+            
+        let vc = storyboard.instantiateViewControllerWithIdentifier(storyboardID) as! WebViewController
+        vc.viewModel = WebViewModel(url: url)
+        return vc
+    }
+    
+    // MARK: life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = initialURL.absoluteString
+        setupUI()
+        bindUI()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
+        //observe the progress
+        viewModel.active = true
+        
+        //webView.addObserver(self, forKeyPath: "estimatedProgress", options: .New, context: nil)
+        //loadInitialURL()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        //remove observer
+//        webView.stopLoading()
+//        webView.removeObserver(self, forKeyPath: "estimatedProgress")
+//        
+//        loadingIndicator.removeFromSuperview()
+    }
+    
+    // MARK: setup UI
+    
+    func setupUI() {
         webView.frame = view.bounds
         webView.frame.size.height -= ((UIApplication.sharedApplication().windows.first!).rootViewController! as! UITabBarController).tabBar.frame.size.height
         webView.navigationDelegate = self
@@ -35,46 +74,37 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         loadingIndicator.hidden = true
         navigationController?.navigationBar.addSubview(loadingIndicator)
     }
+
+    // MARK: bind UI
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    func bindUI() {
         
-        //observe the progress
-        webView.addObserver(self, forKeyPath: "estimatedProgress", options: .New, context: nil)
-
-        loadInitialURL()
     }
-
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        //remove observer
-        webView.stopLoading()
-        webView.removeObserver(self, forKeyPath: "estimatedProgress")
-        
-        loadingIndicator.removeFromSuperview()
-    }
+    
+    // MARK: private
     
     func loadInitialURL() {
-        //not connected message
-        let reach = Reachability(hostName: initialURL!.host)
-        if !reach.isReachable() {
-            //show the message
-            view.addSubview(MessageView(text: "It certainly looks like you are not connected to the Internet right now..."))
-            
-            //show a reload button
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "loadInitialURL")
-            
-            return
-        }
+        //TODO: use reachability service
+        
+//        //not connected message
+//        let reach = Reachability(hostName: initialURL!.host)
+//        if !reach.isReachable() {
+//            //show the message
+//            view.addSubview(MessageView(text: "It certainly looks like you are not connected to the Internet right now..."))
+//            
+//            //show a reload button
+//            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "loadInitialURL")
+//            
+//            return
+//        }
 
         MessageView.removeViewFrom(view)
         navigationItem.rightBarButtonItem = nil
         
         //load the target url
-        let request = NSURLRequest(URL: initialURL!)
-        webView.loadRequest(request)
-        setLoadingIndicatorAnimating(true)
+//        let request = NSURLRequest(URL: initialURL!)
+//        webView.loadRequest(request)
+//        setLoadingIndicatorAnimating(true)
     }
     
     func setLoadingIndicatorAnimating(animating: Bool) {
