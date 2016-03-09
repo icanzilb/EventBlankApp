@@ -33,6 +33,7 @@ class SpeakerDetailsViewController: UIViewController, Storyboardable {
         super.viewDidLoad()
         
         setupUI()
+        bindUI()
     }
     
     static func createWith(storyboard: UIStoryboard,
@@ -51,8 +52,6 @@ class SpeakerDetailsViewController: UIViewController, Storyboardable {
 
         precondition(viewModel != nil)
         viewModel.active = true
-        
-        bindUI()
     }
     
     override func viewDidDisappear(animated: Bool) {

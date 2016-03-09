@@ -95,7 +95,7 @@ class SpeakerDetailsCell: UITableViewCell {
         btnWebsite.rx_tap.replaceWith(speaker.url)
             .map { NSURL(stringOptional: $0) }
             .unwrap()
-            .bindNext(openUrl)
+            .bindNext(UIApplication.interactor.showWebPage)
             .addDisposableTo(bag)
         
         //following

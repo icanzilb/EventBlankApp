@@ -12,7 +12,7 @@ import Reachability
 
 import RxSwift
 
-class WebViewController: UIViewController, WKNavigationDelegate, Storyboardable {
+class WebViewController: UIViewController, Storyboardable {
 
     static internal let storyboardID = "WebViewController"
 
@@ -27,7 +27,9 @@ class WebViewController: UIViewController, WKNavigationDelegate, Storyboardable 
     static func createWith(storyboard: UIStoryboard,
         url: NSURL) -> WebViewController {
             
-        let vc = storyboard.instantiateViewControllerWithIdentifier(storyboardID) as! WebViewController
+        guard let vc = storyboard.instantiateViewControllerWithIdentifier(storyboardID) as? WebViewController else {
+            fatalError("WebViewController not found in storyboard")
+        }
         vc.viewModel = WebViewModel(url: url)
         return vc
     }
@@ -35,57 +37,91 @@ class WebViewController: UIViewController, WKNavigationDelegate, Storyboardable 
     // MARK: life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupUI()
         bindUI()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        //observe the progress
+
+        webView.frame = view.bounds
         viewModel.active = true
-        
-        //webView.addObserver(self, forKeyPath: "estimatedProgress", options: .New, context: nil)
-        //loadInitialURL()
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        //remove observer
-//        webView.stopLoading()
-//        webView.removeObserver(self, forKeyPath: "estimatedProgress")
-//        
-//        loadingIndicator.removeFromSuperview()
+        viewModel.active = true
+        loadingIndicator.removeFromSuperview()
     }
     
     // MARK: setup UI
     
     func setupUI() {
-        webView.frame = view.bounds
         webView.frame.size.height -= ((UIApplication.sharedApplication().windows.first!).rootViewController! as! UITabBarController).tabBar.frame.size.height
-        webView.navigationDelegate = self
-        view.insertSubview(webView, belowSubview: loadingIndicator)
+        webView.backgroundColor = UIColor.redColor()
+        view.addSubview(webView)
         
         //setup loading indicator
         loadingIndicator.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 0.15)
-        loadingIndicator.userInteractionEnabled = false
-        loadingIndicator.hidden = true
         navigationController?.navigationBar.addSubview(loadingIndicator)
     }
 
     // MARK: bind UI
-    
     func bindUI() {
         
+        //load the web page
+        viewModel.urlRequest
+            .bindNextIgnoreResult(webView.loadRequest)
+            .addDisposableTo(bag)
+        
+        let progress = webView.rx_observe(Double.self, "estimatedProgress").shareReplay(1)
+
+        //show/hide progress
+        progress
+            .map {$0 > 0.99}
+            .debug()
+            .bindTo(loadingIndicator.rx_hidden)
+            .addDisposableTo(bag)
+        
+        //update progress bar
+        progress
+            .debug()
+            .bindNext(displayProgress)
+            .addDisposableTo(bag)
     }
     
     // MARK: private
     
-    func loadInitialURL() {
-        //TODO: use reachability service
+    func displayProgress(progress: Double?) {
+
+        self.title = webView.title ?? webView.URL?.absoluteString
         
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseOut, animations: {
+            self.loadingIndicator.frame = CGRect(
+                x: 0, y: 0,
+                width: self.navigationController!.navigationBar.bounds.size.width * CGFloat(self.webView.estimatedProgress),
+                height: self.navigationController!.navigationBar.bounds.size.height)
+            
+            }, completion: {_ in
+                if progress > 0.95 {
+                    mainQueue {
+                        //hide the loading indicator
+                        UIView.animateWithDuration(0.2, animations: {
+                            self.loadingIndicator.backgroundColor = UIColor(red: 0.0, green: 1.0, blue: 1.0, alpha: 0.15)
+                            }, completion: {_ in
+                                self.loadingIndicator.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 0.15)
+                        })
+                        
+                    }
+                }
+        })
+    }
+    
+    //TODO: add reachability to the view controller
+    
+    func __loadInitialURL() {
 //        //not connected message
 //        let reach = Reachability(hostName: initialURL!.host)
 //        if !reach.isReachable() {
@@ -100,51 +136,5 @@ class WebViewController: UIViewController, WKNavigationDelegate, Storyboardable 
 
         MessageView.removeViewFrom(view)
         navigationItem.rightBarButtonItem = nil
-        
-        //load the target url
-//        let request = NSURLRequest(URL: initialURL!)
-//        webView.loadRequest(request)
-//        setLoadingIndicatorAnimating(true)
     }
-    
-    func setLoadingIndicatorAnimating(animating: Bool) {
-        loadingIndicator.hidden = !animating
-        if animating {
-            loadingIndicator.frame = CGRect(x: 0, y: 0, width: 30, height: navigationController!.navigationBar.bounds.size.height)
-        }
-    }
-
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        if keyPath == "estimatedProgress" {
-            
-            if loadingIndicator.hidden {
-                loadingIndicator.hidden = false
-            }
-            
-            self.title = webView.title ?? webView.URL?.absoluteString
-            
-            UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseOut, animations: {
-                self.loadingIndicator.frame = CGRect(
-                    x: 0, y: 0,
-                    width: self.navigationController!.navigationBar.bounds.size.width * CGFloat(self.webView.estimatedProgress),
-                    height: self.navigationController!.navigationBar.bounds.size.height)
-
-                }, completion: {_ in
-                    if self.webView.estimatedProgress > 0.95 {
-                        mainQueue {
-                            //hide the loading indicator
-                            UIView.animateWithDuration(0.2, animations: {
-                                self.loadingIndicator.backgroundColor = UIColor(red: 0.0, green: 1.0, blue: 1.0, alpha: 0.15)
-                            }, completion: {_ in
-                                self.setLoadingIndicatorAnimating(false)
-                                self.loadingIndicator.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 0.15)
-                            })
-                            
-                        }
-                    }
-            })
-            
-        }
-    }
-    
 }

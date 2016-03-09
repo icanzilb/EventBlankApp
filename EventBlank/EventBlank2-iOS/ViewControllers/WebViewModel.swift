@@ -14,13 +14,16 @@ import RxViewModel
 
 class WebViewModel: RxViewModel {
     
-    let loadUrl = PublishSubject<NSURL>()
-
-    private let url: Observable<NSURL>
+    let urlRequest = PublishSubject<NSURLRequest>()
+    private let bag = DisposeBag()
     
     init(url: NSURL) {
-        self.url = BehaviorSubject<NSURL>(value: url)
+        super.init()
         
+        Observable.combineLatest(Observable.just(url), didBecomeActive, resultSelector: {url, _ in
+            return NSURLRequest(URL: url)
+        })
+        .bindTo(urlRequest)
+        .addDisposableTo(bag)
     }
-    
 }

@@ -19,6 +19,10 @@ extension ObservableType {
     func replaceWith<R>(value: R) -> Observable<R> {
         return map { _ in value }
     }
+    
+    public func bindNextIgnoreResult(onNext: (E -> Any)) -> Disposable {
+        return bindNext { onNext($0) }
+    }
 }
 
 extension UIResponder {
@@ -43,7 +47,7 @@ extension Observable where Element : SignedIntegerType {
 
 extension Observable where Element: BooleanType {
     public func negate() -> Observable<Bool> {
-        return map {value in !value}
+        return map(!)
     }
     
     public func filterNegatives() -> Observable<Bool> {

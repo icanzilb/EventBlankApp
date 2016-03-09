@@ -103,7 +103,7 @@ class RealmProvider {
         let speaker2 = Speaker()
         speaker2.name = "Billy Staton"
         speaker2.bio = "Airplane Mode is an indie rock band from New York City. Dave Wiskus (vocals, guitar) and Joe Cieplinski (bass, everything else) are making a record and documenting the process in their critically-acclaimed self-titled podcast, capturing the highs and lows of forming a truly independent band in the age of social media."
-        speaker2.url = "http://www.yahoo.com"
+        speaker2.url = "https://www.google.com"
         speaker2.twitter = "billy"
         speaker2.photo = UIImage(named: "Marin-Todorov.jpg")!
         
