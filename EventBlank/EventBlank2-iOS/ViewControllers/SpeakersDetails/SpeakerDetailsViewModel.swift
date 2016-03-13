@@ -30,27 +30,49 @@ class SpeakerDetailsViewModel: RxViewModel {
         
         super.init()
         
-        //table items
-        tableItems.onNext([
-            AnySection(model: "details", items: [speaker])
-            ])
+        // twitter
+        let tweets = Variable<[Tweet]>([])
+
+        if let targetTwitterUsername = speaker.twitter {
+            twitterProvider.currentAccount()
+            .flatMapLatest {account in
+                return twitterProvider.timelineForUsername(account, username: targetTwitterUsername)
+            }
+            .bindTo(tweets)
+            .addDisposableTo(bag)
+        }
         
+        //bind table items
+        Observable.combineLatest(Observable.just(speaker), tweets.asObservable(), resultSelector: { speaker, tweets in
+            return Array<AnySection>([
+                AnySection(model: "details", items: [speaker]),
+                AnySection(model: "tweets", items: tweets)
+            ])
+        })
+        .bindTo(tableItems)
+        .addDisposableTo(bag)
+
         //the data source
-        dataSource.configureCell = {[unowned self] (tv, indexPath, _) in
+        dataSource.configureCell = {[unowned self] (tv, indexPath, item) in
             switch indexPath.section {
-            case 0: return self.setupSpeakerDetailsCell(tv, speaker: speaker, twitterProvider: twitterProvider)
+            case 0: return self.speakerDetailsCell(tv, speaker: speaker, twitterProvider: twitterProvider)
+            case 1: return self.tweetCell(tv, tweet: item as! Tweet)
             default: return UITableViewCell()
             }
         }
         
         //section headers
         dataSource.titleForHeaderInSection = {section in
-            return "Speaker Details"
+            switch section {
+            case 0: return "Speaker Details"
+            case 1: return "Latest Tweets"
+            default: return ""
+            }
         }
     }
     
     //private methods
-    private func setupSpeakerDetailsCell(tv: UITableView, speaker: Speaker, twitterProvider: TwitterProvider) -> SpeakerDetailsCell {
+    private func speakerDetailsCell(tv: UITableView, speaker: Speaker, twitterProvider: TwitterProvider) -> SpeakerDetailsCell {
         let cell = SpeakerDetailsCell.cellOfTable(tv, speaker: speaker)
         
         //is favorite
@@ -63,10 +85,9 @@ class SpeakerDetailsViewModel: RxViewModel {
         cell.isFavorite
             .bindNext(self.model.updateSpeakerFavoriteTo)
             .addDisposableTo(self.bag)
-        
-        //wire twitter
+
+        //is following
         if let targetTwitterUsername = speaker.twitter {
-            
             twitterProvider.currentAccount()
                 .flatMapLatest {account in
                     return twitterProvider.isFollowingUser(account, username: targetTwitterUsername)
@@ -74,6 +95,12 @@ class SpeakerDetailsViewModel: RxViewModel {
                 .bindTo(cell.isFollowing)
                 .addDisposableTo(bag)
         }
+
+        return cell
+    }
+    
+    private func tweetCell(tv: UITableView, tweet: Tweet) -> TweetCell {
+        let cell = TweetCell.cellOfTable(tv, tweet: tweet)
         
         return cell
     }

@@ -13,8 +13,6 @@ pod 'RxDataSources'
 pod 'RealmSwift'
 #pod 'RxRealm', :git => "https://github.com/icanzilb/RxRealm"
 
-pod 'HanekeSwift'
-
 pod 'MAThemeKit'
 pod 'DynamicColor'
 
@@ -31,6 +29,9 @@ pod 'MMMarkdown'
 
 pod 'Moya/RxSwift'
 pod 'SwiftyJSON'
+
+pod 'RelativeFormatter'
+pod 'Kingfisher'
 
 post_install do | installer |
     require 'fileutils'

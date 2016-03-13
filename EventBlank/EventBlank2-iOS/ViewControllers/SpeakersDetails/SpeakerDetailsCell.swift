@@ -38,7 +38,8 @@ class SpeakerDetailsCell: UITableViewCell {
     }
     
     static func cellOfTable(tv: UITableView, speaker: Speaker) -> SpeakerDetailsCell {
-        return (tv.dequeueReusableCellWithIdentifier("SpeakerDetailsCell") as! SpeakerDetailsCell).populateFromSpeaker(speaker)
+        return (tv.dequeueReusableCellWithIdentifier("SpeakerDetailsCell") as! SpeakerDetailsCell)
+            .populateFromSpeaker(speaker)
     }
     
     func populateFromSpeaker(speaker: Speaker) -> Self {
@@ -106,7 +107,7 @@ class SpeakerDetailsCell: UITableViewCell {
     }
 }
 
-extension SpeakerDetailsCell: UITextViewDelegate {
+extension SpeakerDetailsCell {
     
     func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
         openUrl(URL)

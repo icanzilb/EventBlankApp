@@ -26,7 +26,13 @@ class TwitterProvider {
         static let malformedResponse = 2
     }
     
-    let backgroundWorkScheduler: ImmediateSchedulerType
+    private let backgroundWorkScheduler: ImmediateSchedulerType
+    
+    private struct Endpoint {
+        let friendship = NSURL(string: "https://api.twitter.com/1.1/friendships/show.json")!
+        let timeline = NSURL(string: "https://api.twitter.com/1.1/statuses/user_timeline.json")!
+    }
+    private let endpoints = Endpoint()
     
     init() {
         let operationQueue = NSOperationQueue()
@@ -65,7 +71,7 @@ class TwitterProvider {
         let request = SLRequest(
             forServiceType: SLServiceTypeTwitter,
             requestMethod: SLRequestMethod.GET,
-            URL: NSURL(string: "https://api.twitter.com/1.1/friendships/show.json")!,
+            URL: endpoints.friendship,
             parameters: parameters
         )
         
@@ -96,4 +102,45 @@ class TwitterProvider {
             .observeOn(MainScheduler.instance)
             .retryOnBecomesReachable(.NA, reachabilityService: ReachabilityService.sharedReachabilityService)
     }
+    
+    func timelineForUsername(account: ACAccount, username: String) -> Observable<[Tweet]> {
+        
+        let parameters: [String: String] = [
+            "screen_name" : username,
+            "include_rts" : "0",
+            "trim_user" : "0",
+            "count" : "20"
+        ]
+        
+        let request = SLRequest(
+            forServiceType: SLServiceTypeTwitter,
+            requestMethod: SLRequestMethod.GET,
+            URL: endpoints.timeline,
+            parameters: parameters
+        )
+        
+        request.account = account
+        
+        //send of url request
+        let urlRequest = request.preparedURLRequest()
+
+        //observe response
+        return NSURLSession.sharedSession()
+            .rx_response(urlRequest)
+            .retry(3)
+            .observeOn(backgroundWorkScheduler)
+            .map { data, httpResponse -> [Tweet] in
+                let result = JSON(data: data)
+                let tweets = result.map {_, object in
+                    return Tweet(jsonObject: object)
+                }
+                .filter {$0 != nil}
+                .map{ $0! }
+                
+                return tweets
+            }
+            .observeOn(MainScheduler.instance)
+            .retryOnBecomesReachable([], reachabilityService: ReachabilityService.sharedReachabilityService)
+    }
+
 }

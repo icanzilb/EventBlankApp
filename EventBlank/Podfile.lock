@@ -3,7 +3,7 @@ PODS:
   - CWStatusBarNotification (2.3.4)
   - DynamicColor (2.3.0)
   - EasyAnimation (1.0.4)
-  - HanekeSwift (0.10.1)
+  - Kingfisher (2.1.0)
   - MAThemeKit (1.0)
   - MMMarkdown (0.5.1)
   - Moya/Core (6.2.0):
@@ -18,6 +18,7 @@ PODS:
   - Realm/Headers (0.98.3)
   - RealmSwift (0.98.3):
     - Realm (= 0.98.3)
+  - RelativeFormatter (0.6.0)
   - Result (1.0.2)
   - RxCocoa (2.2.0):
     - RxSwift (~> 2.2)
@@ -37,12 +38,13 @@ DEPENDENCIES:
   - CWStatusBarNotification
   - DynamicColor
   - EasyAnimation
-  - HanekeSwift
+  - Kingfisher
   - MAThemeKit
   - MMMarkdown
   - Moya/RxSwift
   - Reachability
   - RealmSwift
+  - RelativeFormatter
   - RxCocoa
   - RxDataSources
   - RxSwift
@@ -66,13 +68,14 @@ SPEC CHECKSUMS:
   CWStatusBarNotification: 3fec41edcb0ae3677d9febfcb9632d8bdf52294c
   DynamicColor: 18badd22ee5edeefcbe0a8f5887a86640c592a1c
   EasyAnimation: 4aabd439b4038f48d72939cc19d6220363b3206e
-  HanekeSwift: 08e47d3d0f2899ec58e5d257beba0de619aca9e8
+  Kingfisher: 3ac09acad75a25ab22f6d7cef3de10d61dd4792d
   MAThemeKit: 559acc98ceadc051cccb1b6bb0c4ca28475eb021
   MMMarkdown: 06f7989e0350d10a7de50516af6c812402ce554b
   Moya: a5e57a405584177027daab240f4d47baa0722562
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   Realm: c6a7d00221a2d5177810a674aebd40c5e0b70b0f
   RealmSwift: d6ecad6e4c2a645d6ac956c2c7e9efb375f39c31
+  RelativeFormatter: d6de6d8fc63b32b68878b0624c44cae8b7b74ae0
   Result: dd3dd71af3fa2e262f1a999e14fba2c25ec14f16
   RxCocoa: 42efb7a7145a8d1d5878e94ce48a580d29e0c796
   RxDataSources: dc37b814dd4efd761e1e65521b977677e4197614

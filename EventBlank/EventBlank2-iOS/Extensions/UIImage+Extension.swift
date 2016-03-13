@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 enum UIImageResizeMode {
     case Fill(CGFloat, CGFloat)
@@ -16,6 +17,18 @@ enum UIImageResizeMode {
 }
 
 extension UIImage {
+    
+    func rx_resizedImage(newSizeMode: UIImageResizeMode, cornerRadius: CGFloat = 0.0) -> Observable<UIImage?> {
+        return Observable.create({[weak self] observer -> Disposable in
+            
+            self?.asyncToSize(newSizeMode, cornerRadius: cornerRadius) { image in
+                observer.onNext(image)
+                observer.onCompleted()
+            }
+            
+            return NopDisposable.instance
+        })
+    }
     
     func asyncToSize(newSizeMode: UIImageResizeMode, cornerRadius: CGFloat = 0.0, completion: ((UIImage?)->Void)? = nil) {
 

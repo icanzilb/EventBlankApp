@@ -1,0 +1,6 @@
+framework module RelativeFormatter {
+  umbrella header "RelativeFormatter-umbrella.h"
+
+  export *
+  module * { export * }
+}
