@@ -27,7 +27,7 @@ class SpeakerDetailsViewController: UIViewController, Storyboardable {
 
     private var speaker: Speaker!
     private var viewModel: SpeakerDetailsViewModel!
-    private var twitterProvider: TwitterController!
+    private var twitterProvider: TwitterProvider!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +38,7 @@ class SpeakerDetailsViewController: UIViewController, Storyboardable {
     
     static func createWith(storyboard: UIStoryboard,
         speaker: Speaker,
-        twitterProvider: TwitterController = TwitterController()) -> SpeakerDetailsViewController {
+        twitterProvider: TwitterProvider = TwitterProvider()) -> SpeakerDetailsViewController {
         
             let vc = storyboard.instantiateViewControllerWithIdentifier(storyboardID) as! SpeakerDetailsViewController
             vc.speaker = speaker

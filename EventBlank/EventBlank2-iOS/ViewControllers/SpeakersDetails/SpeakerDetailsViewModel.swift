@@ -25,7 +25,7 @@ class SpeakerDetailsViewModel: RxViewModel {
     let dataSource = RxTableViewSectionedReloadDataSource<AnySection>()
 
     //init
-    init(speaker: Speaker, twitterProvider: TwitterController) {
+    init(speaker: Speaker, twitterProvider: TwitterProvider) {
         self.model = SpeakerDetailsModel(speaker: speaker)
         
         super.init()
@@ -50,7 +50,7 @@ class SpeakerDetailsViewModel: RxViewModel {
     }
     
     //private methods
-    private func setupSpeakerDetailsCell(tv: UITableView, speaker: Speaker, twitterProvider: TwitterController) -> SpeakerDetailsCell {
+    private func setupSpeakerDetailsCell(tv: UITableView, speaker: Speaker, twitterProvider: TwitterProvider) -> SpeakerDetailsCell {
         let cell = SpeakerDetailsCell.cellOfTable(tv, speaker: speaker)
         
         //is favorite
@@ -66,12 +66,13 @@ class SpeakerDetailsViewModel: RxViewModel {
         
         //wire twitter
         if let targetTwitterUsername = speaker.twitter {
-            twitterProvider.authorize()
-            .flatMapLatest {account in
-                return twitterProvider.isFollowingUser(account, username: targetTwitterUsername)
-            }
-            .bindTo(cell.isFollowing)
-            .addDisposableTo(bag)
+            
+            twitterProvider.currentAccount()
+                .flatMapLatest {account in
+                    return twitterProvider.isFollowingUser(account, username: targetTwitterUsername)
+                }
+                .bindTo(cell.isFollowing)
+                .addDisposableTo(bag)
         }
         
         return cell

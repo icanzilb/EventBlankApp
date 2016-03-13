@@ -59,7 +59,6 @@ class SpeakerDetailsCell: UITableViewCell {
         image.asyncToSize(.FillSize(self.userImage.bounds.size), cornerRadius: 5, completion: {result in
             self.userImage.image = result
         })
-        btnIsFollowing.hidden = true
         
         self.speaker = speaker
 
@@ -99,7 +98,9 @@ class SpeakerDetailsCell: UITableViewCell {
             .addDisposableTo(bag)
         
         //following
-        isFollowing.asObservable().bindTo(btnIsFollowing.rx_following).addDisposableTo(bag)
+        isFollowing.asObservable()
+            .bindTo(btnIsFollowing.rx_following)
+            .addDisposableTo(bag)
         
         return self
     }
