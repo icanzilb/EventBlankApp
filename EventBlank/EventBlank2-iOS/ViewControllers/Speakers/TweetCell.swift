@@ -48,6 +48,7 @@ class TweetCell: UITableViewCell {
 
         timeLabel.text = tweet.created.relativeFormatted()
 
+        //attachment image
         if let attachmentUrl = tweet.imageUrl {
             attachmentImage.kf_setImageWithURL(attachmentUrl, placeholderImage: nil, optionsInfo: nil, completionHandler: {[weak self] (fullImage, error, cacheType, imageURL) -> () in
                 if let cell = self {
@@ -63,6 +64,14 @@ class TweetCell: UITableViewCell {
             attachmentHeight.constant = 148.0
         }
         
+        //attached url
+        if let url = tweet.url {
+            rx_gesture(.Tap).subscribeNext {_ in
+                openUrl(url)
+            }.addDisposableTo(bag)
+        }
+        
+        //user info
         nameLabel.text = tweet.user?.name
 
         if let avatarUrl = tweet.user?.avatarUrl {
