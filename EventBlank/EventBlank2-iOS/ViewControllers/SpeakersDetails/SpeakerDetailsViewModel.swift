@@ -100,8 +100,6 @@ class SpeakerDetailsViewModel: RxViewModel {
     }
     
     private func tweetCell(tv: UITableView, tweet: Tweet) -> TweetCell {
-        let cell = TweetCell.cellOfTable(tv, tweet: tweet)
-        
-        return cell
+        return TweetCell.cellOfTable(tv, tweet: tweet)
     }
 }

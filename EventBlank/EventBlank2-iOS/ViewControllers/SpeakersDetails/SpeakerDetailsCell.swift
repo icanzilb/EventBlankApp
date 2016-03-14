@@ -13,7 +13,8 @@ import RxCocoa
 
 class SpeakerDetailsCell: UITableViewCell {
     
-    private let bag = DisposeBag()
+    private var reuseBag = DisposeBag()
+    private let lifeBag  = DisposeBag()
 
     @IBOutlet weak var userImage: TappableImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -23,8 +24,6 @@ class SpeakerDetailsCell: UITableViewCell {
     @IBOutlet weak var bioTextView: UITextView!
     @IBOutlet weak var btnIsFollowing: FollowTwitterButton!
     
-    private var speaker: Speaker!
-
     // input/output
     let isFavorite = PublishSubject<Bool>()
     let isFollowing = PublishSubject<FollowingOnTwitter>()
@@ -35,6 +34,11 @@ class SpeakerDetailsCell: UITableViewCell {
         
         btnToggleIsFavorite.setImage(UIImage(named: "like-full")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Selected)
         bioTextView.delegate = self
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        reuseBag = DisposeBag()
     }
     
     static func cellOfTable(tv: UITableView, speaker: Speaker) -> SpeakerDetailsCell {
@@ -61,8 +65,6 @@ class SpeakerDetailsCell: UITableViewCell {
             self.userImage.image = result
         })
         
-        self.speaker = speaker
-
         //
         // bind UI
         //
@@ -71,15 +73,15 @@ class SpeakerDetailsCell: UITableViewCell {
         userImage.rx_tap.subscribeNext {
             PhotoPopupView.showImage(speaker.photo!,
                 inView: UIApplication.sharedApplication().windows.first!)
-        }.addDisposableTo(bag)
+        }.addDisposableTo(reuseBag)
         
         //favorite button
-        isFavorite.bindTo(btnToggleIsFavorite.rx_selected).addDisposableTo(bag)
-        
+        isFavorite.bindTo(btnToggleIsFavorite.rx_selected).addDisposableTo(reuseBag)
+
         btnToggleIsFavorite.rx_tap.subscribeNext {[unowned self] in
             self.isFavorite.onNext(!self.btnToggleIsFavorite.selected)
             self.btnToggleIsFavorite.animateSelect(scale: 0.8, completion: nil)
-        }.addDisposableTo(bag)
+        }.addDisposableTo(reuseBag)
         
         //twitter button
         btnTwitter.rx_tap.replaceWith(speaker.twitter)
@@ -89,19 +91,19 @@ class SpeakerDetailsCell: UITableViewCell {
                 return "https://www.twitter.com/\(handle)"
             }
             .bindNext(openUrl)
-            .addDisposableTo(bag)
+            .addDisposableTo(reuseBag)
         
         //website button
         btnWebsite.rx_tap.replaceWith(speaker.url)
             .map { NSURL(stringOptional: $0) }
             .unwrap()
             .bindNext(UIApplication.interactor.showWebPage)
-            .addDisposableTo(bag)
+            .addDisposableTo(reuseBag)
         
         //following
         isFollowing.asObservable()
             .bindTo(btnIsFollowing.rx_following)
-            .addDisposableTo(bag)
+            .addDisposableTo(reuseBag)
         
         return self
     }
