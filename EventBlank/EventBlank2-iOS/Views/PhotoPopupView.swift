@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Haneke
+import Kingfisher
 
 import RxSwift
 import RxCocoa
@@ -34,15 +34,17 @@ class PhotoPopupView: UIView {
         didSet {
             precondition(backdrop == nil)
             setupUI()
-            
-            imgView.hnk_setImageFromURL(photoUrl, placeholder: nil, format: nil, failure: {error in
-                UIViewController.alert("Couldn't fetch image.", buttons: ["Close"], completion: {_ in self.didTapPhoto()})
-            }, success: {[weak self]image in
-                self?.imgView.image = image
-                if self?.spinner != nil {
-                    self?.spinner.removeFromSuperview()
+
+            imgView.kf_setImageWithURL(photoUrl, placeholderImage: nil, optionsInfo: nil) {[weak self] image, error, cacheType, imageURL in
+                if let image = image {
+                    self?.imgView.image = image
+                    if self?.spinner != nil {
+                        self?.spinner.removeFromSuperview()
+                    }
+                } else {
+                    UIViewController.alert("Couldn't fetch image.", buttons: ["Close"], completion: {_ in self?.didTapPhoto()})
                 }
-            })
+            }
             displayPhoto()
         }
     }

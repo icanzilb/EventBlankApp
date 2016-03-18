@@ -75,5 +75,3 @@ class MoreViewController: UIViewController {
         }
     }
 }
-
-extension MoreViewController: UITableViewDelegate {  }

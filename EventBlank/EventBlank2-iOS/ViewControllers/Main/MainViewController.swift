@@ -22,14 +22,13 @@ class MainViewController: UIViewController {
     @IBOutlet weak var lblOrganizer: UILabel!
     
     // MARK: variables
-    let viewModel = MainViewModel()
-    let bag = DisposeBag()
+    private let viewModel = MainViewModel()
+    private let bag = DisposeBag()
     
     // MARK: methods
     override func viewDidLoad() {
         super.viewDidLoad()
         bindUI()
-        
     }
 
     override func viewWillAppear(animated: Bool) {

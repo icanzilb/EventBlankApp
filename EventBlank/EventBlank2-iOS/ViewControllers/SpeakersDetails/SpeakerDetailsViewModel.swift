@@ -56,7 +56,7 @@ class SpeakerDetailsViewModel: RxViewModel {
         dataSource.configureCell = {[unowned self] (tv, indexPath, item) in
             switch indexPath.section {
             case 0: return self.speakerDetailsCell(tv, speaker: speaker, twitterProvider: twitterProvider)
-            case 1: return self.tweetCell(tv, tweet: item as! Tweet)
+            case 1: return TweetCell.cellOfTable(tv, tweet: item as! Tweet)
             default: return UITableViewCell()
             }
         }
@@ -97,9 +97,5 @@ class SpeakerDetailsViewModel: RxViewModel {
         }
 
         return cell
-    }
-    
-    private func tweetCell(tv: UITableView, tweet: Tweet) -> TweetCell {
-        return TweetCell.cellOfTable(tv, tweet: tweet)
     }
 }

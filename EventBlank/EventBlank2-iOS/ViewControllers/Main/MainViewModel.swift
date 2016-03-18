@@ -26,7 +26,7 @@ class MainViewModel: RxViewModel {
     var mainColor = BehaviorSubject<UIColor>(value: UIColor.blackColor())
     
     // MARK: private
-    let bag = DisposeBag()
+    private let bag = DisposeBag()
 
     // MARK: init
     override init() {
@@ -39,7 +39,6 @@ class MainViewModel: RxViewModel {
             return RealmProvider.eventRealm.objects(EventData).asObservable()
         })
         .map({ results in results.first! })
-        .debug()
         .subscribeNext({[unowned self] data in
             
             self.title.onNext(data.title)

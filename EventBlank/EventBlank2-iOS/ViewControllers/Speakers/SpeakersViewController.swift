@@ -16,11 +16,11 @@ class SpeakersViewController: UIViewController {
     // outlets
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet var btnSearch: UIBarButtonItem!
-    var btnFavorites = FavoritesBarButtonItem.instance()
+    private var btnFavorites = FavoritesBarButtonItem.instance()
     
     // properties
-    let viewModel = SpeakersViewModel()
-    let bag = DisposeBag()
+    private let viewModel = SpeakersViewModel()
+    private let bag = DisposeBag()
     
     // search bar
     let searchController = UISearchController(searchResultsController:  nil)
