@@ -8,8 +8,6 @@
 
 import UIKit
 
-extension UIViewController: ClassIdentifier { }
-
 extension UIStoryboard {
     func instantiateViewController<T: ClassIdentifier>(type: T.Type) -> T {
         return instantiateViewControllerWithIdentifier(type.classIdentifier) as! T

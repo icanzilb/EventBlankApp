@@ -13,7 +13,7 @@ import RxCocoa
 
 import Then
 
-class SpeakerDetailsCell: UITableViewCell {
+class SpeakerDetailsCell: UITableViewCell, ClassIdentifier {
     
     private var reuseBag = DisposeBag()
     private let lifeBag  = DisposeBag()

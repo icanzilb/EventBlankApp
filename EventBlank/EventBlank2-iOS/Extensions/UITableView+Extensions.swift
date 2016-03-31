@@ -8,10 +8,9 @@
 
 import UIKit
 
-extension UITableViewCell: ClassIdentifier { }
-
 extension UITableView {
     func dequeueReusableCell<T: ClassIdentifier>(type: T.Type) -> T {
+        print("\(type): \(T.classIdentifier)")
         return dequeueReusableCellWithIdentifier(T.classIdentifier) as! T
     }
 }

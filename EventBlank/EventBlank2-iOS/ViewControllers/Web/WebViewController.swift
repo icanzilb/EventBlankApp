@@ -13,7 +13,7 @@ import Reachability
 import RxSwift
 import Then
 
-class WebViewController: UIViewController {
+class WebViewController: UIViewController, ClassIdentifier {
 
     private let bag = DisposeBag()
     private let webView = WKWebView()

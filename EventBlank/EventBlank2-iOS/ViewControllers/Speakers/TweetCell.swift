@@ -13,7 +13,7 @@ import RxSwift
 import RxGesture
 import Then
 
-class TweetCell: UITableViewCell {
+class TweetCell: UITableViewCell, ClassIdentifier {
 
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var message: UITextView!

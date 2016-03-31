@@ -14,7 +14,7 @@ import RxCocoa
 
 import Then
 
-class SpeakerCell: UITableViewCell {
+class SpeakerCell: UITableViewCell, ClassIdentifier {
 
     private let bag = DisposeBag()
 

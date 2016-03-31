@@ -12,7 +12,7 @@ import RealmSwift
 import MMMarkdown
 import DynamicColor
 
-class MDViewController: UIViewController, UIWebViewDelegate {
+class MDViewController: UIViewController, UIWebViewDelegate, ClassIdentifier {
     
     var text: Text!
     

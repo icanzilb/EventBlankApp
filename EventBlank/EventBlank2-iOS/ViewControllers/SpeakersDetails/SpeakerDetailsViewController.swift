@@ -18,12 +18,10 @@ protocol ClassIdentifier: class {
 }
 
 extension ClassIdentifier {
-    static var classIdentifier: String {
-        return String(Self)
-    }
+    static var classIdentifier: String { return String(Self) }
 }
 
-class SpeakerDetailsViewController: UIViewController {
+class SpeakerDetailsViewController: UIViewController, ClassIdentifier {
     
     private let bag = DisposeBag()
 

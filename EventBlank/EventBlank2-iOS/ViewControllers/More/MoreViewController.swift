@@ -15,7 +15,7 @@ import Then
 
 import VTAcknowledgementsViewController
 
-class MoreViewController: UIViewController {
+class MoreViewController: UIViewController, ClassIdentifier {
 
     @IBOutlet weak var tableView: UITableView!
     private var viewModel = MoreViewModel()
