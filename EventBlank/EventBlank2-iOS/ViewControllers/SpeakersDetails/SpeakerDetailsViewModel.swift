@@ -31,10 +31,11 @@ class SpeakerDetailsViewModel: RxViewModel {
         super.init()
         
         // twitter
-        let tweets = Variable<[Tweet]>([])
+        let tweets = Variable<[Tweet]?>(nil)
 
         if let targetTwitterUsername = speaker.twitter {
             twitterProvider.currentAccount()
+            .unwrap()
             .flatMapLatest {account in
                 return twitterProvider.timelineForUsername(account, username: targetTwitterUsername)
             }
@@ -44,16 +45,20 @@ class SpeakerDetailsViewModel: RxViewModel {
         
         //bind table items
         Observable.combineLatest(Observable.just(speaker), tweets.asObservable(), resultSelector: { speaker, tweets in
-            return Array<AnySection>([
-                AnySection(model: "details", items: [speaker]),
-                AnySection(model: "tweets", items: tweets)
-            ])
+            if let tweets = tweets {
+                return [AnySection(model: "details", items: [speaker]),
+                        AnySection(model: "tweets", items: tweets)]
+            } else {
+                return [AnySection(model: "details", items: [speaker])]
+            }
         })
         .bindTo(tableItems)
         .addDisposableTo(bag)
 
         //the data source
-        dataSource.configureCell = {[unowned self] (tv, indexPath, item) in
+        dataSource.configureCell = {[weak self] (_, tv, indexPath, item) in
+            guard let `self` = self else {return UITableViewCell()}
+            
             switch indexPath.section {
             case 0: return self.speakerDetailsCell(tv, speaker: speaker, twitterProvider: twitterProvider)
             case 1: return TweetCell.cellOfTable(tv, tweet: item as! Tweet)
@@ -62,7 +67,7 @@ class SpeakerDetailsViewModel: RxViewModel {
         }
         
         //section headers
-        dataSource.titleForHeaderInSection = {section in
+        dataSource.titleForHeaderInSection = {_, section in
             switch section {
             case 0: return "Speaker Details"
             case 1: return "Latest Tweets"
@@ -89,9 +94,15 @@ class SpeakerDetailsViewModel: RxViewModel {
         //is following
         if let targetTwitterUsername = speaker.twitter {
             twitterProvider.currentAccount()
-                .flatMapLatest {account in
-                    return twitterProvider.isFollowingUser(account, username: targetTwitterUsername)
+                .debug()
+                .flatMapLatest {account -> Observable<FollowingOnTwitter> in
+                    if let account = account {
+                        return twitterProvider.isFollowingUser(account, username: targetTwitterUsername)
+                    } else {
+                        return Observable.just(.NA)
+                    }
                 }
+                .debug()
                 .bindTo(cell.isFollowing)
                 .addDisposableTo(bag)
         }

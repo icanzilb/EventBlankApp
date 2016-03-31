@@ -43,7 +43,7 @@ public struct ButtonBarPagerTabStripSettings {
     
     public struct Style {
         public var buttonBarBackgroundColor: UIColor?
-        public var buttonBarMinimumInteritemSpacing: CGFloat?
+        @available(*, deprecated=4.0.2) public var buttonBarMinimumInteritemSpacing: CGFloat? = 0
         public var buttonBarMinimumLineSpacing: CGFloat?
         public var buttonBarLeftContentInset: CGFloat?
         public var buttonBarRightContentInset: CGFloat?
@@ -83,13 +83,14 @@ public class ButtonBarPagerTabStripViewController: PagerTabStripViewController, 
     @IBOutlet public lazy var buttonBarView: ButtonBarView! = { [unowned self] in
         var flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .Horizontal
-        let buttonBar = ButtonBarView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.settings.style.buttonBarHeight ?? 44), collectionViewLayout: flowLayout)
+        let buttonBarHeight = self.settings.style.buttonBarHeight ?? 44
+        let buttonBar = ButtonBarView(frame: CGRectMake(0, 0, self.view.frame.size.width, buttonBarHeight), collectionViewLayout: flowLayout)
         buttonBar.backgroundColor = .orangeColor()
         buttonBar.selectedBar.backgroundColor = .blackColor()
         buttonBar.autoresizingMask = .FlexibleWidth
         var newContainerViewFrame = self.containerView.frame
-        newContainerViewFrame.origin.y = 44
-        newContainerViewFrame.size.height = self.containerView.frame.size.height - (44 - self.containerView.frame.origin.y)
+        newContainerViewFrame.origin.y = buttonBarHeight
+        newContainerViewFrame.size.height = self.containerView.frame.size.height - (buttonBarHeight - self.containerView.frame.origin.y)
         self.containerView.frame = newContainerViewFrame
         return buttonBar
     }()
@@ -125,9 +126,10 @@ public class ButtonBarPagerTabStripViewController: PagerTabStripViewController, 
         buttonBarView.scrollsToTop = false
         let flowLayout = buttonBarView.collectionViewLayout as! UICollectionViewFlowLayout
         flowLayout.scrollDirection = .Horizontal
-        flowLayout.minimumInteritemSpacing = settings.style.buttonBarMinimumInteritemSpacing ?? flowLayout.minimumInteritemSpacing
+        flowLayout.minimumInteritemSpacing = 0
         flowLayout.minimumLineSpacing = settings.style.buttonBarMinimumLineSpacing ?? flowLayout.minimumLineSpacing
-        flowLayout.sectionInset = UIEdgeInsetsMake(0, self.settings.style.buttonBarLeftContentInset ?? 35, 0, self.settings.style.buttonBarRightContentInset ?? 35)
+        let sectionInset = flowLayout.sectionInset
+        flowLayout.sectionInset = UIEdgeInsetsMake(sectionInset.top, self.settings.style.buttonBarLeftContentInset ?? sectionInset.left, sectionInset.bottom, self.settings.style.buttonBarRightContentInset ?? sectionInset.right)
 
         buttonBarView.showsHorizontalScrollIndicator = false
         buttonBarView.backgroundColor = settings.style.buttonBarBackgroundColor ?? buttonBarView.backgroundColor
@@ -196,7 +198,7 @@ public class ButtonBarPagerTabStripViewController: PagerTabStripViewController, 
         let flowLayout = buttonBarView.collectionViewLayout as! UICollectionViewFlowLayout
         let collectionViewAvailiableWidth = buttonBarView.frame.size.width - flowLayout.sectionInset.left - flowLayout.sectionInset.right
         let numberOfCells = minimumCellWidths.count
-        let cellSpacingTotal = CGFloat(numberOfCells - 1) * flowLayout.minimumInteritemSpacing
+        let cellSpacingTotal = CGFloat(numberOfCells - 1) * flowLayout.minimumLineSpacing
         
         let numberOfSmallCells = numberOfCells - numberOfLargeCells
         let newSuggestedStretchedCellWidth = (collectionViewAvailiableWidth - totalWidthOfLargeCells - cellSpacingTotal) / CGFloat(numberOfSmallCells)
@@ -329,7 +331,7 @@ public class ButtonBarPagerTabStripViewController: PagerTabStripViewController, 
             }
         }
         
-        let cellSpacingTotal = CGFloat(numberOfCells - 1) * flowLayout.minimumInteritemSpacing
+        let cellSpacingTotal = CGFloat(numberOfCells - 1) * flowLayout.minimumLineSpacing
         collectionViewContentWidth += cellSpacingTotal
         
         let collectionViewAvailableVisibleWidth = self.buttonBarView.frame.size.width - flowLayout.sectionInset.left - flowLayout.sectionInset.right

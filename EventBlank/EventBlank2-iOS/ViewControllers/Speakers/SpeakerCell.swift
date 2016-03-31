@@ -12,6 +12,8 @@ import RealmSwift
 import RxSwift
 import RxCocoa
 
+import Then
+
 class SpeakerCell: UITableViewCell {
 
     private let bag = DisposeBag()
@@ -40,9 +42,9 @@ class SpeakerCell: UITableViewCell {
     }
     
     static func cellOfTable(tv: UITableView, speaker: Speaker) -> SpeakerCell {
-        let cell = tv.dequeueReusableCellWithIdentifier("SpeakerCell") as! SpeakerCell
-        cell.populateFromSpeaker(speaker)
-        return cell
+        return tv.dequeueReusableCell(SpeakerCell).then {cell in
+            cell.populateFromSpeaker(speaker)
+        }
     }
     
     private func populateFromSpeaker(speaker: Speaker) {

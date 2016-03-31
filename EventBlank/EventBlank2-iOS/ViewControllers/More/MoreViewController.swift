@@ -11,6 +11,7 @@ import UIKit
 import RealmSwift
 import RxSwift
 import RxCocoa
+import Then
 
 import VTAcknowledgementsViewController
 
@@ -31,15 +32,19 @@ class MoreViewController: UIViewController {
 
         //table view delegate
         tableView.rx_itemSelected
-            .subscribeNext{[unowned self] indexPath in
+            .subscribeNext{[weak self] indexPath in
+                guard let `self` = self else {return}
+                
                 self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
                 if indexPath.section == 0 {
-                    guard let mdController = self.storyboard!.instantiateViewControllerWithIdentifier("MDViewController") as? MDViewController,
-                        let element = self.viewModel.dataSource.itemAtIndexPath(indexPath) as? Text else {
+                    
+                    self.storyboard!.instantiateViewController(MDViewController).then { mdController in
+                        guard let element = self.viewModel.dataSource.itemAtIndexPath(indexPath) as? Text else {
                             fatalError("couldn't send the text to the target view controller")
+                        }
+                        mdController.text = element
+                        self.navigationController!.pushViewController(mdController, animated: true)
                     }
-                    mdController.text = element
-                    self.navigationController!.pushViewController(mdController, animated: true)
                 } else {
                     self.showExtra(indexPath)
                 }

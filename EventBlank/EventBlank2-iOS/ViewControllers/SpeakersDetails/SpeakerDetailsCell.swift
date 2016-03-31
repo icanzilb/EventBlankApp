@@ -11,12 +11,14 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+import Then
+
 class SpeakerDetailsCell: UITableViewCell {
     
     private var reuseBag = DisposeBag()
     private let lifeBag  = DisposeBag()
 
-    @IBOutlet weak var userImage: TappableImageView!
+    @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var btnTwitter: UIButton!
     @IBOutlet weak var btnWebsite: UIButton!
@@ -42,11 +44,12 @@ class SpeakerDetailsCell: UITableViewCell {
     }
     
     static func cellOfTable(tv: UITableView, speaker: Speaker) -> SpeakerDetailsCell {
-        return (tv.dequeueReusableCellWithIdentifier("SpeakerDetailsCell") as! SpeakerDetailsCell)
-            .populateFromSpeaker(speaker)
+        return tv.dequeueReusableCell(SpeakerDetailsCell).then {cell in
+            cell.populateFromSpeaker(speaker)
+        }
     }
     
-    func populateFromSpeaker(speaker: Speaker) -> Self {
+    func populateFromSpeaker(speaker: Speaker) {
         //
         // setup UI
         //
@@ -70,10 +73,11 @@ class SpeakerDetailsCell: UITableViewCell {
         //
         
         //photo
-        userImage.rx_tap.subscribeNext {
-            PhotoPopupView.showImage(speaker.photo!,
-                inView: UIApplication.sharedApplication().windows.first!)
-        }.addDisposableTo(reuseBag)
+        userImage.rx_gesture(.Tap)
+            .subscribeNext {_ in
+                PhotoPopupView.showImage(speaker.photo!,
+                    inView: UIApplication.sharedApplication().windows.first!)
+            }.addDisposableTo(reuseBag)
         
         //favorite button
         isFavorite.bindTo(btnToggleIsFavorite.rx_selected).addDisposableTo(reuseBag)
@@ -104,8 +108,6 @@ class SpeakerDetailsCell: UITableViewCell {
         isFollowing.asObservable()
             .bindTo(btnIsFollowing.rx_following)
             .addDisposableTo(reuseBag)
-        
-        return self
     }
 }
 

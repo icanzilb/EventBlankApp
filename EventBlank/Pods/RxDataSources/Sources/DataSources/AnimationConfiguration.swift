@@ -3,10 +3,11 @@
 //  RxDataSources
 //
 //  Created by Esteban Torres on 5/2/16.
-//  Copyright © 2016 kzaher. All rights reserved.
+//  Copyright © 2016 Krunoslav Zaher. All rights reserved.
 //
 
 import Foundation
+import UIKit
 
 /**
    Exposes custom animation styles for insertion, deletion and reloading behavior.
@@ -16,7 +17,7 @@ public struct AnimationConfiguration {
   let reloadAnimation: UITableViewRowAnimation
   let deleteAnimation: UITableViewRowAnimation
   
-  init(insertAnimation: UITableViewRowAnimation = .Automatic,
+  public init(insertAnimation: UITableViewRowAnimation = .Automatic,
     reloadAnimation: UITableViewRowAnimation = .Automatic,
     deleteAnimation: UITableViewRowAnimation = .Automatic) {
       self.insertAnimation = insertAnimation

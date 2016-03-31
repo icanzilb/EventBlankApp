@@ -142,7 +142,7 @@ class TwitterController111 {
 //            }
 //        })
 //    }
-//    
+//
 //    func getImageWithUrl(imageUrl: NSURL, completion: (UIImage?)->Void) {
 //        let task = NSURLSession.sharedSession().downloadTaskWithURL(imageUrl, completionHandler: {url, response, error in
 //            if error == nil, let data = NSData(contentsOfURL: url), let image = UIImage(data: data) {

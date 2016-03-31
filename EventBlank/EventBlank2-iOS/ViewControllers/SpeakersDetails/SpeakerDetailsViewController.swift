@@ -13,13 +13,17 @@ import RxCocoa
 
 import RxDataSources
 
-protocol Storyboardable {
-    static var storyboardID: String {get}
+protocol ClassIdentifier: class {
+    static var classIdentifier: String { get }
 }
 
-class SpeakerDetailsViewController: UIViewController, Storyboardable {
-    
-    static internal let storyboardID = "SpeakerDetailsViewController"
+extension ClassIdentifier {
+    static var classIdentifier: String {
+        return String(Self)
+    }
+}
+
+class SpeakerDetailsViewController: UIViewController {
     
     private let bag = DisposeBag()
 
@@ -40,7 +44,7 @@ class SpeakerDetailsViewController: UIViewController, Storyboardable {
         speaker: Speaker,
         twitterProvider: TwitterProvider = TwitterProvider()) -> SpeakerDetailsViewController {
         
-            let vc = storyboard.instantiateViewControllerWithIdentifier(storyboardID) as! SpeakerDetailsViewController
+            let vc = storyboard.instantiateViewController(SpeakerDetailsViewController)
             vc.speaker = speaker
             vc.viewModel = SpeakerDetailsViewModel(speaker: speaker, twitterProvider: twitterProvider)
             vc.twitterProvider = twitterProvider
@@ -69,7 +73,8 @@ class SpeakerDetailsViewController: UIViewController, Storyboardable {
     func bindUI() {
         //bind the table view
         viewModel.tableItems
-            .bindTo(tableView.rx_itemsWithDataSource(viewModel.dataSource)).addDisposableTo(bag)
+            .bindTo(tableView.rx_itemsWithDataSource(viewModel.dataSource))
+            .addDisposableTo(bag)
     }
     
 }

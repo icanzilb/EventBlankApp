@@ -57,13 +57,13 @@ class FollowTwitterButton: UIButton {
             .addDisposableTo(bag)
         
         rx_following.map(titleForFollowState)
-            .bindNext {[unowned self] title in
-                self.setTitle(title, forState: .Normal)
+            .bindNext {[weak self] title in
+                self?.setTitle(title, forState: .Normal)
             }.addDisposableTo(bag)
         
         rx_following.map(colorForFollowState)
-            .bindNext {[unowned self] color in
-                self.setTitleColor(color, forState: .Normal)
+            .bindNext {[weak self] color in
+                self?.setTitleColor(color, forState: .Normal)
             }.addDisposableTo(bag)
     }
     
@@ -80,7 +80,7 @@ class FollowTwitterButton: UIButton {
     
     private func titleForFollowState(state: FollowingOnTwitter) -> String {
         switch state {
-            case .Checking: return "Checking if following..."
+            case .Checking: return "Checking..."
             case .NotFollowing(let username): return "  Follow \(username) on twitter "
             case .SendingRequest: return "Sending request..."
             case .Following(let username): return "  Following \(username)  "

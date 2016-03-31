@@ -8,7 +8,11 @@
 
 import Foundation
 
-public struct IdentitifiableValue<Value: Hashable> : IdentifiableType, Equatable {
+public struct IdentifiableValue<Value: Hashable>
+    : IdentifiableType
+    , Equatable
+    , CustomStringConvertible
+    , CustomDebugStringConvertible {
     public typealias Identity = Value
 
     public let value: Value
@@ -16,8 +20,16 @@ public struct IdentitifiableValue<Value: Hashable> : IdentifiableType, Equatable
     public var identity : Identity {
         return value
     }
+
+    public var description: String {
+        return "\(value)"
+    }
+
+    public var debugDescription: String {
+        return "\(value)"
+    }
 }
 
-public func == <V: Hashable>(lhs: IdentitifiableValue<V>, rhs: IdentitifiableValue<V>) -> Bool {
+public func == <V: Hashable>(lhs: IdentifiableValue<V>, rhs: IdentifiableValue<V>) -> Bool {
     return lhs.value == rhs.value
 }

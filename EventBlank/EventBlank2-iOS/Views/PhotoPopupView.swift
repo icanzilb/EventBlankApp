@@ -14,7 +14,7 @@ import RxCocoa
 
 class PhotoPopupView: UIView {
 
-    var bag = DisposeBag()
+    private let bag = DisposeBag()
     
     static func showImage(image: UIImage, inView: UIView) {
         let popup = PhotoPopupView()
@@ -59,7 +59,7 @@ class PhotoPopupView: UIView {
     }
     
     private var backdrop: UIView!
-    private var imgView: TappableImageView!
+    private var imgView: UIImageView!
     private var spinner: UIActivityIndicatorView!
     
     func setupUI() {
@@ -83,7 +83,7 @@ class PhotoPopupView: UIView {
         spinner.layer.masksToBounds = true
         spinner.layer.cornerRadius = 5
 
-        imgView = TappableImageView()
+        imgView = UIImageView()
         imgView.frame = CGRectInset(bounds, 20, 40)
         imgView.layer.cornerRadius = 10
         imgView.clipsToBounds = true
@@ -103,11 +103,10 @@ class PhotoPopupView: UIView {
             backdrop.addSubview(spinner)
         }
         
-        //imgView.rx_tap.bindNext(didTapPhoto).addDisposableTo(bag)
         imgView.rx_gesture([.Tap, .SwipeUp, .SwipeDown])
-            .subscribeNext({[unowned self] _ in
-            self.didTapPhoto()
-        }).addDisposableTo(bag)
+            .subscribeNext({[weak self] _ in
+                self?.didTapPhoto()
+            }).addDisposableTo(bag)
         
         UIView.animateWithDuration(0.67, delay: 0.0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
             self.imgView.alpha = 1.0

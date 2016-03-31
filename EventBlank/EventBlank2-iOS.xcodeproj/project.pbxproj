@@ -72,13 +72,14 @@
 		9CCCAB191C954AFA00B4C561 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCCAB161C954AFA00B4C561 /* Tweet.swift */; };
 		9CCCAB1A1C954AFA00B4C561 /* 111 TwitterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCCAB171C954AFA00B4C561 /* 111 TwitterController.swift */; };
 		9CCCAB1B1C954AFA00B4C561 /* TwitterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCCAB181C954AFA00B4C561 /* TwitterProvider.swift */; };
-		9CD260DA1C824CF000F24838 /* TappableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD260D91C824CF000F24838 /* TappableImageView.swift */; };
 		9CD260DF1C8251AA00F24838 /* PhotoPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD260DE1C8251AA00F24838 /* PhotoPopupView.swift */; };
 		9CE69BCB1C89E06A00CC283F /* WebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE69BCA1C89E06A00CC283F /* WebViewModel.swift */; };
 		9CE69BCD1C89E1BE00CC283F /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE69BCC1C89E1BE00CC283F /* AppController.swift */; };
 		9CE743E81C80CA9D00D140A0 /* marin_codebits_small.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9CE743E61C80CA9D00D140A0 /* marin_codebits_small.jpg */; };
 		9CE743E91C80CA9D00D140A0 /* Marin-Todorov.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9CE743E71C80CA9D00D140A0 /* Marin-Todorov.jpg */; };
 		9CE743EB1C80CB9700D140A0 /* marin-conf.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CE743EA1C80CB9700D140A0 /* marin-conf.png */; };
+		9CF357831CAD97F900A1E223 /* UITableView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF357821CAD97F900A1E223 /* UITableView+Extensions.swift */; };
+		9CF357851CAD9A1000A1E223 /* UIStoryboard+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF357841CAD9A1000A1E223 /* UIStoryboard+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -160,13 +161,14 @@
 		9CCCAB161C954AFA00B4C561 /* Tweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 		9CCCAB171C954AFA00B4C561 /* 111 TwitterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "111 TwitterController.swift"; sourceTree = "<group>"; };
 		9CCCAB181C954AFA00B4C561 /* TwitterProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterProvider.swift; sourceTree = "<group>"; };
-		9CD260D91C824CF000F24838 /* TappableImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TappableImageView.swift; sourceTree = "<group>"; };
 		9CD260DE1C8251AA00F24838 /* PhotoPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPopupView.swift; sourceTree = "<group>"; };
 		9CE69BCA1C89E06A00CC283F /* WebViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewModel.swift; sourceTree = "<group>"; };
 		9CE69BCC1C89E1BE00CC283F /* AppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		9CE743E61C80CA9D00D140A0 /* marin_codebits_small.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = marin_codebits_small.jpg; sourceTree = "<group>"; };
 		9CE743E71C80CA9D00D140A0 /* Marin-Todorov.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Marin-Todorov.jpg"; sourceTree = "<group>"; };
 		9CE743EA1C80CB9700D140A0 /* marin-conf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "marin-conf.png"; sourceTree = "<group>"; };
+		9CF357821CAD97F900A1E223 /* UITableView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extensions.swift"; sourceTree = "<group>"; };
+		9CF357841CAD9A1000A1E223 /* UIStoryboard+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extensions.swift"; sourceTree = "<group>"; };
 		AE9E084DFA39D7539307AA2A /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C18C4E7B5947C971EF3C2686 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -270,6 +272,8 @@
 				9C1B20EE1C77C82800DE7A1A /* UIView+Extensions.swift */,
 				9C1B20ED1C77C82800DE7A1A /* ViewController+Extensions.swift */,
 				9C884C931C9614D400C4C5CA /* UITableViewCell+Extensions.swift */,
+				9CF357821CAD97F900A1E223 /* UITableView+Extensions.swift */,
+				9CF357841CAD9A1000A1E223 /* UIStoryboard+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -451,7 +455,6 @@
 				9C8AC8A91C7F1CCC00B8E625 /* FavoritesBarButtonItem.swift */,
 				9C4E70AF1C7F0A29005C948A /* FollowTwitterButton.swift */,
 				9CD260DE1C8251AA00F24838 /* PhotoPopupView.swift */,
-				9CD260D91C824CF000F24838 /* TappableImageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -633,6 +636,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C1B20F51C77C82800DE7A1A /* UIView+Extensions.swift in Sources */,
+				9CF357851CAD9A1000A1E223 /* UIStoryboard+Extensions.swift in Sources */,
 				9CCCAB191C954AFA00B4C561 /* Tweet.swift in Sources */,
 				9C1B210B1C785DDA00DE7A1A /* Track.swift in Sources */,
 				9C884C901C95D73900C4C5CA /* TweetCell.swift in Sources */,
@@ -647,6 +651,7 @@
 				9CD260DF1C8251AA00F24838 /* PhotoPopupView.swift in Sources */,
 				9C558E6C1C7B10EA009830D5 /* SpeakersViewModel.swift in Sources */,
 				9C1B20F71C77C82800DE7A1A /* NSData.swift in Sources */,
+				9CF357831CAD97F900A1E223 /* UITableView+Extensions.swift in Sources */,
 				9C1B21051C78589200DE7A1A /* UILabel+Rx.swift in Sources */,
 				9C558E711C7B118C009830D5 /* EANavigationController.swift in Sources */,
 				9C677B061C7CCD4E0028045B /* MessageView.swift in Sources */,
@@ -677,7 +682,6 @@
 				9C463BF81C7BA68300FB7333 /* Rx-extensions.swift in Sources */,
 				9C1B20DE1C77C6F400DE7A1A /* RealmProvider.swift in Sources */,
 				9C1B20E81C77C7F500DE7A1A /* Speaker.swift in Sources */,
-				9CD260DA1C824CF000F24838 /* TappableImageView.swift in Sources */,
 				9C1B20F31C77C82800DE7A1A /* Notification.swift in Sources */,
 				9C1B20E61C77C7D800DE7A1A /* FilePath.swift in Sources */,
 				9C24D4E81C8399F400B1F0A2 /* MoreViewController.swift in Sources */,

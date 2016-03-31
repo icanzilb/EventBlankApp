@@ -1,30 +1,33 @@
 PODS:
-  - Alamofire (3.2.1)
+  - Alamofire (3.3.0)
   - CWStatusBarNotification (2.3.4)
-  - DynamicColor (2.3.0)
-  - EasyAnimation (1.0.4)
-  - Kingfisher (2.1.0)
+  - DynamicColor (2.4.0)
+  - EasyAnimation (1.0.5)
+  - Kingfisher (2.2.0)
   - MAThemeKit (1.0)
   - MMMarkdown (0.5.1)
-  - Moya/Core (6.2.0):
+  - Moya/Core (6.3.1):
     - Alamofire (~> 3.0)
     - Result (~> 1.0)
-  - Moya/RxSwift (6.2.0):
+  - Moya/RxSwift (6.3.1):
     - Moya/Core
     - RxSwift (~> 2.0)
   - Reachability (3.2)
-  - Realm (0.98.3):
-    - Realm/Headers (= 0.98.3)
-  - Realm/Headers (0.98.3)
-  - RealmSwift (0.98.3):
-    - Realm (= 0.98.3)
+  - Realm (0.98.6):
+    - Realm/Headers (= 0.98.6)
+  - Realm/Headers (0.98.6)
+  - RealmSwift (0.98.6):
+    - Realm (= 0.98.6)
   - RelativeFormatter (0.6.0)
   - Result (1.0.2)
   - RxCocoa (2.2.0):
     - RxSwift (~> 2.2)
-  - RxDataSources (0.5):
+  - RxDataSources (0.6.2):
     - RxCocoa (~> 2.2)
     - RxSwift (~> 2.2)
+  - RxGesture (0.1.2):
+    - RxCocoa
+    - RxSwift
   - RxSwift (2.2.0)
   - RxViewModel (3.0.1):
     - RxCocoa (~> 2.2.0)
@@ -32,7 +35,7 @@ PODS:
   - SwiftyJSON (2.3.2)
   - Then (1.0.1)
   - VTAcknowledgementsViewController (0.17)
-  - XLPagerTabStrip (4.0.1)
+  - XLPagerTabStrip (5.0.0)
 
 DEPENDENCIES:
   - CWStatusBarNotification
@@ -47,6 +50,7 @@ DEPENDENCIES:
   - RelativeFormatter
   - RxCocoa
   - RxDataSources
+  - RxGesture
   - RxSwift
   - RxViewModel (from `https://github.com/icanzilb/RxViewModel`)
   - SwiftyJSON
@@ -64,26 +68,27 @@ CHECKOUT OPTIONS:
     :git: https://github.com/icanzilb/RxViewModel
 
 SPEC CHECKSUMS:
-  Alamofire: f11d8624a05f5d39e0c99309b3e600a3ba64298a
+  Alamofire: 9054db4a1b1ca9e363223183e01cea380159a27c
   CWStatusBarNotification: 3fec41edcb0ae3677d9febfcb9632d8bdf52294c
-  DynamicColor: 18badd22ee5edeefcbe0a8f5887a86640c592a1c
-  EasyAnimation: 4aabd439b4038f48d72939cc19d6220363b3206e
-  Kingfisher: 3ac09acad75a25ab22f6d7cef3de10d61dd4792d
+  DynamicColor: 2f3fd61053684667bad9f03045dcf9a2a5a007ea
+  EasyAnimation: 32821f37dd39187e7364369a3d8f65d38405cf1d
+  Kingfisher: 350869ed88d6451803b390475d977abdd9f0a357
   MAThemeKit: 559acc98ceadc051cccb1b6bb0c4ca28475eb021
   MMMarkdown: 06f7989e0350d10a7de50516af6c812402ce554b
-  Moya: a5e57a405584177027daab240f4d47baa0722562
+  Moya: 852e26948a3771355ddf0f0109ac779b6fc30f28
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
-  Realm: c6a7d00221a2d5177810a674aebd40c5e0b70b0f
-  RealmSwift: d6ecad6e4c2a645d6ac956c2c7e9efb375f39c31
+  Realm: 44803f35418c5d89b27825a564247fcd190de37e
+  RealmSwift: c7239c52c83f8c43525a5269ba7be1694da33afc
   RelativeFormatter: d6de6d8fc63b32b68878b0624c44cae8b7b74ae0
   Result: dd3dd71af3fa2e262f1a999e14fba2c25ec14f16
   RxCocoa: 42efb7a7145a8d1d5878e94ce48a580d29e0c796
-  RxDataSources: dc37b814dd4efd761e1e65521b977677e4197614
+  RxDataSources: 9ae26211019e6afb7391125940d719b4326e94a4
+  RxGesture: 5a5d7ee565fb24b1dbede801e7a98d4169ac5818
   RxSwift: b8a749f2204c6c7a5c29b306a9c3bc11d5b87c5b
   RxViewModel: b4c2b18df49b3369d5fa1355f83ae754e41bdfae
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   Then: e0f10228179772ba4d0d9dd75e4c05e42e24013a
   VTAcknowledgementsViewController: 6056f5f5e5ed995bbf0581bed6ddd29355ca9a80
-  XLPagerTabStrip: a39467a6e71017d2be92807ed9308b4d06557c80
+  XLPagerTabStrip: 87b8b705f9a7178e76a063ffaa2d70045944a965
 
 COCOAPODS: 0.39.0

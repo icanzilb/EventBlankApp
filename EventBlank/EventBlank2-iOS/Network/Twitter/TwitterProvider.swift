@@ -41,24 +41,20 @@ class TwitterProvider {
         backgroundWorkScheduler = OperationQueueScheduler(operationQueue: operationQueue)
     }
     
-    func currentAccount() -> Observable<ACAccount> {
+    func currentAccount() -> Observable<ACAccount?> {
         return Observable.create { observer in
             
             let accountStore = ACAccountStore()
             let accountType  = accountStore.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierTwitter)
             
             accountStore.requestAccessToAccountsWithType(accountType, options: nil, completion: {success, error in
-                if let twitterAccount = accountStore.accountsWithAccountType(accountType).first as? ACAccount {
-                    observer.onNext(twitterAccount)
-                    observer.onCompleted()
-                } else {
-                    observer.onCompleted()
-                }
+                observer.onNext(accountStore.accountsWithAccountType(accountType).first as? ACAccount)
             })
             
             return NopDisposable.instance
         }
         .observeOn(MainScheduler.instance)
+        .retryOnBecomesReachable(nil, reachabilityService: ReachabilityService.sharedReachabilityService)
     }
     
     func isFollowingUser(account: ACAccount, username: String) -> Observable<FollowingOnTwitter> {
@@ -103,7 +99,7 @@ class TwitterProvider {
             .retryOnBecomesReachable(.NA, reachabilityService: ReachabilityService.sharedReachabilityService)
     }
     
-    func timelineForUsername(account: ACAccount, username: String) -> Observable<[Tweet]> {
+    func timelineForUsername(account: ACAccount, username: String) -> Observable<[Tweet]?> {
         
         let parameters: [String: String] = [
             "screen_name" : username,
@@ -140,7 +136,7 @@ class TwitterProvider {
                 return tweets
             }
             .observeOn(MainScheduler.instance)
-            .retryOnBecomesReachable([], reachabilityService: ReachabilityService.sharedReachabilityService)
+            .retryOnBecomesReachable(nil, reachabilityService: ReachabilityService.sharedReachabilityService)
     }
 
 }

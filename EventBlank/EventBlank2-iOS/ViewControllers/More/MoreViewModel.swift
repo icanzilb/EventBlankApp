@@ -40,7 +40,7 @@ class MoreViewModel: RxViewModel {
         .addDisposableTo(bag)
         
         //the data source
-        dataSource.configureCell = {(tableView, indexPath, element) in
+        dataSource.configureCell = {(dataSource, tableView, indexPath, element) in
             let cell = tableView.dequeueReusableCellWithIdentifier(indexPath.section == 0 ? "MenuCell" : "ExtraMenuCell")!
             
             cell.imageView?.image = nil

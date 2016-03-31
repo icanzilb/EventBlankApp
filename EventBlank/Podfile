@@ -9,9 +9,9 @@ pod 'RxCocoa'
 pod 'RxViewModel', :git => "https://github.com/icanzilb/RxViewModel"
 
 pod 'RxDataSources'
+pod 'RxGesture'
 
 pod 'RealmSwift'
-#pod 'RxRealm', :git => "https://github.com/icanzilb/RxRealm"
 
 pod 'MAThemeKit'
 pod 'DynamicColor'

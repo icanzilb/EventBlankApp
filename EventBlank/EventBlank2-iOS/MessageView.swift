@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class MessageView: UIView {
     
@@ -18,6 +19,8 @@ class MessageView: UIView {
     
     // MARK: output
     var tapHandler: (()->Void)?
+    
+    let bag = DisposeBag()
     
     convenience init(text: String) {
         self.init()
@@ -41,14 +44,14 @@ class MessageView: UIView {
         button.clipsToBounds = true
         button.layer.cornerRadius = 5
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        button.addTarget(self, action: "didTapButton:", forControlEvents: .TouchUpInside)
+        button.rx_gesture(.Tap).replaceWith(()).bindNext(didTapButton).addDisposableTo(bag)
         
         addSubview(button)
         
         tapHandler = buttonTap
     }
     
-    func didTapButton(sender: AnyObject) {
+    func didTapButton() {
         tapHandler?()
     }
     

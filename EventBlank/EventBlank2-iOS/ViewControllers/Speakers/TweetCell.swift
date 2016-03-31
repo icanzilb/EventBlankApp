@@ -10,12 +10,14 @@ import UIKit
 import RelativeFormatter
 import Kingfisher
 import RxSwift
+import RxGesture
+import Then
 
 class TweetCell: UITableViewCell {
 
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var message: UITextView!
-    @IBOutlet weak var attachmentImage: TappableImageView!
+    @IBOutlet weak var attachmentImage: UIImageView!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
 
@@ -37,11 +39,12 @@ class TweetCell: UITableViewCell {
     }
     
     static func cellOfTable(tv: UITableView, tweet: Tweet) -> TweetCell {
-        return (tv.dequeueReusableCellWithIdentifier("TweetCell") as! TweetCell)
-            .populateFromTweet(tweet)
+        return tv.dequeueReusableCell(TweetCell).then {cell in
+            cell.populateFromTweet(tweet)
+        }
     }
 
-    private func populateFromTweet(tweet: Tweet) -> Self {
+    private func populateFromTweet(tweet: Tweet) {
 
         message.text = tweet.text
         message.selectedRange = NSRange(location: 0, length: 0)
@@ -84,8 +87,6 @@ class TweetCell: UITableViewCell {
                 }
             })
         }
-        
-        return self
     }
     
     override func prepareForReuse() {

@@ -11,10 +11,9 @@ import WebKit
 import Reachability
 
 import RxSwift
+import Then
 
-class WebViewController: UIViewController, Storyboardable {
-
-    static internal let storyboardID = "WebViewController"
+class WebViewController: UIViewController {
 
     private let bag = DisposeBag()
     private let webView = WKWebView()
@@ -27,11 +26,9 @@ class WebViewController: UIViewController, Storyboardable {
     static func createWith(storyboard: UIStoryboard,
         url: NSURL) -> WebViewController {
             
-        guard let vc = storyboard.instantiateViewControllerWithIdentifier(storyboardID) as? WebViewController else {
-            fatalError("WebViewController not found in storyboard")
+        return storyboard.instantiateViewController(WebViewController).then {vc in
+            vc.viewModel = WebViewModel(url: url)
         }
-        vc.viewModel = WebViewModel(url: url)
-        return vc
     }
     
     // MARK: life cycle
