@@ -29,10 +29,9 @@ class TwitterProvider {
     private let backgroundWorkScheduler: ImmediateSchedulerType
     
     private struct Endpoint {
-        let friendship = NSURL(string: "https://api.twitter.com/1.1/friendships/show.json")!
-        let timeline = NSURL(string: "https://api.twitter.com/1.1/statuses/user_timeline.json")!
+        static let friendship = NSURL(string: "https://api.twitter.com/1.1/friendships/show.json")!
+        static let timeline = NSURL(string: "https://api.twitter.com/1.1/statuses/user_timeline.json")!
     }
-    private let endpoints = Endpoint()
     
     init() {
         let operationQueue = NSOperationQueue()
@@ -48,9 +47,12 @@ class TwitterProvider {
             let accountType  = accountStore.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierTwitter)
             
             accountStore.requestAccessToAccountsWithType(accountType, options: nil, completion: {success, error in
-                observer.onNext(accountStore.accountsWithAccountType(accountType).first as? ACAccount)
+                if success {
+                    observer.onNext(accountStore.accountsWithAccountType(accountType).first as? ACAccount)
+                } else {
+                    observer.onNext(nil)
+                }
             })
-            
             return NopDisposable.instance
         }
         .observeOn(MainScheduler.instance)
@@ -67,7 +69,7 @@ class TwitterProvider {
         let request = SLRequest(
             forServiceType: SLServiceTypeTwitter,
             requestMethod: SLRequestMethod.GET,
-            URL: endpoints.friendship,
+            URL: Endpoint.friendship,
             parameters: parameters
         )
         
@@ -111,7 +113,7 @@ class TwitterProvider {
         let request = SLRequest(
             forServiceType: SLServiceTypeTwitter,
             requestMethod: SLRequestMethod.GET,
-            URL: endpoints.timeline,
+            URL: Endpoint.timeline,
             parameters: parameters
         )
         
@@ -125,7 +127,7 @@ class TwitterProvider {
             .rx_response(urlRequest)
             .retry(3)
             .observeOn(backgroundWorkScheduler)
-            .map { data, httpResponse -> [Tweet] in
+            .map {data, httpResponse -> [Tweet] in
                 let result = JSON(data: data)
                 let tweets = result.map {_, object in
                     return Tweet(jsonObject: object)

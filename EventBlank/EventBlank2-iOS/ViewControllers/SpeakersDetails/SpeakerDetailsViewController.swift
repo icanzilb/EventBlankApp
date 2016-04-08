@@ -51,8 +51,6 @@ class SpeakerDetailsViewController: UIViewController, ClassIdentifier {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
-        precondition(viewModel != nil)
         viewModel.active = true
     }
     

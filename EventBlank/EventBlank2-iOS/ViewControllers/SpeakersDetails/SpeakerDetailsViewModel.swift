@@ -26,7 +26,7 @@ class SpeakerDetailsViewModel: RxViewModel {
 
     //init
     init(speaker: Speaker, twitterProvider: TwitterProvider) {
-        self.model = SpeakerDetailsModel(speaker: speaker)
+        model = SpeakerDetailsModel(speaker: speaker)
         
         super.init()
         
@@ -74,6 +74,20 @@ class SpeakerDetailsViewModel: RxViewModel {
             default: return ""
             }
         }
+        
+        dataSource.titleForFooterInSection = {[weak self] _, section in
+            guard let `self` = self else {return nil}
+            
+            switch section {
+            case 1:
+                if let items = try? self.tableItems.value() where items.count < 2 {
+                    return "Log in to your Twitter account in your iPhone's Settings app to be able to see tweets right in this app"
+                } else {
+                    fallthrough
+                }
+            default: return nil
+            }
+        }
     }
     
     //private methods
@@ -94,7 +108,6 @@ class SpeakerDetailsViewModel: RxViewModel {
         //is following
         if let targetTwitterUsername = speaker.twitter {
             twitterProvider.currentAccount()
-                .debug()
                 .flatMapLatest {account -> Observable<FollowingOnTwitter> in
                     if let account = account {
                         return twitterProvider.isFollowingUser(account, username: targetTwitterUsername)
@@ -102,7 +115,6 @@ class SpeakerDetailsViewModel: RxViewModel {
                         return Observable.just(.NA)
                     }
                 }
-                .debug()
                 .bindTo(cell.isFollowing)
                 .addDisposableTo(bag)
         }

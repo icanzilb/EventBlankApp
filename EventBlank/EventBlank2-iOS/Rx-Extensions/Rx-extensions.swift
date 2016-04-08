@@ -39,7 +39,7 @@ extension Observable {
     }
 }
 
-extension Observable where Element : SignedIntegerType {
+extension Observable where Element: SignedIntegerType {
     public func negate() -> Observable<E> {
         return map {value in -value}
     }
@@ -58,6 +58,9 @@ extension Observable where Element: BooleanType {
 extension Observable where Element: Equatable {
     public func filterOut(targetValue: Element) -> Observable<Element> {
         return self.filter {value in targetValue != value}
+    }
+    public func filterOut(targetValues: [Element]) -> Observable<Element> {
+        return self.filter {value in !targetValues.contains(value)}
     }
 }
 
@@ -80,7 +83,7 @@ extension Optional : Optionable
     }
 }
 
-extension Observable where Element : Optionable {
+extension Observable where Element: Optionable {
     func unwrap() -> Observable<Element.WrappedType> {
         return self
             .filter {value in
@@ -88,6 +91,18 @@ extension Observable where Element : Optionable {
             }
             .map {value -> Element.WrappedType in
                 value.unwrap()
+            }
+    }
+}
+
+extension CollectionType where Self.Generator.Element: Optionable {
+    func unwrap() -> [Self.Generator.Element.WrappedType] {
+        return self
+            .filter {value in
+                return !value.isEmpty()
+            }
+            .map {value in
+                return value.unwrap()
             }
     }
 }
