@@ -1,0 +1,6 @@
+framework module Pager {
+  umbrella header "Pager-umbrella.h"
+
+  export *
+  module * { export * }
+}

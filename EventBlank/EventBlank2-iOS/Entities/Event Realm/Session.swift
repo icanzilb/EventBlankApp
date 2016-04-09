@@ -15,6 +15,7 @@ class Session: Object {
     dynamic var sessionDescription = ""
     
     dynamic var beginTime: NSDate?
+    dynamic var lengthInMinutes: Int = 0
     
     dynamic var track: Track?
     dynamic var location: Location?

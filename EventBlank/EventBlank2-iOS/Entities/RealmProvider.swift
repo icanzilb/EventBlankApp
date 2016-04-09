@@ -86,8 +86,6 @@ class RealmProvider {
         let event = EventData()
         event.title = "Marin Conf '16"
         event.subtitle = "My own conference"
-        event.beginDate = NSDate(timeIntervalSinceNow: 0)
-        event.endDate = NSDate(timeIntervalSinceNow: 3 * 24 * 60 * 60)
         event.organizer = "Marin Todorov"
         event.mainColor = UIColor(hexString: "#ff3333")
         event.logo = UIImage(named: "marin-conf.png")

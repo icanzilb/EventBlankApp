@@ -21,9 +21,10 @@ pod 'VTAcknowledgementsViewController'
 pod 'CWStatusBarNotification'
 
 pod 'Reachability'
-pod 'XLPagerTabStrip'
+pod 'Pager', :git => "https://github.com/lucoceano/Pager"
 
 pod 'Then'
+pod 'AFDateHelper'
 
 pod 'MMMarkdown'
 

@@ -13,8 +13,6 @@ class EventData: Object {
 
     dynamic var title = ""
     dynamic var subtitle = ""
-    dynamic var beginDate = NSDate()
-    dynamic var endDate = NSDate()
     dynamic var organizer = ""
     dynamic private var _logo: NSData?
     var logo: UIImage? {

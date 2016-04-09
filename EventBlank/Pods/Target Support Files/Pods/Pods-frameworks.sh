@@ -84,6 +84,7 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods/AFDateHelper.framework"
   install_framework "Pods/Alamofire.framework"
   install_framework "Pods/CWStatusBarNotification.framework"
   install_framework "Pods/DynamicColor.framework"
@@ -92,6 +93,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods/MAThemeKit.framework"
   install_framework "Pods/MMMarkdown.framework"
   install_framework "Pods/Moya.framework"
+  install_framework "Pods/Pager.framework"
   install_framework "Pods/Reachability.framework"
   install_framework "Pods/Realm.framework"
   install_framework "Pods/RealmSwift.framework"
@@ -105,9 +107,9 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods/SwiftyJSON.framework"
   install_framework "Pods/Then.framework"
   install_framework "Pods/VTAcknowledgementsViewController.framework"
-  install_framework "Pods/XLPagerTabStrip.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods/AFDateHelper.framework"
   install_framework "Pods/Alamofire.framework"
   install_framework "Pods/CWStatusBarNotification.framework"
   install_framework "Pods/DynamicColor.framework"
@@ -116,6 +118,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/MAThemeKit.framework"
   install_framework "Pods/MMMarkdown.framework"
   install_framework "Pods/Moya.framework"
+  install_framework "Pods/Pager.framework"
   install_framework "Pods/Reachability.framework"
   install_framework "Pods/Realm.framework"
   install_framework "Pods/RealmSwift.framework"
@@ -129,5 +132,4 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/SwiftyJSON.framework"
   install_framework "Pods/Then.framework"
   install_framework "Pods/VTAcknowledgementsViewController.framework"
-  install_framework "Pods/XLPagerTabStrip.framework"
 fi

@@ -1,4 +1,5 @@
 PODS:
+  - AFDateHelper (3.3.0)
   - Alamofire (3.3.0)
   - CWStatusBarNotification (2.3.4)
   - DynamicColor (2.4.0)
@@ -12,6 +13,7 @@ PODS:
   - Moya/RxSwift (6.3.1):
     - Moya/Core
     - RxSwift (~> 2.0)
+  - Pager (1.0.6)
   - Reachability (3.2)
   - Realm (0.98.6):
     - Realm/Headers (= 0.98.6)
@@ -35,9 +37,9 @@ PODS:
   - SwiftyJSON (2.3.2)
   - Then (1.0.1)
   - VTAcknowledgementsViewController (0.17)
-  - XLPagerTabStrip (5.0.0)
 
 DEPENDENCIES:
+  - AFDateHelper
   - CWStatusBarNotification
   - DynamicColor
   - EasyAnimation
@@ -45,6 +47,7 @@ DEPENDENCIES:
   - MAThemeKit
   - MMMarkdown
   - Moya/RxSwift
+  - Pager (from `https://github.com/lucoceano/Pager`)
   - Reachability
   - RealmSwift
   - RelativeFormatter
@@ -56,18 +59,23 @@ DEPENDENCIES:
   - SwiftyJSON
   - Then
   - VTAcknowledgementsViewController
-  - XLPagerTabStrip
 
 EXTERNAL SOURCES:
+  Pager:
+    :git: https://github.com/lucoceano/Pager
   RxViewModel:
     :git: https://github.com/icanzilb/RxViewModel
 
 CHECKOUT OPTIONS:
+  Pager:
+    :commit: b1c61eeafd4c4ca1e10c991f42e3c67738592c7c
+    :git: https://github.com/lucoceano/Pager
   RxViewModel:
     :commit: 9b54f5f78a0c035c3947a4dd3ff58219d2d9b732
     :git: https://github.com/icanzilb/RxViewModel
 
 SPEC CHECKSUMS:
+  AFDateHelper: 137b5b9d70fe13b810e1817fa2d8c116d7988f5c
   Alamofire: 9054db4a1b1ca9e363223183e01cea380159a27c
   CWStatusBarNotification: 3fec41edcb0ae3677d9febfcb9632d8bdf52294c
   DynamicColor: 2f3fd61053684667bad9f03045dcf9a2a5a007ea
@@ -76,6 +84,7 @@ SPEC CHECKSUMS:
   MAThemeKit: 559acc98ceadc051cccb1b6bb0c4ca28475eb021
   MMMarkdown: 06f7989e0350d10a7de50516af6c812402ce554b
   Moya: 852e26948a3771355ddf0f0109ac779b6fc30f28
+  Pager: 98adc2d66171d2df1a567e5bf3c5c82221cd0a41
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   Realm: 44803f35418c5d89b27825a564247fcd190de37e
   RealmSwift: c7239c52c83f8c43525a5269ba7be1694da33afc
@@ -89,6 +98,5 @@ SPEC CHECKSUMS:
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   Then: e0f10228179772ba4d0d9dd75e4c05e42e24013a
   VTAcknowledgementsViewController: 6056f5f5e5ed995bbf0581bed6ddd29355ca9a80
-  XLPagerTabStrip: 87b8b705f9a7178e76a063ffaa2d70045944a965
 
 COCOAPODS: 0.39.0
