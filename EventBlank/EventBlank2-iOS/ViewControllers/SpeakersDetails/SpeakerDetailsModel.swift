@@ -34,7 +34,11 @@ class SpeakerDetailsModel: NSObject {
         //remove favorite
         if favorites.value.contains(speaker.uuid) && to == false {
             try! RealmProvider.appRealm.write {
-                if let oid = RealmProvider.appRealm.objects(ObjectId).filter("id = %@", speaker.uuid).first {
+                if let favorites = RealmProvider.appRealm.objects(Favorites).first,
+                    let oid = favorites.speakers.filter("id = %@", speaker.uuid).first,
+                    let index = favorites.speakers.indexOf(oid) {
+
+                    favorites.speakers.removeAtIndex(index)
                     RealmProvider.appRealm.delete(oid)
                 }
             }
@@ -44,7 +48,8 @@ class SpeakerDetailsModel: NSObject {
         //add favorite
         if !favorites.value.contains(speaker.uuid) && to == true {
             try! RealmProvider.appRealm.write {
-                let oid = RealmProvider.appRealm.objects(ObjectId).filter("id = %@", speaker.uuid).first ?? ObjectId(id: speaker.uuid)
+                print("add uuid: \(speaker.uuid)")
+                let oid = ObjectId(id: speaker.uuid)
                 RealmProvider.appRealm.objects(Favorites).first!.speakers.append(oid)
             }
         }

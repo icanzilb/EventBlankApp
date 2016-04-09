@@ -40,13 +40,11 @@ class MainViewModel: RxViewModel {
         })
         .map({ results in results.first! })
         .subscribeNext({[unowned self] data in
-            
             self.title.onNext(data.title)
             self.subtitle.onNext(data.subtitle)
             self.organizer.onNext("organized by \n" + data.organizer)
             self.logo.onNext(data.logo)
             self.mainColor.onNext(data.mainColor)
-            
         }).addDisposableTo(bag)
     }
 }

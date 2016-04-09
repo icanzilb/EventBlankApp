@@ -102,6 +102,7 @@ class SpeakerDetailsViewModel: RxViewModel {
         
         //toggle favorite
         cell.isFavorite
+            .distinctUntilChanged()
             .bindNext(self.model.updateSpeakerFavoriteTo)
             .addDisposableTo(self.bag)
 
