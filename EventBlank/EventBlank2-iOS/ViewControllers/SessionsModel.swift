@@ -52,7 +52,7 @@ class SessionsModel {
         if !sessionFavorites.value.contains(session.uuid) && to == true {
             try! RealmProvider.appRealm.write {
                 let oid = RealmProvider.appRealm.objects(ObjectId).filter("id = %@", session.uuid).first ?? ObjectId(id: session.uuid)
-                RealmProvider.appRealm.objects(Favorites).first!.speakers.append(oid)
+                RealmProvider.appRealm.objects(Favorites).first!.sessions.append(oid)
             }
         }
     }

@@ -12,6 +12,7 @@ import RxSwift
 import RxCocoa
 import RxViewModel
 import RxDataSources
+import Curry
 
 class SessionsViewModel: RxViewModel {
     
@@ -79,6 +80,11 @@ class SessionsViewModel: RxViewModel {
         model.speakerFavorites.asObservable().subscribeNext {favorites in
             cell.isFavoriteSpeaker.onNext(favorites.contains(session.speakers.first!.uuid))
         }.addDisposableTo(bag)
+        
+        //toggle favorite
+        cell.isFavorite
+            .bindNext(curry(model.updateSessionFavoriteTo)(session))
+            .addDisposableTo(bag)
         
         return cell
     }

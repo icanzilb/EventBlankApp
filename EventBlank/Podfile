@@ -34,6 +34,8 @@ pod 'SwiftyJSON'
 pod 'RelativeFormatter'
 pod 'Kingfisher'
 
+pod 'Curry'
+
 post_install do | installer |
     require 'fileutils'
     FileUtils.cp_r('Pods/Target Support Files/Pods/Pods-acknowledgements.plist', 'Pods-acknowledgements.plist', :remove_destination => true)

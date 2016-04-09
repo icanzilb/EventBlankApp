@@ -48,6 +48,7 @@ class SpeakerCell: UITableViewCell, ClassIdentifier {
     }
     
     private func populateFromSpeaker(speaker: Speaker) {
+        //setupUI
         if let userImage = speaker.photo {
             userImage.asyncToSize(.FillSize(self.userImage.bounds.size), cornerRadius: self.userImage.bounds.size.width/2, completion: {result in
                 self.userImage.image = result
@@ -59,6 +60,7 @@ class SpeakerCell: UITableViewCell, ClassIdentifier {
             twitterLabel.text = twitter.hasPrefix("@") ? twitter : "@"+twitter
         }
         
+        //bindUI
         isFavorite.bindTo(btnToggleIsFavorite.rx_selected).addDisposableTo(bag)
     }
 }

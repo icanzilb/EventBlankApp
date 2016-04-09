@@ -1,0 +1,6 @@
+framework module Curry {
+  umbrella header "Curry-umbrella.h"
+
+  export *
+  module * { export * }
+}

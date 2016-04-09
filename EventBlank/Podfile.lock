@@ -1,6 +1,7 @@
 PODS:
   - AFDateHelper (3.3.0)
   - Alamofire (3.3.0)
+  - Curry (2.2.0)
   - CWStatusBarNotification (2.3.4)
   - DynamicColor (2.4.0)
   - EasyAnimation (1.0.5)
@@ -40,6 +41,7 @@ PODS:
 
 DEPENDENCIES:
   - AFDateHelper
+  - Curry
   - CWStatusBarNotification
   - DynamicColor
   - EasyAnimation
@@ -77,6 +79,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFDateHelper: 137b5b9d70fe13b810e1817fa2d8c116d7988f5c
   Alamofire: 9054db4a1b1ca9e363223183e01cea380159a27c
+  Curry: c22d80fff7f5a4b1bbd531455c3e2dbb099658a3
   CWStatusBarNotification: 3fec41edcb0ae3677d9febfcb9632d8bdf52294c
   DynamicColor: 2f3fd61053684667bad9f03045dcf9a2a5a007ea
   EasyAnimation: 32821f37dd39187e7364369a3d8f65d38405cf1d

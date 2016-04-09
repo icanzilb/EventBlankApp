@@ -158,11 +158,9 @@ extension RealmProvider {
             RealmProvider.eventRealm.add(text2)
         }
         
-        let favorite1 = ObjectId()
-        favorite1.id = speaker1.uuid
-
         let favorites = Favorites()
-        favorites.speakers.append(favorite1)
+        favorites.speakers.append(ObjectId(id: speaker1.uuid))
+        favorites.sessions.append(ObjectId(id: session2.uuid))
         
         try! RealmProvider.appRealm.write {
             RealmProvider.appRealm.deleteAll()
