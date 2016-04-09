@@ -13,6 +13,8 @@
 		9C10A6481CB86E20008A814C /* SessionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C10A6471CB86E20008A814C /* SessionsViewController.swift */; };
 		9C10A64A1CB86E75008A814C /* SessionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C10A6491CB86E75008A814C /* SessionsViewModel.swift */; };
 		9C10A64C1CB8751C008A814C /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C10A64B1CB8751C008A814C /* SessionCell.swift */; };
+		9C10A64E1CB8F6D8008A814C /* SessionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C10A64D1CB8F6D8008A814C /* SessionsModel.swift */; };
+		9C10A6531CB8FC54008A814C /* EventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C10A6521CB8FC54008A814C /* EventModel.swift */; };
 		9C1B20D61C77C5D400DE7A1A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B20D51C77C5D400DE7A1A /* MainViewController.swift */; };
 		9C1B20DC1C77C6B900DE7A1A /* EventData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B20DB1C77C6B900DE7A1A /* EventData.swift */; };
 		9C1B20DE1C77C6F400DE7A1A /* RealmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B20DD1C77C6F400DE7A1A /* RealmProvider.swift */; };
@@ -103,6 +105,8 @@
 		9C10A6471CB86E20008A814C /* SessionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionsViewController.swift; sourceTree = "<group>"; };
 		9C10A6491CB86E75008A814C /* SessionsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionsViewModel.swift; sourceTree = "<group>"; };
 		9C10A64B1CB8751C008A814C /* SessionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionCell.swift; sourceTree = "<group>"; };
+		9C10A64D1CB8F6D8008A814C /* SessionsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionsModel.swift; sourceTree = "<group>"; };
+		9C10A6521CB8FC54008A814C /* EventModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventModel.swift; sourceTree = "<group>"; };
 		9C1B20D51C77C5D400DE7A1A /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		9C1B20DB1C77C6B900DE7A1A /* EventData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventData.swift; sourceTree = "<group>"; };
 		9C1B20DD1C77C6F400DE7A1A /* RealmProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmProvider.swift; sourceTree = "<group>"; };
@@ -210,16 +214,31 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		9C10A63D1CB86282008A814C /* Schedule */ = {
+		9C10A63D1CB86282008A814C /* Sessions */ = {
+			isa = PBXGroup;
+			children = (
+				9C10A64D1CB8F6D8008A814C /* SessionsModel.swift */,
+				9C10A6491CB86E75008A814C /* SessionsViewModel.swift */,
+				9C10A6471CB86E20008A814C /* SessionsViewController.swift */,
+				9C10A64B1CB8751C008A814C /* SessionCell.swift */,
+			);
+			name = Sessions;
+			sourceTree = "<group>";
+		};
+		9C10A64F1CB8FA78008A814C /* SchedulePager */ = {
 			isa = PBXGroup;
 			children = (
 				9C10A6431CB869C3008A814C /* Schedule.swift */,
 				9C10A6411CB8662F008A814C /* SchedulePagerViewController.swift */,
-				9C10A6471CB86E20008A814C /* SessionsViewController.swift */,
-				9C10A6491CB86E75008A814C /* SessionsViewModel.swift */,
-				9C10A64B1CB8751C008A814C /* SessionCell.swift */,
 			);
-			name = Schedule;
+			name = SchedulePager;
+			sourceTree = "<group>";
+		};
+		9C10A6511CB8FA88008A814C /* SessionDetails */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = SessionDetails;
 			sourceTree = "<group>";
 		};
 		9C1B20D21C77C3E400DE7A1A /* __EventFile */ = {
@@ -233,7 +252,9 @@
 			isa = PBXGroup;
 			children = (
 				9C1B20D41C77C5BD00DE7A1A /* Main */,
-				9C10A63D1CB86282008A814C /* Schedule */,
+				9C10A64F1CB8FA78008A814C /* SchedulePager */,
+				9C10A63D1CB86282008A814C /* Sessions */,
+				9C10A6511CB8FA88008A814C /* SessionDetails */,
 				9C558E681C7B10BF009830D5 /* Speakers */,
 				9C677AFD1C7CB39E0028045B /* SpeakersDetails */,
 				9C24D4E21C8399C800B1F0A2 /* More */,
@@ -248,6 +269,7 @@
 			children = (
 				9C1B20D51C77C5D400DE7A1A /* MainViewController.swift */,
 				9C1B20FF1C77CC1300DE7A1A /* MainViewModel.swift */,
+				9C10A6521CB8FC54008A814C /* EventModel.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -442,11 +464,11 @@
 		9C558E681C7B10BF009830D5 /* Speakers */ = {
 			isa = PBXGroup;
 			children = (
-				9C64EDBF1C7B245400985D51 /* SpeakerCell.swift */,
 				9C73046A1C81A3230080EBE4 /* SpeakersModel.swift */,
-				9C64EDC11C7B31F800985D51 /* SpeakersViewController+Search.swift */,
-				9C558E691C7B10D6009830D5 /* SpeakersViewController.swift */,
 				9C558E6B1C7B10EA009830D5 /* SpeakersViewModel.swift */,
+				9C558E691C7B10D6009830D5 /* SpeakersViewController.swift */,
+				9C64EDC11C7B31F800985D51 /* SpeakersViewController+Search.swift */,
+				9C64EDBF1C7B245400985D51 /* SpeakerCell.swift */,
 			);
 			path = Speakers;
 			sourceTree = "<group>";
@@ -680,7 +702,9 @@
 				9C677B061C7CCD4E0028045B /* MessageView.swift in Sources */,
 				9C1B20F21C77C82800DE7A1A /* String.swift in Sources */,
 				9CCCAB1A1C954AFA00B4C561 /* 111 TwitterController.swift in Sources */,
+				9C10A6531CB8FC54008A814C /* EventModel.swift in Sources */,
 				9C1B20D61C77C5D400DE7A1A /* MainViewController.swift in Sources */,
+				9C10A64E1CB8F6D8008A814C /* SessionsModel.swift in Sources */,
 				9C4E70A81C7F04A8005C948A /* SpeakerDetailsModel.swift in Sources */,
 				9C4E70AE1C7F08D3005C948A /* SpeakerDetailsCell.swift in Sources */,
 				9CB7A8471C886E7B0035CCE7 /* ReachabilityService.swift in Sources */,

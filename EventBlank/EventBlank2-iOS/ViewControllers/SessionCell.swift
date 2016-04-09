@@ -28,6 +28,10 @@ class SessionCell: UITableViewCell, ClassIdentifier {
     @IBOutlet weak var btnToggleIsFavorite: UIButton!
     @IBOutlet weak var btnSpeakerIsFavorite: UIButton!
 
+    // input
+    let isFavorite = PublishSubject<Bool>()
+    let isFavoriteSpeaker = PublishSubject<Bool>()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -42,13 +46,13 @@ class SessionCell: UITableViewCell, ClassIdentifier {
         speakerImageView.image = nil
     }
 
-    static func cellOfTable(tv: UITableView, session: Session) -> SessionCell {
+    static func cellOfTable(tv: UITableView, session: Session, event: EventData) -> SessionCell {
         return tv.dequeueReusableCell(SessionCell).then {cell in
-            cell.populateFromSession(session)
+            cell.populateFromSession(session, event: event)
         }
     }
     
-    func populateFromSession(session: Session) {
+    func populateFromSession(session: Session, event: EventData) {
         
         titleLabel.text = session.title
         speakerLabel.text = session.speakers.first!.name
@@ -63,13 +67,10 @@ class SessionCell: UITableViewCell, ClassIdentifier {
         
         locationLabel.text = session.location?.location
         
-        //btnToggleIsFavorite.selected = isFavoriteSession
-        //btnSpeakerIsFavorite.selected = isFavoriteSpeaker
+        isFavorite.bindTo(btnToggleIsFavorite.rx_selected).addDisposableTo(bag)
+        isFavoriteSpeaker.bindTo(btnSpeakerIsFavorite.rx_selected).addDisposableTo(bag)
         
         //theme
-        let realm = try! Realm()
-        let event = realm.objects(EventData).first!
-        
         titleLabel.textColor = event.mainColor
         trackLabel.textColor = event.mainColor.lightenColor(0.1).desaturatedColor()
         speakerLabel.textColor = UIColor.blackColor()

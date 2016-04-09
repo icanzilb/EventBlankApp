@@ -8,15 +8,14 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 class SessionsViewController: UIViewController, ClassIdentifier {
 
-    private let bag = DisposeBag()
-    
     @IBOutlet weak var tableView: UITableView!
     
+    private let bag = DisposeBag()
     private var viewModel: SessionsViewModel!
-    
     private var day: Schedule.Day!
     
     static func createWith(storyboard: UIStoryboard, day: Schedule.Day) -> SessionsViewController {
@@ -24,6 +23,15 @@ class SessionsViewController: UIViewController, ClassIdentifier {
         vc.viewModel = SessionsViewModel(day: day)
         vc.title = day.text
         return vc
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+       
+        setupUI()
+        
+        bindUI()
+        bindTableView()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -41,6 +49,18 @@ class SessionsViewController: UIViewController, ClassIdentifier {
         tableView.rowHeight = UITableViewAutomaticDimension
     }
     
+    func bindUI() {
+        //bind no items message
+        viewModel.sessions
+            .map {sections in sections.count == 0}
+            .distinctUntilChanged()
+            .startWith(false)
+            .subscribeNext {[unowned self] show in
+                MessageView.toggle(self.view, visible: show, text: "No sessions for that day and filter")
+            }
+            .addDisposableTo(bag)
+    }
+    
     func bindTableView() {
         //bind table view
         viewModel.sessions
@@ -52,7 +72,7 @@ class SessionsViewController: UIViewController, ClassIdentifier {
             .subscribeNext {[unowned self] indexPath in
                 self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
                 let model = self.viewModel.dataSource.itemAtIndexPath(indexPath)
-                //try! UIApplication.interactor.show(Segue.SpeakerDetails(speaker: model), sender: self)
+                try! UIApplication.interactor.show(Segue.SessionDetails(session: model), sender: self)
             }
             .addDisposableTo(bag)
     }

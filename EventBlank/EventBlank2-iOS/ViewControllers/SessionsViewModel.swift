@@ -7,10 +7,10 @@
 //
 
 import Foundation
-import RealmSwift
+
 import RxSwift
-import RxViewModel
 import RxCocoa
+import RxViewModel
 import RxDataSources
 
 class SessionsViewModel: RxViewModel {
@@ -18,25 +18,41 @@ class SessionsViewModel: RxViewModel {
     typealias SessionSection = SectionModel<String, Session>
     
     let dataSource = RxTableViewSectionedReloadDataSource<SessionSection>()
+    private let model = SessionsModel()
+    private let bag = DisposeBag()
+    private var event: EventData!
     
+    //
+    // MARK: input
+    //
+    let onlyFavorites = Variable<Bool>(false)
+
     //
     // MARK: output
     //
     let sessions = PublishSubject<[SessionSection]>()
-    private let bag = DisposeBag()
     
     convenience init(day: Schedule.Day) {
         self.init()
-        
-        //generate the speaker list
-        let realm = try! Realm()
-        
-        let sessionObjects = realm.objects(Session).filter("beginTime >= %@ AND beginTime <= %@", day.startTime, day.endTime).sorted("beginTime")
 
-        sessionObjects.asObservableArray()
+        event = EventModel().eventData()
+        
+        //bind sessions
+        let sessionsList = onlyFavorites.asObservable()
+            .flatMapLatest {[unowned self] favs in
+                return self.model.sessions(day, onlyFavorites: favs).asObservableArray()
+            }
             .distinctUntilChanged(distinctCountFilter)
             .map { results in
                 return results.breakIntoSections(self.sectionTitleWithSessions)
+            }
+            .shareReplay(1)
+        
+        //generate reload events
+        [didBecomeActive.replaceWith().take(1)].toObservable()
+            .merge()
+            .flatMapLatest {
+                return sessionsList
             }
             .bindTo(sessions)
             .addDisposableTo(bag)
@@ -57,10 +73,15 @@ class SessionsViewModel: RxViewModel {
     }
 
     func configureSessionCellForIndexPath(dataSource: SectionedViewDataSourceType, tableView: UITableView, index: NSIndexPath, session: Session) -> SessionCell {
-        let cell = SessionCell.cellOfTable(tableView, session: session)
-//        model.favorites.subscribeNext {favorites in
-//            cell.isFavorite.onNext(favorites.contains(speaker.uuid))
-//            }.addDisposableTo(bag)
+        let cell = SessionCell.cellOfTable(tableView, session: session, event: event)
+        
+        model.sessionFavorites.subscribeNext {favorites in
+            cell.isFavorite.onNext(favorites.contains(session.uuid))
+        }.addDisposableTo(bag)
+        model.speakerFavorites.subscribeNext {favorites in
+            cell.isFavoriteSpeaker.onNext(favorites.contains(session.speakers.first!.uuid))
+        }.addDisposableTo(bag)
+        
         return cell
     }
 

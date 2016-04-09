@@ -18,5 +18,9 @@ class FavoriteSpeaker: Object {
 }
 
 class FavoriteSession: Object {
-    dynamic var name: String = ""
+    dynamic var sessionUuid: String = ""
+    
+    override class func primaryKey() -> String {
+        return "sessionUuid"
+    }
 }

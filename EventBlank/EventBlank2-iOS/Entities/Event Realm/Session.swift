@@ -10,6 +10,7 @@ import Foundation
 import RealmSwift
 
 class Session: Object {
+    dynamic var uuid = NSUUID().UUIDString
     
     dynamic var title = ""
     dynamic var sessionDescription = ""

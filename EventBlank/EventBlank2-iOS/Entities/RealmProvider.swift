@@ -11,45 +11,34 @@ import RealmSwift
 
 class RealmProvider {
     
-    static private var eventRealmConfig: Realm.Configuration?
-    static private var appRealmConfig: Realm.Configuration?
-    
-    static var eventRealm = try! Realm(configuration: eventRealmConfig!)
-    static var appRealm   = try! Realm(configuration: appRealmConfig!)
+    static var eventRealm: Realm!
+    static var appRealm: Realm!
     
     init(eventFile: String = eventDataFileName, appFile: String = appDataFileName) {
-        //event configuration
-        if let eventConfig = RealmProvider.loadConfig(eventFile, path: FilePath(inLibrary: eventFile), defaultPath: FilePath(inBundle: eventFile), preferNewerSourceFile: true, readOnly: false),
-            let appConfig = RealmProvider.loadConfig(appFile, path: FilePath(inLibrary: appFile), defaultPath: FilePath(inBundle: appFile), preferNewerSourceFile: false, readOnly: false)
-        {
-            RealmProvider.eventRealmConfig = eventConfig
-            RealmProvider.appRealmConfig = appConfig
-            Realm.Configuration.defaultConfiguration = eventConfig
-        } else {
+
+        let eventRealmConfig = RealmProvider.loadConfig(eventFile, path: FilePath(inLibrary: eventFile), defaultPath: FilePath(inBundle: eventFile), preferNewerSourceFile: true, readOnly: false)
+        let appRealmConfig = RealmProvider.loadConfig(appFile, path: FilePath(inLibrary: appFile), defaultPath: FilePath(inBundle: appFile), preferNewerSourceFile: false, readOnly: false)
+        
+        guard let eventConfig = eventRealmConfig, let appConfig = appRealmConfig else {
             fatalError("Can't load the default realm")
         }
-
-//        if RealmProvider.eventRealm.objects(Speaker).count == 0 {
-            //provide stubby data for testing
-            stubbyRealm()
-//        }
         
-        print("auto-refresh: \(RealmProvider.eventRealm.autorefresh)")
+        Realm.Configuration.defaultConfiguration = eventConfig
+        
+        RealmProvider.eventRealm = try! Realm(configuration: eventConfig)
+        RealmProvider.appRealm = try! Realm(configuration: appConfig)
+        
+        stubbyRealmData()
     }
     
     private static func loadConfig(name: String, path targetPath: FilePath, defaultPath: FilePath? = nil, preferNewerSourceFile: Bool = false, readOnly: Bool = false) -> Realm.Configuration? {
         
         if let defaultPath = defaultPath {
-            //copy if does not exist in target location
             do {
-                print("copy from: \(defaultPath) to \(targetPath)")
                 try defaultPath.copyOnceTo(targetPath)
-                
-                //copy if the bundle contains a newer version
                 if preferNewerSourceFile {
                     try defaultPath.copyIfNewer(targetPath)
                 }
-                
             } catch let error as NSError {
                 fatalError(error.description)
             }
@@ -66,22 +55,16 @@ class RealmProvider {
     private static func schemaForRealm(name: String) -> [Object.Type] {
         switch name {
         case "appdata.realm":
-            return [FavoriteSpeaker.self]
+            return [FavoriteSpeaker.self, FavoriteSession.self]
         default:
             return [Session.self, EventData.self, Speaker.self, Location.self, Text.self, Track.self]
         }
     }
-    
-    private func loadDatabaseFile(name: String) {
-        //TODO: connect a database?
-    }
-    
-    func didChangeSourceFile(name: String, success: Bool) {
-        print("Database Provider: reload database: \(name)")
-        loadDatabaseFile(name)
-    }
-    
-    func stubbyRealm() {
+}
+
+//MARK: - Stubby data
+extension RealmProvider {
+    func stubbyRealmData() {
         //event
         let event = EventData()
         event.title = "Marin Conf '16"

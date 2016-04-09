@@ -9,6 +9,7 @@
 import UIKit
 
 enum Segue {
+    case SessionDetails(session: Session)
     case SpeakerDetails(speaker: Speaker)
     case WebPage(url: NSURL)
 }
@@ -20,6 +21,9 @@ class Interactor {
         switch segue {
         
         //speaker details
+        case .SessionDetails(let session):
+            //showViewController(SessionDetailsViewController.createWith(sender.storyboard!, session: session), sender: sender)
+            print("not yet")
         case .SpeakerDetails(let speaker):
             showViewController(SpeakerDetailsViewController.createWith(sender.storyboard!, speaker: speaker), sender: sender)
         case .WebPage(let url):
