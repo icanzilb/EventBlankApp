@@ -17,7 +17,8 @@ import Then
 class SessionCell: UITableViewCell, ClassIdentifier {
     
     private let bag = DisposeBag()
-
+    private var reuseBag = DisposeBag()
+    
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var trackLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
@@ -43,6 +44,7 @@ class SessionCell: UITableViewCell, ClassIdentifier {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        reuseBag = DisposeBag()
         speakerImageView.image = nil
     }
 
@@ -54,6 +56,7 @@ class SessionCell: UITableViewCell, ClassIdentifier {
     
     func populateFromSession(session: Session, event: EventData) {
         
+        //setupUI
         titleLabel.text = session.title
         speakerLabel.text = session.speakers.first!.name
         trackLabel.text = session.track?.track ?? ""
@@ -66,9 +69,6 @@ class SessionCell: UITableViewCell, ClassIdentifier {
         })
         
         locationLabel.text = session.location?.location
-        
-        isFavorite.bindTo(btnToggleIsFavorite.rx_selected).addDisposableTo(bag)
-        isFavoriteSpeaker.bindTo(btnSpeakerIsFavorite.rx_selected).addDisposableTo(bag)
         
         //theme
         titleLabel.textColor = event.mainColor
@@ -83,6 +83,15 @@ class SessionCell: UITableViewCell, ClassIdentifier {
             speakerLabel.textColor = UIColor.grayColor()
             locationLabel.textColor = UIColor.grayColor()
         }
+        
+        //bindUI
+        isFavorite.bindTo(btnToggleIsFavorite.rx_selected).addDisposableTo(bag)
+        isFavoriteSpeaker.bindTo(btnSpeakerIsFavorite.rx_selected).addDisposableTo(bag)
+
+        btnToggleIsFavorite.rx_tap.subscribeNext {[unowned self] in
+            self.isFavorite.onNext(!self.btnToggleIsFavorite.selected)
+            self.btnToggleIsFavorite.animateSelect(scale: 0.8, completion: nil)
+        }.addDisposableTo(reuseBag)
     }
 
 }

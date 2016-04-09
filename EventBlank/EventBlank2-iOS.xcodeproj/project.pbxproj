@@ -15,6 +15,7 @@
 		9C10A64C1CB8751C008A814C /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C10A64B1CB8751C008A814C /* SessionCell.swift */; };
 		9C10A64E1CB8F6D8008A814C /* SessionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C10A64D1CB8F6D8008A814C /* SessionsModel.swift */; };
 		9C10A6531CB8FC54008A814C /* EventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C10A6521CB8FC54008A814C /* EventModel.swift */; };
+		9C10A6551CB907D6008A814C /* FavoritesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C10A6541CB907D6008A814C /* FavoritesModel.swift */; };
 		9C1B20D61C77C5D400DE7A1A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B20D51C77C5D400DE7A1A /* MainViewController.swift */; };
 		9C1B20DC1C77C6B900DE7A1A /* EventData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B20DB1C77C6B900DE7A1A /* EventData.swift */; };
 		9C1B20DE1C77C6F400DE7A1A /* RealmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B20DD1C77C6F400DE7A1A /* RealmProvider.swift */; };
@@ -38,7 +39,7 @@
 		9C1B210D1C785DF600DE7A1A /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B210C1C785DF600DE7A1A /* Session.swift */; };
 		9C1B21101C78663D00DE7A1A /* Defines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B210F1C78663D00DE7A1A /* Defines.swift */; };
 		9C1BE56D1C8743320078D5DE /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1BE56C1C8743320078D5DE /* Interactor.swift */; };
-		9C1F11741C7C6BF0009AFC2D /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F11731C7C6BF0009AFC2D /* Favorite.swift */; };
+		9C1F11741C7C6BF0009AFC2D /* Favorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F11731C7C6BF0009AFC2D /* Favorites.swift */; };
 		9C24D4E81C8399F400B1F0A2 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C24D4E31C8399F400B1F0A2 /* MoreViewController.swift */; };
 		9C24D4EB1C8399F400B1F0A2 /* markdown.html in Resources */ = {isa = PBXBuildFile; fileRef = 9C24D4E61C8399F400B1F0A2 /* markdown.html */; };
 		9C24D4EE1C839C7500B1F0A2 /* MoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C24D4ED1C839C7500B1F0A2 /* MoreViewModel.swift */; };
@@ -107,6 +108,7 @@
 		9C10A64B1CB8751C008A814C /* SessionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionCell.swift; sourceTree = "<group>"; };
 		9C10A64D1CB8F6D8008A814C /* SessionsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionsModel.swift; sourceTree = "<group>"; };
 		9C10A6521CB8FC54008A814C /* EventModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventModel.swift; sourceTree = "<group>"; };
+		9C10A6541CB907D6008A814C /* FavoritesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesModel.swift; sourceTree = "<group>"; };
 		9C1B20D51C77C5D400DE7A1A /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		9C1B20DB1C77C6B900DE7A1A /* EventData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventData.swift; sourceTree = "<group>"; };
 		9C1B20DD1C77C6F400DE7A1A /* RealmProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmProvider.swift; sourceTree = "<group>"; };
@@ -130,7 +132,7 @@
 		9C1B210C1C785DF600DE7A1A /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		9C1B210F1C78663D00DE7A1A /* Defines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Defines.swift; sourceTree = "<group>"; };
 		9C1BE56C1C8743320078D5DE /* Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
-		9C1F11731C7C6BF0009AFC2D /* Favorite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Favorite.swift; sourceTree = "<group>"; };
+		9C1F11731C7C6BF0009AFC2D /* Favorites.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Favorites.swift; sourceTree = "<group>"; };
 		9C24D4E31C8399F400B1F0A2 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		9C24D4E41C8399F400B1F0A2 /* MDViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MDViewController.swift; sourceTree = "<group>"; };
 		9C24D4E51C8399F400B1F0A2 /* CreditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditViewController.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 				9C10A6491CB86E75008A814C /* SessionsViewModel.swift */,
 				9C10A6471CB86E20008A814C /* SessionsViewController.swift */,
 				9C10A64B1CB8751C008A814C /* SessionCell.swift */,
+				9C10A6541CB907D6008A814C /* FavoritesModel.swift */,
 			);
 			name = Sessions;
 			sourceTree = "<group>";
@@ -367,7 +370,7 @@
 		9C1F11721C7C6BDF009AFC2D /* App Realm */ = {
 			isa = PBXGroup;
 			children = (
-				9C1F11731C7C6BF0009AFC2D /* Favorite.swift */,
+				9C1F11731C7C6BF0009AFC2D /* Favorites.swift */,
 			);
 			path = "App Realm";
 			sourceTree = "<group>";
@@ -688,7 +691,7 @@
 				9C1B20E31C77C7B800DE7A1A /* Shared.swift in Sources */,
 				9C558E6A1C7B10D6009830D5 /* SpeakersViewController.swift in Sources */,
 				9C1B21071C785CC200DE7A1A /* Location.swift in Sources */,
-				9C1F11741C7C6BF0009AFC2D /* Favorite.swift in Sources */,
+				9C1F11741C7C6BF0009AFC2D /* Favorites.swift in Sources */,
 				9CCCAB1B1C954AFA00B4C561 /* TwitterProvider.swift in Sources */,
 				9C10A6441CB869C3008A814C /* Schedule.swift in Sources */,
 				9C10A6481CB86E20008A814C /* SessionsViewController.swift in Sources */,
@@ -730,6 +733,7 @@
 				9C884C921C95EA4600C4C5CA /* TwitterUser.swift in Sources */,
 				9C463BF81C7BA68300FB7333 /* Rx-extensions.swift in Sources */,
 				9C10A6421CB8662F008A814C /* SchedulePagerViewController.swift in Sources */,
+				9C10A6551CB907D6008A814C /* FavoritesModel.swift in Sources */,
 				9C1B20DE1C77C6F400DE7A1A /* RealmProvider.swift in Sources */,
 				9C1B20E81C77C7F500DE7A1A /* Speaker.swift in Sources */,
 				9C1B20F31C77C82800DE7A1A /* Notification.swift in Sources */,

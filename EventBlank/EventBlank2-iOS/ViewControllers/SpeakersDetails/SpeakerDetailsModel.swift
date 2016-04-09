@@ -14,28 +14,38 @@ import RxSwift
 class SpeakerDetailsModel: NSObject {
 
     //favorites
-    let favorites = RealmProvider.appRealm.objects(FavoriteSpeaker).asObservableArray()
-        .map { $0.map {speaker in speaker.speakerUuid} }
-
+    let favorites = Variable<[String]>([])
     let speaker: Speaker
+    
+    let bag = DisposeBag()
     
     init(speaker: Speaker) {
         self.speaker = speaker
+        
+        //bind favorites
+        RealmProvider.appRealm.objects(Favorites).asObservableArray().map {results -> [String] in
+            return results.first!.speakerIds
+        }
+        .bindTo(favorites)
+        .addDisposableTo(bag)
     }
     
     func updateSpeakerFavoriteTo(to: Bool) {
-        let fav = RealmProvider.appRealm.objectForPrimaryKey(FavoriteSpeaker.self, key: speaker.uuid)
-        
-        if let fav = fav where to == false {
+        //remove favorite
+        if favorites.value.contains(speaker.uuid) && to == false {
             try! RealmProvider.appRealm.write {
-                RealmProvider.appRealm.delete(fav)
+                if let oid = RealmProvider.appRealm.objects(ObjectId).filter("id = %@", speaker.uuid).first {
+                    RealmProvider.appRealm.delete(oid)
+                }
             }
+            return
         }
-        if fav == nil && to == true {
+        
+        //add favorite
+        if !favorites.value.contains(speaker.uuid) && to == true {
             try! RealmProvider.appRealm.write {
-                let newFav = FavoriteSpeaker()
-                newFav.speakerUuid = speaker.uuid
-                RealmProvider.appRealm.add(newFav)
+                let oid = RealmProvider.appRealm.objects(ObjectId).filter("id = %@", speaker.uuid).first ?? ObjectId(id: speaker.uuid)
+                RealmProvider.appRealm.objects(Favorites).first!.speakers.append(oid)
             }
         }
     }

@@ -95,7 +95,7 @@ class SpeakerDetailsViewModel: RxViewModel {
         let cell = SpeakerDetailsCell.cellOfTable(tv, speaker: speaker)
         
         //is favorite
-        self.model.favorites
+        self.model.favorites.asObservable()
             .map {favorites in favorites.contains(speaker.uuid)}
             .bindTo(cell.isFavorite)
             .addDisposableTo(self.bag)

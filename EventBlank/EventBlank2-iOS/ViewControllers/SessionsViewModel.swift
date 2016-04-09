@@ -46,11 +46,9 @@ class SessionsViewModel: RxViewModel {
             .map { results in
                 return results.breakIntoSections(self.sectionTitleWithSessions)
             }
-            .shareReplay(1)
         
         //generate reload events
-        [didBecomeActive.replaceWith().take(1)].toObservable()
-            .merge()
+        didBecomeActive.replaceWith().take(1)
             .flatMapLatest {
                 return sessionsList
             }
@@ -75,10 +73,10 @@ class SessionsViewModel: RxViewModel {
     func configureSessionCellForIndexPath(dataSource: SectionedViewDataSourceType, tableView: UITableView, index: NSIndexPath, session: Session) -> SessionCell {
         let cell = SessionCell.cellOfTable(tableView, session: session, event: event)
         
-        model.sessionFavorites.subscribeNext {favorites in
+        model.sessionFavorites.asObservable().subscribeNext {favorites in
             cell.isFavorite.onNext(favorites.contains(session.uuid))
         }.addDisposableTo(bag)
-        model.speakerFavorites.subscribeNext {favorites in
+        model.speakerFavorites.asObservable().subscribeNext {favorites in
             cell.isFavoriteSpeaker.onNext(favorites.contains(session.speakers.first!.uuid))
         }.addDisposableTo(bag)
         

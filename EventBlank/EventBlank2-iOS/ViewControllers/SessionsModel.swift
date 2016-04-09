@@ -11,14 +11,50 @@ import RealmSwift
 import RxSwift
 
 class SessionsModel {
+    let bag = DisposeBag()
+    
     //favorites
-    let speakerFavorites = RealmProvider.appRealm.objects(FavoriteSpeaker).asObservableArray()
-        .map { $0.map {speaker in speaker.speakerUuid} }
-    let sessionFavorites = RealmProvider.appRealm.objects(FavoriteSession).asObservableArray()
-        .map { $0.map {session in session.sessionUuid} }
+    let speakerFavorites = Variable<[String]>([])
+    let sessionFavorites = Variable<[String]>([])
 
+    init() {
+        //observe speaker favorites
+        RealmProvider.appRealm.objects(Favorites).asObservableArray().map {results -> [String] in
+            return results.first!.speakerIds
+        }
+        .bindTo(speakerFavorites)
+        .addDisposableTo(bag)
+        
+        //observe session favorites
+        RealmProvider.appRealm.objects(Favorites).asObservableArray().map {results -> [String] in
+            return results.first!.sessionIds
+        }
+        .bindTo(sessionFavorites)
+        .addDisposableTo(bag)
+    }
+    
     func sessions(day: Schedule.Day, onlyFavorites: Bool) -> Results<Session> {
         return RealmProvider.eventRealm.objects(Session).filter("beginTime >= %@ AND beginTime <= %@", day.startTime, day.endTime).sorted("beginTime")
     }
     
+    func updateSessionFavoriteTo(session: Session, to: Bool) {
+        //remove favorite
+        if sessionFavorites.value.contains(session.uuid) && to == false {
+            try! RealmProvider.appRealm.write {
+                if let oid = RealmProvider.appRealm.objects(ObjectId).filter("id = %@", session.uuid).first {
+                    RealmProvider.appRealm.delete(oid)
+                }
+            }
+            return
+        }
+        
+        //add favorite
+        if !sessionFavorites.value.contains(session.uuid) && to == true {
+            try! RealmProvider.appRealm.write {
+                let oid = RealmProvider.appRealm.objects(ObjectId).filter("id = %@", session.uuid).first ?? ObjectId(id: session.uuid)
+                RealmProvider.appRealm.objects(Favorites).first!.speakers.append(oid)
+            }
+        }
+    }
+
 }

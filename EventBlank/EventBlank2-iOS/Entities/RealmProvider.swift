@@ -55,7 +55,7 @@ class RealmProvider {
     private static func schemaForRealm(name: String) -> [Object.Type] {
         switch name {
         case "appdata.realm":
-            return [FavoriteSpeaker.self, FavoriteSession.self]
+            return [Favorites.self, ObjectId.self]
         default:
             return [Session.self, EventData.self, Speaker.self, Location.self, Text.self, Track.self]
         }
@@ -158,12 +158,15 @@ extension RealmProvider {
             RealmProvider.eventRealm.add(text2)
         }
         
-        let favorite1 = FavoriteSpeaker()
-        favorite1.speakerUuid = speaker1.uuid
+        let favorite1 = ObjectId()
+        favorite1.id = speaker1.uuid
+
+        let favorites = Favorites()
+        favorites.speakers.append(favorite1)
         
         try! RealmProvider.appRealm.write {
             RealmProvider.appRealm.deleteAll()
-            RealmProvider.appRealm.add(favorite1)
+            RealmProvider.appRealm.add(favorites)
         }
 
         delay(seconds: 3.0, completion: {

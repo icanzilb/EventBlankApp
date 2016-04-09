@@ -13,8 +13,9 @@ import RxSwift
 class SpeakersModel {
     
     //favorites
-    let favorites = RealmProvider.appRealm.objects(FavoriteSpeaker).asObservableArray()
-        .map { $0.map {speaker in speaker.speakerUuid} }
+    let favorites = RealmProvider.appRealm.objects(Favorites).asObservableArray().map {results -> [String] in
+        return results.first!.speakerIds
+    }
 
     //loading speakers
     func speakers(searchTerm term: String = "", showOnlyFavorites: Bool = false) -> Observable<[Speaker]> {
