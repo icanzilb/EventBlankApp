@@ -36,5 +36,4 @@ class Speaker: Object {
     override class func ignoredProperties() -> [String] {
         return ["photo"]
     }
-    
 }

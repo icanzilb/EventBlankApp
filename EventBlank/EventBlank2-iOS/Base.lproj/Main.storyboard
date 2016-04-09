@@ -834,9 +834,6 @@
                                             <outlet property="timeLabel" destination="Dwm-gL-YWK" id="o78-Yr-50v"/>
                                             <outlet property="titleLabel" destination="2SB-dk-eZ3" id="XKq-bo-X6X"/>
                                             <outlet property="trackLabel" destination="7ep-sF-sTl" id="gbz-Em-3IR"/>
-                                            <segue destination="JUa-xR-ybg" kind="show" id="aHh-dv-ft5">
-                                                <nil key="action"/>
-                                            </segue>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MessageCell" rowHeight="63" id="fDv-GQ-huh">
@@ -861,6 +858,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="tableView" destination="0B8-Bd-1le" id="Wex-l1-mVf"/>
+                        <segue destination="JUa-xR-ybg" kind="show" identifier="SessionDetailsViewController" id="AHL-tC-Has"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6EO-yb-1mV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -942,9 +940,6 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <state key="selected" image="like-full"/>
-                                                    <connections>
-                                                        <action selector="actionToggleIsFavorite:" destination="k8f-iz-wJT" eventType="touchUpInside" id="i7I-tB-ic3"/>
-                                                    </connections>
                                                 </button>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nwr-rq-BDg">
                                                     <rect key="frame" x="8" y="196" width="359" height="89"/>
@@ -1032,11 +1027,11 @@
                                             <variation key="default">
                                                 <mask key="constraints">
                                                     <exclude reference="ESo-Dk-eDq"/>
-                                                    <exclude reference="K51-JW-XzK"/>
                                                     <exclude reference="HgV-UQ-G1g"/>
-                                                    <exclude reference="zC9-bX-V37"/>
-                                                    <exclude reference="laq-fm-bVW"/>
+                                                    <exclude reference="K51-JW-XzK"/>
                                                     <exclude reference="Fvk-bt-VaQ"/>
+                                                    <exclude reference="laq-fm-bVW"/>
+                                                    <exclude reference="zC9-bX-V37"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -1052,10 +1047,6 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="JUa-xR-ybg" id="tlV-oa-Jun"/>
-                                    <outlet property="delegate" destination="JUa-xR-ybg" id="wG4-s5-rn7"/>
-                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

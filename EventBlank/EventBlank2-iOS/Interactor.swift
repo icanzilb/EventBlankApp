@@ -22,8 +22,7 @@ class Interactor {
         
         //speaker details
         case .SessionDetails(let session):
-            //showViewController(SessionDetailsViewController.createWith(sender.storyboard!, session: session), sender: sender)
-            print("not yet")
+            showViewController(SessionDetailsViewController.createWith(sender.storyboard!, session: session), sender: sender)
         case .SpeakerDetails(let speaker):
             showViewController(SpeakerDetailsViewController.createWith(sender.storyboard!, speaker: speaker), sender: sender)
         case .WebPage(let url):
@@ -44,6 +43,8 @@ class Interactor {
     private func showViewController(target: UIViewController, sender: UIViewController) {
         if let nav = sender.navigationController {
             nav.pushViewController(target, animated: true)
+        } else {
+            sender.presentViewController(target, animated: true, completion: nil)
         }
     }
     

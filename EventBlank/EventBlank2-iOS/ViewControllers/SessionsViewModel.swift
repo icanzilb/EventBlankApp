@@ -20,6 +20,8 @@ class SessionsViewModel: RxViewModel {
     
     let dataSource = RxTableViewSectionedReloadDataSource<SessionSection>()
     private let model = SessionsModel()
+    private let favoritesModel = FavoritesModel()
+    
     private let bag = DisposeBag()
     private var event: EventData!
     
@@ -74,16 +76,17 @@ class SessionsViewModel: RxViewModel {
     func configureSessionCellForIndexPath(dataSource: SectionedViewDataSourceType, tableView: UITableView, index: NSIndexPath, session: Session) -> SessionCell {
         let cell = SessionCell.cellOfTable(tableView, session: session, event: event)
         
-        model.sessionFavorites.asObservable().subscribeNext {favorites in
+        favoritesModel.sessionFavorites.asObservable().subscribeNext {favorites in
             cell.isFavorite.onNext(favorites.contains(session.uuid))
         }.addDisposableTo(bag)
-        model.speakerFavorites.asObservable().subscribeNext {favorites in
+        
+        favoritesModel.speakerFavorites.asObservable().subscribeNext {favorites in
             cell.isFavoriteSpeaker.onNext(favorites.contains(session.speakers.first!.uuid))
         }.addDisposableTo(bag)
         
         //toggle favorite
         cell.isFavorite
-            .bindNext(curry(model.updateSessionFavoriteTo)(session))
+            .bindNext(curry(favoritesModel.updateSessionFavoriteTo)(session))
             .addDisposableTo(bag)
         
         return cell

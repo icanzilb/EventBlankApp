@@ -12,6 +12,7 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 import RxViewModel
+import Curry
 
 class SpeakerDetailsViewModel: RxViewModel {
 
@@ -19,6 +20,7 @@ class SpeakerDetailsViewModel: RxViewModel {
     
     private let bag = DisposeBag()
     private let model: SpeakerDetailsModel
+    private let favoritesModel = FavoritesModel()
     
     //output
     let tableItems = BehaviorSubject<[AnySection]>(value: [])
@@ -95,7 +97,7 @@ class SpeakerDetailsViewModel: RxViewModel {
         let cell = SpeakerDetailsCell.cellOfTable(tv, speaker: speaker)
         
         //is favorite
-        self.model.favorites.asObservable()
+        favoritesModel.speakerFavorites.asObservable()
             .map {favorites in favorites.contains(speaker.uuid)}
             .bindTo(cell.isFavorite)
             .addDisposableTo(self.bag)
@@ -103,7 +105,7 @@ class SpeakerDetailsViewModel: RxViewModel {
         //toggle favorite
         cell.isFavorite
             .distinctUntilChanged()
-            .bindNext(self.model.updateSpeakerFavoriteTo)
+            .bindNext(curry(favoritesModel.updateSpeakerFavoriteTo)(speaker))
             .addDisposableTo(self.bag)
 
         //is following

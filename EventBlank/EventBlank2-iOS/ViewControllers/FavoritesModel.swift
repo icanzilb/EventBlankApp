@@ -8,28 +8,73 @@
 
 import Foundation
 import RealmSwift
+import RxSwift
+import RxCocoa
 
 class FavoritesModel {
-    
-    
-    
-    func updateSessionFavoriteTo(sessionUuid: String, to: Bool) {
+    let sessionFavorites = Variable<[String]>([])
+    let speakerFavorites = Variable<[String]>([])
 
+    private let bag = DisposeBag()
+    
+    init() {
+        //observe session favorites
+        RealmProvider.appRealm.objects(Favorites).asObservableArray().map {results -> [String] in
+            return results.first!.sessionIds
+        }
+        .bindTo(sessionFavorites)
+        .addDisposableTo(bag)
         
-//        let fav = RealmProvider.appRealm.objectForPrimaryKey(FavoriteSession.self, key: sessionUuid)
-//        
-//        if let fav = fav where to == false {
-//            try! RealmProvider.appRealm.write {
-//                RealmProvider.appRealm.delete(fav)
-//            }
-//        }
-//        if fav == nil && to == true {
-//            try! RealmProvider.appRealm.write {
-//                let newFav = FavoriteSession()
-//                newFav.sessionUuid = sessionUuid
-//                RealmProvider.appRealm.add(newFav)
-//            }
-//        }
+        //observe speaker favorites
+        RealmProvider.appRealm.objects(Favorites).asObservableArray().map {results -> [String] in
+            return results.first!.speakerIds
+        }
+        .bindTo(speakerFavorites)
+        .addDisposableTo(bag)
     }
     
+    func updateSessionFavoriteTo(session: Session, to: Bool) {
+        //remove favorite
+        if sessionFavorites.value.contains(session.uuid) && to == false {
+            try! RealmProvider.appRealm.write {
+                if let oid = RealmProvider.appRealm.objects(ObjectId).filter("id = %@", session.uuid).first {
+                    RealmProvider.appRealm.delete(oid)
+                }
+            }
+            return
+        }
+        
+        //add favorite
+        if !sessionFavorites.value.contains(session.uuid) && to == true {
+            try! RealmProvider.appRealm.write {
+                let oid = RealmProvider.appRealm.objects(ObjectId).filter("id = %@", session.uuid).first ?? ObjectId(id: session.uuid)
+                RealmProvider.appRealm.objects(Favorites).first!.sessions.append(oid)
+            }
+        }
+    }
+
+    func updateSpeakerFavoriteTo(speaker: Speaker, to: Bool) {
+        //remove favorite
+        if speakerFavorites.value.contains(speaker.uuid) && to == false {
+            try! RealmProvider.appRealm.write {
+                if let favorites = RealmProvider.appRealm.objects(Favorites).first,
+                    let oid = favorites.speakers.filter("id = %@", speaker.uuid).first,
+                    let index = favorites.speakers.indexOf(oid) {
+                    
+                    favorites.speakers.removeAtIndex(index)
+                    RealmProvider.appRealm.delete(oid)
+                }
+            }
+            return
+        }
+        
+        //add favorite
+        if !speakerFavorites.value.contains(speaker.uuid) && to == true {
+            try! RealmProvider.appRealm.write {
+                let oid = ObjectId(id: speaker.uuid)
+                RealmProvider.appRealm.objects(Favorites).first!.speakers.append(oid)
+            }
+        }
+    }
+
 }

@@ -1,8 +1,8 @@
 //
-//  SpeakerDetailsViewController.swift
+//  SessionDetailsViewController.swift
 //  EventBlank2-iOS
 //
-//  Created by Marin Todorov on 2/23/16.
+//  Created by Marin Todorov on 4/9/16.
 //  Copyright © 2016 Underplot ltd. All rights reserved.
 //
 
@@ -12,23 +12,13 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-protocol ClassIdentifier: class {
-    static var classIdentifier: String { get }
-}
-
-extension ClassIdentifier {
-    static var classIdentifier: String { return String(Self) }
-}
-
-class SpeakerDetailsViewController: UIViewController, ClassIdentifier {
+class SessionDetailsViewController: UIViewController, ClassIdentifier {
     
     private let bag = DisposeBag()
-
+    private var viewModel: SessionDetailsViewModel!
+    private var session: Session!
+    
     @IBOutlet weak var tableView: UITableView!
-
-    private var speaker: Speaker!
-    private var viewModel: SpeakerDetailsViewModel!
-    private var twitterProvider: TwitterProvider!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,13 +28,11 @@ class SpeakerDetailsViewController: UIViewController, ClassIdentifier {
     }
     
     static func createWith(storyboard: UIStoryboard,
-        speaker: Speaker,
-        twitterProvider: TwitterProvider = TwitterProvider()) -> SpeakerDetailsViewController {
+                           session: Session) -> SessionDetailsViewController {
         
-        return storyboard.instantiateViewController(SpeakerDetailsViewController).then {vc in
-            vc.speaker = speaker
-            vc.viewModel = SpeakerDetailsViewModel(speaker: speaker, twitterProvider: twitterProvider)
-            vc.twitterProvider = twitterProvider
+        return storyboard.instantiateViewController(SessionDetailsViewController).then {vc in
+            vc.session = session
+            vc.viewModel = SessionDetailsViewModel(session: session)
         }
     }
     
@@ -57,10 +45,8 @@ class SpeakerDetailsViewController: UIViewController, ClassIdentifier {
         super.viewDidDisappear(animated)
         viewModel.active = false
     }
-
+    
     func setupUI() {
-        title = speaker.name
-        
         tableView.estimatedRowHeight = 100.0
         tableView.rowHeight = UITableViewAutomaticDimension
     }
@@ -71,5 +57,4 @@ class SpeakerDetailsViewController: UIViewController, ClassIdentifier {
             .bindTo(tableView.rx_itemsWithDataSource(viewModel.dataSource))
             .addDisposableTo(bag)
     }
-    
 }

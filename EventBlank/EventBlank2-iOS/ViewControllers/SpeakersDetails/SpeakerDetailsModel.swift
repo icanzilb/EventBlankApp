@@ -11,47 +11,13 @@ import RealmSwift
 
 import RxSwift
 
-class SpeakerDetailsModel: NSObject {
+class SpeakerDetailsModel {
 
-    //favorites
-    let favorites = Variable<[String]>([])
     let speaker: Speaker
-    
     let bag = DisposeBag()
     
     init(speaker: Speaker) {
         self.speaker = speaker
         
-        //bind favorites
-        RealmProvider.appRealm.objects(Favorites).asObservableArray().map {results -> [String] in
-            return results.first!.speakerIds
-        }
-        .bindTo(favorites)
-        .addDisposableTo(bag)
-    }
-    
-    func updateSpeakerFavoriteTo(to: Bool) {
-        //remove favorite
-        if favorites.value.contains(speaker.uuid) && to == false {
-            try! RealmProvider.appRealm.write {
-                if let favorites = RealmProvider.appRealm.objects(Favorites).first,
-                    let oid = favorites.speakers.filter("id = %@", speaker.uuid).first,
-                    let index = favorites.speakers.indexOf(oid) {
-
-                    favorites.speakers.removeAtIndex(index)
-                    RealmProvider.appRealm.delete(oid)
-                }
-            }
-            return
-        }
-        
-        //add favorite
-        if !favorites.value.contains(speaker.uuid) && to == true {
-            try! RealmProvider.appRealm.write {
-                print("add uuid: \(speaker.uuid)")
-                let oid = ObjectId(id: speaker.uuid)
-                RealmProvider.appRealm.objects(Favorites).first!.speakers.append(oid)
-            }
-        }
     }
 }

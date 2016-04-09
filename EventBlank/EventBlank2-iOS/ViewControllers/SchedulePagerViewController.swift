@@ -18,7 +18,9 @@ class SchedulePagerViewController: PagerController, PagerDataSource {
         dataSource = self
         
         let controllers =  Schedule().dayRanges().map {day in
-            return SessionsViewController.createWith(self.storyboard!, day: day)
+            return EANavigationController(rootViewController:
+                SessionsViewController.createWith(self.storyboard!, day: day)
+            )
         }
 
         setupPager(

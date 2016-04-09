@@ -79,7 +79,7 @@ class SpeakersViewModel: RxViewModel {
         return list1.count == list2.count //just good enough implementation
     }
     
-    func configureSpeakerCellForIndexPath(dataSource: SectionedViewDataSourceType,tableView: UITableView, index: NSIndexPath, speaker: Speaker) -> SpeakerCell {
+    func configureSpeakerCellForIndexPath(dataSource: SectionedViewDataSourceType, tableView: UITableView, index: NSIndexPath, speaker: Speaker) -> SpeakerCell {
         let cell = SpeakerCell.cellOfTable(tableView, speaker: speaker)
         model.favorites.subscribeNext {favorites in
             cell.isFavorite.onNext(favorites.contains(speaker.uuid))
