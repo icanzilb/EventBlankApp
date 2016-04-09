@@ -90,6 +90,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods/Curry.framework"
   install_framework "Pods/DynamicColor.framework"
   install_framework "Pods/EasyAnimation.framework"
+  install_framework "Pods/KHTabPagerViewController.framework"
   install_framework "Pods/Kingfisher.framework"
   install_framework "Pods/MAThemeKit.framework"
   install_framework "Pods/MMMarkdown.framework"
@@ -108,6 +109,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods/SwiftyJSON.framework"
   install_framework "Pods/Then.framework"
   install_framework "Pods/VTAcknowledgementsViewController.framework"
+  install_framework "Pods/XLPagerTabStrip.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/AFDateHelper.framework"
@@ -116,6 +118,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/Curry.framework"
   install_framework "Pods/DynamicColor.framework"
   install_framework "Pods/EasyAnimation.framework"
+  install_framework "Pods/KHTabPagerViewController.framework"
   install_framework "Pods/Kingfisher.framework"
   install_framework "Pods/MAThemeKit.framework"
   install_framework "Pods/MMMarkdown.framework"
@@ -134,4 +137,5 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/SwiftyJSON.framework"
   install_framework "Pods/Then.framework"
   install_framework "Pods/VTAcknowledgementsViewController.framework"
+  install_framework "Pods/XLPagerTabStrip.framework"
 fi

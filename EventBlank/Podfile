@@ -22,6 +22,8 @@ pod 'CWStatusBarNotification'
 
 pod 'Reachability'
 pod 'Pager', :git => "https://github.com/lucoceano/Pager"
+pod 'KHTabPagerViewController'
+pod 'XLPagerTabStrip'
 
 pod 'Then'
 pod 'AFDateHelper'

@@ -10,6 +10,8 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+import XLPagerTabStrip
+
 class SessionsViewController: UIViewController, ClassIdentifier {
 
     @IBOutlet weak var tableView: UITableView!
@@ -17,11 +19,14 @@ class SessionsViewController: UIViewController, ClassIdentifier {
     private let bag = DisposeBag()
     private var viewModel: SessionsViewModel!
     private var day: Schedule.Day!
+    private var visibilityCallback: ((Bool)->Void)!
     
-    static func createWith(storyboard: UIStoryboard, day: Schedule.Day) -> SessionsViewController {
+    static func createWith(storyboard: UIStoryboard, day: Schedule.Day, visibilityCallback: (Bool)->Void) -> SessionsViewController {
         let vc = storyboard.instantiateViewController(SessionsViewController)
         vc.viewModel = SessionsViewModel(day: day)
         vc.title = day.text
+        vc.day = day
+        vc.visibilityCallback = visibilityCallback
         return vc
     }
     
@@ -37,10 +42,11 @@ class SessionsViewController: UIViewController, ClassIdentifier {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.active = true
+        visibilityCallback(true)
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
         viewModel.active = false
     }
     
@@ -72,9 +78,17 @@ class SessionsViewController: UIViewController, ClassIdentifier {
             .subscribeNext {[unowned self] indexPath in
                 self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
                 let model = self.viewModel.dataSource.itemAtIndexPath(indexPath)
+                self.visibilityCallback(false)
                 try! UIApplication.interactor.show(Segue.SessionDetails(session: model), sender: self)
             }
             .addDisposableTo(bag)
     }
     
+}
+
+// MARK: - IndicatorInfoProvider
+extension SessionsViewController: IndicatorInfoProvider {
+    func indicatorInfoForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
+        return IndicatorInfo(title: title ?? "no title")
+    }
 }

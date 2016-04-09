@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import XLPagerTabStrip
 
 class EANavigationController: UINavigationController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -17,5 +18,12 @@ class EANavigationController: UINavigationController {
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
+    }
+}
+
+// MARK: - IndicatorInfoProvider
+extension EANavigationController: IndicatorInfoProvider {
+    func indicatorInfoForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
+        return IndicatorInfo(title: topViewController?.title ?? "no title")
     }
 }

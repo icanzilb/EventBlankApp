@@ -111,9 +111,9 @@
                     </tabBar>
                     <connections>
                         <segue destination="elm-Yv-VcM" kind="relationship" relationship="viewControllers" id="geX-ML-Y7c"/>
-                        <segue destination="h5G-xK-1S2" kind="relationship" relationship="viewControllers" id="R5K-Sy-dQg"/>
                         <segue destination="Gym-l9-Hsb" kind="relationship" relationship="viewControllers" id="W7s-2C-OVb"/>
                         <segue destination="XJ3-Pe-YBO" kind="relationship" relationship="viewControllers" id="ywh-2D-Fn0"/>
+                        <segue destination="h5G-xK-1S2" kind="relationship" relationship="viewControllers" id="ViY-cc-q3b"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z3Q-c5-gKu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -145,7 +145,7 @@
         <!--Schedule-->
         <scene sceneID="g3e-MS-2vD">
             <objects>
-                <viewController storyboardIdentifier="SchedulePagerViewController" id="pPW-Wq-EEE" customClass="SchedulePagerViewController" customModule="EventBlank2_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ScheduleViewController" id="pPW-Wq-EEE" customClass="ScheduleViewController" customModule="EventBlank2_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XxK-nR-7u2"/>
                         <viewControllerLayoutGuide type="bottom" id="bmq-6W-cgA"/>
@@ -153,11 +153,24 @@
                     <view key="view" contentMode="scaleToFill" id="nGW-0Q-kKj">
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ItF-6r-u10">
+                                <rect key="frame" x="0.0" y="-42" width="375" height="645"/>
+                            </scrollView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="ItF-6r-u10" secondAttribute="bottom" id="ZpX-be-XYn"/>
+                            <constraint firstItem="ItF-6r-u10" firstAttribute="leading" secondItem="nGW-0Q-kKj" secondAttribute="leading" id="hMo-8R-52W"/>
+                            <constraint firstItem="ItF-6r-u10" firstAttribute="top" secondItem="XxK-nR-7u2" secondAttribute="bottom" constant="-44" id="lh0-kS-yc1"/>
+                            <constraint firstAttribute="trailing" secondItem="ItF-6r-u10" secondAttribute="trailing" id="lzY-PS-oiA"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Schedule" id="9dr-28-XoQ"/>
+                    <tabBarItem key="tabBarItem" title="Schedule" image="calendar-empty" id="rAE-By-0yu"/>
+                    <navigationItem key="navigationItem" id="9dr-28-XoQ"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="containerView" destination="ItF-6r-u10" id="SU1-N4-0fr"/>
                         <segue destination="vqK-5x-FNe" kind="show" identifier="SessionsViewController" id="50y-mh-7Fu"/>
                     </connections>
                 </viewController>
@@ -687,7 +700,7 @@
         <!--Schedule-->
         <scene sceneID="aXg-uj-qER">
             <objects>
-                <navigationController storyboardIdentifier="ScheduleViewController" title="Schedule" id="h5G-xK-1S2" customClass="EANavigationController" customModule="EventBlank2_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="SchedulePagerViewController" title="Schedule" id="h5G-xK-1S2" customClass="EANavigationController" customModule="EventBlank2_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Schedule" image="calendar-empty" id="duq-df-uiD"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="WAe-PS-T7g">
@@ -699,7 +712,7 @@
                         </textAttributes>
                     </navigationBar>
                     <connections>
-                        <segue destination="pPW-Wq-EEE" kind="relationship" relationship="rootViewController" id="r8t-JT-m8p"/>
+                        <segue destination="pPW-Wq-EEE" kind="relationship" relationship="rootViewController" id="t9Z-1G-Xm6"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sRE-qR-Boa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -855,6 +868,9 @@
                             <constraint firstItem="0B8-Bd-1le" firstAttribute="leading" secondItem="PMf-qq-BIZ" secondAttribute="leadingMargin" constant="-16" id="vev-qq-dou"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="Oab-Pw-wal">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="dU8-8x-zvn"/>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="tableView" destination="0B8-Bd-1le" id="Wex-l1-mVf"/>

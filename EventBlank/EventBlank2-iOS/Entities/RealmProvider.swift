@@ -153,6 +153,7 @@ extension RealmProvider {
             RealmProvider.eventRealm.add(location2)
             RealmProvider.eventRealm.add(session1)
             RealmProvider.eventRealm.add(session2)
+            RealmProvider.eventRealm.add(session3)
             
             RealmProvider.eventRealm.add(text1)
             RealmProvider.eventRealm.add(text2)
