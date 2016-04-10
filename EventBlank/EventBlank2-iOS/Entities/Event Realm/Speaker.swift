@@ -27,8 +27,6 @@ class Speaker: Object {
         }
     }
     
-    let favorite = RealmOptional<Bool>()
-    
     override class func primaryKey() -> String {
         return "uuid"
     }

@@ -19,7 +19,6 @@ class SessionDetailsViewModel: RxViewModel {
     
     private let bag = DisposeBag()
     private var session: Session!
-    private var eventData: EventData!
     
     private var model: SessionDetailsModel!
     private let favoritesModel = FavoritesModel()
@@ -51,7 +50,7 @@ class SessionDetailsViewModel: RxViewModel {
     
     //private methods
     private func sessionDetailsCellForIndexPath(dataSource: SectionedViewDataSourceType, tableView: UITableView, index: NSIndexPath, session: Session) -> SessionDetailsCell {
-        let cell = SessionDetailsCell.cellOfTable(tableView, session: session, event: eventData)
+        let cell = SessionDetailsCell.cellOfTable(tableView, session: session, event: EventData.defaultEvent)
         
         //is favorite
         favoritesModel.sessionFavorites.asObservable()
