@@ -43,11 +43,6 @@ class SessionsViewController: UIViewController, ClassIdentifier, UIScrollViewDel
         visibilityCallback(true)
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        viewModel.active = false
-    }
-    
     func setupUI() {
         tableView.estimatedRowHeight = 100.0
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -89,7 +84,6 @@ class SessionsViewController: UIViewController, ClassIdentifier, UIScrollViewDel
                 try! UIApplication.interactor.show(Segue.SessionDetails(session: model), sender: self)
             }
             .addDisposableTo(bag)
-
     }
 }
 

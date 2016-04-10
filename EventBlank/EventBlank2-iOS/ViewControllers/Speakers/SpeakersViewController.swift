@@ -42,11 +42,6 @@ class SpeakersViewController: UIViewController {
         viewModel.active = true
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        viewModel.active = false
-    }
-    
     func setupUI() {
         btnFavorites.button.tintColor = UIColor.whiteColor()
     }

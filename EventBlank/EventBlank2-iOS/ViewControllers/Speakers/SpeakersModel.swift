@@ -7,43 +7,18 @@
 //
 
 import UIKit
+
 import RealmSwift
 import RxSwift
 
 class SpeakersModel {
     
-    //favorites
-    let favorites = RealmProvider.appRealm.objects(Favorites).asObservableArray().map {results -> [String] in
-        return results.first!.speakerIds
-    }
-
     //loading speakers
-    func speakers(searchTerm term: String = "", showOnlyFavorites: Bool = false) -> Observable<[Speaker]> {
+    func speakers(searchTerm term: String = "") -> Observable<[Speaker]> {
         
-        //filtering
-        func isFavorite(speaker: Speaker, matchNames: [String]) -> Bool {
-            return matchNames.contains(speaker.name)
-        }
-        
-        //sorting
-        func sortSpeakers(speakers: [Speaker], order: NSComparisonResult = .OrderedAscending) -> [Speaker] {
-            return speakers.sort({s1, s2 in
-                return s1.name.compare(s2.name) == order
-            })
-        }
-        
-        //speakers
-        let speakersList = RealmProvider.eventRealm.objects(Speaker)
+        return RealmProvider.eventRealm.objects(Speaker)
             .filter("name contains[c] %@", term)
+            .sorted("name")
             .asObservableArray()
-        
-        //the filtered/sorted speakers list
-        return Observable.combineLatest(speakersList, favorites, resultSelector: {speakers, favorites in
-            guard showOnlyFavorites else {
-                return speakers
-            }
-            return speakers.filter { favorites.contains($0.uuid) }
-        })
-        .map { sortSpeakers($0) }
     }
 }

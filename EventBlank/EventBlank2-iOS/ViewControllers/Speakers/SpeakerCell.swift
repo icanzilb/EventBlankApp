@@ -17,7 +17,8 @@ import Then
 class SpeakerCell: UITableViewCell, ClassIdentifier {
 
     private let lifeBag = DisposeBag()
-
+    var reuseBag = DisposeBag()
+    
     // outlets
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -41,6 +42,7 @@ class SpeakerCell: UITableViewCell, ClassIdentifier {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        reuseBag = DisposeBag()
         userImage.image = nil
         twitterLabel.text = nil
     }

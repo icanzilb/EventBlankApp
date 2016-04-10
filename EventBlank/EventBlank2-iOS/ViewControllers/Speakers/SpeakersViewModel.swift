@@ -19,7 +19,8 @@ class SpeakersViewModel: RxViewModel {
     typealias SpeakerSection = SectionModel<String, Speaker>
     
     let dataSource = RxTableViewSectionedReloadDataSource<SpeakerSection>()
-    private let model: SpeakersModel
+    private let model = SpeakersModel()
+    private let favoritesModel = FavoritesModel()
     
     //
     // MARK: input
@@ -38,32 +39,26 @@ class SpeakersViewModel: RxViewModel {
     // MARK: init
     //
     override init() {
-        model = SpeakersModel()
-        
         super.init()
         
-        //generate the speaker list
-        let speakersList = Observable.combineLatest(searchTerm.asObservable(), onlyFavorites.asObservable(), resultSelector: {term, favs -> (String, Bool) in
-            return (term, favs)
-        })
-        .throttle(0.1, scheduler: MainScheduler.instance)
-        .flatMapLatest {[unowned self] term, favs in
-            return self.model.speakers(searchTerm: term, showOnlyFavorites: favs)
-        }
-        .distinctUntilChanged(distinctSpeakerFilter)
-        .map { results in
-            return results.breakIntoSections(self.sectionTitleWithSpeakers)
-        }
-        .shareReplay(1)
         
-        //generate reload events
-        [didBecomeActive.replaceWith().take(1), fileReplaceEvent].toObservable()
-            .merge()
-            .flatMapLatest {
-                return speakersList
+        //generate the speaker list, re: scott
+        let search$ = searchTerm.asObservable()
+            .startWith("")
+            .throttle(0.1, scheduler: MainScheduler.instance)
+            .flatMap {term in
+                return self.model.speakers(searchTerm: term)
             }
-            .bindTo(speakers)
-            .addDisposableTo(bag)
+            .distinctUntilChanged(distinctSpeakerFilter)
+        
+        Observable.combineLatest(search$, onlyFavorites.asObservable()) {[unowned self] results, onlyFavs -> [Speaker] in
+            return onlyFavs == false ? results : results.filter {speaker in self.favoritesModel.speakerFavorites.value.contains(speaker.uuid) }
+        }
+        .map {[unowned self] speakers in
+            return speakers.breakIntoSections(self.sectionTitleWithSpeakers)
+        }
+        .bindTo(speakers)
+        .addDisposableTo(bag)
         
         //config data source
         dataSource.configureCell = configureSpeakerCellForIndexPath
@@ -81,9 +76,11 @@ class SpeakersViewModel: RxViewModel {
     
     func configureSpeakerCellForIndexPath(dataSource: SectionedViewDataSourceType, tableView: UITableView, index: NSIndexPath, speaker: Speaker) -> SpeakerCell {
         let cell = SpeakerCell.cellOfTable(tableView, speaker: speaker)
-        model.favorites.subscribeNext {favorites in
+        
+        favoritesModel.speakerFavorites.asObservable().subscribeNext {favorites in
             cell.isFavorite.onNext(favorites.contains(speaker.uuid))
-        }.addDisposableTo(bag)
+        }.addDisposableTo(cell.reuseBag)
+        
         return cell
     }
 
