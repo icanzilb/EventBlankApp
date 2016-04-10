@@ -23,9 +23,7 @@ class WebViewController: UIViewController, ClassIdentifier {
     
     // MARK: create
     
-    static func createWith(storyboard: UIStoryboard,
-        url: NSURL) -> WebViewController {
-            
+    static func createWith(storyboard: UIStoryboard, url: NSURL) -> WebViewController {
         return storyboard.instantiateViewController(WebViewController).then {vc in
             vc.viewModel = WebViewModel(url: url)
         }

@@ -9,11 +9,11 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxViewModel
 import RealmSwift
 import DynamicColor
 
 class MainViewController: UIViewController {
-
     // MARK: outlets
     @IBOutlet weak var imgConfLogo: UIImageView!
     @IBOutlet weak var lblConfName: UILabel!
@@ -31,18 +31,7 @@ class MainViewController: UIViewController {
         bindUI()
     }
 
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.active = true
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        viewModel.active = false
-    }
-    
     func bindUI() {
-        
         // bind texts
         viewModel.title.bindTo(lblConfName.rx_text)
             .addDisposableTo(bag)

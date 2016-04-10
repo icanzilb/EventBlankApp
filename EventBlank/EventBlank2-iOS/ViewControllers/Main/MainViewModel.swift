@@ -33,18 +33,18 @@ class MainViewModel: RxViewModel {
         super.init()
         
         // refresh events
-        [didBecomeActive.replaceWith(), fileReplaceEvent].toObservable()
-        .merge()
-        .flatMapLatest({_ in
-            return RealmProvider.eventRealm.objects(EventData).asObservable()
-        })
-        .map({ results in results.first! })
-        .subscribeNext({[unowned self] data in
-            self.title.onNext(data.title)
-            self.subtitle.onNext(data.subtitle)
-            self.organizer.onNext("organized by \n" + data.organizer)
-            self.logo.onNext(data.logo)
-            self.mainColor.onNext(data.mainColor)
-        }).addDisposableTo(bag)
+        fileReplaceEvent
+            .startWith(())
+            .observeOn(MainScheduler.instance)
+            .flatMap{_ in
+                return Observable.just(EventData.defaultEvent)
+            }
+            .subscribeNext {[unowned self] data in
+                self.title.onNext(data.title)
+                self.subtitle.onNext(data.subtitle)
+                self.organizer.onNext("organized by \n" + data.organizer)
+                self.logo.onNext(data.logo)
+                self.mainColor.onNext(data.mainColor)
+            }.addDisposableTo(bag)
     }
 }

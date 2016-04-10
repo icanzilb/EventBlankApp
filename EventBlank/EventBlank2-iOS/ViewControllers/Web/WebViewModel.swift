@@ -20,10 +20,13 @@ class WebViewModel: RxViewModel {
     init(url: NSURL) {
         super.init()
         
-        Observable.combineLatest(Observable.just(url), didBecomeActive, resultSelector: {url, _ in
-            return NSURLRequest(URL: url)
-        })
-        .bindTo(urlRequest)
-        .addDisposableTo(bag)
+        didBecomeActive.take(1).subscribeNext {[weak self]_ in
+            guard let `self` = self else {return}
+            
+            Observable.just(NSURLRequest(URL: url))
+                .bindTo(self.urlRequest)
+                .addDisposableTo(self.bag)
+            
+        }.addDisposableTo(bag)
     }
 }

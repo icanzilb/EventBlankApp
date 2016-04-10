@@ -79,8 +79,8 @@
 		9C8AC8AA1C7F1CCC00B8E625 /* FavoritesBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AC8A91C7F1CCC00B8E625 /* FavoritesBarButtonItem.swift */; };
 		9CB7A8461C886E7B0035CCE7 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB7A8441C886E7B0035CCE7 /* Reachability.swift */; };
 		9CB7A8471C886E7B0035CCE7 /* ReachabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB7A8451C886E7B0035CCE7 /* ReachabilityService.swift */; };
-		9CC97C1B1CBA2C7700B8644A /* DataImport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC97C1A1CBA2C7700B8644A /* DataImport.swift */; };
 		9CC97C1F1CBA2D8200B8644A /* appbuilders in Resources */ = {isa = PBXBuildFile; fileRef = 9CC97C1E1CBA2D8200B8644A /* appbuilders */; };
+		9CC97C221CBA789100B8644A /* DataImport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC97C211CBA789100B8644A /* DataImport.swift */; };
 		9CCCAB191C954AFA00B4C561 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCCAB161C954AFA00B4C561 /* Tweet.swift */; };
 		9CCCAB1A1C954AFA00B4C561 /* 111 TwitterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCCAB171C954AFA00B4C561 /* 111 TwitterController.swift */; };
 		9CCCAB1B1C954AFA00B4C561 /* TwitterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCCAB181C954AFA00B4C561 /* TwitterProvider.swift */; };
@@ -182,8 +182,8 @@
 		9C8AC8A91C7F1CCC00B8E625 /* FavoritesBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesBarButtonItem.swift; sourceTree = "<group>"; };
 		9CB7A8441C886E7B0035CCE7 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		9CB7A8451C886E7B0035CCE7 /* ReachabilityService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityService.swift; sourceTree = "<group>"; };
-		9CC97C1A1CBA2C7700B8644A /* DataImport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataImport.swift; sourceTree = "<group>"; };
 		9CC97C1E1CBA2D8200B8644A /* appbuilders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = appbuilders; path = ../../../../EventBlank/appbuilders; sourceTree = "<group>"; };
+		9CC97C211CBA789100B8644A /* DataImport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataImport.swift; sourceTree = "<group>"; };
 		9CCCAB161C954AFA00B4C561 /* Tweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 		9CCCAB171C954AFA00B4C561 /* 111 TwitterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "111 TwitterController.swift"; sourceTree = "<group>"; };
 		9CCCAB181C954AFA00B4C561 /* TwitterProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterProvider.swift; sourceTree = "<group>"; };
@@ -534,8 +534,8 @@
 		9CC97C191CBA2C5500B8644A /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				9CC97C211CBA789100B8644A /* DataImport.swift */,
 				9CC97C1E1CBA2D8200B8644A /* appbuilders */,
-				9CC97C1A1CBA2C7700B8644A /* DataImport.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -729,7 +729,6 @@
 				9CF357831CAD97F900A1E223 /* UITableView+Extensions.swift in Sources */,
 				9C1B21051C78589200DE7A1A /* UILabel+Rx.swift in Sources */,
 				9C558E711C7B118C009830D5 /* EANavigationController.swift in Sources */,
-				9CC97C1B1CBA2C7700B8644A /* DataImport.swift in Sources */,
 				9C677B061C7CCD4E0028045B /* MessageView.swift in Sources */,
 				9C1B20F21C77C82800DE7A1A /* String.swift in Sources */,
 				9CCCAB1A1C954AFA00B4C561 /* 111 TwitterController.swift in Sources */,
@@ -749,6 +748,7 @@
 				9C4216261C77C14A003321FC /* AppDelegate.swift in Sources */,
 				9C558E751C7B1A2D009830D5 /* CollectionType.swift in Sources */,
 				9C24D4F31C83A92100B1F0A2 /* CreditViewController.swift in Sources */,
+				9CC97C221CBA789100B8644A /* DataImport.swift in Sources */,
 				9C677B041C7CBABE0028045B /* NSObject+Extension.swift in Sources */,
 				9C1B21001C77CC1300DE7A1A /* MainViewModel.swift in Sources */,
 				9CB7A8461C886E7B0035CCE7 /* Reachability.swift in Sources */,
