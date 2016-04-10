@@ -21,11 +21,12 @@ class SchedulePagerViewController: KHTabPagerViewController {
         dataSource = self
         delegate = self
         
-        controllers =  Schedule().dayRanges().map {day in
+        controllers = Schedule().dayRanges().map {day in
             return EANavigationController(rootViewController:
                 SessionsViewController.createWith(self.storyboard!, day: day)
             )
         }
+        print(controllers)
     }
     
     override func viewWillAppear(animated: Bool) {

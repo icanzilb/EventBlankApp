@@ -17,7 +17,7 @@ class Speaker: Object {
     dynamic var url: String?
     dynamic var twitter: String?
     
-    dynamic private var _photo: NSData?
+    dynamic var _photo: NSData?
     var photo: UIImage? {
         set {
             _photo = newValue?.dataValue

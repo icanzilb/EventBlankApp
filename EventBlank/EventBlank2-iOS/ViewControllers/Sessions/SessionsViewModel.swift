@@ -38,7 +38,7 @@ class SessionsViewModel: RxViewModel {
     convenience init(day: Schedule.Day) {
         self.init()
 
-        event = EventModel().eventData()
+        event = EventData.defaultEvent
         
         //bind sessions
         let sessionsList = onlyFavorites.asObservable()

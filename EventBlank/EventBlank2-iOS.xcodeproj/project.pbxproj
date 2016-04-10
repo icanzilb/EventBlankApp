@@ -13,7 +13,6 @@
 		9C10A64A1CB86E75008A814C /* SessionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C10A6491CB86E75008A814C /* SessionsViewModel.swift */; };
 		9C10A64C1CB8751C008A814C /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C10A64B1CB8751C008A814C /* SessionCell.swift */; };
 		9C10A64E1CB8F6D8008A814C /* SessionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C10A64D1CB8F6D8008A814C /* SessionsModel.swift */; };
-		9C10A6531CB8FC54008A814C /* EventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C10A6521CB8FC54008A814C /* EventModel.swift */; };
 		9C10A6551CB907D6008A814C /* FavoritesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C10A6541CB907D6008A814C /* FavoritesModel.swift */; };
 		9C1B20D61C77C5D400DE7A1A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B20D51C77C5D400DE7A1A /* MainViewController.swift */; };
 		9C1B20DC1C77C6B900DE7A1A /* EventData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B20DB1C77C6B900DE7A1A /* EventData.swift */; };
@@ -80,6 +79,8 @@
 		9C8AC8AA1C7F1CCC00B8E625 /* FavoritesBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8AC8A91C7F1CCC00B8E625 /* FavoritesBarButtonItem.swift */; };
 		9CB7A8461C886E7B0035CCE7 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB7A8441C886E7B0035CCE7 /* Reachability.swift */; };
 		9CB7A8471C886E7B0035CCE7 /* ReachabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB7A8451C886E7B0035CCE7 /* ReachabilityService.swift */; };
+		9CC97C1B1CBA2C7700B8644A /* DataImport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC97C1A1CBA2C7700B8644A /* DataImport.swift */; };
+		9CC97C1F1CBA2D8200B8644A /* appbuilders in Resources */ = {isa = PBXBuildFile; fileRef = 9CC97C1E1CBA2D8200B8644A /* appbuilders */; };
 		9CCCAB191C954AFA00B4C561 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCCAB161C954AFA00B4C561 /* Tweet.swift */; };
 		9CCCAB1A1C954AFA00B4C561 /* 111 TwitterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCCAB171C954AFA00B4C561 /* 111 TwitterController.swift */; };
 		9CCCAB1B1C954AFA00B4C561 /* TwitterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCCAB181C954AFA00B4C561 /* TwitterProvider.swift */; };
@@ -111,7 +112,6 @@
 		9C10A6491CB86E75008A814C /* SessionsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionsViewModel.swift; sourceTree = "<group>"; };
 		9C10A64B1CB8751C008A814C /* SessionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionCell.swift; sourceTree = "<group>"; };
 		9C10A64D1CB8F6D8008A814C /* SessionsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionsModel.swift; sourceTree = "<group>"; };
-		9C10A6521CB8FC54008A814C /* EventModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventModel.swift; sourceTree = "<group>"; };
 		9C10A6541CB907D6008A814C /* FavoritesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesModel.swift; sourceTree = "<group>"; };
 		9C1B20D51C77C5D400DE7A1A /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		9C1B20DB1C77C6B900DE7A1A /* EventData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventData.swift; sourceTree = "<group>"; };
@@ -182,6 +182,8 @@
 		9C8AC8A91C7F1CCC00B8E625 /* FavoritesBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesBarButtonItem.swift; sourceTree = "<group>"; };
 		9CB7A8441C886E7B0035CCE7 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		9CB7A8451C886E7B0035CCE7 /* ReachabilityService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityService.swift; sourceTree = "<group>"; };
+		9CC97C1A1CBA2C7700B8644A /* DataImport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataImport.swift; sourceTree = "<group>"; };
+		9CC97C1E1CBA2D8200B8644A /* appbuilders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = appbuilders; path = ../../../../EventBlank/appbuilders; sourceTree = "<group>"; };
 		9CCCAB161C954AFA00B4C561 /* Tweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 		9CCCAB171C954AFA00B4C561 /* 111 TwitterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "111 TwitterController.swift"; sourceTree = "<group>"; };
 		9CCCAB181C954AFA00B4C561 /* TwitterProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterProvider.swift; sourceTree = "<group>"; };
@@ -284,7 +286,6 @@
 		9C1B20D41C77C5BD00DE7A1A /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				9C10A6521CB8FC54008A814C /* EventModel.swift */,
 				9C1B20D51C77C5D400DE7A1A /* MainViewController.swift */,
 				9C1B20FF1C77CC1300DE7A1A /* MainViewModel.swift */,
 			);
@@ -438,6 +439,7 @@
 		9C4216241C77C14A003321FC /* EventBlank2-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				9CC97C191CBA2C5500B8644A /* Data */,
 				9C7304661C8193B10080EBE4 /* Common */,
 				9C1B20DF1C77C70600DE7A1A /* Config */,
 				9C1B20DA1C77C69E00DE7A1A /* Entities */,
@@ -527,6 +529,15 @@
 				9CB7A8451C886E7B0035CCE7 /* ReachabilityService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		9CC97C191CBA2C5500B8644A /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				9CC97C1E1CBA2D8200B8644A /* appbuilders */,
+				9CC97C1A1CBA2C7700B8644A /* DataImport.swift */,
+			);
+			name = Data;
 			sourceTree = "<group>";
 		};
 		CE728E1149BDDE7B127F3138 /* Frameworks */ = {
@@ -624,6 +635,7 @@
 				9CE743EB1C80CB9700D140A0 /* marin-conf.png in Resources */,
 				9C4216301C77C14A003321FC /* LaunchScreen.storyboard in Resources */,
 				9C42162D1C77C14A003321FC /* Assets.xcassets in Resources */,
+				9CC97C1F1CBA2D8200B8644A /* appbuilders in Resources */,
 				9C24D4F71C83AB6400B1F0A2 /* Pods-acknowledgements.plist in Resources */,
 				9C24D4EB1C8399F400B1F0A2 /* markdown.html in Resources */,
 				9CE743E81C80CA9D00D140A0 /* marin_codebits_small.jpg in Resources */,
@@ -717,10 +729,10 @@
 				9CF357831CAD97F900A1E223 /* UITableView+Extensions.swift in Sources */,
 				9C1B21051C78589200DE7A1A /* UILabel+Rx.swift in Sources */,
 				9C558E711C7B118C009830D5 /* EANavigationController.swift in Sources */,
+				9CC97C1B1CBA2C7700B8644A /* DataImport.swift in Sources */,
 				9C677B061C7CCD4E0028045B /* MessageView.swift in Sources */,
 				9C1B20F21C77C82800DE7A1A /* String.swift in Sources */,
 				9CCCAB1A1C954AFA00B4C561 /* 111 TwitterController.swift in Sources */,
-				9C10A6531CB8FC54008A814C /* EventModel.swift in Sources */,
 				9C1B20D61C77C5D400DE7A1A /* MainViewController.swift in Sources */,
 				9C10A64E1CB8F6D8008A814C /* SessionsModel.swift in Sources */,
 				9C4E70A81C7F04A8005C948A /* SpeakerDetailsModel.swift in Sources */,

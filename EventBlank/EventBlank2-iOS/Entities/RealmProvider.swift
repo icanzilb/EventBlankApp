@@ -11,23 +11,19 @@ import RealmSwift
 
 class RealmProvider {
     
-    static var eventRealm: Realm!
-    static var appRealm: Realm!
+    private static var eventRealmConfig = RealmProvider.loadConfig(eventDataFileName, path: FilePath(inLibrary: eventDataFileName), defaultPath: FilePath(inBundle: eventDataFileName), preferNewerSourceFile: true, readOnly: false)
+    private static var appRealmConfig = RealmProvider.loadConfig(appDataFileName, path: FilePath(inLibrary: appDataFileName), defaultPath: FilePath(inBundle: appDataFileName), preferNewerSourceFile: false, readOnly: false)
     
-    init(eventFile: String = eventDataFileName, appFile: String = appDataFileName) {
-
-        let eventRealmConfig = RealmProvider.loadConfig(eventFile, path: FilePath(inLibrary: eventFile), defaultPath: FilePath(inBundle: eventFile), preferNewerSourceFile: true, readOnly: false)
-        let appRealmConfig = RealmProvider.loadConfig(appFile, path: FilePath(inLibrary: appFile), defaultPath: FilePath(inBundle: appFile), preferNewerSourceFile: false, readOnly: false)
-        
-        guard let eventConfig = eventRealmConfig, let appConfig = appRealmConfig else {
-            fatalError("Can't load the default realm")
-        }
-        
-        Realm.Configuration.defaultConfiguration = eventConfig
-        
-        RealmProvider.eventRealm = try! Realm(configuration: eventConfig)
-        RealmProvider.appRealm = try! Realm(configuration: appConfig)
-        
+    static var eventRealm: Realm! {
+        return try! Realm(configuration: eventRealmConfig!)
+    }
+    
+    static var appRealm: Realm! {
+        return try! Realm(configuration: appRealmConfig!)
+    }
+    
+    init() {
+        Realm.Configuration.defaultConfiguration = RealmProvider.eventRealmConfig!
         stubbyRealmData()
     }
     
@@ -64,7 +60,20 @@ class RealmProvider {
 
 //MARK: - Stubby data
 extension RealmProvider {
+    func appbuilders() {
+        DataImport()
+        
+        let favorites = Favorites()
+        try! RealmProvider.appRealm.write {
+            RealmProvider.appRealm.deleteAll()
+            RealmProvider.appRealm.add(favorites)
+        }
+
+    }
+    
     func stubbyRealmData() {
+        appbuilders()
+        return;
         //event
         let event = EventData()
         event.title = "Marin Conf '16"

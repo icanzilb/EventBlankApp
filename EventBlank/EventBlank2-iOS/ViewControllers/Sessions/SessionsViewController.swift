@@ -12,7 +12,7 @@ import RxCocoa
 
 import XLPagerTabStrip
 
-class SessionsViewController: UIViewController, ClassIdentifier {
+class SessionsViewController: UIViewController, ClassIdentifier, UIScrollViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -21,22 +21,22 @@ class SessionsViewController: UIViewController, ClassIdentifier {
     private var day: Schedule.Day!
     private var visibilityCallback: ((Bool)->Void)!
     
+    private var sectionCount = 0
+    
     static func createWith(storyboard: UIStoryboard, day: Schedule.Day, visibilityCallback: (Bool)->Void) -> SessionsViewController {
-        let vc = storyboard.instantiateViewController(SessionsViewController)
-        vc.viewModel = SessionsViewModel(day: day)
-        vc.title = day.text
-        vc.day = day
-        vc.visibilityCallback = visibilityCallback
-        return vc
+        return storyboard.instantiateViewController(SessionsViewController).then {vc in
+            vc.viewModel = SessionsViewModel(day: day)
+            vc.title = day.text
+            vc.day = day
+            vc.visibilityCallback = visibilityCallback
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
        
         setupUI()
-        
         bindUI()
-        bindTableView()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -57,7 +57,9 @@ class SessionsViewController: UIViewController, ClassIdentifier {
     
     func bindUI() {
         //bind no items message
-        viewModel.sessions
+        let sessions = viewModel.sessions.shareReplay(1)
+        
+        sessions
             .map {sections in sections.count == 0}
             .distinctUntilChanged()
             .startWith(false)
@@ -65,13 +67,20 @@ class SessionsViewController: UIViewController, ClassIdentifier {
                 MessageView.toggle(self.view, visible: show, text: "No sessions for that day and filter")
             }
             .addDisposableTo(bag)
-    }
-    
-    func bindTableView() {
+        
+        tableView
+            .rx_setDelegate(self)
+            .addDisposableTo(bag)
+        
         //bind table view
-        viewModel.sessions
+        sessions
             .bindTo(tableView.rx_itemsWithDataSource(viewModel.dataSource))
             .addDisposableTo(bag)
+        
+        sessions
+            .subscribeNext {[weak self] sessions in
+                self?.sectionCount = sessions.count
+            }.addDisposableTo(bag)
         
         //table view delegate
         tableView.rx_itemSelected
@@ -82,8 +91,18 @@ class SessionsViewController: UIViewController, ClassIdentifier {
                 try! UIApplication.interactor.show(Segue.SessionDetails(session: model), sender: self)
             }
             .addDisposableTo(bag)
+
     }
-    
+}
+
+extension SessionsViewController: UITableViewDelegate {
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        print("section: \(section) of \(sectionCount)")
+        return section != sectionCount-1 ? 0 : 44
+    }
+    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return section != sectionCount-1 ? nil : UIView(frame: CGRect(x: 0, y: 0, width: 600, height: 180))
+    }
 }
 
 // MARK: - IndicatorInfoProvider

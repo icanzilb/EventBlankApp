@@ -24,13 +24,17 @@ class Schedule {
     }()
     
     func dayRanges() -> [Day] {
-        let beginDate = (RealmProvider.eventRealm.objects(Session).min("beginTime")! as NSDate).dateAtStartOfDay()
-        let endDate = (RealmProvider.eventRealm.objects(Session).max("beginTime")! as NSDate).dateAtEndOfDay()
+        let sessions = RealmProvider.eventRealm.objects(Session).sorted("beginTime", ascending: true)
         
-        let nrOfDays = endDate.daysAfterDate(beginDate)
+        precondition(sessions.first!.beginTime != nil)
+        
+        let eventBeginDate = sessions.first!.beginTime!.dateAtStartOfDay()
+        let eventEndDate = sessions.last!.beginTime!.dateAtEndOfDay()
+        
+        let nrOfDays = eventEndDate.daysAfterDate(eventBeginDate)
         
         return (0...nrOfDays).map {i in
-            let dayDate = beginDate.dateByAddingDays(i)
+            let dayDate = eventBeginDate.dateByAddingDays(i)
             return Day(
                 startTime: dayDate.dateAtStartOfDay(),
                 endTime: dayDate.dateAtEndOfDay(),
