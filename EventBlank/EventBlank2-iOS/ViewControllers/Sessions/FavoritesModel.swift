@@ -7,9 +7,9 @@
 //
 
 import Foundation
+
 import RealmSwift
 import RxSwift
-import RxCocoa
 
 class FavoritesModel {
     let sessionFavorites = Variable<[String]>([])

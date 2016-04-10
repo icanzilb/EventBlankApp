@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RealmSwift
 
 import RxSwift
 import RxCocoa

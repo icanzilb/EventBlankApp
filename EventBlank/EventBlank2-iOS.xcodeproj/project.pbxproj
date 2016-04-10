@@ -233,8 +233,8 @@
 				9C10A6541CB907D6008A814C /* FavoritesModel.swift */,
 				9C10A64B1CB8751C008A814C /* SessionCell.swift */,
 				9C10A64D1CB8F6D8008A814C /* SessionsModel.swift */,
-				9C10A6471CB86E20008A814C /* SessionsViewController.swift */,
 				9C10A6491CB86E75008A814C /* SessionsViewModel.swift */,
+				9C10A6471CB86E20008A814C /* SessionsViewController.swift */,
 			);
 			path = Sessions;
 			sourceTree = "<group>";

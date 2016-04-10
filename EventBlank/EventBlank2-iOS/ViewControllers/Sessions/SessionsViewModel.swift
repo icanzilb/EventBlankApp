@@ -19,11 +19,11 @@ class SessionsViewModel: RxViewModel {
     typealias SessionSection = SectionModel<String, Session>
     
     let dataSource = RxTableViewSectionedReloadDataSource<SessionSection>()
+    
     private let model = SessionsModel()
     private let favoritesModel = FavoritesModel()
     
     private let bag = DisposeBag()
-    private var event: EventData!
     
     //
     // MARK: input
@@ -38,8 +38,6 @@ class SessionsViewModel: RxViewModel {
     convenience init(day: Schedule.Day) {
         self.init()
 
-        event = EventData.defaultEvent
-        
         //bind sessions
         let sessionsList = onlyFavorites.asObservable()
             .flatMapLatest {[unowned self] favs in
@@ -74,7 +72,7 @@ class SessionsViewModel: RxViewModel {
     }
 
     func configureSessionCellForIndexPath(dataSource: SectionedViewDataSourceType, tableView: UITableView, index: NSIndexPath, session: Session) -> SessionCell {
-        let cell = SessionCell.cellOfTable(tableView, session: session, event: event)
+        let cell = SessionCell.cellOfTable(tableView, session: session, event: EventData.defaultEvent)
         
         favoritesModel.sessionFavorites.asObservable().subscribeNext {favorites in
             cell.isFavorite.onNext(favorites.contains(session.uuid))

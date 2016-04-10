@@ -18,7 +18,6 @@ class SessionsViewController: UIViewController, ClassIdentifier, UIScrollViewDel
     
     private let bag = DisposeBag()
     private var viewModel: SessionsViewModel!
-    private var day: Schedule.Day!
     private var visibilityCallback: ((Bool)->Void)!
     
     private var sectionCount = 0
@@ -27,7 +26,6 @@ class SessionsViewController: UIViewController, ClassIdentifier, UIScrollViewDel
         return storyboard.instantiateViewController(SessionsViewController).then {vc in
             vc.viewModel = SessionsViewModel(day: day)
             vc.title = day.text
-            vc.day = day
             vc.visibilityCallback = visibilityCallback
         }
     }
@@ -72,15 +70,15 @@ class SessionsViewController: UIViewController, ClassIdentifier, UIScrollViewDel
             .rx_setDelegate(self)
             .addDisposableTo(bag)
         
-        //bind table view
-        sessions
-            .bindTo(tableView.rx_itemsWithDataSource(viewModel.dataSource))
-            .addDisposableTo(bag)
-        
         sessions
             .subscribeNext {[weak self] sessions in
                 self?.sectionCount = sessions.count
             }.addDisposableTo(bag)
+        
+        //bind table view
+        sessions
+            .bindTo(tableView.rx_itemsWithDataSource(viewModel.dataSource))
+            .addDisposableTo(bag)
         
         //table view delegate
         tableView.rx_itemSelected
@@ -97,7 +95,6 @@ class SessionsViewController: UIViewController, ClassIdentifier, UIScrollViewDel
 
 extension SessionsViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        print("section: \(section) of \(sectionCount)")
         return section != sectionCount-1 ? 0 : 44
     }
     func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
