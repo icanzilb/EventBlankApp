@@ -53,7 +53,7 @@ class RealmProvider {
         case "appdata.realm":
             return [Favorites.self, ObjectId.self]
         default:
-            return [Session.self, EventData.self, Speaker.self, Location.self, Text.self, Track.self]
+            return [Session.self, EventData.self, Speaker.self, Location.self, Text.self, Track.self, Photo.self]
         }
     }
 }
@@ -90,14 +90,18 @@ extension RealmProvider {
         speaker1.bio = "Marin Todorov is an independent iOS consultant and publisher. He’s the author of the “iOS Animations by Tutorials” book and runs the “iOS Animations by Emails” newsletter."
         speaker1.url = "http://www.underplot.com"
         speaker1.twitter = "icanzilb"
-        speaker1.photo = UIImage(named: "marin_codebits_small.jpg")!
+        let photo1 = Photo()
+        photo1.data = UIImage(named: "marin_codebits_small.jpg")!.dataValue
+        speaker1.photo = photo1
         
         let speaker2 = Speaker()
         speaker2.name = "Billy Staton"
         speaker2.bio = "Airplane Mode is an indie rock band from New York City. Dave Wiskus (vocals, guitar) and Joe Cieplinski (bass, everything else) are making a record and documenting the process in their critically-acclaimed self-titled podcast, capturing the highs and lows of forming a truly independent band in the age of social media."
         speaker2.url = "https://www.google.com"
         speaker2.twitter = "billy"
-        speaker2.photo = UIImage(named: "Marin-Todorov.jpg")!
+        let photo2 = Photo()
+        photo2.data = UIImage(named: "Marin-Todorov.jpg")!.dataValue
+        speaker2.photo = photo2
         
         //tracks
         let track1 = Track()
@@ -191,7 +195,10 @@ extension RealmProvider {
             speaker1.bio = "Background descroption"
             speaker1.url = "http://www.underplot.com"
             speaker1.twitter = "boby"
-            speaker1.photo = UIImage(named: "Marin-Todorov.jpg")!
+            let photo3 = Photo()
+            photo3.data = UIImage(named: "Marin-Todorov.jpg")!.dataValue
+            speaker1.photo = photo3
+            
             try! RealmProvider.eventRealm.write {
                 RealmProvider.eventRealm.add(speaker1)
                 print("added a background speaker")

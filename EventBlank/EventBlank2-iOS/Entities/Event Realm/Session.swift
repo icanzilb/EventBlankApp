@@ -21,4 +21,8 @@ class Session: Object {
     dynamic var track: Track?
     dynamic var location: Location?
     let speakers = List<Speaker>()
+    
+    var speaker: Speaker {
+        return speakers.first!
+    }
 }

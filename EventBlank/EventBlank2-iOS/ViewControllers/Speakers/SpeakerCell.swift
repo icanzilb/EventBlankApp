@@ -55,7 +55,7 @@ class SpeakerCell: UITableViewCell, ClassIdentifier {
     
     private func populateFromSpeaker(speaker: Speaker) {
         //setupUI
-        if let userImage = speaker.photo {
+        if let userImage = speaker.photo?.data?.imageValue {
             userImage.asyncToSize(.FillSize(self.userImage.bounds.size), cornerRadius: self.userImage.bounds.size.width/2, completion: {result in
                 self.userImage.image = result
             })

@@ -73,6 +73,7 @@
 		9C677B061C7CCD4E0028045B /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C677B051C7CCD4E0028045B /* MessageView.swift */; };
 		9C7304681C8193BB0080EBE4 /* Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7304671C8193BB0080EBE4 /* Services.swift */; };
 		9C73046B1C81A3230080EBE4 /* SpeakersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C73046A1C81A3230080EBE4 /* SpeakersModel.swift */; };
+		9C797CE01CBAD600006E35DD /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C797CDF1CBAD600006E35DD /* Photo.swift */; };
 		9C884C901C95D73900C4C5CA /* TweetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C884C8F1C95D73900C4C5CA /* TweetCell.swift */; };
 		9C884C921C95EA4600C4C5CA /* TwitterUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C884C911C95EA4600C4C5CA /* TwitterUser.swift */; };
 		9C884C941C9614D400C4C5CA /* UITableViewCell+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C884C931C9614D400C4C5CA /* UITableViewCell+Extensions.swift */; };
@@ -175,6 +176,7 @@
 		9C677B051C7CCD4E0028045B /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		9C7304671C8193BB0080EBE4 /* Services.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Services.swift; sourceTree = "<group>"; };
 		9C73046A1C81A3230080EBE4 /* SpeakersModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeakersModel.swift; sourceTree = "<group>"; };
+		9C797CDF1CBAD600006E35DD /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		9C884C8F1C95D73900C4C5CA /* TweetCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetCell.swift; sourceTree = "<group>"; };
 		9C884C911C95EA4600C4C5CA /* TwitterUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterUser.swift; sourceTree = "<group>"; };
 		9C884C931C9614D400C4C5CA /* UITableViewCell+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extensions.swift"; sourceTree = "<group>"; };
@@ -376,6 +378,7 @@
 				9C1B20E71C77C7F500DE7A1A /* Speaker.swift */,
 				9C1B21081C785DB100DE7A1A /* Text.swift */,
 				9C1B210A1C785DDA00DE7A1A /* Track.swift */,
+				9C797CDF1CBAD600006E35DD /* Photo.swift */,
 			);
 			path = "Event Realm";
 			sourceTree = "<group>";
@@ -707,6 +710,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C1B20F51C77C82800DE7A1A /* UIView+Extensions.swift in Sources */,
+				9C797CE01CBAD600006E35DD /* Photo.swift in Sources */,
 				9CF357851CAD9A1000A1E223 /* UIStoryboard+Extensions.swift in Sources */,
 				9CCCAB191C954AFA00B4C561 /* Tweet.swift in Sources */,
 				9C23FAF91CB998A800CA3B38 /* ScheduleViewController.swift in Sources */,

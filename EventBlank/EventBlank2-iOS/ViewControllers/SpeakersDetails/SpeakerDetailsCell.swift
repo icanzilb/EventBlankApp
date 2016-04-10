@@ -76,7 +76,7 @@ class SpeakerDetailsCell: UITableViewCell, ClassIdentifier {
         btnWebsite.setTitle(speaker.url, forState: .Normal)
         bioTextView.text = speaker.bio
 
-        let image = speaker.photo ?? UIImage(named: "empty")!
+        let image = speaker.photo?.data?.imageValue ?? UIImage(named: "empty")!
         image.asyncToSize(.FillSize(self.userImage.bounds.size), cornerRadius: 5, completion: {result in
             self.userImage.image = result
         })
@@ -88,8 +88,7 @@ class SpeakerDetailsCell: UITableViewCell, ClassIdentifier {
         //photo
         userImage.rx_gesture(.Tap)
             .subscribeNext {_ in
-                PhotoPopupView.showImage(speaker.photo!,
-                    inView: UIApplication.sharedApplication().windows.first!)
+                PhotoPopupView.showImage(image, inView: UIApplication.sharedApplication().windows.first!)
             }.addDisposableTo(reuseBag)
         
         //twitter button

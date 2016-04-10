@@ -17,21 +17,9 @@ class Speaker: Object {
     dynamic var url: String?
     dynamic var twitter: String?
     
-    dynamic var _photo: NSData?
-    var photo: UIImage? {
-        set {
-            _photo = newValue?.dataValue
-        }
-        get {
-            return _photo?.imageValue
-        }
-    }
+    dynamic var photo: Photo?
     
     override class func primaryKey() -> String {
         return "uuid"
-    }
-
-    override class func ignoredProperties() -> [String] {
-        return ["photo"]
     }
 }

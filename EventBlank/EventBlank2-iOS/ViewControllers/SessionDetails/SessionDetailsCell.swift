@@ -71,7 +71,7 @@ class SessionDetailsCell: UITableViewCell, ClassIdentifier {
         //only way to force textview autosizing I found
         descriptionTextView.text = (session.sessionDescription ?? "") + "\n\n"
         
-        let userImage = session.speakers.first!.photo ?? UIImage(named: "empty")!
+        let userImage = session.speaker.photo?.data?.imageValue ?? UIImage(named: "empty")!
         userImage.asyncToSize(.FillSize(self.userImage.bounds.size), cornerRadius: 5, completion: {result in
             self.userImage.image = result
         })

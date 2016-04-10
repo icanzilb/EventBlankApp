@@ -71,7 +71,7 @@ class SessionCell: UITableViewCell, ClassIdentifier {
         
         timeLabel.text = shortStyleDateFormatter.stringFromDate(session.beginTime!)
         
-        let userImage = session.speakers.first!.photo ?? UIImage(named: "empty")!
+        let userImage = session.speaker.photo?.data?.imageValue ?? UIImage(named: "empty")!
         userImage.asyncToSize(.FillSize(speakerImageView.bounds.size), cornerRadius: speakerImageView.bounds.size.width/2, completion: {result in
             self.speakerImageView.image = result
         })
