@@ -52,7 +52,13 @@ class SpeakersViewModel: RxViewModel {
             .distinctUntilChanged(distinctSpeakerFilter)
         
         Observable.combineLatest(search$, onlyFavorites.asObservable()) {[unowned self] results, onlyFavs -> [Speaker] in
-            return onlyFavs == false ? results : results.filter {speaker in self.favoritesModel.speakerFavorites.value.contains(speaker.uuid) }
+            guard onlyFavs == true else {
+                return results
+            }
+            
+            return results.filter {speaker in
+                self.favoritesModel.speakerFavorites.value.contains(speaker.uuid)
+            }
         }
         .map {[unowned self] speakers in
             return speakers.breakIntoSections(self.sectionTitleWithSpeakers)

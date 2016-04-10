@@ -35,10 +35,8 @@ class MainViewModel: RxViewModel {
         // refresh events
         fileReplaceEvent
             .startWith(())
+            .replaceWith(EventData.defaultEvent)
             .observeOn(MainScheduler.instance)
-            .flatMap{_ in
-                return Observable.just(EventData.defaultEvent)
-            }
             .subscribeNext {[unowned self] data in
                 self.title.onNext(data.title)
                 self.subtitle.onNext(data.subtitle)

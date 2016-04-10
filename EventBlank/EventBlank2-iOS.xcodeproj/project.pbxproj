@@ -106,7 +106,6 @@
 
 /* Begin PBXFileReference section */
 		1A5A23A5F5C326D648905C8C /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		9C10A6411CB8662F008A814C /* SchedulePagerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchedulePagerViewController.swift; sourceTree = "<group>"; };
 		9C10A6431CB869C3008A814C /* Schedule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		9C10A6471CB86E20008A814C /* SessionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionsViewController.swift; sourceTree = "<group>"; };
 		9C10A6491CB86E75008A814C /* SessionsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionsViewModel.swift; sourceTree = "<group>"; };
@@ -243,7 +242,6 @@
 			isa = PBXGroup;
 			children = (
 				9C10A6431CB869C3008A814C /* Schedule.swift */,
-				9C10A6411CB8662F008A814C /* SchedulePagerViewController.swift */,
 				9C23FAF81CB998A800CA3B38 /* ScheduleViewController.swift */,
 			);
 			path = SchedulePager;
