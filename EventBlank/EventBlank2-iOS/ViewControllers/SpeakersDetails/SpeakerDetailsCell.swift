@@ -36,6 +36,19 @@ class SpeakerDetailsCell: UITableViewCell, ClassIdentifier {
         
         btnToggleIsFavorite.setImage(UIImage(named: "like-full")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Selected)
         bioTextView.delegate = self
+        
+        //bind UI
+        isFavorite.bindTo(btnToggleIsFavorite.rx_selected).addDisposableTo(lifeBag)
+        
+        btnToggleIsFavorite.rx_tap.subscribeNext {[unowned self] in
+            self.isFavorite.onNext(!self.btnToggleIsFavorite.selected)
+            self.btnToggleIsFavorite.animateSelect(scale: 0.8, completion: nil)
+        }.addDisposableTo(lifeBag)
+        
+        //following
+        isFollowing.asObservable()
+            .bindTo(btnIsFollowing.rx_following)
+            .addDisposableTo(lifeBag)
     }
     
     override func prepareForReuse() {
@@ -79,14 +92,6 @@ class SpeakerDetailsCell: UITableViewCell, ClassIdentifier {
                     inView: UIApplication.sharedApplication().windows.first!)
             }.addDisposableTo(reuseBag)
         
-        //favorite button
-        isFavorite.bindTo(btnToggleIsFavorite.rx_selected).addDisposableTo(reuseBag)
-
-        btnToggleIsFavorite.rx_tap.subscribeNext {[unowned self] in
-            self.isFavorite.onNext(!self.btnToggleIsFavorite.selected)
-            self.btnToggleIsFavorite.animateSelect(scale: 0.8, completion: nil)
-        }.addDisposableTo(reuseBag)
-        
         //twitter button
         btnTwitter.rx_tap.replaceWith(speaker.twitter)
             .unwrap()
@@ -102,11 +107,6 @@ class SpeakerDetailsCell: UITableViewCell, ClassIdentifier {
             .map { NSURL(stringOptional: $0) }
             .unwrap()
             .bindNext(UIApplication.interactor.showWebPage)
-            .addDisposableTo(reuseBag)
-        
-        //following
-        isFollowing.asObservable()
-            .bindTo(btnIsFollowing.rx_following)
             .addDisposableTo(reuseBag)
     }
 }

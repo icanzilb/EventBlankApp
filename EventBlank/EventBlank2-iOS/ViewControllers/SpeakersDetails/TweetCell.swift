@@ -23,11 +23,10 @@ class TweetCell: UITableViewCell, ClassIdentifier {
 
     private var attachmentHeight: NSLayoutConstraint!
     
-    private var bag = DisposeBag()
+    private var reuseBag = DisposeBag()
     private let lifeBag = DisposeBag()
     
     //MARK: lifecycle
-    
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -36,6 +35,8 @@ class TweetCell: UITableViewCell, ClassIdentifier {
         attachmentHeight = attachmentImage.constraints.filter {
             $0.firstAttribute == NSLayoutAttribute.Height && $0.relation == NSLayoutRelation.Equal
         }.first!
+        
+        
     }
     
     static func cellOfTable(tv: UITableView, tweet: Tweet) -> TweetCell {
@@ -54,13 +55,13 @@ class TweetCell: UITableViewCell, ClassIdentifier {
         //attachment image
         if let attachmentUrl = tweet.imageUrl {
             attachmentImage.kf_setImageWithURL(attachmentUrl, placeholderImage: nil, optionsInfo: nil, completionHandler: {[weak self] (fullImage, error, cacheType, imageURL) -> () in
-                if let cell = self {
-                    fullImage?.asyncToSize(.Fill(cell.attachmentImage.bounds.width, 150), cornerRadius: 5.0, completion: {result in
-                        cell.attachmentImage.image = result
-                        cell.attachmentImage.rx_gesture(.Tap).subscribeNext {_ in
+                if let `self` = self {
+                    fullImage?.asyncToSize(.Fill(self.attachmentImage.bounds.width, 150), cornerRadius: 5.0, completion: {result in
+                        self.attachmentImage.image = result
+                        self.attachmentImage.rx_gesture(.Tap).subscribeNext {_ in
                             PhotoPopupView.showImage(fullImage!,
                                 inView: UIApplication.sharedApplication().windows.first!)
-                            }.addDisposableTo(cell.bag)
+                            }.addDisposableTo(self.reuseBag)
                     })
                 }
             })
@@ -71,7 +72,7 @@ class TweetCell: UITableViewCell, ClassIdentifier {
         if let url = tweet.url {
             rx_gesture(.Tap).subscribeNext {_ in
                 openUrl(url)
-            }.addDisposableTo(bag)
+            }.addDisposableTo(reuseBag)
         }
         
         //user info
@@ -79,18 +80,20 @@ class TweetCell: UITableViewCell, ClassIdentifier {
 
         if let avatarUrl = tweet.user?.avatarUrl {
             userImage.kf_setImageWithURL(avatarUrl, placeholderImage: nil, optionsInfo: nil, completionHandler: {[weak self] (image, error, cacheType, imageURL) -> () in
-                if let cell = self, let image = image {
-                    image.rx_resizedImage(.FillSize(cell.userImage.bounds.size), cornerRadius: 4)
+                if let `self` = self, let image = image {
+                    image.rx_resizedImage(.FillSize(self.userImage.bounds.size), cornerRadius: 4)
                         .observeOn(MainScheduler.instance)
-                        .bindTo(cell.userImage.rx_image)
-                        .addDisposableTo(cell.bag)
+                        .bindTo(self.userImage.rx_image)
+                        .addDisposableTo(self.reuseBag)
                 }
             })
         }
     }
     
     override func prepareForReuse() {
-        bag = DisposeBag()
+        super.prepareForReuse()
+        
+        reuseBag = DisposeBag()
         attachmentImage?.image = nil
         attachmentHeight.constant = 1.0
         userImage.image = nil

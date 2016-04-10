@@ -78,16 +78,16 @@ class SessionsViewModel: RxViewModel {
         
         favoritesModel.sessionFavorites.asObservable().subscribeNext {favorites in
             cell.isFavorite.onNext(favorites.contains(session.uuid))
-        }.addDisposableTo(bag)
+        }.addDisposableTo(cell.reuseBag)
         
         favoritesModel.speakerFavorites.asObservable().subscribeNext {favorites in
             cell.isFavoriteSpeaker.onNext(favorites.contains(session.speakers.first!.uuid))
-        }.addDisposableTo(bag)
+        }.addDisposableTo(cell.reuseBag)
         
         //toggle favorite
         cell.isFavorite
             .bindNext(curry(favoritesModel.updateSessionFavoriteTo)(session))
-            .addDisposableTo(bag)
+            .addDisposableTo(cell.reuseBag)
         
         return cell
     }

@@ -42,9 +42,7 @@ class ScheduleViewController: ButtonBarPagerTabStripViewController {
     
     override func viewControllersForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
         return Schedule().dayRanges().map {day in
-            //return EANavigationController(rootViewController:
             return SessionsViewController.createWith(self.storyboard!, day: day, visibilityCallback: shouldShowButtonBar)
-            //)
         }
     }
     

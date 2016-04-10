@@ -16,7 +16,7 @@ import Then
 
 class SpeakerCell: UITableViewCell, ClassIdentifier {
 
-    private let bag = DisposeBag()
+    private let lifeBag = DisposeBag()
 
     // outlets
     @IBOutlet weak var userImage: UIImageView!
@@ -33,10 +33,14 @@ class SpeakerCell: UITableViewCell, ClassIdentifier {
 
         btnToggleIsFavorite.setImage(UIImage(named: "like-full")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Selected)
         btnToggleIsFavorite.setImage(nil, forState: .Normal)
+        
+        //bindUI
+        isFavorite.bindTo(btnToggleIsFavorite.rx_selected).addDisposableTo(lifeBag)
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        
         userImage.image = nil
         twitterLabel.text = nil
     }
@@ -56,11 +60,9 @@ class SpeakerCell: UITableViewCell, ClassIdentifier {
         }
         
         nameLabel.text = speaker.name
+        
         if let twitter = speaker.twitter where twitter.utf8.count > 0 {
             twitterLabel.text = twitter.hasPrefix("@") ? twitter : "@"+twitter
         }
-        
-        //bindUI
-        isFavorite.bindTo(btnToggleIsFavorite.rx_selected).addDisposableTo(bag)
     }
 }

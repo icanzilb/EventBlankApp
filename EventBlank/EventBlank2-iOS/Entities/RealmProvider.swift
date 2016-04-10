@@ -58,22 +58,24 @@ class RealmProvider {
     }
 }
 
+protocol DataImporter {
+    static func dataImport()
+}
+
 //MARK: - Stubby data
 extension RealmProvider {
-    func appbuilders() {
-        DataImport()
-        
+    func stubbyRealmData() {
         let favorites = Favorites()
         try! RealmProvider.appRealm.write {
             RealmProvider.appRealm.deleteAll()
             RealmProvider.appRealm.add(favorites)
         }
-
-    }
-    
-    func stubbyRealmData() {
-        appbuilders()
-        return;
+        
+        if let importer = NSClassFromString("EventBlank2_iOS.DataImport") as? DataImporter.Type {
+            importer.dataImport()
+            return
+        }
+        
         //event
         let event = EventData()
         event.title = "Marin Conf '16"
@@ -168,13 +170,9 @@ extension RealmProvider {
             RealmProvider.eventRealm.add(text2)
         }
         
-        let favorites = Favorites()
-        favorites.speakers.append(ObjectId(id: speaker1.uuid))
-        favorites.sessions.append(ObjectId(id: session2.uuid))
-        
         try! RealmProvider.appRealm.write {
-            RealmProvider.appRealm.deleteAll()
-            RealmProvider.appRealm.add(favorites)
+            favorites.speakers.append(ObjectId(id: speaker1.uuid))
+            favorites.sessions.append(ObjectId(id: session2.uuid))
         }
 
         delay(seconds: 3.0, completion: {

@@ -24,10 +24,6 @@ class Favorites: Object {
 class ObjectId: Object {
     dynamic var id = ""
     
-    override class func primaryKey() -> String? {
-        return "id"
-    }
-    
     convenience init(id: String) {
         self.init()
         self.id = id

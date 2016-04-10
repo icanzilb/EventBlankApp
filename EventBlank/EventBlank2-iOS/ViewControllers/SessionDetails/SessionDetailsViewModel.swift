@@ -33,7 +33,6 @@ class SessionDetailsViewModel: RxViewModel {
         
         self.session = session
         model = SessionDetailsModel(id: session.uuid)
-        eventData = RealmProvider.eventRealm.objects(EventData).first!
         
         //bind table items
         model.sessionDetails.asObservableArray()

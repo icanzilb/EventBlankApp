@@ -27,9 +27,7 @@ class SessionDetailsViewController: UIViewController, ClassIdentifier {
         bindUI()
     }
     
-    static func createWith(storyboard: UIStoryboard,
-                           session: Session) -> SessionDetailsViewController {
-        
+    static func createWith(storyboard: UIStoryboard, session: Session) -> SessionDetailsViewController {
         return storyboard.instantiateViewController(SessionDetailsViewController).then {vc in
             vc.session = session
             vc.viewModel = SessionDetailsViewModel(session: session)
