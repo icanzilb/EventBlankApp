@@ -12,14 +12,6 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-protocol ClassIdentifier: class {
-    static var classIdentifier: String { get }
-}
-
-extension ClassIdentifier {
-    static var classIdentifier: String { return String(Self) }
-}
-
 class SpeakerDetailsViewController: UIViewController, ClassIdentifier {
     
     private let bag = DisposeBag()
@@ -48,16 +40,6 @@ class SpeakerDetailsViewController: UIViewController, ClassIdentifier {
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.active = true
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        viewModel.active = false
-    }
-
     func setupUI() {
         title = speaker.name
         

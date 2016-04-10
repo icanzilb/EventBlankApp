@@ -12,12 +12,5 @@ import RealmSwift
 import RxSwift
 
 class SpeakerDetailsModel {
-
-    let speaker: Speaker
-    let bag = DisposeBag()
     
-    init(speaker: Speaker) {
-        self.speaker = speaker
-        
-    }
 }

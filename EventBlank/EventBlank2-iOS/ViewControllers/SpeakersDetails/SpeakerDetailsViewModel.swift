@@ -19,7 +19,6 @@ class SpeakerDetailsViewModel: RxViewModel {
     typealias AnySection = SectionModel<String, AnyObject>
     
     private let bag = DisposeBag()
-    private let model: SpeakerDetailsModel
     private let favoritesModel = FavoritesModel()
     
     //output
@@ -28,8 +27,6 @@ class SpeakerDetailsViewModel: RxViewModel {
 
     //init
     init(speaker: Speaker, twitterProvider: TwitterProvider) {
-        model = SpeakerDetailsModel(speaker: speaker)
-        
         super.init()
         
         // twitter

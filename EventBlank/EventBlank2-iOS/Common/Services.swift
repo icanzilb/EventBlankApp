@@ -8,6 +8,11 @@
 
 import UIKit
 
+func twitterUrl(handle: String) -> NSURL {
+    let handle = handle.hasPrefix("@") ? handle : "@"+handle
+    return NSURL(string: "https://www.twitter.com/\(handle)")!
+}
+
 func openUrl(string: String) {
     if let url = NSURL(string: string) {
         openUrl(url)
@@ -27,4 +32,10 @@ extension NSURL {
     }
 }
 
+protocol ClassIdentifier: class {
+    static var classIdentifier: String { get }
+}
 
+extension ClassIdentifier {
+    static var classIdentifier: String { return String(Self) }
+}

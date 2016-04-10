@@ -15,7 +15,7 @@ import Then
 
 class SpeakerDetailsCell: UITableViewCell, ClassIdentifier {
     
-    private var reuseBag = DisposeBag()
+    var reuseBag = DisposeBag()
     private let lifeBag  = DisposeBag()
 
     @IBOutlet weak var userImage: UIImageView!
@@ -95,10 +95,7 @@ class SpeakerDetailsCell: UITableViewCell, ClassIdentifier {
         //twitter button
         btnTwitter.rx_tap.replaceWith(speaker.twitter)
             .unwrap()
-            .map {tw -> String in
-                let handle = tw.hasPrefix("@") ? tw : "@"+tw
-                return "https://www.twitter.com/\(handle)"
-            }
+            .map(twitterUrl)
             .bindNext(openUrl)
             .addDisposableTo(reuseBag)
         
