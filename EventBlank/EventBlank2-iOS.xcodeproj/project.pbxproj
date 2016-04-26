@@ -86,6 +86,7 @@
 		9CCCAB1A1C954AFA00B4C561 /* 111 TwitterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCCAB171C954AFA00B4C561 /* 111 TwitterController.swift */; };
 		9CCCAB1B1C954AFA00B4C561 /* TwitterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCCAB181C954AFA00B4C561 /* TwitterProvider.swift */; };
 		9CD260DF1C8251AA00F24838 /* PhotoPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD260DE1C8251AA00F24838 /* PhotoPopupView.swift */; };
+		9CE1F02E1CBD69B900567B97 /* CREDITS.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9CE1F02D1CBD69B900567B97 /* CREDITS.txt */; };
 		9CE69BCB1C89E06A00CC283F /* WebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE69BCA1C89E06A00CC283F /* WebViewModel.swift */; };
 		9CE69BCD1C89E1BE00CC283F /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE69BCC1C89E1BE00CC283F /* AppController.swift */; };
 		9CE743E81C80CA9D00D140A0 /* marin_codebits_small.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9CE743E61C80CA9D00D140A0 /* marin_codebits_small.jpg */; };
@@ -189,6 +190,7 @@
 		9CCCAB171C954AFA00B4C561 /* 111 TwitterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "111 TwitterController.swift"; sourceTree = "<group>"; };
 		9CCCAB181C954AFA00B4C561 /* TwitterProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterProvider.swift; sourceTree = "<group>"; };
 		9CD260DE1C8251AA00F24838 /* PhotoPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPopupView.swift; sourceTree = "<group>"; };
+		9CE1F02D1CBD69B900567B97 /* CREDITS.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CREDITS.txt; sourceTree = "<group>"; };
 		9CE69BCA1C89E06A00CC283F /* WebViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewModel.swift; sourceTree = "<group>"; };
 		9CE69BCC1C89E1BE00CC283F /* AppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		9CE743E61C80CA9D00D140A0 /* marin_codebits_small.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = marin_codebits_small.jpg; sourceTree = "<group>"; };
@@ -417,6 +419,7 @@
 		9C4216191C77C14A003321FC = {
 			isa = PBXGroup;
 			children = (
+				9CE1F02D1CBD69B900567B97 /* CREDITS.txt */,
 				9C4216241C77C14A003321FC /* EventBlank2-iOS */,
 				9C4216391C77C14A003321FC /* EventBlank2-iOSTests */,
 				CE728E1149BDDE7B127F3138 /* Frameworks */,
@@ -640,6 +643,7 @@
 				9C24D4F71C83AB6400B1F0A2 /* Pods-acknowledgements.plist in Resources */,
 				9C24D4EB1C8399F400B1F0A2 /* markdown.html in Resources */,
 				9CE743E81C80CA9D00D140A0 /* marin_codebits_small.jpg in Resources */,
+				9CE1F02E1CBD69B900567B97 /* CREDITS.txt in Resources */,
 				9CE743E91C80CA9D00D140A0 /* Marin-Todorov.jpg in Resources */,
 				9C4216461C77C16A003321FC /* Podfile in Resources */,
 				9C42162B1C77C14A003321FC /* Main.storyboard in Resources */,
