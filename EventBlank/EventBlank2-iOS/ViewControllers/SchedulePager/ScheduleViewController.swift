@@ -9,14 +9,22 @@
 import UIKit
 import XLPagerTabStrip
 
+import RxSwift
+import RxCocoa
+
 class ScheduleViewController: ButtonBarPagerTabStripViewController {
 
     override func viewDidLoad() {
-        settings.style.buttonBarBackgroundColor = .clearColor()
-        settings.style.selectedBarBackgroundColor = .orangeColor()
-        settings.style.buttonBarItemsShouldFillAvailiableWidth = false
-        
+        setupUI()
         super.viewDidLoad()
+    }
+
+    func setupUI() {
+        let event = EventData.defaultEvent
+        
+        settings.style.buttonBarBackgroundColor = .clearColor()
+        settings.style.selectedBarBackgroundColor = event.mainColor.lightenColor(0.25)
+        settings.style.buttonBarItemsShouldFillAvailiableWidth = false
         
         buttonBarView.removeFromSuperview()
         navigationController?.navigationBar.addSubview(buttonBarView)
@@ -26,17 +34,6 @@ class ScheduleViewController: ButtonBarPagerTabStripViewController {
             
             oldCell?.label.textColor = UIColor(white: 1, alpha: 0.6)
             newCell?.label.textColor = .whiteColor()
-            
-            if animated {
-                UIView.animateWithDuration(0.1, animations: { () -> Void in
-                    newCell?.transform = CGAffineTransformMakeScale(1.0, 1.0)
-                    oldCell?.transform = CGAffineTransformMakeScale(0.8, 0.8)
-                })
-            }
-            else {
-                newCell?.transform = CGAffineTransformMakeScale(1.0, 1.0)
-                oldCell?.transform = CGAffineTransformMakeScale(0.8, 0.8)
-            }
         }
     }
     
