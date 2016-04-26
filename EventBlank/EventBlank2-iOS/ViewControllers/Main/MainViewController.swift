@@ -47,6 +47,34 @@ class MainViewController: UIViewController {
             .addDisposableTo(bag)
         viewModel.mainColor.bindTo(lblConfSubtitle.rx_textColor)
             .addDisposableTo(bag)
+        
+        //next event
+        viewModel.nextEvent.bindNext(showNextEvent)
+            .addDisposableTo(bag)
     }
     
+    func showNextEvent(next: Schedule.NextEventResult?) {
+        guard let next = next else {
+            lblRightNow.text = nil
+            return
+        }
+        
+        switch next {
+        case .Next(let session):
+            lblRightNow.text = "Next: \(session.beginTime!.toString(format: .Custom("hh:mm"))) \(session.title) (\(session.speaker.name))"
+        case .EventFinished:
+            lblRightNow.text = "This event has finished"
+        case .EventStartsIn(let seconds):
+            switch seconds {
+            case 0..<60*60:
+                lblRightNow.text = "The event starts any moment"
+            case 60*60..<23*60*60:
+                let hours = 1 + Int(seconds / 60 / 60)
+                lblRightNow.text = "The event starts in \(hours) hours"
+            default:
+                let days = 1 + Int(seconds / 60 / 60 / 24)
+                lblRightNow.text = "The event starts in \(days) days"
+            }
+        }
+    }
 }

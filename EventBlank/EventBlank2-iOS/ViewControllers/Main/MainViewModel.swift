@@ -19,14 +19,19 @@ class MainViewModel: RxViewModel {
     private let fileReplaceEvent = NSNotificationCenter.defaultCenter().rx_notification(kDidReplaceEventFileNotification).replaceWith()
 
     // MARK: output
-    var title = BehaviorSubject<String>(value: "")
-    var subtitle = BehaviorSubject<String>(value: "")
-    var organizer = BehaviorSubject<String>(value: "")
-    var logo = BehaviorSubject<UIImage?>(value: nil)
-    var mainColor = BehaviorSubject<UIColor>(value: UIColor.blackColor())
+    let title = BehaviorSubject<String>(value: "")
+    let subtitle = BehaviorSubject<String>(value: "")
+    let organizer = BehaviorSubject<String>(value: "")
+    let logo = BehaviorSubject<UIImage?>(value: nil)
+    let mainColor = BehaviorSubject<UIColor>(value: UIColor.blackColor())
+    
+    let nextEvent = BehaviorSubject<Schedule.NextEventResult?>(value: nil)
     
     // MARK: private
     private let bag = DisposeBag()
+
+    private let schedule = Schedule()
+    var timer: Observable<NSInteger>!
 
     // MARK: init
     override init() {
@@ -44,5 +49,12 @@ class MainViewModel: RxViewModel {
                 self.logo.onNext(data.logo)
                 self.mainColor.onNext(data.mainColor)
             }.addDisposableTo(bag)
+        
+        // show the next event
+        timer = Observable<NSInteger>.interval(1, scheduler: MainScheduler.instance)
+        timer
+            .map {[unowned self]_ in self.schedule.nextEvent()}
+            .bindTo(nextEvent)
+            .addDisposableTo(bag)
     }
 }

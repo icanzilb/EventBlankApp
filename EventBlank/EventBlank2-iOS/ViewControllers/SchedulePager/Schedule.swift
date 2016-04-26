@@ -41,4 +41,22 @@ class Schedule {
                 text: dateFormatter.stringFromDate(dayDate))
         }
     }
+    
+    enum NextEventResult {
+        case Next(Session)
+        case EventStartsIn(NSTimeInterval)
+        case EventFinished
+    }
+    
+    func nextEvent(date: NSDate = NSDate()) -> NextEventResult {
+        let sessions = RealmProvider.eventRealm.objects(Session).filter("beginTime > %@", date).sorted("beginTime", ascending: true)
+        guard let nextSession = sessions.first else {
+            return .EventFinished
+        }
+        let allSessions = RealmProvider.eventRealm.objects(Session).sorted("beginTime", ascending: true)
+        if allSessions.first!.uuid == nextSession.uuid {
+            return .EventStartsIn(nextSession.beginTime!.timeIntervalSinceReferenceDate - date.timeIntervalSinceReferenceDate)
+        }
+        return .Next(nextSession)
+    }
 }
